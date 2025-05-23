@@ -1,0 +1,288 @@
+%%% takousiki.sty by tDB(emath@nifty.com)
+% 日本語
+\ProvidesPackage{takousiki}[2013/05/05 v0.00]%
+%
+\RequirePackage{tankousiki}%
+%
+%\edef\s@r@e{l}%
+%
+\def\takousikibunkai#1#2{%
+  \hairetusyokika{#2@c}%
+  \hairetusyokika{#2@p}%
+  \edef\kou@{\empty}%
+\ifx\empty #1\else
+  \expandafter\@tfor\expandafter\ta@@c\expandafter:\expandafter=#1\do{%
+    \ifx\empty\kou@
+      \edef\kou@{\ta@@c}%
+    \else
+      \ifthenelse{\equal\ta@@c{+}\or\equal\ta@@c{-}}{%
+  \tankoubunri\kou@\keisuu@\mozibu@
+  \hairetutuika{#2@c}{\keisuu@}%
+  \hairetutuika{#2@p}{\mozibu@}%
+        \EMedef\kou@{\ta@@c}%
+      }{%
+        \edefappend\kou@{\ta@@c}%
+      }%
+    \fi
+  }%
+  \tankoubunri\kou@\keisuu@\mozibu@
+  \hairetutuika{#2@c}{\keisuu@}%
+  \hairetutuika{#2@p}{\mozibu@}%
+\fi
+}%
+\def\takousikihukugen#1#2{%
+  \edef#2{}%
+  \Ifor*\i@val{1}{\csname #1@cN\endcsname}\Do{%
+    \edef\keisuu@{\hairetu{#1@c}{\i@val}}%
+\ifnum\keisuu@=\z@\else
+    \edef\mozibu@{\hairetu{#1@p}{\i@val}}%
+    \ifx\empty #2\relax% 先頭項
+      \ifx\empty\mozibu@
+        \edef #2{\keisuu@}%
+      \else
+        \ifnum\keisuu@=\@ne
+          \edef #2{\mozibu@}%
+        \else\ifnum\keisuu@=\m@ne
+          \edef #2{-\mozibu@}%
+        \else
+          \edef #2{\keisuu@\mozibu@}%
+        \fi\fi
+      \fi
+    \else% 継続項
+      \ifx\empty\mozibu@
+        \ifnum\keisuu@>\z@\edefappend #2{+}\fi
+        \edefappend #2{\keisuu@}%
+      \else
+        \ifnum\keisuu@=\@ne
+          \edefappend #2{+\mozibu@}%
+        \else\ifnum\keisuu@=\m@ne
+          \edefappend #2{-\mozibu@}%
+        \else\ifnum\keisuu@>\z@
+          \edefappend #2{+\keisuu@\mozibu@}%
+        \else
+          \edefappend #2{\keisuu@\mozibu@}%
+        \fi\fi\fi
+      \fi
+    \fi
+\fi
+  }%
+  \ifx\empty #2\edef#2{0}\fi%
+}%
+\def\PAdd#1#2#3{\begingroup
+  \takousikibunkai{#1}{P@a}%
+  \takousikibunkai{#2}{P@b}%
+  \Ifor*\i@val{1}\P@a@pN\Do{%
+    \edefhairetu{P@c@c}{\i@val}{\hairetu{P@a@c}{\i@val}}%
+    \edefhairetu{P@c@p}{\i@val}{\hairetu{P@a@p}{\i@val}}%
+  }%
+  \edef\P@c@pN{\P@a@pN}%
+  \edef\P@c@cN{\P@a@pN}%
+  \Ifor*\i@val{1}\P@b@pN\Do{%
+    \hairetukakunin{P@c@p}{\hairetu{P@b@p}{\i@val}}\found@
+    \ifnum\found@>\z@
+      \edef\tmp@{\hairetu{P@c@c}{\found@}}%
+      \edef\tmp@@{\hairetu{P@b@c}{\i@val}}%
+      \Add\tmp@\tmp@@\tmp@
+      \edefhairetu{P@c@c}{\found@}{\tmp@}%
+    \else
+      \edef\tmp@{\hairetu{P@b@c}{\i@val}}%
+      \edefhairetu{P@c@c}{\P@c@pN}{\tmp@}%
+      \edef\P@c@cN{\P@c@pN}%
+    \fi
+  }%
+  \takousikihukugen{P@c}#3\relax
+  \edef\temp@x{\def\noexpand#3{#3}}%
+  \expandafter\endgroup\temp@x
+}%
+\def\PMulsub#1#2#3#4{%
+  \Mul{#1}{#3}\keisuu@k
+  \powtocsv{#2}\PMsa@csv
+  \powtocsv{#4}\PMsb@csv
+  \ifx\empty\PMsa@csv
+    \edef\mozi@kcsv{\PMsb@csv}%
+  \else\ifx\empty\PMsb@csv
+    \edef\mozi@kcsv{\PMsa@csv}%
+  \else
+    \edef\mozi@kcsv{\PMsa@csv,\PMsb@csv}%
+  \fi\fi
+  \ifx\empty\mozi@kcsv
+    \edef\mozi@kcsv@{\mozi@kcsv}%
+  \else
+    \sort@csv\mozi@kcsv\mozi@kcsv@
+  \fi
+  \csvtopow\mozi@kcsv@\mozi@k
+}%
+\def\PMul#1#2#3{\begingroup
+  \takousikibunkai{#1}{PMul@a}%
+  \takousikibunkai{#2}{PMul@b}%
+  \edef\PMul@ans{}%
+  \Ifor*\PMi@val{1}\PMul@a@pN\Do{%
+    \edef\keisuu@i{\hairetu{PMul@a@c}{\PMi@val}}%
+    \edef\mozi@i{\hairetu{PMul@a@p}{\PMi@val}}%
+    \Ifor*\PMj@val{1}\PMul@b@pN\Do{%
+      \edef\keisuu@j{\hairetu{PMul@b@c}{\PMj@val}}%
+      \edef\mozi@j{\hairetu{PMul@b@p}{\PMj@val}}%
+      \PMulsub\keisuu@i\mozi@i\keisuu@j\mozi@j
+      \PAdd{\PMul@ans}{\keisuu@k\mozi@k}\PMul@ans\relax
+    }%
+  }%
+%  \edef#3{\PMul@ans}%
+  \edef\temp@x{\def\noexpand#3{\PMul@ans}}%
+  \expandafter\endgroup\temp@x
+}%
+%
+%
+% 項の順序指定
+%
+\def\@orderP#1{%
+  \edef\order@P{\empty}%
+  \expandafter\@for\expandafter\ordP@@c\expandafter:\expandafter=#1\do{%
+    \ifx\empty\order@P
+      \edef\order@P{0\ordP@@c}%
+    \else
+      \EMedefappend\order@P{+0\ordP@@c}%
+    \fi
+  }%
+}%
+\def\@orderedP#1{%
+  \@ifundefined{order@P}{}{%
+    \PAdd\order@P{#1}\ordered@P
+    \edef#1{\ordered@P}%
+  }%
+}%
+%\def\showP#1{%
+%  \@ifundefined{order@P}{%
+%    \ensuremath{#1}%
+%  }{%
+%    \PAdd\order@P{#1}\showP@
+%    \ensuremath{\showP@}%
+%  }%
+%}
+%
+\def\csvPMul#1#2#3{\begingroup
+  \csvhairetu*{#1}{cPM@A}%
+  \csvhairetu*{#2}{cPM@B}%
+  \IAdd\cPM@AN\cPM@BN\cPM@ansN
+  \Decr\cPM@ansN
+  \Ifor*\cPM@i{1}\cPM@ansN\Do{%
+    \edefhairetu{cPM@ans}{\cPM@i}{0}%
+  }%
+  \Ifor*\cPM@i{1}\cPM@AN\Do{%
+    \Ifor*\cPM@j{1}\cPM@BN\Do{%
+      \edef\cPM@tmp{\hairetu{cPM@A}{\cPM@i}}%
+      \edef\cPM@tmp@{\hairetu{cPM@B}{\cPM@j}}%
+      \PMul\cPM@tmp\cPM@tmp@\cPM@tmp@@
+      \IAdd\cPM@i\cPM@j\cPM@n
+      \Decr\cPM@n
+      \edef\cPM@tmp@@@{\hairetu{cPM@ans}{\cPM@n}}%
+      \PAdd\cPM@tmp@@@\cPM@tmp@@\cPM@tmp@@@@
+      \edefhairetu{cPM@ans}{\cPM@n}{\cPM@tmp@@@@}%
+    }%
+  }%
+  \hairetucsv{cPM@ans}#3\relax
+  \edef\temp@x{\def\noexpand#3{#3}}%
+  \expandafter\endgroup\temp@x
+}%
+\def\csvPAdd#1#2#3{\begingroup
+  \reversecsv{#1}\cPA@A
+  \reversecsv{#2}\cPA@B
+  \csvhairetu*\cPA@A{cPA@A}%
+  \csvhairetu*\cPA@B{cPA@B}%
+  \ifnum\cPA@AN<\cPA@BN
+    \Ifor*\cPA@i{1}\cPA@AN\Do{%
+      \edef\cPA@tmp@{\hairetu{cPA@A}{\cPA@i}}%
+      \edef\cPB@tmp@{\hairetu{cPA@B}{\cPA@i}}%
+      \PAdd\cPA@tmp@\cPB@tmp@\cPA@tmp@@
+      \edefhairetu{cPA@B}{\cPA@i}{\cPA@tmp@@}%
+    }%
+    \hairetucsv{cPA@B}\cPA@tmp@
+  \else
+    \Ifor*\cPA@i{1}\cPA@BN\Do{%
+      \edef\cPA@tmp@{\hairetu{cPA@A}{\cPA@i}}%
+      \edef\cPB@tmp@{\hairetu{cPA@B}{\cPA@i}}%
+      \PAdd\cPA@tmp@\cPB@tmp@\cPA@tmp@@
+      \edefhairetu{cPA@A}{\cPA@i}{\cPA@tmp@@}%
+    }%
+    \hairetucsv{cPA@A}\cPA@tmp@
+  \fi
+  \reversecsv\cPA@tmp@\cPA@tmp@@\relax
+  \edef\cPA@tmp@{}%
+  \edef\nz@flg{0}%
+  \expandafter\@for\expandafter\cPA@c\expandafter:\expandafter=\cPA@tmp@@\do{%
+    \ifnum\nz@flg=\z@
+      \ifthenelse{\equal\cPA@c{0}}{%
+      }{%
+        \edef\nz@flg{1}%
+        \EMedefappend[,]\cPA@tmp@{\cPA@c}%
+      }%
+    \else
+      \EMedefappend[,]\cPA@tmp@{\cPA@c}%
+    \fi
+  }%
+  \ifx\empty\cPA@tmp@\edef\cPA@tmp@{0}\fi
+  \edef\temp@x{\def\noexpand#3{\cPA@tmp@}}%
+  \expandafter\endgroup\temp@x
+}%
+%
+\def\csvPSub#1#2#3{\begingroup
+  \csvPMul{-1}{#2}\temp@a
+  \csvPAdd{#1}\temp@a\temp@b
+  \edef\temp@x{\def\noexpand#3{\temp@b}}%
+  \expandafter\endgroup\temp@x
+}%
+%
+\def\showcsvP#1{{%
+% -----------------------------------------------------------
+    \def\getflg@pm##1{%
+      \edef\flg@pm{0}%
+      \headchar{##1}\getflg@h\getflg@r
+      \if -\getflg@h\else\edef\getflg@r{##1}\fi
+      \Strsep{\getflg@r}{+}\gf@a\gf@b
+      \ifx\empty\gf@b
+        \Strsep{\getflg@r}{-}\gf@a\gf@b
+        \ifx\empty\gf@b\else\Incr\flg@pm\fi
+      \else
+        \Incr\flg@pm
+      \fi
+    }%
+% -----------------------------------------------------------
+  \edef\done@flg{0}%
+  \csvhairetu*{#1}{showP@P}%
+  \Ifor\showP@i{1}{\showP@PN}\Do{%
+    \ISub\showP@PN\showP@i\showP@beki
+    \edef\tmp@{\hairetu{showP@P}{\showP@i}}%
+    \ifthenelse{\equal\tmp@{0}}{}{%
+      \getflg@pm\tmp@
+      \ifnum\flg@pm>\z@
+        \ifnum\showP@i=\@ne\else+\fi
+          (\tmp@)%
+      \else
+        \headchar\tmp@\tmp@t\tmp@r
+        \if -\tmp@t
+          \ifthenelse{\equal\tmp@r{1}}{-}{\tmp@}%
+        \else
+          \ifnum\showP@i>\@ne+\fi
+          \ifthenelse{\equal\tmp@{1}}{}{\tmp@}%
+        \fi
+      \fi
+      \ifnum\showP@beki>\@ne
+        x^{\showP@beki}%
+      \else
+        x%
+      \fi
+    }%
+  }%
+  \edef\tmp@{\hairetu{showP@P}{\showP@i}}%
+  \ifnum\showP@PN=\@ne
+    \tmp@
+  \else
+    \headchar\tmp@\tmp@t\tmp@r
+    \if -\tmp@t
+      \tmp@
+    \else
+      \ifthenelse{\equal\tmp@{0}}{}{+\tmp@}%
+    \fi
+  \fi
+}}%
+%
+\endinput

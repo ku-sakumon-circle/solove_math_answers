@@ -1,0 +1,87 @@
+\documentclass[twocolumn]{jbook}
+\usepackage{bm,braket,ascmac}
+\usepackage{amsmath,amssymb,amsthm,mathrsfs}
+\usepackage{amsmath,amssymb,amsfonts,fancyhdr,ulem}
+\usepackage[all]{xy}
+\usepackage[%
+top    = 15truemm,%
+bottom = 15truemm,%
+left   = 6truemm,%
+right  = 6truemm]{geometry}
+\usepackage{amsthm, bm}
+\usepackage{tikz}
+\usetikzlibrary{shadows}
+\pagestyle{fancy}
+\lhead{\rightmark}
+% Theorem 環境
+\theoremstyle{definition}
+\newtheorem*{prob}{\textbf{問}}
+
+% Enumerate 環境
+\def\theenumi{\arabic{enumi}}
+\def\labelenumi{(\theenumi)}
+
+% (Re)New commands
+\newcommand*{\vvv}{\overrightarrow}
+\newcommand{\thm}{\begin{itembox}[l]}
+\newcommand{\jap}{\mbox}
+
+\newcommand{\enthm}{\end{itembox}\\}
+\newcommand{\disp}{\displaystyle}
+\newcommand{\dou}{\Leftrightarrow}
+\newcommand{\del}{\partial}
+\newcommand{\ben}{\begin{enumerate}}
+\newcommand{\een}{\end{enumerate}}
+\newcommand{\beqn}{\begin{eqnarray*}}
+\newcommand{\eeqn}{\end{eqnarray*}}
+\newcommand{\bcas}{\begin{cases}}
+\newcommand{\ecas}{\end{cases}}
+\newcommand{\nara}{\Rightarrow}
+\newcommand{\mb}{\mathbb}
+\newcommand{\maf}{\mathfrak}
+\newcommand{\mr}{\mathrm}
+\newcommand{\hana}{\mathcal} %花文字
+\newcommand{\chat}{\hat{\mathbb{C}}} %リーマン球面
+\renewcommand{\leq}{\leqq}
+\renewcommand{\geq}{\geqq}
+\newcommand{\nea}{\nearrow}
+\newcommand{\exer}{ 演習\arabic{chapter}.\arabic{section}.}
+\newcommand{\sea}{\searrow}
+\newcommand{\bracket}[1]{%
+\[
+ \left(
+ \begin{tabular}{p{0.9\hsize}}
+  #1
+ \end{tabular}
+ \right)
+\]}
+\begin{document}
+
+
+
+{\Large Q.216}\\
+\\
+(1)\\
+$f(x)=x-1- \log{x} $とおいて, $x>0$で$f(x)\geq 0$であることを示せば良い。\\
+$f'(x) = 1- \dfrac{1}{x}$より, $f(x)$は$0<x<1$で減少し, $x=1$で極小値を取り, $x>1$で増加する。従って, $f(x)>f(1) = 0$だから示された。\qed\\
+\\
+(2) $p=\log{101}$とおく。$p=2\log{10}+\log{1.01}$なので, (1) の不等式より
+\[p\leq 2\log{10}+ 0.01 < 2\times (2.30259) + 0.01 = 4.61518\]
+(1)の不等式の$x$を$\frac{1}{x}>0$に置き換えて, $f(\frac{1}{x})\geq 0$ という不等式が成立することを利用すれば, 
+\[f(\frac{1}{x})= \dfrac{1}{x}- 1 + \log{x} \geq 0\]
+が$x>0$で成立する。整理すると
+\[1-\dfrac{1}{x}\leq \log{x}\]
+となるので, これに$x=1.01$を代入すれば
+\[\log{1.01} \geq 1- \dfrac{1}{1.01} = \dfrac{1}{101} > 0.0099\]
+という$\log{1.01}$の下からの評価を得る。これによって, 
+\[p \geq 2\log{10} + \log{1.01}  > 2\times (2.30258) + 0.0099 =4.61506 \]
+となる。従って,
+\[4.61506 < p < 4.61518\]
+だから, $p= 4.615\cdots $である。
+
+
+
+
+
+
+\end{document}

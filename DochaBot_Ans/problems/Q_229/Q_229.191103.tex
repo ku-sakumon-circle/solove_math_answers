@@ -1,0 +1,71 @@
+\begin{thm}{229}{\hosi 7}{学コン 2019-6-5}
+ $n$を正の整数、$e$を自然対数の底とする。
+ \begin{enumerate}
+  \item 関数$\disp f_n(x)=1+x+\frac{x^2}{2!}+\frac{x^3}{3!}+\dots +\frac{x^n}{n!}$ とするとき、$x>0$において、$0<e^x-f_n(x)<\dfrac{x^{n+1}e^x}{(n+1)!}$であることを示せ。
+  \item $\disp \lim_{n\to\infty} \cos\frac{2\pi e n!}{3}=-\frac{1}{2}$ を示せ。
+ \end{enumerate}
+\end{thm}
+
+\syoumon{1}
+
+$g_n(x)=1-e^{-x}f_n(x)$とする。
+\[ g'_n(x)=-e^{-x}\bigl(f'_n(x)-f_n(x)\bigr)=\frac{e^{-x}x^n}{n!}>0 \]
+より$g_n(x)$は増加するから、$g_n(x)>g_n(0)=0$となる。$e^x>0$をかけることで$e^x-f_n(x)>0$を得る。
+
+$h_n(x)=\dfrac{x^{n+1}}{(n+1)!}-g_n(x)$とする。
+\[ h'_n(x)=\frac{x^n}{n!}-\frac{e^{-x}x^n}{n!}=\frac{x^n}{n!}(1-e^{-x})>0 \]
+より$h_n(x)$は増加するから、$h_n(x)>h_n(0)=0$となる。$e^x$をかけることで
+\[ 0<e^xh_n(x) \quad\dou\quad e^x-f_n(x)<\frac{x^{n+1}e^x}{(n+1)!} \]
+を得る。以上より題意は示された。
+
+\syoumon{2}
+
+(1)のから$x=1$とし$n!$をかけると、
+\[ 0<en!-\left(n!+\frac{n!}{1!}+\frac{n!}{2!}+\dots +\frac{n!}{(n-1)!}+1\right) < \frac{e}{n+1} \]
+となる。ここで、
+\[ m_n=n!+\frac{n!}{1!}+\frac{n!}{2!}+\dots +\frac{n!}{(n-1)!}+1 \]
+とおく。$m_n$は整数である。さらに$n\ge 3$のとき ($n\to\infty$を考えるので3以上としてよい)、
+\begin{align*}
+ m_n&= 1+\permu{n}{1}+\permu{n}{2}+\sum_{k=3}^n\permu{n}{k} \\
+ &= (n^2+1)+\sum_{k=3}^nk!\combi{n}{k} \\
+ \dou\qquad \frac{m_n}{3}&= \frac{n^2+1}{3}+\sum_{k=3}^n\frac{k!}{3}\combi{n}{k}
+\end{align*}
+であり、$\disp \sum_{k=3}^n\frac{k!}{3}\combi{n}{k}$は整数である。これを$S_n$とおく。したがって以下を得る。
+\[ \frac{n^2+1}{3}\cdot 2\pi < \frac{2\pi e n!}{3}-2S_n\pi < \frac{n^2+1}{3}\cdot 2\pi+\frac{2e\pi}{3(n+1)} \]
+
+次に$\cos\left(\dfrac{n^2+1}{3}\cdot 2\pi\right)$の値について考える。$n\equiv 1, 2 \pmod{3}$のとき、$n^2+1\equiv 2$であるため、$n^2+1=3N+2$となる整数$N$が存在し、
+\[ \cos\left(\frac{n^2+1}{3}\cdot 2\pi\right)=\cos\left(2N\pi+\frac{4}{3}\pi\right)=\cos\frac{4}{3}\pi=-\frac{1}{2} \]
+である。また$n\equiv 0 \pmod{3}$のとき、$n^2+1=3N+1$となる整数$N$が存在し、
+\[ \cos\left(\frac{n^2+1}{3}\cdot 2\pi\right)=\cos\left(2N\pi+\frac{2}{3}\pi\right)=\cos\frac{2}{3}\pi=-\frac{1}{2} \]
+である。つまり任意の整数$n$に対して$\cos\left(\dfrac{n^2+1}{3}\cdot 2\pi\right)=-\dfrac{1}{2}$である ($\cdots$ ＊)。
+
+さてこれらのことは、
+\[ \frac{n^2+1}{3}\cdot 2\pi \equiv \frac{2}{3}\pi \,,\,\, \frac{4}{3}\pi \pmod{2\pi} \]
+を意味しているから、$n$を$0<\dfrac{2e\pi}{3(n+1)}<\dfrac{\pi}{3}$を満たすように大きくとれば、$\dfrac{n^2+1}{3}\cdot 2\pi<x<\dfrac{n^2+1}{3}+\dfrac{2e\pi}{3(n+1)}$の範囲で$\cos x$は単調に増加または減少する。したがって、
+\[ \cos\left(\frac{n^2+1}{3}\cdot 2\pi\right) \,,\,\, \cos\left(\frac{n^2+1}{3}\cdot 2\pi+\frac{2e\pi}{3(n+1)}\right) \]
+のうち、小さいほうを$L_n$、大きいほうを$H_n$とおけば、
+\[ L_n \le \cos\left(\frac{2\pi e n!}{3}-2S_n\pi\right)=\cos\frac{2\pi e n!}{3} \le H_n \quad\cdots\text{(＃)} \]
+である。ただし中央の等号において$S_n$が整数であることを用いた。
+
+$L_n$, $H_n$が$-\dfrac{1}{2}$に近づくことを論じる。
+
+$n\equiv 1, 2 \pmod{3}$のとき、
+\begin{align*}
+ \cos\left(\frac{n^2+1}{3}\cdot 2\pi+\frac{2e\pi}{3(n+1)}\right)&=\cos\left(\frac{4}{3}\pi+\frac{2e\pi}{3(n+1)}\right) \\
+ &=\cos\left(\frac{2}{3}\pi-\frac{2e\pi}{3(n+1)}\right)
+\end{align*}
+$n\equiv 0 \pmod{3}$のとき、
+\begin{align*}
+ \cos\left(\frac{n^2+1}{3}\cdot 2\pi+\frac{2e\pi}{3(n+1)}\right)=\cos\left(\frac{2}{3}\pi+\frac{2e\pi}{3(n+1)}\right)
+\end{align*}
+であり、$0<\dfrac{2e\pi}{3(n+1)}=\dfrac{\pi}{3}$を満たすようにとっているので、
+\[ \dfrac{2}{3}\pi-\dfrac{2e\pi}{3(n+1)}\le x\le \dfrac{2}{3}\pi+\dfrac{2e\pi}{3(n+1)} \]
+の範囲で$\cos x$は単調減少する。したがって
+\begin{align*}
+ \cos\left(\frac{2}{3}\pi+\frac{2e\pi}{3(n+1)}\right)&\le \cos\left(\frac{n^2+1}{3}\cdot 2\pi+\frac{2e\pi}{3(n+1)}\right) \\
+ &\le \cos\left(\frac{2}{3}\pi-\frac{2e\pi}{3(n+1)}\right)
+\end{align*}
+となり、この式から挟み撃ちの原理により
+\[ \lim_{n\to\infty}\cos\left(\frac{n^2+1}{3}\cdot 2\pi+\frac{2e\pi}{3(n+1)}\right)=\cos\frac{2}{3}\pi=-\frac{1}{2} \]
+である。よって(＊)とあわせれば$\disp \lim_{n\to\infty}L_n=\lim_{n\to\infty}H_n=-\frac{1}{2}$となるから、式(＃)においてはさみうちの原理により
+\[ \lim_{n\to\infty} \cos\frac{2\pi e n!}{3}=-\frac{1}{2} \]

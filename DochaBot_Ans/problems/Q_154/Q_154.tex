@@ -1,0 +1,29 @@
+\begin{thm}{154}{\hosi ?}{Balkan Way 2014}
+ 実数に対して定義され実数値をとる関数$f$であって、任意の実数$x, y$に対して
+ \[ f\left(f(y)\right)+f(x-y)=f\left(xf(y)-x\right) \]
+ が成り立つようなものを全て求めよ。
+\end{thm}
+
+与式に$x=y=0$を代入することで、$f\bigl(f(0)\bigr)=0$を得る。$f(0)=z$とおく。
+
+$x=0$, $y=z$を代入することで、$z+f(-z)=z$を得るので、$f(-z)=0$である。
+
+$x=y=z$を代入することで、$z+z=f(z)=0$だから$z=0$である。つまり、$f(0)=0$である。
+
+$x=0$を代入することで、任意の$y\in\mathbb{R}$について$f\bigl(f(y)\bigr)+f(-y)=0$を得る。さらに、$y=0$を代入することで、任意の$x\in\mathbb{R}$について$f(x)=f(-x)$を得る。よって、任意の$t\in\mathbb{R}$で
+\begin{align*}
+ f\bigl(f(t)\bigr)&=-f(t) \\
+ f(t)&=f(-t)
+\end{align*}
+が成り立つ。よって、
+\begin{align*}
+ \text{(1)} \quad &\Rightarrow \quad f\Bigl(f\bigl(f(t)\bigr)\Bigr)=f\bigl(-f(t)\bigr) \\
+ &\Rightarrow \quad f\Bigl(f\bigl(f(t)\bigr)\Bigr)=f\bigl(f(t)\bigr) \quad (\because\, (2)\, )\\
+ &\Rightarrow \quad -f\bigl(f(t)\bigr)=f\bigl(f(t)\bigr) \quad (\because\, (1)\, ) \\
+ &\Rightarrow \quad f\bigl(f(t)\bigr)=0 \\
+ &\Rightarrow \quad -f(t)=0 \quad (\because\, (1)\, ) \\
+ &\therefore \quad f(t)=0
+\end{align*}
+より、定数関数$f(x)=0$であることが必要条件。これがもとの関数方程式を満たすことは明らか。
+
+よって求めるものは$f(x)=0$のみ。

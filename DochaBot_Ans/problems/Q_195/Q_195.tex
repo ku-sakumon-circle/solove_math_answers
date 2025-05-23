@@ -1,0 +1,24 @@
+\begin{thm}{195}{\hosi 4\maru}{自作}
+ $n$を2以上の整数とする。$n+1$進法で$n$桁の数 $1000\dots000$ は、$n$進法で何桁か。
+\end{thm}
+
+$n+1$進法で$n$桁の数$1000\dots000$は、$(n+1)^{n-1}$と表せる。2以上の整数$n$において以下が成り立つことを示す。
+\[ n^{n-1}\le (n+1)^{n-1} < n^n \quad \text{(＊)} \]
+
+まず左側の不等式$n^{n-1}\le (n+1)^{n-1}$については、$n\ge 2$により明らか。
+
+右側の不等式は両辺に$\dfrac{n+1}{n^n}$をかけることで$\left(\dfrac{n+1}{n}\right)^n<n+1$と同値であるから、これを示す。
+\[ \left(\frac{n+1}{n}\right)^n = \left(1+\frac{1}{n}\right)^n=\sum_{k=0}^n\frac{\combi{n}{k}}{n^k} \]
+となっている。ここで$k=0, 1, 2,\dots, n$に対して、
+\[ 1\times 2\times\dots\times(n-k)\times\overbrace{n\times n\times\dots\times n}^{k\text{個}} \ge 1\times 2\times \dots\times (n-1)\times n \]
+より、$(n-k)!n^k\ge n!$であるから、
+\[ \frac{\combi{n}{k}}{n^k}=\frac{n!}{(n-k)! k! n^k} \le \frac{1}{k!} \]
+が言える。さらに、$k=2, 3, \dots, n$に対して、
+\[ 1\times 2\times \dots \times k \ge 1\times \overbrace{2\times 2\times \dots \times 2}^{k-1\text{個}} \]
+より、$k!\ge 2^{k-1}$であるから、
+\[ \sum_{k=0}^n \frac{1}{k!} \le \frac{1}{0!}+\frac{1}{1!}+\sum_{k=2}^n \frac{1}{2^{k-1}} = 3-\frac{1}{2^{n-1}} \]
+が言える。$n\ge 2$であるから、
+\[ \left(\frac{n+1}{n}\right)^n=\sum_{k=0}^n \frac{\combi{n}{k}}{n^k} \le \sum_{k=0}^n \frac{1}{k!}\le 3-\frac{1}{2^{n-1}}< 3\le n+1 \]
+が示された。
+
+以上により(＊)が示された。これは$(n+1)^{n-1}$が$n$進法において$n$桁であることを示している。よって答えは$n$桁である。

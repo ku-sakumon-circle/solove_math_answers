@@ -1,0 +1,94 @@
+%%% tankousiki.sty by tDB(emath@nifty.com)
+% 日本語
+\ProvidesPackage{tankousiki}[2013/05/04 v0.00]%
+%
+%\RequirePackage{emath}
+\RequirePackage{emathPl}
+%
+\define@key{takousiki}{order}{\@orderP{#1}}%
+\define@key{takousiki}{soroe}{\edef\s@r@e{#1}}%
+\define@key{takousiki}{mozi}{\edef\@mozi{#1}}%
+%
+\edef\s@r@e{l}%
+%
+\def\powtocsv#1#2{%
+  \edef\beki@{0}%
+  \edef#2{}%
+  \expandafter\@tfor\expandafter\@@c\expandafter:\expandafter=#1\do{%
+    \if ^\@@c
+      \edef\beki@{1}%
+    \else
+      \ifnum\beki@>\z@
+        \Ifor\i@val{1}\@@c\Do{%
+          \EMedefappend[,]#2{'\mozi@'}%
+        }%
+        \edef\beki@{0}%
+      \else
+        \edef\mozi@{\@@c}%
+        \EMedefappend[,]#2{'\@@c'}%
+      \fi
+    \fi
+  }%
+}%
+\def\csvtopow#1#2{%
+  \edef\beki@{1}%
+  \edef#2{}%
+  \expandafter\@for\expandafter\@@c\expandafter:\expandafter=#1\do{%
+    \ifx\empty #2\relax
+      \edef #2{\@@c}%
+      \edef\old@c{\@@c}%
+    \else
+      \if \old@c\@@c
+        \Incr\beki@
+      \else
+        \ifnum\beki@>\@ne
+          \edefappend #2{^{\beki@}}%
+          \edef\beki@{\@ne}%
+        \fi
+        \edefappend #2{\@@c}
+        \edef\old@c{\@@c}%
+      \fi
+    \fi
+  }%
+  \ifnum\beki@>\@ne\edefappend #2{^{\beki@}}\fi
+}%
+\def\tankoubunri#1#2#3{%
+  \edef\syu@betu{1}%
+  \edef#2{}%
+  \edef#3{}%
+\ifx\empty #1\else
+  \expandafter\@tfor\expandafter\@@c\expandafter:\expandafter=#1\do{%
+    \ifnum\syu@betu=\@ne
+      \ifcat a\@@c\edef\syu@betu{2}%
+        \edef#3{\@@c}%
+      \else
+        \edefappend#2{\@@c}%
+      \fi
+    \else
+      \edefappend#3{\@@c}%
+    \fi
+  }%
+  \ifthenelse{\equal{#2}{\empty}}{%
+    \edef#2{1}%
+  }{%
+    \ifthenelse{\equal{#2}{+}}{%
+      \edef#2{1}%
+    }{%
+      \ifthenelse{\equal{#2}{-}}{%
+        \edef#2{-1}%
+      }{}%
+    }%
+  }%
+  \headchar{#2}\h@c\r@c
+  \if +\h@c\edef#2{\r@c}\fi
+\fi
+}%
+%
+\def\sort@csv#1#2{%
+  \CalcVal{%
+    my @dta=(#1);
+    my @sorted = sort @dta;
+    print FHNDL join(',',@sorted), "\string\n";
+  }#2\relax
+}%
+\endinput

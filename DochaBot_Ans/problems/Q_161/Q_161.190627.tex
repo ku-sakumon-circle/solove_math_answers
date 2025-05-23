@@ -1,0 +1,41 @@
+\begin{thm}{161}{\hosi 3\maru}{京大理系 (2016)}
+ $n$を2以上の自然数とするとき, 関数
+\[f_n(\theta )= (1+\cos{\theta})\sin^{n-1}{\theta}\]
+の $0\leq \theta\leq \dfrac{\pi}{2}$ における最大値 $M_n$ と, $\disp\lim_{n\to \infty} (M_n)^n$ を求めよ。
+\end{thm}
+
+$f_n(\theta)$を微分する。
+\begin{align*}
+ f_n'(\theta)&=-\sin\theta\sin^{n-1}\theta+(1+\cos\theta)(n-1)\cos\theta\sin^{n-2}\theta \\
+ &= -\sin^n\theta+(n-1)\sin^{n-2}\theta(\cos\theta+\cos^2\theta) \\
+ &= \sin^{n-2}\theta\bigl[-\sin^2\theta+(n-1)(\cos\theta+\cos^2\theta)\bigr] \\
+ &= \sin^{n-2}\theta\bigl[n\cos^2\theta+(n-1)\cos\theta-1\bigr] \\
+ &= \sin^{n-2}\theta(n\cos\theta-1)(\cos\theta+1)
+\end{align*}
+これより、$f_n'(\theta)=0$となるのは、
+\[ \sin\theta=0 \,,\,\, \cos\theta=\frac{1}{n} \,,\,\, \cos\theta=-1 \]
+のときであるが、$0\leq\theta\leq \dfrac{\pi}{2}$より$\cos\theta\neq -1$。また、この範囲に$\cos\theta=\dfrac{1}{n}$を満たすものはただ1つ存在するから\footnote{この区間では$\cos\theta$は単調減少}、これを$\theta_n$をおく。以上より、
+\[ f_n'(\theta)=0 \quad\dou\quad \theta=0 \,,\,\, \theta_n \quad\text{ただし$0<\theta_n<\frac{\pi}{2}$} \]
+増減表は以下のようになって、$M_n=f_n(\theta_n)$とわかる。
+\begin{align*}
+ \begin{array}{c|c|c|c|c|c}
+  \theta & 0 & \cdots & \theta_n & \cdots & \frac{\pi}{2} \\ \hline
+   f_n'(\theta) & 0 & + & 0 & - &  \\ \hline
+   f_n(\theta) & 0 & \nearrow & M_n & \searrow & 1
+ \end{array}
+\end{align*}
+
+$\cos\theta_n=\dfrac{1}{n}$と、$0<\theta_n<\dfrac{\pi}{2}$より、$\sin\theta_n=\sqrt{1-\dfrac{1}{n^2}}$なので、
+\[ M_n=f_n(\theta_n)=\left(1+\frac{1}{n}\right)\left(1-\frac{1}{n^2}\right)^{\frac{n-1}{2}} \]
+と求まった。さらに、
+\begin{align*}
+ M_n^n &= \left(1+\frac{1}{n}\right)^n\left(1-\frac{1}{n^2}\right)^{\frac{n(n-1)}{2}} \\
+ &= \left(1+\frac{1}{n}\right)^n\left[\left(1+\frac{1}{-n^2}\right)^{-n^2}\right]^{\frac{-n(n-1)}{2n^2}}
+\end{align*}
+ここで、
+\begin{align*}
+ \lim_{n\to\infty}\left(1+\frac{1}{n}\right)^n=\lim_{n\to\infty} \left(1+\frac{1}{-n^2}\right)^{-n^2} \!\!= e \\
+ \lim_{n\to\infty} -\frac{n(n-1)}{2n^2}=\lim_{n\to\infty} \frac{\frac{1}{n}-1}{2}=-\frac{1}{2}
+\end{align*}
+であるから、
+\[ \lim_{n\to\infty} M_n^n = e\cdot e^{-\frac{1}{2}} =\sqrt{e} \]

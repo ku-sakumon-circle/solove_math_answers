@@ -1,0 +1,77 @@
+\begin{thm}{038}{}{極限25題+Extra}
+ $x,\theta\in\mathbb{R}$, $n\in\mathbb{Z}$とする。以下の極限を求めよ。
+ \begin{enumerate}
+  \item $\disp \lim_{\theta\to\infty} \dfrac{\theta}{\tan\theta^\circ}$
+  \item $\disp \lim_{x\to\infty} \left(\dfrac{x}{x+2}\right)^x$
+  \item $\disp \lim_{n\to\infty} \dfrac{1}{n}\left(\sin\dfrac{1}{n}\pi+\sin\dfrac{2}{n}\pi+\cdots +\sin\dfrac{n-1}{n}\pi\right)$
+  \item $\disp \lim_{n\to\infty}\left(\dfrac{1}{3}+\dfrac{1}{15}+\cdots+\dfrac{1}{4n^2-1}\right)$
+  \item $\disp \lim_{n\to\infty} \left(\sqrt{n^2-\left\lfloor\dfrac{n}{3}\right\rfloor}-n\right)$
+  \item $\disp \lim_{n\to\infty} \left(1+\dfrac{1}{2}+\dfrac{1}{3}+\cdots+\dfrac{1}{n}\right)$
+  \item $\disp \lim_{n\to\infty} \dfrac{F_{n+1}}{F_n}$ (ただし、$F_n$は$n$番目のフィボナッチ数)
+  \item $\disp \lim_{x\to\pi} \dfrac{x^{\sin x}-1}{x-\pi}$
+  \item $\disp \lim_{n\to\infty }\dfrac{1}{n}\left(\dfrac{1}{\sqrt{2}}+\dfrac{2}{\sqrt{5}}+\cdots+\dfrac{n}{\sqrt{n^2+1}}\right)$
+  \item $\disp \lim_{n\to\infty} \sum_{k=1}^n \dfrac{\left\lfloor\sqrt{2n^2-k^2}\right\rfloor}{n^2}$
+  \item $\disp \lim_{n\to\infty} \int_0^{n\pi}\! e^{-x}\left|\sin x\right|\,dx$
+  \item $\disp \lim_{n\to\infty} \int_0^1\! x^2\left|\sin n\pi x\right|\,dx$
+  \item $\disp \lim_{n\to\infty} \left(1+a^n\right)^{\frac{1}{n}}$ (ただし、$a>0$)
+  \item $\disp \lim_{n\to\infty} \left(r+2r^2+\cdots+nr^n\right)$ (ただし、$r\in\mathbb{R}$)
+  \item $\disp \lim_{n\to\infty} \int_0^{\frac{\pi}{2}}\! \dfrac{\sin^2nx}{1+x} \,dx$
+  \item $\disp \lim_{n\to\infty} \left(\dfrac{{}_{3n}C_n}{{}_{2n}C_n}\right)^\frac{1}{n}$
+  \item $\disp \lim_{n\to\infty} \dfrac{1}{n!}\int_1^e\! \left(\log x\right)^n \,dx$
+  \item $\disp \lim_{n\to\infty} \left(1-\dfrac{1}{2}+\dfrac{1}{3}-\cdots+\dfrac{(-1)^{n-1}}{n}\right)$
+  \item $\disp \lim_{n\to\infty} \cos^{n^2}\left(\dfrac{1}{n}\right)$
+  \item $\disp \lim_{x\to\infty} \left[\dfrac{x^\alpha}{\left\lceil\beta x-7\right\rceil}-\dfrac{x^\alpha}{\left\lceil\gamma x+3\right\rceil}\right]$ (ただし、$\alpha\in\mathbb{R}$, $\beta, \gamma>0$)
+  \item $\disp \lim_{\theta\to +0} \log_\theta \left(\sin\theta\right)$
+  \item $\disp \lim_{\theta\to 0} \dfrac{1}{\theta^2}\left(1+\cos\dfrac{\pi}{2^\theta}\right)$
+  \item $\disp \lim_{n\to\infty} \left(\dfrac{3-\sqrt[n]{3}}{2}\right)^n$
+  \item $\disp \lim_{n\to\infty} \log_{n^n}n!$
+  \item $\disp \lim_{\theta\to 0} \left(\dfrac{\sin\theta}{\theta}\right)^{\frac{1}{\theta^2}}$
+ \end{enumerate}
+ \begin{enumerate}
+  \renewcommand{\labelenumi}{Ex\arabic{enumi}}
+  \item $\disp \lim_{n\to\infty} \dfrac{e^nn!}{n^n\sqrt{n}}$
+  \item $\disp \lim_{n\to\infty} \left(\dfrac{1}{2}+\dfrac{1}{3}+\dfrac{1}{5}+\cdots+\dfrac{1}{p_n}\right)$ (ただし、$p_n$は$n$番目の素数)
+  \item $\disp \lim_{n\to\infty} \left(\dfrac{1}{1}+\dfrac{1}{4}+\dfrac{1}{9}+\cdots+\dfrac{1}{n^2}\right)$
+  \item $\disp \liminf_{n\to\infty} \dfrac{\phi(n)\sigma(n)}{n^2}$ (ただし、$\phi(n)$は$n$と互いに素である自然数の個数 (Euler's totient function)、$\sigma(n)$は$n$の正の約数の総和)
+ \end{enumerate}
+\end{thm}
+いろんな典型を寄せ集めたつもりである. 他にも面白いものがあったら教えてほしい. 
+
+\syoumon{1} [学校のテストとかでありそうなやつ. 変換さえ分かっていれば三角関数の極限で分かる]  $180^{\circ} = \pi$の比率から考えて$\theta^{\circ} = \dfrac{\pi}{180}\theta$. よって$\theta = \dfrac{180}{\pi}\theta^{\circ}$なので
+\[\dfrac{\theta}{\tan{\theta^{\circ}}} = \dfrac{180}{\pi} \dfrac{\theta^{\circ}}{\tan{\theta^{\circ}}} \to \dfrac{180}{\pi}\]
+
+\syoumon{2} [$e$の定義を用いる典型]  $x/2 = t$とおくと
+\[\left(\dfrac{x}{x+2}\right)^x = (1+\dfrac{1}{t})^{2t} \to e^2\]
+
+\syoumon{3} [区分求積法]
+\[\int_{0}^{1} \sin{\pi x}\, dx = \dfrac{1}{\pi}\left\{ (-\cos{\pi}) - (-\cos{0})  \right\} = \dfrac{2}{\pi}\]
+
+\syoumon{4} [部分分数分解] \\$\dfrac{1}{4n^2 - 1} = \dfrac{1}{2}\left\{ \dfrac{1}{2n-1} - \dfrac{1}{2n+1}\right\}$より和がバタバタと消える. その結果
+\[\sum_{k=1}^{n} \dfrac{1}{4k^2-1} = \dfrac{1}{2} \left\{ \dfrac{1}{2\cdot 1-1} - \dfrac{1}{2n + 1}\right\} \to \dfrac{1}{2}\]
+
+\syoumon{5}
+
+\syoumon{6} [調和級数] これが無限に発散するのは有名な話. 次のように積分評価すれば分かる:
+\[
+\sum_{k=1}^{n} \dfrac{1}{k} \geq \sum_{k=1}^{n} \int_{k}^{k+1} \dfrac{dx}{x} = \int_{1}^{n+1} \dfrac{dx}{x} = \log{(n+1)} \to \infty
+\] 
+
+\syoumon{7} 
+
+\syoumon{8} [微分係数] $f(x) = x^{\sin{x}}$とおくと$f(\pi) = \pi^{0} = 1$なのでこれは$f'(\pi)$に等しく, $f'(x) = (e^{\log{x} \sin{x}})' = (\log{x}\sin{x})' e^{(\log{x})\sin{x}} = (\dfrac{\sin{x}}{x} + (\log{x})\cos{x})x^{\sin{x}}$だから
+\[f'(\pi) = -\log{\pi} \] 
+
+\syoumon{18} [メルカトル級数] 東工大で確か出てた. $n$が偶数の場合を考える; $n=2m$. 次の変形はとても有名. 
+\begin{align*}
+\sum_{k=1}^{2m} \dfrac{(-1)^{k-1}}{k} &= \sum_{k=1}^{2m} \dfrac{1}{k} - 2\sum_{k=1}^{m} \dfrac{1}{2k} \\
+&= \sum_{k=1}^{2m}\dfrac{1}{k} - \sum_{k=1}^{m} \dfrac{1}{k} \\
+&= \sum_{k=m+1}^{2m} \dfrac{1}{k} \\
+&= \sum_{k=1}^{m} \dfrac{1}{k+m} \\
+&= \dfrac{1}{m} \sum_{k=1}^{m} \dfrac{m}{k+m} \\
+&= \dfrac{1}{m} \sum_{k=1}^{m} \dfrac{1}{(k/m) + 1}\\
+&\to \int_{0}^{1} \dfrac{dx}{x+1} = \log{2}
+\end{align*}
+奇数の場合は一番最後の項だけ仲間外れにして偶数の場合と同じ計算すれば同じ値に収束する. 
+
+
+

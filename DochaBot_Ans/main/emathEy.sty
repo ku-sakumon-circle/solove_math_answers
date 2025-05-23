@@ -1,0 +1,750 @@
+% emathEy.sty by tDB (emath@nifty.com)
+
+\NeedsTeXFormat{LaTeX2e}%
+\ProvidesPackage{emathEy}[2017/05/08 v0.37a 横並び enumerate]%
+%
+\@ifpackageloaded{emath}{}{\RequirePackage{emath}}%
+\RequirePackage{emathEc}%
+%
+\newif\ifedaenum@math%
+\newif\ifeda@math%
+\newif\ifin@item\in@itemfalse%
+\newif\ifeda@sikiri\eda@sikirifalse%
+\newif\ifbetaraggedlines\betaraggedlinesfalse
+\newif\ifbetaraggedlastline\betaraggedlastlinetrue
+\newif\ifyokoraggedlines\yokoraggedlinestrue
+\newif\ifuseitem\useitemtrue
+%
+\newsavebox\eda@box%
+\newsavebox\ed@beta@box%
+%
+\let\ltx@par\par
+%
+\define@key{emE}{gyoukan}{%
+  \ifthenelse{\equal{#1}{\vfill}}{%
+    \def\@gyoukan{\ltxvfill}%
+  }{%
+    \@tempdima=#1\relax%\divide\@tempdima\c@edamon@suu% 2002/05/30
+    \edef\gyoukan@a{\strip@pt\@tempdima}%
+    \def\@gyoukan{\vrule depth \gyoukan@a\p@ width \z@}%
+  }%
+}%
+\define@key{emE}{retusuu}{\setcounter{edamon@suu}{#1}}%
+\define@key{emE}{tateiti}{\def\edaenum@tateiti{#1}}%
+\define@key{emE}{edasikiri}[1]{%
+  \global\eda@sikiritrue\gdef\eda@sikiri@flg{#1}}%
+\define@key{emE}{edafirstindent}{\edef\eda@firstindent{#1}\relax}%
+\define@key{emE}{edaitemindent}{\edef\edaitem@indent{#1}\relax}%
+\define@key{emE}{edaitemsoroe}[r]{\edef\edaitem@soroe@{#1}\relax}%
+\define@key{emE}{preedasep}{\pre@edasep=#1\relax}%
+\define@key{emE}{postedasep}{\post@edasep=#1\relax\betaraggedlinestrue}%
+\define@key{emE}{edaTBsep}{\def\eda@topsep{#1}\def\eda@bottomsep{#1}\relax}%
+\define@key{emE}{edaTsep}{\def\eda@topsep{#1}\relax}%
+\define@key{emE}{edaBsep}{\def\eda@bottomsep{#1}\relax}%
+\define@key{emE}{edatopsep}{\def\eda@topsep{#1}\relax}%
+\define@key{emE}{edabottomsep}{\def\eda@bottomsep{#1}\relax}%%
+\define@key{emE}{edatbsep}{%
+    \def\eda@topsep{#1}\def\eda@bottomsep{#1}\relax}%
+\define@key{emE}{kaitouYohaku}{\def\kaitou@yohaku{#1}}%
+\define@key{emE}{edaframe}[1]{\def\eda@frame{#1}\relax}%
+\define@key{emE}{useitem}{\csname useitem#1\endcsname}%
+\define@key{emE}{edaLmargin}{\setlength{\leftmargin@org@s}{#1}}%
+\define@key{emE}{sitayohaku}{\def\eda@sitayohaku{#1}}%
+%\define@key{emE}{yokoenumsep}{\edef\yokoenum@sep{#1}}%
+\define@key{emE}{betaraggedlines}{\csname betaraggedlines#1\endcsname}%
+\define@key{emE}{yokoraggedlines}{\csname yokoraggedlines#1\endcsname}%
+\define@key{emE}{betaraggedlastline}{\csname betaraggedlastline#1\endcsname}%
+%
+\@ifundefined{tate}{}{%
+  \newcommand{\arabic@}[1]{%
+  \iftdir\rensuji{\arabic{#1}}\else\arabic{#1}\fi}}%
+%
+\@ifundefined{templa}{\newdimen\templa}{}%
+\@ifundefined{templb}{\newdimen\templb}{}%
+%
+\edef\@gyoukan{\empty}%
+\def\edaenumgyoukan#1{%
+  \ifx #1\vfill
+    \def\@gyoukan{\ltxvfill}%
+  \else
+    \@tempdima=#1\relax
+    \edef\gyoukan@a{\strip@pt\@tempdima}%
+%    \def\@gyoukan{\vspace{\gyoukan@a pt}}%
+    \def\@gyoukan{\vrule depth \gyoukan@a\p@ width \z@}%
+  \fi
+}%
+%
+\edef\edaitem@soroe{r}%
+\def\edaitemsoroe#1{\edef\edaitem@soroe{#1}}%
+%
+% 小問を横に並べる
+% edaenumerate 環境と \item
+%
+
+\newcounter{edamon@suu}%
+%\newdimen\edaenum@wdth
+%\newdimen\edaenum@wdth@
+%\newdimen\leftmargin@org@s
+\newdimen\edaitemindent
+%%%%%%%%%\newdimen\betaitemindent
+%\newdimen\beta@linewidth
+%\newdimen\eda@linewidth
+\edef\leftmargin@org@s@{0pt}%
+\def\edaLmargin#1{\edef\leftmargin@org@s@{#1}}%
+\newdimen\pre@edasep
+\setlength{\pre@edasep}{1.75zw}%
+\newdimen\post@edasep
+\setlength{\post@edasep}{.75zw}%
+\newdimen\preedaenumskip
+\def\edaitem@indent{0pt}%
+\setlength{\preedaenumskip}{0ex}%
+%\setlength{\preedaenumskip}{-0.5ex}%
+\newdimen\postedaenumskip
+\setlength{\postedaenumskip}{\z@}%
+\def\eda@frame{0}%
+\def\edatopsep#1{\def\eda@topsep{#1}}%
+\def\edabottomsep#1{\def\eda@bottomsep{#1}}%
+\@ifpackageloaded{hyperref}{\edatopsep{-.75\baselineskip}}{}%
+%
+\def\ed@beta{0}
+\def\betalabel#1{\xdef\beta@label{#1}}%
+\def\betalabelwidth{3em}
+\def\setedasep#1#2{\betaraggedlinestrue
+  \ifthenelse{\equal{#1}\empty}{}{\pre@edasep=#1\relax}%
+  \ifthenelse{\equal{#2}\empty}{}{\post@edasep=#2\relax}%
+}%
+\def\setpostedasep#1{\betaraggedlinestrue
+  \post@edasep=#1\relax
+}%
+\def\betaenumerate{\apnlist{\topsep=\z@}%
+  \def\ed@beta{1}%
+  \@ifundefined{beta@linewidth}{\newdimen\beta@linewidth}{}%
+  \setlength{\beta@linewidth}{\z@}%
+  \setlength{\post@edasep}{1.75zw}%
+  \edaenumerate
+}%
+\def\endbetaenumerate{%
+    \ifin@item\owariitem\fi%
+    \ifbetaraggedlastline
+      \hfilll\mbox{}%%% betaenumerate 最終行は均等割しない 2005/06/12
+    \fi
+    \ifdim\topsep>\z@%%%%%%%  2010/10/23
+      \vspace*{-.45\topsep}%%%%%%%%  2010/10/23
+    \fi
+    \def\ed@beta{0}\endenumerate
+}%
+\let\edaenumerateb\betaenumerate
+\let\endedaenumerateb\endbetaenumerate
+\def\edaenumeratem{\edaenum@mathtrue\edaenumerate}%
+\newif\ifedaenum\edaenumfalse
+\def\edaenumerate{\save@label@box
+  \edef\kmk@su{0}%
+  \apnlist{\topsep=\z@}%
+  \@ifundefined{edaenum@wdth}{\newdimen\edaenum@wdth}{}%
+  \@ifundefined{edaenum@wdth@}{\newdimen\edaenum@wdth@}{}%
+  \@ifundefined{leftmargin@org@s}{\newdimen\leftmargin@org@s}{}%
+  \@ifundefined{eda@linewidth}{\newdimen\eda@linewidth}{}%
+  \ifvmode\else \par \fi%%%%%%%%%%%%%%%%%%%%%%%%% BBS #6022
+  \let\k@igyou\relax
+%\leavevmode%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 2007/08/30 BBS #6396, #6423
+%    必要ならその場で付加してもらうのかな
+  \def\apn@enum{\relax}%
+  \def\eda@firstindent{}%
+  \edef\edaitem@soroe@{\edaitem@soroe}%
+  \edaenumtrue
+  \global\eda@sikirifalse
+  \gdef\eda@sikiri@flg{}%
+  \setlength{\eda@linewidth}{0pt}%
+  \edaenum@wdth@=\linewidth%
+  \@ifundefined{EMWR@zuhaba}{}{%
+    \ifdim\EMWR@zuhaba>\z@%%%%%%%%%%%% add 2005/08/01
+      \ifnum\EMWR@gyousuu>\@ne\advance\edaenum@wdth@-\EMWR@zuhaba
+        \edaenum@wdth@=\EMWRlinewidth
+      \fi
+    \fi
+  }%
+  \ifnum \@enumdepth >3 \@toodeep\else
+    \advance\@enumdepth \@ne
+    \edef\@enumctr{enum\romannumeral\the\@enumdepth}\fi
+  \@ifnextchar<{\eda@enumerate}{\eda@enumerate<2>}%
+}
+\def\eda@enumerate<#1>{\ifthenelse{\equal{#1}{\empty}}{\eda@enumerate@<2>}{\eda@enumerate@<#1>}}%
+\def\eda@enumerate@<#1>{%
+%  \@ifnextchar({\@edaenumerate<#1>}{\@edaenumerate<#1>(0pt)}}%
+  \@ifnextchar({\@edaenumerate<#1>}{\@edaenumerate<#1>(\leftmargin@org@s@)}}%
+\def\@edaenumerate<#1>(#2){%
+  \setcounter{edamon@suu}{2}%
+  \def\edaenum@tateiti{0pt}%
+  \kizami@ti=\@ne
+  \syoki@ti=\z@
+  \def\apn@enum{\relax}%
+  \setlength{\leftmargin@org@s}{#2}%
+  \ifthenelse{\isodd{0#11}}{%
+    \setcounter{edamon@suu}{#1}%
+  }{%
+    \setkeys{emE}{#1}\relax
+  }%
+  \addtolength{\edaenum@wdth@}{-\leftmargin@org@s}%%% 2006/05/30
+  \@ifnextchar'{\@@edaenumerate@}{\@@edaenumerate}%
+}%
+\def\@@edaenumerate@'#1'{\labelenum{#1}\@@edaenumerate}%
+\def\@@edaenumerate{\@ifnextchar[{\@@edaenum@}{\@edaenum@}}
+\def\@@edaenum@[#1]{%
+  \@enLab{}\let\@enThe\@enQmark
+  \expandafter\@enloop#1\@edaenum@
+  \ifx\@enThe\@enQmark\@warning{The counter will not be printed.%
+   ^^J\space\@spaces\@spaces\@spaces The label is: \the\@enLab}\fi
+  \expandafter\edef\csname label\@enumctr\endcsname{\the\@enLab}%
+  \expandafter\let\csname the\@enumctr\endcsname\@enThe
+  \csname c@\@enumctr\endcsname7
+  \expandafter\settowidth
+            \csname leftmargin\romannumeral\@enumdepth\endcsname
+            {\the\@enLab\hspace{\labelsep}}%
+  \@edaenum@
+}%
+%
+\def\@edaenum@{%
+  \ifvmode
+    \leavevmode
+    \mathstrut%%%%%%%%%%%%% 2010/08/08
+    \ifnum\@enumdepth<3\relax
+      \vspace*{-\baselineskip}\vspace{-\partopsep}%\vspace{-\p@}%
+        \ifdim\f@size\p@<10.5\p@\relax
+          \ifdim\f@size\p@=9\p@%%%%%%%%%%%% \small
+            \vspace{-2pt}%
+          \else\ifdim\f@size\p@=8\p@%%%%%%%%%% \footnotesize
+            \vspace{-2.2pt}%
+          \else
+          \fi\fi
+        \else\ifdim\f@size\p@<11.5\p@\relax
+        \else\ifdim\f@size\p@<12.5\p@\relax
+        \fi\fi\fi
+    \else
+      \vspace*{-\baselineskip}%
+    \fi
+  \else
+    \vspace*{-4\p@}%%%%%%%%  2005/12/15
+    \vspace{\topsep}%       2002/01/13
+  \fi%
+  \@ifundefined{eda@topsep}{}{\vspace*{\eda@topsep}}%
+  \ifdim\edaenum@tateiti=\z@\else
+    \@tempdima\edaenum@tateiti%\@tempdima-\@tempdima
+    \vspace{\@tempdima}%
+  \fi
+  \ifdim\preedaenumskip=\z@\relax\else%
+    \vspace{\preedaenumskip}\fi%
+  \let\ltxvfill\vfill%
+  \def\vfill{\mbox{}\edakaigyou\ltxvfill}%
+  \let\ltxnewpage\newpage
+  \def\newpage{\mbox{}\edakaigyou\ltxnewpage}%
+  \let\ltxclearpage\clearpage
+  \def\clearpage{\edakaigyou\ltxclearpage}%
+  \ifuseitem\def\item{\edaitem}%\let\houteisiki\amshouteisiki
+  \fi
+  \def\edaitem{\ifin@item\owariitem\fi\in@itemtrue%
+    \ifedaenum@math\eda@mathtrue
+    \else
+      \eda@mathfalse
+    \fi
+    \eda@item
+  }%
+  \def\eda@item{\@ifstar{\eda@items}{\def\preitem{}\def\postitem{}\eda@@item}}%
+  \def\eda@items{\@ifstar{\edaitems@}{\@eda@items}}
+  \def\@eda@items{\@ifnextchar[{\@@eda@items}{\@@eda@items[*]}}%
+  \def\@@eda@items[##1]{%
+    \@ifnextchar[{\@@@eda@items[##1]}{\@@@eda@items[##1][]}}%
+  \def\@@@eda@items[##1][##2]{\def\preitem{##1}\def\postitem{##2}\eda@@item}%
+  \def\edaitems@{\@ifnextchar[{\edaitems@@}{\edaitems@@[*]}}%
+  \def\edaitems@@[##1]{\def\preitem{}\def\postitem{##1}\eda@@item}%
+  \def\eda@@item{%
+    \@ifnextchar<{\@edaitem}{\@edaitem<\theedamon@suu>}}%
+  \def\@edaitem<##1>{%
+        \edaenum@wdth=\edaenum@wdth@%
+        \addtolength{\edaenum@wdth}{\post@edasep}%
+        \divide\edaenum@wdth by \theedamon@suu%
+        \addtolength{\edaenum@wdth}{-\pre@edasep}%
+        \addtolength{\edaenum@wdth}{-\post@edasep}%
+    \@ifnextchar({\@@edaitem<##1>}{%
+        \edef\save@edamonsuu{\theedamon@suu}%
+        \edef\edaitem@indent{\the\edaitemindent}%
+        \edef\edaitem@@tmp{##1}%
+        \Strchr{\edaitem@@tmp}{=}\edaitem@tmp
+        \ifnum\edaitem@tmp>\z@
+          \setkeys{emE}{##1}%
+          \edef\edamon@@suu{\theedamon@suu}%
+        \else
+          \edef\edamon@@suu{##1}%
+        \fi
+        \edaenum@wdth=\edaenum@wdth@%
+        \addtolength{\edaenum@wdth}{\post@edasep}%
+        \divide\edaenum@wdth by \edamon@@suu%
+        \addtolength{\edaenum@wdth}{-\pre@edasep}%
+        \addtolength{\edaenum@wdth}{-\post@edasep}%
+        \setcounter{edamon@suu}{\save@edamonsuu}%
+        \@@edaitem<##1>(\edaenum@wdth)}%
+  }%
+  \def\@@edaitem<##1>(##2){%
+    \@ifnextchar[{\@@@edaitem<##1>(##2)}{\@@@edaitem<##1>(##2)[\relax]}}%
+  \def\@@@edaitem<##1>(##2)[##3]{%
+    \ifnum\ed@beta=\@ne
+      \EMedef\beta@item@argiii{##3}%
+      \beta@item
+    \else
+\isnumber{##2}{%
+    \@tempdimb\edaenum@wdth
+    \advance\@tempdimb\pre@edasep
+    \advance\@tempdimb\post@edasep
+    \@tempdima=##2\@tempdimb
+%\typeout{arg2=##2, enum@wdht=\the\edaenum@wdth, dimb=\the\@tempdimb, dima=\the\@tempdima}%
+    \advance\@tempdima-\pre@edasep
+    \advance\@tempdima-\post@edasep
+}{%
+      \setlength{\@tempdima}{##2}%
+}%
+      \global\setbox\eda@box=\hbox\bgroup%
+      \ifeda@sikiri\advance\@tempdima-.5\columnsep\fi
+%\typeout{@@@edaitem:<##1>(##2)[##3] @tempdima=\the\@tempdima}%
+      \begin{minipage}[t]{\@tempdima}%
+      \ifthenelse{\equal\eda@firstindent\empty}{%
+        \setlength{\itemindent}{\edaitem@indent}%
+      }{%
+        \setlength{\itemindent}{\eda@firstindent}%
+      }%
+      \let\stepcounter\enumstepcounter
+%      \ifx\empty##3\relax\mark@item\else\mark@item[##3]\fi%
+%      \ifx\relax ##3\relax\mark@item\else\mark@item[##3]\fi%
+          \ifthenelse{\equal{##3}{\relax }}{
+            \mark@item
+          }{%
+            \mark@item[##3]%
+          }%
+      \let\stepcounter\ltxstepcounter
+      \ifeda@math\begin{math}\fi%
+      \leavevmode\strut
+    \fi
+  }%
+  \def\beta@item{%
+      \edef\beta@label{}%
+      \global\setbox\ed@beta@box=\hbox\bgroup}%
+  \def\owariitem{%
+    \ifin@item
+      \ifeda@math\end{math}\eda@mathfalse\fi%
+      \ifnum\ed@beta=\@ne
+        \hskip-\lastskip
+        \egroup
+        \@tempdimb=\beta@linewidth
+        \addtolength\beta@linewidth{\wd\ed@beta@box}%
+        \addtolength\beta@linewidth\pre@edasep
+        \ifthenelse{\equal\eda@firstindent\empty}{}{%
+          \hspace*{\eda@firstindent}%
+          \addtolength\beta@linewidth\eda@firstindent
+          \def\eda@firstindent{}%
+        }%
+        \ifdim\beta@linewidth>\linewidth
+          \ifthenelse{\equal{\ltxvfill}{\@gyoukan}}{%
+            \mbox{}%
+            \@bsphack
+            \vadjust{\@gyoukan}%
+            \@esphack
+          }{%
+%            \ifthenelse{\equal{\empty}{\@gyoukan}}{}{\@gyoukan}%
+             \ifthenelse{\equal{\empty}{\@gyoukan}}{}{\vspace{\gyoukan@a\p@}}%
+          }%
+          \\[-.666667ex]\relax
+          \setlength\beta@linewidth{\wd\ed@beta@box}%
+          \addtolength\beta@linewidth{\pre@edasep}%
+        \else\ifdim\@tempdimb>\pre@edasep
+          \addtolength\beta@linewidth\post@edasep
+          \ifdim\beta@linewidth>\linewidth
+            \ifthenelse{\equal{\ltxvfill}{\@gyoukan}}{%
+              \mbox{}%
+              \@bsphack
+              \vadjust{\@gyoukan}%
+              \@esphack
+            }{%
+%              \ifthenelse{\equal{\empty}{\@gyoukan}}{}{\@gyoukan}%B
+              \ifthenelse{\equal{\empty}{\@gyoukan}}{}{%
+                \vspace{\gyoukan@a\p@}\vspace{-.5ex}}%
+            }%
+            \\[-.666667ex]\relax
+            \setlength\beta@linewidth{\wd\ed@beta@box}%
+            \addtolength\beta@linewidth{\pre@edasep}%
+          \else
+            \relax\hspace{\post@edasep}%
+            \ifbetaraggedlines\else \hfill\fi%%%%%%%%%%%% \hfill ---> \hfil
+          \fi
+        \fi\fi
+\ifnum\kmk@su=\z@\leavevmode\hbox to 0zw{\hss\box\em@label@box}\fi
+\Incr\kmk@su
+        \hspace*{\pre@edasep}%
+        \begin{minipage}[t]{\wd\ed@beta@box}%
+%          \mark@item
+%           \ifx\relax\beta@item@argiii\mark@item
+%          \else\mark@item[\beta@item@argiii]\fi
+          \ifthenelse{\equal\beta@item@argiii{\relax }}{
+            \mark@item
+          }{%
+            \mark@item[\beta@item@argiii]%
+          }%
+          \ifx\empty\beta@label\else\label{\beta@label}\fi%%%%%%% 2005/05/27
+          \leavevmode\strut \box\ed@beta@box \relax
+          \strut
+        \end{minipage}\hskip-\lastskip
+        \in@itemfalse
+    \else
+      \@ifundefined{eda@sitayohaku}{\strut}{\vspace{\eda@sitayohaku}}%
+      \end{minipage}\egroup
+      \setlength{\@tempdima}{\ht\eda@box}%
+      \@tempdimb=\eda@linewidth
+      \addtolength{\eda@linewidth}{\wd\eda@box}%
+      \addtolength{\eda@linewidth}{\pre@edasep}%
+      \ifdim\eda@linewidth>\edaenum@wdth@%    2002/01/27
+        \ifthenelse{\equal{\ltxvfill}{\@gyoukan}}{%
+           \mbox{}%
+            \@bsphack
+            \vadjust{\@gyoukan}%
+            \@esphack
+        }{%
+          \ifthenelse{\equal{\empty}{\@gyoukan}}{}{\@gyoukan}%E
+        }%
+        \\[-2\p@]%[-.666667ex]\relax
+        \setlength{\eda@linewidth}{\wd\eda@box}%
+      \else\ifdim\@tempdimb>\z@
+        \ifeda@sikiri
+          \ifthenelse{\equal{\empty}{\@gyoukan}}{%
+            \vrule\kern-.4\p@
+          }{{%
+            \ifthenelse{\equal{\@gyoukan}{\ltxvfill}}{%
+              \errmessage{vfill と edasikiri は併用不可!}%
+            }{%
+              \@tempdimc\gyoukan@a\p@\advance\@tempdimc.5zh\relax
+              \vrule\kern-.4\p@\relax
+            }%
+          }}%
+          \ifx\empty\eda@sikiri@flg\global\eda@sikirifalse\fi
+        \else
+          \ifthenelse{\equal{\empty}{\@gyoukan}}{%
+          }{%
+            \ifthenelse{\equal{\@gyoukan}{\ltxvfill}}{%
+            }{%
+              \@tempdimc\gyoukan@a\p@\advance\@tempdimc.5zh\relax
+              {\vrule width \z@ height \@tempdima depth \@tempdimc}%
+              \kern-.4pt\relax
+            }%
+          }%
+        \fi%
+        \hspace{\post@edasep}%        2003/07
+        \addtolength{\eda@linewidth}{\post@edasep}%
+      \fi\fi
+      \def\eda@firstindent{}%
+\ifnum\kmk@su=\z@\leavevmode\hbox to 0zw{\hss\box\em@label@box}\fi
+\Incr\kmk@su
+      \hspace*{\pre@edasep}%
+      \ifnum\eda@frame>\z@
+        {{\fboxsep=\z@\fbox{%
+            \box\eda@box
+        }}}\else \box\eda@box\fi
+      \ifeda@sikiri\hspace{.5\columnsep}\fi
+        \in@itemfalse
+      \fi
+    \fi
+  }%
+%
+  \def\edakaigyou{\ifin@item
+      \owariitem
+    \fi
+    \\[-.666667ex]\relax
+%    \par\noindent
+    \eda@linewidth=\z@
+  }%
+  \def\edasikiri{\global\eda@sikiritrue}%
+%
+  \@ifundefined{tate}{\def\ren@suji##1{##1}}{%
+    \ifrenzi
+      \ifydir\def\ren@suji##1{##1}\else\def\ren@suji##1{\rensuji{##1}}\fi%
+    \else
+      \def\ren@suji##1{##1}
+    \fi
+  }%
+  \list{\ren@suji{\csname label\@enumctr\endcsname}}%
+      {\usecounter{\@enumctr}\leftmargin=\leftmargin@org@s%
+          \setcounter{\@enumctr}{\syoki@ti}%
+          \apn@enum\listparindent=\z@
+          \ifthenelse{\equal\edaitem@soroe@{l}}{%
+            \labelwidth\z@
+            \def\makelabel##1{\hss\rlap{##1}\hphantom{##1}}%
+          }{%
+            \def\makelabel##1{\hss\llap{##1}}%
+          }%
+      }%
+}%
+%
+\def\endedaenumerate{%
+        \ifin@item\owariitem\fi%
+        \ifthenelse{\equal{\ltxvfill}{\@gyoukan}}{%
+           \mbox{}%
+            \@bsphack
+            \vadjust{\@gyoukan}%
+            \@esphack
+        }{%
+            \ifthenelse{\equal{\empty}{\@gyoukan}}{}{\@gyoukan}%
+        }%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \ifvmode
+    \leavevmode
+    \ifnum\@enumdepth<3\relax
+      \vspace*{-\baselineskip}\vspace{-\partopsep}%
+    \else
+      \vspace*{-\baselineskip}%
+    \fi
+  \else
+    \ifdim\topsep>\z@%%%%%%%  2010/10/23
+      \vspace*{-.45\topsep}%%%%%%%%  2010/10/23
+    \fi
+  \fi%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \@ifundefined{eda@bottomsep}{}{\vspace*{\eda@bottomsep}}%
+  \ifdim\postedaenumskip=\z@\relax\else%
+    \vspace{\postedaenumskip}%
+  \fi%
+  \edaenumfalse\endenumerate
+}%
+\def\endedaenumeratem{\edaenum@mathfalse\endedaenumerate}%
+%
+% yokoenumerate
+%
+\newdimen\yokoenum@wd
+\edef\yokoenum@sep{.4truept}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\yokoenumsep#1{\edef\yokoenum@sep{#1}}%%%%%%%%%%%%%%%%%%%%%%%
+\def\yenum@owari{\egroup
+  \ifdim\wd\csname yokoenum@box\romannumeral\yokoenum@c\endcsname>\yokoenum@wd
+    \yokoenum@wd=\wd\csname yokoenum@box\romannumeral\yokoenum@c\endcsname\fi
+}
+\def\yokoenumerate{\apnlist{\topsep=\z@}%
+  \@ifnextchar<{\@yokoenumerate}{\@yokoenumerate<\empty>}}%
+\def\@yokoenumerate<#1>{%
+  \@ifnextchar[{\@@yokoenumerate<#1>}{\@@yokoenumerate<#1>[\empty]}}%
+\def\@@yokoenumerate<#1>[#2]{%
+  \def\yokoenum@opt{#2}\def\yokoenum@@opt{#1}\def\yokoenum@c{0}%
+  \let\yenum@item\item
+% ----------------------------------------------------------------
+\def\item{\ifnum\yokoenum@c>\z@\yenum@owari\else\yokoenum@wd=\z@\fi
+  \Incr\yokoenum@c
+  \@ifnextchar[{\yoko@item@}{\yoko@item}}%
+\def\yoko@item@[##1]{%
+  \expandafter\edef\csname yokoenum@item@opt\romannumeral\yokoenum@c\endcsname{##1}%
+  \yoko@item}%
+\def\yoko@item{%
+  \@ifundefined{yokoenum@box\romannumeral\yokoenum@c}{%
+  \expandafter\newbox\csname yokoenum@box\romannumeral\yokoenum@c\endcsname}{}%
+  \setbox\csname yokoenum@box\romannumeral\yokoenum@c\endcsname\hbox\bgroup}%
+% ----------------------------------------------------------------
+}%
+\def\endyokoenumerate{\yenum@owari
+  \@tempdima=2.4zw
+  \edef\yokoenum@tmp{\strip@pt\@tempdima}%
+  \advance\yokoenum@wd \yokoenum@tmp truept\relax
+  \advance\yokoenum@wd\yokoenum@sep%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \edef\yenum@n{0}%
+  \ifyokoraggedlines\else
+    \@tempdima=\yokoenum@c\yokoenum@wd
+    \ifdim\@tempdima<\linewidth
+      \edef\yenum@n{\yokoenum@c}%
+    \fi
+  \fi
+  \ifnum\yenum@n=\z@
+    \edef\yenum@w{\strip@pt\yokoenum@wd}%
+    \edef\yenum@W{\strip@pt\linewidth}%
+    \@Div\yenum@W\yenum@w\yenum@n
+    \Seisuububun\yenum@n\yenum@n
+  \fi
+  \let\item\yenum@item
+  \ifx\empty\yokoenum@@opt
+    \edef\yokoenum@@opt{<retusuu=\yenum@n>}%
+  \else
+    \edef\yokoenum@@opt{<\yokoenum@@opt,retusuu=\yenum@n>}%
+  \fi
+  \ifthenelse{\equal\yokoenum@opt\empty}{%
+    \expandafter\edaenumerate\yokoenum@@opt%
+  }{%
+    \expandafter\edaenumerate\yokoenum@@opt[\yokoenum@opt]%
+  }%
+  \Cfor{\edef\@c{0}}{\@c<\yokoenum@c}{}\do{%
+    \xIncr\@c
+\@ifundefined{yokoenum@item@opt\romannumeral\@c}{%
+    \item \leavevmode\box\csname yokoenum@box\romannumeral\@c\endcsname
+}{%
+    \item[\csname yokoenum@item@opt\romannumeral\@c\endcsname]%
+    \leavevmode\box\csname yokoenum@box\romannumeral\@c\endcsname
+}%
+  }%
+  \endedaenumerate
+}%
+%
+% edaenumerate 環境の継続
+%
+\def\edaEnumerate{%
+  \@ifnextchar<{\eda@Enumerate}{\eda@Enumerate<2>}}%
+\def\eda@Enumerate<#1>{%
+  \@ifnextchar[{\edaEnumerate@<#1>}{\@edaEnumerate<#1>}}%
+\def\@edaEnumerate<#1>{\edaenumerate<#1>%
+  \edef\tmpcnt{Enum\romannumeral\@enumdepth}%
+  \setcounter{\tmpcnt}{0}%
+  \xdef\Enum@n@opt{#1}
+  \gdef\Enum@opt{}
+}%
+\def\edaEnumerate@<#1>[#2]{\edaenumerate<#1>[#2]
+  \edef\tmpcnt{Enum\romannumeral\@enumdepth}%
+  \setcounter{\tmpcnt}{0}%
+  \xdef\Enum@n@opt{#1}%
+  \gdef\Enum@opt{#2}%
+}%
+\@namedef{edaEnumerate*}{\@ifnextchar<{\ceda@Enumerate}{%
+  \ceda@Enumerate<\Enum@n@opt>}}%
+\def\ceda@Enumerate<#1>{\@ifnextchar[{\cedaEnumerate@<#1>}{%
+  \@cedaEnumerate<#1>}}%
+\def\@cedaEnumerate<#1>{%\par\vskip\itemsep\noindent%
+  \ifx\empty\Enum@opt\edaenumerate<#1>\cont@enum
+  \else\cedaEnumerate@<#1>[\Enum@opt]\fi}%
+\def\cedaEnumerate@<#1>[#2]{%\par\vskip\topsep\noindent%
+  \edaenumerate<#1>[#2]\cont@enum}%
+%
+\def\endedaEnumerate{%
+  \edef\tmpCnt{Enum\romannumeral\@enumdepth}%
+  \edef\tmpcnt{enum\romannumeral\@enumdepth}%
+  \setcounter{\tmpCnt}{\value{\tmpcnt}}%
+  \endedaenumerate
+}%
+\expandafter\def\csname endedaEnumerate*\endcsname{%
+  \edef\tmpCnt{Enum\romannumeral\@enumdepth}%
+  \edef\tmpcnt{enum\romannumeral\@enumdepth}%
+  \setcounter{\tmpCnt}{\value{\tmpcnt}}%
+  \endedaenumerate}%
+%
+% tabenumerate
+%
+\define@key{emE}{tabhfill}[1]{\def\TE@hfill{#1}}%
+\def\tabenumerate{\apnlist{\topsep=\z@}%
+  \@ifnextchar<{\@tabenumerate}{\@tabenumerate<2>}}%
+\def\@tabenumerate<#1>{%
+  \@ifnextchar[{\@@tabenumerate<#1>}{\@@tabenumerate<#1>[\empty]}}%
+\def\@@tabenumerate<#1>[#2]{%
+  \def\TE@opt{#2}\def\TE@@opt{#1}\def\TE@c{0}%
+  \let\tabenumerate@item\item
+% ----------------------------------------------------------------
+\def\item{\ifnum\TE@c>\z@\TE@owari\fi
+  \Incr\TE@c
+  \@ifnextchar[{\TE@item@}{\TE@item}}%
+\def\TE@item@[##1]{%
+  \expandafter\edef\csname TE@item@opt\romannumeral\TE@c\endcsname{##1}%
+  \TE@item}%
+\def\TE@item{%
+  \@ifundefined{yokoenum@box\romannumeral\TE@c}{%
+  \expandafter\newbox\csname yokoenum@box\romannumeral\TE@c\endcsname}{}%
+  \setbox\csname yokoenum@box\romannumeral\TE@c\endcsname\hbox\bgroup}%
+\def\TE@owari{\egroup}%
+% ----------------------------------------------------------------
+  \ifthenelse{\isodd{0#11}}{%
+    \setcounter{edamon@suu}{#1}%
+  }{%
+    \setkeys{emE}{#1}\relax
+  }%
+  \edef\TE@retusuu{\theedamon@suu}%
+}%
+\def\endtabenumerate{\TE@owari
+  \Ifor*\TE@i{1}\TE@retusuu\Do{%
+    \edef\TE@w{\the\wd\csname yokoenum@box\romannumeral\TE@i\endcsname}%
+    \Cfor{\IAdd\TE@i\TE@retusuu\TE@j}%
+          {\not{\TE@j>\TE@c}}%
+          {\IAddself\TE@j\TE@retusuu}\do{%
+      \edef\TE@tmp{\the\wd\csname yokoenum@box\romannumeral\TE@j\endcsname}%
+      \ifdim\TE@w<\TE@tmp\edef\TE@w{\TE@tmp}\fi
+    }%
+    \expandafter\edef\csname TE@w@\romannumeral\TE@i\endcsname{\TE@w}%
+  }%
+  \let\item\TE@item
+  \ifx\empty\TE@@opt
+    \edef\TE@@opt{<retusuu=\TE@retusuu>}%
+  \else
+    \edef\TE@@opt{<\TE@@opt>}%
+  \fi
+  \ifthenelse{\equal\TE@opt\empty}{%
+    \expandafter\edaenumerate\TE@@opt%
+  }{%
+    \expandafter\edaenumerate\TE@@opt[\TE@opt]%
+  }%
+  \Cfor{\edef\TE@i{0}}{\TE@i<\TE@c}{}\do{%
+    \IMod\TE@i\TE@retusuu\TE@m
+    \xIncr\TE@m
+    \xIncr\TE@i
+    \ifnum\TE@i>\@ne
+      \ifnum\TE@m=\@ne
+        \edakaigyou
+      \else
+        \@ifundefined{TE@hfill}{}{\hfill}%
+      \fi
+    \fi
+    \@ifundefined{TE@item@opt\romannumeral\TE@i}{%
+      \edaitem(\csname TE@w@\romannumeral\TE@m\endcsname)\leavevmode
+        \box\csname yokoenum@box\romannumeral\TE@i\endcsname
+    }{%
+      \edaitem(\csname TE@w@\romannumeral\TE@m\endcsname)%
+        [\csname TE@item@opt\romannumeral\TE@i\endcsname]\leavevmode
+        \box\csname yokoenum@box\romannumeral\TE@i\endcsname
+    }%
+    \owariitem
+  }%
+  \@ifundefined{TE@hfill}{}{%
+    \Cfor{}{\TE@m<\TE@retusuu}{}\do{%
+      \xIncr\TE@m
+      \owariitem\hfill\item(\csname TE@w@\romannumeral\TE@m\endcsname)[]\relax
+    }%
+  }%
+  \endedaenumerate
+}%
+%
+\endinput
+%
+v 0.00 2005/09/03 emathE.sty から分離
+v 0.01 2005/09/05 emathEc.sty : emathE, emathEy との共通部分
+v 0.02 2005/12/15 \edatopsep : \eda@topsep（デフォルト：未定義） の変更
+v 0.03 2006/03/01 \edaenumgyoukan : 新設
+v 0.04 2006/05/19 edaenumerate, yokoenumerate, betaenumerate : syokiti=.. を有効
+v 0.05 2006/05/30 \syoki@ti など emathEc.sty に移管
+                  edaenumerate<#1>(#2) : #2 を用いた場合の処理を修正 (BBS #4699)
+v 0.06 2006/06/03 edaenumerate : \listparindent=0pt とする。
+v 0.07 2007/01/19 edaenumerate : <useitem=false/true>オプション新設
+v 0.08 2007/02/19 edaenumerate : minipage 冒頭に \leavevmode (BBS #5710)
+v 0.09 2007/03/16 edaenumerate : mawarikomi との併用時 linewidth 修正 (BBS #5836)
+v 0.10 2007/06/02 edaenumerate : 空白の混入排除 (BBS #6022), \let\houteisiki\amshouteisiki
+v 0.11 2007/06/18 edaenumerate : \vspace --> \vspace*
+v 0.12 2007/08/04 preitem : emathEc に移管
+v 0.13 2007/09/03 edaenumerate : <gyoukan=..> 右辺の条件分岐に \ifthenelse を用いる (BBS #6408)
+v 0.14 2007/09/05 edaenumerate : 前段との間隔調整
+v 0.15 2007/10/25 edaenumerate との関係 (BBS #6596)
+v 0.16 2007/12/23 \houteisiki の改訂に対応
+v 0.17 2008/02/16 edaenumerate: <edaitemsoroe=l/r(default)> (BBS #7082)
+v 0.18 2008/02/16 edaenumerate: \edaitemsoroe#1 でデフォルト変更
+v 0.19 2008/04/14 gyoukan: 処理の修正 (BBS #7173)
+                  edaenumerate: 各項目 minipage 先頭行・末尾に \strut
+                                <sitayohaku=..>
+v 0.20 2008/10/12 betaenumerate: 調整
+v 0.21 2009/07/19 yokoenumerate: 半角空白の混入 (BBS #8256)
+                                 \yokoenumsep
+v 0.23 2010/03/03 betaenumerate など改行調整 (BBS #8682)
+v 0.24 2010/03/04 betaenumerate 横間隔の調整
+v 0.25 2010/08/08 edaenumerate: \hrule 直後に配置する場合
+v 0.26 2010/08/10 yokoraggedlines (BBS #9068)
+                  yokoenumerate 列数計算式の見直し (BBS #9076)
+v 0.27 2010/10/23 endedaenumerate: 次の段落との間隔調整 (BBS #9362)
+v 0.28 2011/06/13 edaenumerate: \small, \footnotesize の場合を調整
+                                <> は <2> とみなす
+v 0.29 2012/02/07 betaenumerate: <gyoukan=..> を有効に
+v 0.30 2012/05/18 beta, yoko: \item[...} を有効に (BBS #10784)
+v 0.31 2012/05/19 betaenumerate: baseline (BBS #10787)
+v 0.32 2012/06/06 \edakaigyou: \par --> \\
+v 0.33 2012/08/29 edaenumerate: \vfill の扱い (BBS #11042)
+v 0.34 2012/10/16 edaenumerate: 上部 enumerate \item の直後 (BBS #11143)
+v 0.35 2013/02/08 edaenumerate: \edaLmargin コマンド (BBS #11552)
+v 0.36 2013/08/04 <edaTsep, edaBsep, edaTBsep>
+v 0.37 2015/04/01 \edaitem(..): .. が数値の場合は，..個の項目を連結

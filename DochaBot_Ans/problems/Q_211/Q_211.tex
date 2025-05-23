@@ -1,0 +1,63 @@
+\begin{thm}{211}{(1) \hosi 4, (2) \hosi 10}{京大特色 (2018)}
+ 自然数 $k$ と $n$ は互いに素で, $k<n$ を満たすとする. $n$項 からなる数列 $a_1,a_2,\cdots,a_n$ が次の3条件 (イ),(ロ),(ハ) を満たすとき,性質 $P(k,n)$ を持つとする。
+ \begin{itemize}
+  \item[(イ)] $a_1,a_2,\cdots,a_n$ はすべて整数
+  \item[(ロ)] $0\le a_1<a_2<\cdots<a_n<2^n-1$
+  \item[(ハ)] $a_{n+1},\cdots a_{n+k}$ を $a_{n+j}=a_j$ ($1\le j\le k$) で定めたとき, $n$ 以下のすべての自然数 $m$ に対して $2a_m-a_{m+k}$ は $2^n-1$ で割り切れる。
+ \end{itemize}
+ 以下の問に答えよ。
+ \begin{enumerate}
+  \item $k=2$ かつ $n=5$ の場合を考える. 性質 $P(2,5)$ を持つ数列 $a_1,a_2,\cdots,a_5$ をすべて求めよ。
+  \item 数列 $a_1,a_2,\cdots,a_n$ が性質 $P(k,n)$ を持つとする. $a_{k+1}-a_k=1$ であることを示せ。
+ \end{enumerate}
+\end{thm}
+
+\begin{proof}
+正の整数$p,q$に対して, $p\equiv q \pmod{n}$ ならば $a_p=a_q$ となるように定めてもよい。$m=1,2,\dots, n-k$ であれば, 条件(ロ)より 不等式
+\begin{align*}
+ -(2^n-1)&<0-a_n\le 2a_m-a_n\le 2a_m-a_{m+k} \\
+ &<2a_m-a_m=a_m<2^n-1
+\end{align*}
+が成立し, 条件(ハ)より $2^n-1|2a_m-a_{m+k}$ であるため,
+\begin{eqnarray}
+2a_m-a_{m+k}=0 \,\,\,(m=1,2,\cdots n-k)
+\end{eqnarray}
+が成立する。同様に, $m=n-k+1, n-k+2, \cdots n$ であるときは,不等式
+\[
+0\le a_{m+k}=2a_{m+k}-a_{m+k}< 2a_m-a_{m+k}<2a_m<2(2^n-1)
+\]
+及び $2^n-1|2a_m-a_{m+k}$ であるから,
+\begin{eqnarray}
+2a_m-a_{m+k}=2^n-1\,\,\, (m=n-k+1,n-k+2,\cdots n)
+\end{eqnarray}
+が成立する。正の整数$i$に対して, $b_i$を $b_i=a_{i+1}-a_i$ と置く。この際, $p\equiv q $(mod $n$) ならば $b_p=b_q$ であることに注意する。(1),(2)を用いて数列$a_1,a_2,\cdots$ の階差をとるように引くと
+\begin{eqnarray}
+2b_{m}-b_{m+k}=
+\begin{cases}
+0 & (1\le m\le n-k, m\neq n-k)\\
+2^n-1 & (m=n-k)
+\end{cases}
+\end{eqnarray}
+という式を得る。$1\le m\le n-k, m\neq n-k$のとき, $n,k$が互いに素であることから, ある $2\le r\le n-1$ を満たす整数$r$であって, $m\equiv (r-1)k$ (mod $n$)を満たすものがただ一つ存在する。また,$m=n-k$のときは $m\equiv (n-1)k$ (mod $n$) であるから,$r=n$ と定める。このような$r$を用いて(3)は
+\begin{eqnarray}
+2b_{m}-b_{m+k}=2b_{(r-1)k}-b_{rk}=
+\begin{cases}
+0 & (2\le r\le n-1)\\
+2^n-1 & (r=n)
+\end{cases}
+\end{eqnarray}
+と同値である。(4)で$r=2,3,\cdots n-1$ の場合,$b_{rk}=2b_{(r-1)k}$ となり, 右辺に更に式を適用させることで
+\[b_{rk}=2b_{(r-1)k}=4b_{(r-2)k}=\cdots =2^{r-1}b_k\]
+を得る。この結果と$r=n$の場合の式から
+\begin{align*}
+ b_{nk}&=2b_{(n-1)k}-(2^n-1) \\
+ &=2\times2^{(n-1)-1}b_k -(2^n-1)=2^{n-1}b_k-(2^n-1)
+\end{align*}
+を得る。これらの式を$r=2,3,\cdots, n$ について足せば
+\[\displaystyle\sum_{r=2}^nb_{rk}=\left(\displaystyle\sum_{r=2}^n2^{r-1}\right)b_k -(2^n-1)\]
+となり, 両辺に$b_{1k}=2^{1-1}b_k$ を加えて整理することで
+\[\displaystyle\sum_{r=1}^nb_{rk}=\left(\displaystyle\sum_{r=1}^n2^{r-1}\right)b_k -(2^n-1)=(2^n-1)(b_k-1)\]
+となる。$n,k$は互いに素であることより 数列 $k,2k,\cdots,rk\cdots,(n-1)k,nk$ は 数列 $1,2,3,\cdots i \cdots,n-1,n$ のある置換になっているので
+\[\displaystyle\sum_{r=1}^nb_{rk}=\displaystyle\sum_{i=1}^nb_{i}=\displaystyle\sum_{i=1}^n(a_{i+1}-a_i)=0\]
+以上より $0=(2^n-1)(b_k-1)$ となるから,$b_k=a_{k+1}-a_k=1$ 
+\end{proof}

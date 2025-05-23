@@ -1,0 +1,32 @@
+\begin{thm}{012}{\hosi 4}{中京大 (1997)}
+ $a$を定数とし、$0\le x \le \dfrac{\pi}{2}$を満たす$x$に対して、
+ \begin{align*}
+  f(x)=\lim_{n\rightarrow\infty}\frac{(e^x+a)\cos^{n+1}x+\sin^{n+1}x}{\cos^nx+\sin^nx}
+ \end{align*}
+ とする。$f(x)$が$0\le x \le \dfrac{\pi}{2}$で連続であるとき、$\displaystyle \int^{\frac{\pi}{2}}_0\!\! f(x) \,dx$の値を求めよ。
+\end{thm}
+
+まず、与式における極限をとるべき式について、
+\begin{align*}
+ \frac{(e^x+a)\cos^{n+1}x+\sin^{n+1}x}{\cos^nx+\sin^nx}=\frac{(e^x+a)\cos x}{1+\tan^n x}+\frac{\sin x}{\frac{1}{\tan^n x}+1}
+\end{align*}
+と整理できる。このとき、$0\le x<\dfrac{\pi}{4}$のとき、$0\le\tan x<1$であり、$\dfrac{\pi}{4}<x\le\dfrac{\pi}{2}$のとき$\tan x>1$であり、さらに$x=\frac{\pi}{4}$のとき$\tan x=1$であることを踏まえて、
+\begin{align*}
+ f(x)&=\lim_{n\to\infty} \frac{(e^x+a)\cos x}{1+\tan^n x}+ \lim_{n\to\infty} \frac{\sin x}{\frac{1}{\tan^n x}+1} \\
+ &=\left\{\,
+ \begin{alignedat}{2}
+  &(e^x+a)\cos x & &\left(0\le x<\frac{\pi}{4}\right) \\
+  &\frac{e^\frac{\pi}{4}+a+1}{2\sqrt{2}} & \quad &\left(x=\frac{\pi}{4}\right) \\
+  &\sin x & &\left(\frac{\pi}{4}<x\le\frac{\pi}{2}\right)
+ \end{alignedat} \right.
+\end{align*}
+と求められる。したがって$x=\dfrac{\pi}{4}$で連続となればよい。
+\[ \lim_{x\to\frac{\pi}{4}-0} (e^x+a)\cos x = \lim_{x\to\frac{\pi}{4}+0} \sin x = f\left(\frac{\pi}{4}\right) \]
+を考えて、$a=1-e^\frac{\pi}{4}$である。これを用いて求める積分は、
+\begin{align*}
+ &\int_0^{\frac{\pi}{2}}\! f(x) \,dx = \int_0^{\frac{\pi}{4}}\! (e^x+a)\cos x \,dx + \int_{\frac{\pi}{4}}^{\frac{\pi}{2}}\! \sin x \,dx \\
+ =& \Bigl[\frac{1}{2}e^x(\sin x+\cos x)\Bigr]_0^{\frac{\pi}{4}}+a\Bigl[\sin x \Bigr]_0^{\frac{\pi}{4}}+\Bigl[-\cos x\Bigr]_{\frac{\pi}{4}}^{\frac{\pi}{2}} = \sqrt{2}-\frac{1}{2}
+\end{align*}
+
+
+

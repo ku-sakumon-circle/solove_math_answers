@@ -1,0 +1,162 @@
+% outotuhyou.sty by tDB (emath@nifty.com)
+%
+\NeedsTeXFormat{LaTeX2e}%
+\ProvidesPackage{outotuhyou}[2014/06/18 v0.01]%
+%
+\def\outotuhyou{%
+  \@ifstar{\def\inv@ddy{1}\@outotuhyou}{\def\inv@ddy{0}\@outotuhyou}}%
+\def\@outotuhyou{\@ifnextchar<{\@@outotuhyou}{\@@outotuhyou<\empty>}}%
+\def\@@outotuhyou<#1>#2{{%
+%
+%    \def\zhinfity##1##2{\scriptstyle{##1}\infty\ \vrule\ {##2}\infty}
+%
+  \csvhairetu*{#2}{kyokuti@x}
+  \let\zhsubarraycmd\relax
+  \let\zh@cdots\cdots
+  \let\cdots\relax
+  \let\zh@sya\sya
+  \let\sya\relax
+  \let\zh@emTsya\emTsya
+  \let\emTsya\relax
+  \let\zh@NE\NE
+  \let\NE\relax
+  \let\zh@SE\SE
+  \let\SE\relax
+  \let\zh@bsityuu\bsityuu
+  \let\bsityuu\relax
+  \def\arraystretch{1.4}%
+  \ifx\empty #1\else\setkeys{emZH}{#1}\fi
+  \edef\zh@Nx{\kyokuti@xN}%
+  \IMul\zh@Nx{2}\zh@retusuu
+  \Incr\zh@retusuu
+  \ifx\empty\zh@L\else\Incr\zh@retusuu\fi
+  \ifx\empty\zh@R\else\Incr\zh@retusuu\fi
+  \ifx\empty\zh@L
+    \EMedef\zh@xstr{\zh@xname&\cdots}%
+  \else
+    \EMedef\zh@xstr{\zh@xname&\zh@Li&\cdots}%
+  \fi
+  \edef\kyokuti@xN@s{\kyokuti@xN}%
+  \@ifundefined{zh@TTL}{}{%
+    \csvhairetu*{\zh@TTL}{zh@ttl}%
+    \EMedef\zh@xname{\zh@ttli}%
+    \EMedef\zh@ddyname{\zh@ttlii}%
+    \EMedef\zh@yname{\zh@ttliii}%
+  }%
+  \Ifor*\zh@i{1}\kyokuti@xN\Do{%
+    \EMedef\zh@tmp{\csname kyokuti@x\romannumeral\zh@i\endcsname}%
+    \expandafter\zh@checksign\zh@tmp\@nil
+    \ifthenelse{\equal\zh@h{*}}{%
+      \edefhairetu{zh@sign}{\zh@i}{0}%
+      \Headchar\zh@tmp\zh@a\zh@b
+      \EMedef\zh@tmp{\zh@b}%
+      \Decr\kyokuti@xN@s
+    }{%
+      \edefhairetu{zh@sign}{\zh@i}{1}%
+    }%
+    \EMedefappend\zh@xstr{&\zh@tmp&\cdots}%
+  }%
+  \ifx\empty\zh@R\else\EMedefappend\zh@xstr{&\zh@Ri}\fi
+  \ifodd\kyokuti@xN@s
+    \ifnum\inv@ddy=\z@\def\dy@sign{-}\else\def\dy@sign{+}\fi
+  \else
+    \ifnum\inv@ddy=\z@\def\dy@sign{+}\else\def\dy@sign{-}\fi
+  \fi
+  \ifx\empty\zh@L
+    \EMedef\zh@ystr{\zh@yname}%
+  \else
+    \EMedef\zh@ystr{\zh@yname&\zh@Liii}%
+  \fi
+  \if+\dy@sign
+    \EMedefappend\zh@ystr{&\cup}%
+  \else
+    \EMedefappend\zh@ystr{&\cap}%
+  \fi
+  \ifx\empty\zh@L
+    \EMedef\zh@dystr{\zh@ddyname&\dy@sign}%
+  \else
+    \EMedef\zh@dystr{\zh@ddyname&\zh@Lii&\dy@sign}%
+  \fi
+  \Ifor*\zh@i{1}\kyokuti@xN\Do{%
+    \edef\zh@s{\csname zh@sign\romannumeral\zh@i\endcsname}%
+    \ifx\empty\zh@Y
+      \ifnum\zh@s>\z@
+        \EMedefappend\zh@ystr{&変曲点}%
+      \else
+        \EMedefappend\zh@ystr{&}%
+      \fi
+    \else
+      \EMedef\zh@tmp{\csname zh@Y\romannumeral\zh@i\endcsname}%
+      \Strsep\zh@tmp{/}\zh@a\zh@b
+      \ifx\empty\zh@b\else
+        \Strsep\zh@b{/}\zh@c\zh@d
+        \ifx\empty\zh@d\else
+          \EMedef\zh@tmp{%
+            \zhsubarraycmd{\zh@a}{\zh@d}
+          }%
+        \fi
+      \fi
+      \EMedefappend\zh@ystr{&\zh@tmp}%
+    \fi
+    \ifnum\zh@s>\z@
+      \if-\dy@sign%
+        \def\dy@sign{+}%
+      \else
+        \def\dy@sign{-}%
+      \fi
+    \fi
+    \if-\dy@sign%
+      \EMedefappend\zh@ystr{&\cap}%
+    \else
+      \EMedefappend\zh@ystr{&\cup}%
+    \fi
+    \ifx\empty\zh@DY
+      \EMedefappend\zh@dystr{&0&\dy@sign}%
+    \else
+      \EMedefappend\zh@dystr{%
+        &\csname zh@DY\romannumeral\zh@i\endcsname&\dy@sign}%
+    \fi
+  }%
+  \ifx\empty\zh@R\else
+    \EMedefappend\zh@dystr{&\zh@Rii}%
+    \EMedefappend\zh@ystr{&\zh@Riii}%
+  \fi
+    \ifx\empty\zh@sityuu
+      \edef\zh@tmp{{|c||*\zh@retusuu{\zh@clmfmt|}}}%
+    \else
+      \EMedef\zh@tmp{'gyoudaka=\zh@sityuu'{|c||*\zh@retusuu{\zh@clmfmt|}}}%
+    \fi
+  \@ifundefined{zh@file}{}{{%
+    \immediate\openout\em@whndl=\zh@file
+    \immediate\write\em@whndl{\string\begin{array}\zh@tmp\string\hline}%
+    \immediate\write\em@whndl{\zh@xstr\string\\ \string\hline}%
+    \immediate\write\em@whndl{\zh@dystr\string\\ \string\hline}%
+    \immediate\write\em@whndl{\zh@ystr\string\\ \string\hline}%
+    \immediate\write\em@whndl{\string\end{array}}%
+    \immediate\closeout\em@whndl
+  }}%
+  \let\cdots\zh@cdots
+  \let\emTsya\zh@emTsya
+  \let\sya\zh@sya
+  \let\NE\zh@NE
+  \let\SE\zh@SE
+  \let\bsityuu\zh@bsityuu
+  \def\zhsubarraycmd##1##2{%
+      \begin{zhsubarray}{c}
+        ##1\expandafter\\##2
+      \end{zhsubarray}%
+  }%
+  \ensuremath{%
+    \expandafter\array\zh@tmp\hline
+      \zh@xstr\\\hline
+      \zh@dystr\\\hline
+      \zh@ystr\\\hline
+    \endarray
+  }%
+}}%
+%
+\endinput
+%
+v0.00 2012/07/03 
+v0.01 2014/06/18 
+    <ddysign> オプションを有効とする。(BBS #12337)

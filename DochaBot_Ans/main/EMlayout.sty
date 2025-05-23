@@ -1,0 +1,367 @@
+% EMlayout.sty by tDB (CQB00260@nifty.ne.jp)
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{EMlayout}[2008/07/02 v 0.01α]%
+%
+\DeclareOption{row}{\def\pr@row{1}}\relax
+\DeclareOption{lineno}{\def\pr@row{1}\def\pr@lnno{1}}\relax
+\ProcessOptions\relax
+%
+\newdimen\marginparseprule\marginparseprule=.4pt
+\newif\ifshowlayout\showlayouttrue
+\edef\pr@row@init{0}%
+\def\rowinit#1{\edef\pr@row@init{#1}}%
+%
+% \@outputpage に罫線を含める
+%
+\def\@outputpage{%
+\begingroup % the \endgroup is put in by \aftergroup
+  \iftdir
+    \dimen\z@\textwidth \textwidth\textheight \textheight\dimen\z@
+  \fi
+  \let \protect \noexpand
+  \@resetactivechars
+  \global\let\@@if@newlist\if@newlist
+  \global\@newlistfalse
+  \@parboxrestore
+  \shipout\vbox{\yoko
+    \set@typeset@protect
+    \aftergroup\endgroup
+    \aftergroup\set@typeset@protect
+%    \end{macrocode}
+% \changes{v1.1g}{1998/02/03}{\cs{@shipoutsetup}を\cs{@outputpage}内に入れた}
+% ここから|\@shipoutsetup|の内容。
+%    \begin{macrocode}
+     \if@specialpage
+       \global\@specialpagefalse\@nameuse{ps@\@specialstyle}%
+     \fi
+%    \end{macrocode}
+% \changes{v1.1c}{1995/02/05}{\cs{oddsidemargin}と\cs{evensidemargin}が
+%    逆だったのを修正}
+%    \begin{macrocode}
+     \if@twoside
+       \ifodd\count\z@ \let\@thehead\@oddhead \let\@thefoot\@oddfoot
+          \iftdir\let\@themargin\evensidemargin
+          \else\let\@themargin\oddsidemargin\fi
+       \else \let\@thehead\@evenhead
+          \let\@thefoot\@evenfoot
+           \iftdir\let\@themargin\oddsidemargin
+           \else\let\@themargin\evensidemargin\fi
+     \fi\fi
+%    \end{macrocode}
+% トンボ出力オプションが指定されている場合、ここで用紙サイズを再設定します。
+% \TeX の加える左と上部の1インチは、トンボの内側に入ります。
+% \changes{v1.1a}{1995/11/10}{\cs{topmargin}が反映されないバグを修正}
+%    \begin{macrocode}
+     \@@topmargin\topmargin
+     \iftombow
+       \@@paperwidth\paperwidth \advance\@@paperwidth 6mm\relax
+       \@@paperheight\paperheight \advance\@@paperheight 16mm\relax
+       \advance\@@topmargin 1in\relax \advance\@themargin 1in\relax
+     \fi
+     \reset@font
+     \normalsize
+     \normalsfcodes
+     \let\label\@gobble
+     \let\index\@gobble
+     \let\glossary\@gobble
+     \baselineskip\z@skip \lineskip\z@skip \lineskiplimit\z@
+%    \end{macrocode}
+% ここまでが|\@shipoutsetup|の内容。
+%    \begin{macrocode}
+    \@begindvi
+    \@outputtombow
+    \vskip \@@topmargin
+    \moveright\@themargin\vbox{%
+      \setbox\@tempboxa \vbox to\headheight{%
+        \vfil
+        \color@hbox
+          \normalcolor
+          \hb@xt@\textwidth{\@thehead}%
+        \color@endbox
+      }%                        %% 22 Feb 87
+      \dp\@tempboxa \z@
+      \box\@tempboxa
+      \vskip \headsep
+% ------------------------------- ここから ------------------------------
+% 本文領域などに罫線
+%   twocolumn, \reversemarginpar は考慮していない。
+%
+%\vbox{{\unitlength=\p@\begin{picture}(0,0)%
+%  \@tempdima\textwidth\advance\@tempdima.5\marginparsep
+%  \put(\strip@pt\@tempdima,0){\line(0,-1){\strip@pt\textheight}}%
+%\end{picture}}}%
+%
+%\if@twoside
+%    \ifodd\c@page
+%%     \vbox{\hbox{\box\@outputbox\hskip.5\marginparsep
+%%              \vrule width\marginparseprule}}%
+%      \vbox{%\@tempdimc\textwidth\advance\@tempdimc.5\marginparsep
+%        \unitlength\p@
+%        \begin{picture}(0,0)\relax
+%        \@tempdimc\z@
+%          \put(\strip@pt\@tempdimc,0){%
+%           a\vrule height\textheight width\marginparseprule}%
+%        \@tempdimc\textwidth
+%          \put(\strip@pt\@tempdimc,0){%
+%           b\vrule height\textheight width\marginparseprule}%
+%        \advance\@tempdimc\marginparsep
+%          \put(\strip@pt\@tempdimc,0){%
+%           c\vrule height\textheight width\marginparseprule}%
+%        \end{picture}\box\@outputbox}%
+%    \else
+%      \vbox{\hbox to\textwidth{\hss \vrule width\marginparseprule
+%        \hskip.5\marginparsep\box\@outputbox}}%
+%    \fi
+%\else
+\ifshowlayout
+      \vbox{%\@tempdimc\textwidth\advance\@tempdimc.5\marginparsep
+        \unitlength=\p@\relax
+        \begingroup
+        \setlength\marginparseprule{.1pt}%
+        \pre@EMshowlayout
+        \begin{picture}(0,0)\relax
+% 本文部
+%   下
+\@ifundefined{pr@lnno}{%
+          \put(0,0){\vrule height \marginparseprule width \textwidth}%
+}{}%
+%   上
+\@ifundefined{pr@lnno}{%
+          \put(0,\strip@pt\textheight){%
+            \vrule height \marginparseprule width \textwidth}%
+}{}%
+          \@ifundefined{pr@row}{}{%
+            \@tempdimc\ht\strutbox\advance\@tempdimc\dp\strutbox
+            \edef\EMprl@v{\strip@pt\@tempdimc}%
+            \edef\EMprl@tmp{\strip@pt\textheight}%
+\Sub{\EMprl@tmp}{\pr@row@init}\EMprl@tmp
+            \Sub{\EMprl@tmp}{\EMprl@v}\EMprl@tmp
+\edef\tmp@w{\strip@pt\textwidth}%
+\edef\tmp@n{0}%
+            \@whiledim\EMprl@tmp\p@>\z@\do{%
+\@ifundefined{pr@lnno}{%
+              \put(0,\EMprl@tmp){%
+                \vrule height \marginparseprule width \textwidth}%
+}{%
+              \xIncr\tmp@n
+\IMod\tmp@n{10}\tmp@m
+\ifnum\tmp@m=\z@
+  \Add\EMprl@tmp{8}\EMprl@tmp@
+  \put(\tmp@w,\EMprl@tmp@){\hskip2zw\tiny\tmp@n}%
+\fi}
+              \Sub{\EMprl@tmp}{\EMprl@v}\EMprl@tmp
+            }%
+          }%
+%   左
+\@ifundefined{pr@lnno}{%
+          \put(0,0){\vrule height\textheight width\marginparseprule}%
+}{}%
+%   右
+\@ifundefined{pr@lnno}{%
+          \@tempdimc\textwidth
+            \put(\strip@pt\@tempdimc,0){%
+            \vrule height\textheight width\marginparseprule}%
+}{}%
+% ヘッダー
+\@ifundefined{pr@lnno}{%
+          \@tempdimc\textheight
+          \advance\@tempdimc\headsep
+          \edef\h@y{\strip@pt\@tempdimc}%
+}{}%
+%   下
+\@ifundefined{pr@lnno}{%
+          \put(0,\h@y){\vrule height \marginparseprule width \textwidth}%
+}{}%
+%   上
+\@ifundefined{pr@lnno}{%
+          \advance\@tempdimc\headheight
+          \put(0,\strip@pt\@tempdimc){%
+            \vrule height \marginparseprule width \textwidth}%
+%   左
+          \put(0,\h@y){\vrule height\headheight width\marginparseprule}%
+%   右
+          \@tempdimc\textwidth
+            \put(\strip@pt\@tempdimc,\h@y){%
+            \vrule height\headheight width\marginparseprule}%
+% フッター
+%   下
+          \@tempdimc-\footskip
+          \edef\y@f{\strip@pt\@tempdimc}%
+          \put(0,\y@f){\vrule height \marginparseprule width \textwidth}%
+%   左
+          \put(0,\y@f){\vrule height\headheight width\marginparseprule}%
+%   上
+          \advance\@tempdimc\headheight
+          \put(0,\strip@pt\@tempdimc){%
+            \vrule height \marginparseprule width \textwidth}%
+%   右
+          \@tempdimc\textwidth
+            \put(\strip@pt\@tempdimc,\y@f){%
+            \vrule height\headheight width\marginparseprule}%
+          \if@twoside
+            \ifodd\c@page
+% 右傍注
+              \@tempdimc\textwidth
+              \advance\@tempdimc\marginparsep
+%   下
+              \put(\strip@pt\@tempdimc,0){%
+                \vrule height\marginparseprule width\marginparwidth}%
+%   上
+              \put(\strip@pt\@tempdimc,\strip@pt\textheight){%
+                \vrule height\marginparseprule width\marginparwidth}%
+%   左
+              \put(\strip@pt\@tempdimc,0){%
+                \vrule height\textheight width\marginparseprule}%
+%   右
+              \advance\@tempdimc\marginparwidth
+              \put(\strip@pt\@tempdimc,0){%
+                \vrule height\textheight width\marginparseprule}%
+            \else
+% 左傍注
+              \@tempdimc-\marginparsep
+              \advance\@tempdimc-\marginparwidth
+              \edef\x@l{\strip@pt\@tempdimc}%
+%   下
+              \put(\x@l,0){%
+                \vrule height\marginparseprule width\marginparwidth}%
+%   上
+              \put(\x@l,\strip@pt\textheight){%
+                \vrule height \marginparseprule width \marginparwidth}%
+%   左
+              \put(\x@l,0){\vrule height\textheight width\marginparseprule}%
+%   右
+              \@tempdimc-\marginparsep
+              \put(\strip@pt\@tempdimc,0){%
+              \vrule height\textheight width\marginparseprule}%
+            \fi
+          \else
+% 右傍注
+            \@tempdimc\textwidth
+            \advance\@tempdimc\marginparsep
+%   下
+            \put(\strip@pt\@tempdimc,0){%
+              \vrule height\marginparseprule width\marginparwidth}%
+%   上
+            \put(\strip@pt\@tempdimc,\strip@pt\textheight){%
+              \vrule height\marginparseprule width\marginparwidth}%
+%   左
+            \put(\strip@pt\@tempdimc,0){%
+              \vrule height\textheight width\marginparseprule}%
+%   右
+            \advance\@tempdimc\marginparwidth
+            \put(\strip@pt\@tempdimc,0){%
+              \vrule height\textheight width\marginparseprule}%
+          \fi
+}{}%
+        \end{picture}%
+        \endgroup
+        \box\@outputbox
+      }%
+\else
+      \box\@outputbox
+\fi
+% ------------------------------- ここまで ------------------------------
+      \baselineskip \footskip
+      \color@hbox
+        \normalcolor
+        \hb@xt@\textwidth{\@thefoot}%
+      \color@endbox
+    }%
+  }%
+%  \endgroup now inserted by \aftergroup
+%    \end{macrocode}
+% |\if@newlist|を初期化。
+%    \begin{macrocode}
+  \global\let\if@newlist\@@if@newlist
+  \global \@colht \textheight
+  \stepcounter{page}%
+  \let\firstmark\botmark
+%
+\iffalse
+  \ifnum\to@tate>\z@
+%   \ifnum\to@tate=\@ne
+\setlength{\tempdima}{\textheight}
+\global\setlength{\textheight}{\textwidth}
+\global\setlength{\textwidth}{\tempdima}
+\global\hsize\textwidth
+\xdef\to@tate{2}%
+%   \fi
+  \global \@colht \textheight
+  \fi
+\fi
+}
+
+% 白紙ページは罫線を入れない。
+%
+\def\cleardoublepage{\clearpage\if@twoside
+  \ifodd\c@page
+    \iftdir
+      \edef\save@marginparseprule{\the\marginparseprule}%
+      \marginparseprule=\z@
+      \hbox{}\thispagestyle{empty}\newpage
+      \if@twocolumn\hbox{}\newpage\fi
+      \marginparseprule=\save@marginparseprule
+    \fi
+  \else
+    \ifydir
+      \edef\save@marginparseprule{\the\marginparseprule}%
+      \marginparseprule=\z@
+      \hbox{}\thispagestyle{empty}\newpage
+      \if@twocolumn\hbox{}\newpage\fi
+      \marginparseprule=\save@marginparseprule
+    \fi
+  \fi\fi}
+
+% nomarginparseprule 環境内は罫線を消す。
+%   この環境は color.sty を前提とします。
+%
+\newbox\Bt@boxa
+\def\nomarginparseprule{\par\noindent
+  \setbox\Bt@boxa=\hbox\bgroup\begin{minipage}{\textwidth}}
+\def\endnomarginparseprule{\end{minipage}\egroup
+  \ifodd\c@page
+    \hbox to\textwidth{\box\Bt@boxa\hskip.5\marginparsep{%
+    \color{white}\vrule width\marginparseprule}}%
+  \else
+    \hbox to\textwidth{\hss {\color{white}\vrule width\marginparseprule}%
+        \hskip.5\marginparsep\box\Bt@boxa}%
+  \fi
+\par}%
+%
+\def\pre@EMshowlayout{\relax}%
+\def\preEMshowlayout#1{\def\pre@EMshowlayout{#1}}%
+\@ifundefined{Sub}{%
+  \def\Sub#1#2#3{\begingroup
+    \@tempdima=#1\p@
+    \@tempdimb=#2\p@
+    \advance\@tempdima-\@tempdimb
+    \edef#3{\strip@pt\@tempdima}%
+    \Strsep{#3}{.}\Add@a\Add@b
+    \@tempdima=.\Add@b\p@
+    \ifdim\@tempdima=\z@\edef#3{\Add@a}\fi
+    \edef\temp@x{\def\noexpand#3{#3}}%
+    \expandafter\endgroup\temp@x
+  }%
+}{}%
+\@ifundefined{Strsep}{%
+  \let\EMdef\def%   必要に応じて \let\EMdef\gdef とする。
+  \long\def\Strsep#1#2#3#4{%
+    \long\def\@@Strsep##1#2\@@nil{\EMdef#4{##1}}%
+    \long\def\@Strsep##1#2##2\@nil{\EMdef#3{##1}%
+      \ifthenelse{\equal{##2}\empty}{\EMdef#4{##2}}{%
+        \expandafter\@@Strsep##2\@@nil
+      }%
+    }%
+    \expandafter\@Strsep#1#2\@nil
+  }%
+}{}%
+\@ifpackageloaded{ifthen}{}{\RequirePackage{ifthen}}%
+\endinput
+
+ver 0.00 2002/10/01 QandA #11368 からのスレッドで提案
+ver 0.01 2002/10/02
+           傍注に \footnote と同じく，番号を附加する \boutyuu
+           部分的に罫線を消す nomarginparseprule環境
+ver 0.02 2008/03/28
+           \boutyuu を EMboutyuu.sty として独立

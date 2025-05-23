@@ -1,0 +1,52 @@
+\begin{thm}{110}{\hosi 7}{自作 DMO4.5th}
+ 1つのさいころを$n$回 ($n$は2以上の整数) 連続して投げ、出た目を順番に $d_1, d_2, \dots, d_n$ とする。 $d_1\neq d_2 \neq d_3 \neq \dots \neq d_n \neq d_1$ を満たす確率を求めよ。
+\end{thm}
+
+さいころを$n$回振って、事象$A_n$, $B_n$を、
+\begin{itemize}
+ \item[$A_n$:] $d_1\neq d_2\neq\dots\neq d_n\neq d_1$となる。 
+ \item[$B_n$:] $d_1\neq d_2\neq\dots\neq d_n = d_1$となる。 
+\end{itemize}
+によって定める。また、事象$A_n$, $B_n$が起こる確率を$p_n$, $q_n$とする。
+
+$n$回までさいころを振った結果と、$n+1$回目の結果から漸化式を導く。
+
+(i)~$A_n$のとき、$d_{n+1}=d_1$なら、$B_{n+1}$となる。
+
+(ii)~$A_n$のとき、$d_{n+1}\neq d_n$ かつ $d_{n+1}\neq d_1$なら、$A_{n+1}$となる。
+
+(iii)~$B_n$のとき、$d_{n+1}\neq d_n = d_1$なら、$A_{n+1}$となる。
+
+以上から、2以上の$n$について、
+\begin{align*}
+ \left\{
+ \begin{aligned}
+  p_{n+1}&=\frac{2}{3}p_n+\frac{5}{6}q_n \\
+  q_{n+1}&=\frac{1}{6}p_n
+ \end{aligned}
+ \right.
+\end{align*}
+を得るから、$p_n$についての以下の漸化式を得る。
+\[ p_{n+2}=\frac{2}{3}p_{n+1}+\frac{5}{6}q_{n+1}=\frac{2}{3}p_{n+1}+\frac{5}{36}p_n \qquad \text{(ただし$n\ge 2$)}\]
+ここで、$A_2$は$d_1\neq d_2$となる事象であるからその確率は$p_2=\dfrac{5}{6}$。$A_3$は、$d_1\neq d_2\neq d_3\neq d_1$となる事象であるから、$(d_1, d_2, d_3)$の組は6つの目から異なる3つの目を選んで並べる順列に相当するので、その場合の数は$\permu{6}{3}=120$。よって$p_3=\dfrac{120}{216}=\dfrac{5}{9}$。
+
+さて漸化式は、特性方程式 $x^2-\dfrac{2}{3}x-\dfrac{5}{36}=0$の解 $x=\dfrac{5}{6}, -\dfrac{1}{6}$を用いて、
+\begin{align*}
+ \left\{
+ \begin{aligned}
+  p_{n+2}-\frac{5}{6}p_{n+1}&=-\frac{1}{6}\left(p_{n+1}-\frac{5}{6}p_n\right) \\
+  p_{n+2}+\frac{1}{6}p_{n+1}&= \frac{5}{6}\left(p_{n+1}+\frac{1}{6}p_n\right)
+ \end{aligned}
+ \right.
+\end{align*}
+とできるので、$n\ge 3$の範囲において、
+\begin{align*}
+ \left\{
+ \begin{aligned}
+  p_{n+1}-\frac{5}{6}p_n&=\left(-\frac{1}{6}\right)^{n-2}\!\!\left(p_3-\frac{5}{6}p_2\right)=-5\left(-\frac{1}{6}\right)^n \\
+  p_{n+1}+\frac{1}{6}p_n&=\left(\frac{5}{6}\right)^{n-2}\!\!\left(p_3+\frac{1}{6}p_2\right)=\left(\frac{5}{6}\right)^n
+ \end{aligned}
+ \right. 
+\end{align*}
+が得られた。よって$n\ge 3$においては$p_n=\left(\dfrac{5}{6}\right)^n+5\left(-\dfrac{1}{6}\right)^n$となる。しかし$\left(\dfrac{5}{6}\right)^2+\left(-\dfrac{1}{6}\right)^2=\dfrac{5}{6}=p_2$となるから、これは$n=2$でも成り立つ。よって、
+\[ p_n=\left(\frac{5}{6}\right)^n+5\left(-\frac{1}{6}\right)^n \]

@@ -1,0 +1,162 @@
+% emathR.sty by tDB (emath@nifty.com)
+%
+\ProvidesPackage{emathR}[2014/11/03 v0.28 read source files.]%
+\RequirePackage{keyval}%
+%\RequirePackage{emathLb}%
+\RequirePackage{docmute}[2010/04/12]%
+%
+\define@key{emR}{prelabel}{%
+  \edef\prelabel{#1}\edef\jobname{#1}\edef\Jobname{#1}}%
+\define@key{emR}{jobname}{%
+  \edef\prelabel{#1-}\edef\jobname{#1}\edef\Jobname{#1}}%
+\define@key{emR}{Imawarikomi}[]{%
+  \edef\R@Im{1}%
+  \def\mawarikomi{%
+    \ifthenelse{\R@Im>\z@}{%
+      \Imawarikomi
+    }{%
+      \@mawarikomi
+    }%
+  }
+  \let\R@endmawarikomi\endmawarikomi
+  \def\endmawarikomi{\xdef\R@Im{0}\R@endmawarikomi}%
+}%
+%
+\def\k@igyou{\par }%
+%
+\def\RTFnest{0}%
+\def\ReadTeXFile{\@ifnextchar<{\@ReadTeXFile}{\@ReadTeXFile<\empty>}}%
+\def\@ReadTeXFile<#1>{\Incr\RTFnest
+  \@ifnextchar[{\@@ReadTeXFile<#1>}{\@@ReadTeXFile<#1>[emRtmp.\RTFnest]}}
+\def\@@ReadTeXFile<#1>[#2]#3{%
+  \k@igyou%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 2007/10/25
+  {%
+    \getflnode{#3}\flnm\def\jobname{\flnm}%
+    \IfFileExists{#3}{}{%
+      \errmessage{emathR Error : File = #3 not found!}%
+    }%
+\edef\pszahyou@N{0}%
+    \edef\Jobname{#3}%
+    \edef\prelabel{\Jobname-}%
+    \ifx\empty #1\else\setkeys{emR}{#1}\fi
+    \@ifundefined{autoHakolabel}{}{%
+      \def\hakosyokika{\@hakosyokika\autoHakolabel{}}%
+      \autoHakolabel{}%
+    }%
+    {%
+% --- mawarikomi環境内での使用対策 BBS #7958 ------------------
+      \@ifundefined{EMWR@par}{}{\let\par\EMWR@par}% 
+% -------------------------------------------------------------
+    }%
+    \input{#3}%\par%
+  }%
+  \Decr\RTFnest
+}%
+%
+\def\pushlasteqnum{\writeLabel{\jobname-lasteqnum}{\arabic{equation}}}%
+\@ifpackageloaded{hyperref}{%
+  \def\poplasteqnum{%
+    \expandafter\ref@chk\csname r@\jobname-lasteqnum\endcsname
+    \if 1\@miteigi 0 \else
+      \edef\popln@tmp@{\ltxref{\jobname-lasteqnum}}%
+      \strip@relax\popln@tmp@\to\popln@tmp
+      \leavevmode\count255=\popln@tmp
+      \setcounter{equation}{\count255}%
+    \fi
+  }%
+}{%
+  \def\poplasteqnum{%
+    \@ifundefined{SK@ref}{%
+      \expandafter\ref@chk\csname r@\jobname-lasteqnum\endcsname
+      \if 1\@miteigi 0 \else
+        \edef\popln@tmp{\ref{\jobname-lasteqnum}}%
+%       \setcounter{equation}{\popln@tmp}%
+        \leavevmode\count255=\popln@tmp
+        \setcounter{equation}{\count255}%
+      \fi
+    }{%
+      \ifx\SK@ref\@empty
+        \expandafter\ref@chk\csname r@\jobname-lasteqnum\endcsname
+        \if 1\@miteigi 0 \else
+          \edef\popln@tmp{\ref{\jobname-lasteqnum}}%
+%     \setcounter{equation}{\popln@tmp}%
+          \count255=\popln@tmp
+          \leavevmode\setcounter{equation}{\count255}%
+        \fi
+      \fi
+    }%
+  }%
+}%
+%
+\endinput
+%
+% docmute.sty
+% combine.sty
+%
+%
+%
+%
+\def\verbatiminput{\begingroup
+  \@ifstar{\verbatim@input\relax}%
+          {\verbatim@input{\frenchspacing\@vobeyspaces}}}
+\def\verbatim@input#1#2{%
+   \IfFileExists {#2}{\@verbatim #1\relax
+    \verbatim@readfile{\@filef@und}\endtrivlist\endgroup\@doendpe}%
+   {\typeout {No file #2.}\endgroup}}
+
+% ver.0.01 読み込むファイル名に .tex を付加しないこととする．
+% ver.0.02 ファイルの存在確認をする．
+% ver.0.03β 19990821
+%       verbatim.sty を利用して，
+%         verbatim環境，alltt環境
+%         引数を伴うマクロ定義
+%       を含むファイルも読み取り可能とする．
+% ver.0.04 1999/08/28
+% ver.0.05 2000/06/29
+%       一時ファイルの名称を[...]オプションで指定できるようにする。
+% ver.0.07 2000/08/05
+%       読み込みバッファ \@neln を初期化する。
+% v 0.10  2000/10/31
+%       書き出す一時ファイルの改行位置を元ファイルと同一にする。
+%       コメント文字 `%' も読み込み,書き出しできるようにする。
+% v 0.11  2001/02/06
+%       中間ファイル temp.tmp の改行コードが x0D x0A
+%       となっていたのを x0A のみとする。
+%           (Mac では x0A+x0D となり，エラーとなっていた。）
+% v 0.12  2001/09/07
+%       perl との連携対応
+% v 0.13  2001/09/18
+%       その修正
+% v 0.14  2002/05/18
+%       ネスト使用を考慮し，一時ファイル名を
+%           emRtmp.1, emRtmp.2, ......
+% v 0.15 2003/07/23
+%       読み込むファイル名をログファイルに書き出す。
+% v 0.16 2005/10/03
+%       \ReadTeXFile : 冒頭で \par
+% v 0.17 2007/10/25
+%       \perlflnum : リセットのタイミング
+%       \ReadTeXFile と edaenumerate との関係 (BBS #6596)
+% v 0.18 2008/05/28
+%       作業ファイル emRtmp.1 を EMworkdir に作る。
+% v 0.19 2008/11/27
+%       emathC.sty 必須とし，スタンドアローン
+% v 0.20 2009/02/09
+%       mawarikomi環境内での使用 (BBS #7958)
+% v 0.21 2009/11/20
+%       \EMlabel, \EMref: label の重複対策
+% v 0.22 2010/03/17
+%       prelabel
+% v 0.23 2010/03/27
+%       keyval.sty をロード
+% v 0.24 2010/07/17
+%       \autoHakolabel を付加
+% v 0.25 2011/02/03
+%       hako.sty における \autoHakolabel の変更に対応
+% v 0.26 2011/06/11
+%       <Imawarikomi>
+% v 0.27 2011/08/27
+%       docmute.sty を利用する形式に変更
+% v 0.28 2014/11/03
+%       \pushlasteqnum, \poplasteqnum: emathR.sty を読み込んだときのみ有効
+%                                                         (BBS #12539)

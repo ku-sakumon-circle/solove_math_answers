@@ -1,0 +1,27 @@
+\begin{thm}{155}{\hosi ?}{}
+ ある数が「ほとんど整数」であるとは、整数ではないが、整数に非常に近いことを意味する。黄金比$\varphi=\dfrac{1+\sqrt{5}}{2}$ の累乗はほとんど整数である。たとえば、$\varphi^{18}=5777.999826$ は、見ての通り整数に近い。 \\
+ $\varphi$の累乗がほとんど整数である理由を簡潔に説明せよ。
+\end{thm}
+
+\syoumon{解1}
+$\psi=\dfrac{1-\sqrt{5}}{2}$とする。このとき$s=\varphi+\psi$, $p=\varphi\psi$とおく。$n$を整数として、$\varphi^n+\psi^n$は、$s$と$p$の整数係数多項式で表される。ここで$s=1$, $p=-1$であるから、$\varphi^n+\psi^n$はいくつかの整数の和になり、よって整数である。
+
+$n$を十分大きくすると、$\psi$の絶対値が1未満であることから$\psi^n$は0に十分近くなる。一方で$\varphi^n+\psi^n$は整数であるから、$\varphi^n$はほとんど整数になる。
+
+\syoumon{解2}
+$F_n$を$n$番目のフィボナッチ数として、$\varphi^n=F_n\varphi+F_{n-1}$~$(n=1,2,\dots)$ であること(＊)を示す。
+
+$n=1$のときは、$F_1\varphi+F_0=\varphi+0=\varphi^1$となるから、成り立っている。
+
+ある$n=k$で成り立つと仮定したとき、$\varphi^k=F_k\varphi+F_{k-1}$の両辺に$\varphi$をかけて、
+\begin{align*}
+ \varphi^{k+1}&=F_k\varphi^2+F_{k-1}\varphi=F_k(1+\varphi)+F_{k-1}\varphi \\
+ &= (F_{k-1}+F_k)\varphi+F_k=F_{k+1}\varphi+F_k
+\end{align*}
+が得られ、これは$n=k+1$の場合でも成り立つことを示しているから、数学的帰納法によって、(＊)が成り立つ。
+
+$\psi=\dfrac{1-\sqrt{5}}{2}$についても、$\varphi$とまったく同様の議論によって、$\psi^n=F_n\psi+F_{n-1}$が成り立つ。これらによって
+\[ \varphi^n+\psi^n=F_n(\varphi+\psi)+2F_{n-1}=F_n+2F_{n-1} \]
+となって右辺は明らかに整数だから$\varphi^n+\psi^n$は整数である。
+
+(以下解1と同様)

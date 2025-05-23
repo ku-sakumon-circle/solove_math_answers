@@ -1,0 +1,41 @@
+\begin{thm}{037}{}{}
+ \begin{enumerate}
+  \item 任意の実数$x$に対して$\cos(2x)+cx^2\ge 1$が成り立つような定数$c$の値の範囲を求めよ。 \hosi 3 (北海道大 2001)
+  \item $-\dfrac{\pi}{2}\le x \le \dfrac{\pi}{2}$ における$\cos x+\dfrac{\sqrt{3}}{4}x^2$の最大値を求めよ。$\pi>3.1$, $\sqrt{3}>1.7$ は用いてよい。 \hosi 3 (京大理系 2013)
+ \end{enumerate}
+\end{thm}
+
+\syoumon{1}
+関数$f(x)$を、$f(x)=\cos(2x)+cx^2$とする。これは偶関数であるから、$x\ge0$を考えればよい。これを微分すると、$f'(x)=-2\sin(2x)+2cx$, $f''(x)=-4\cos(2x)+2c$である。
+
+$c<0$の場合、$f\left(\dfrac{\pi}{4}\right)=c\left(\dfrac{\pi}{4}\right)^2<0$となり題意を満たさない。
+
+$0\le c<2$のとき、$f''(0)=-4+2c<0$となる。$\cos(2\alpha)=\dfrac{c}{2}$を満たす$\alpha$を用いて、$0<x<\alpha$の範囲で$f''(x)<0$であり、$f'(x)$は単調減少する。$f'(0)=0$であるから、$0<x<\alpha$の範囲で$f'(x)<0$となり、$f(x)$は単調減少する。$f(0)=1$であるから、$0<x<\alpha$の範囲で$f(x)<1$となる。よって題意を満たさない。
+
+$c\ge 2$のとき、常に$f''(x)\ge 0$であるから、$f'(x)$は常に単調増加する。$f'(0)=0$であるから、常に$f'(x)\ge 0$となって、$f(x)$は常に単調増加することがわかる。$f(0)=1$であったから、この場合には題意が満たされる。
+
+以上によって、求める$c$の範囲は、$c\ge 2$。
+
+\syoumon{2}
+関数$g$を、$g(x)=\cos x+\dfrac{\sqrt{3}}{4} x^2$で定める。関数$g$は偶関数であるから、$0\le x\le \dfrac{\pi}{2}$の範囲で考えれば十分。ここで、$g'(x)=-\sin x+\dfrac{\sqrt{3}}{2}x$, $g''(x)=-\cos x+\dfrac{\sqrt{3}}{2}$となる。
+
+$g''\left(\dfrac{\pi}{6}\right)=0$であることを踏まえて増減表を書くと、
+\begin{align*}
+ \begin{array}{c|c|c|c|c|c}
+ x & 0 & \cdots & \dfrac{\pi}{6} & \cdots & \dfrac{\pi}{2} \\[1ex] \hline
+ g'' & -1+\dfrac{\sqrt{3}}{2} & - & 0 & + & \dfrac{\sqrt{3}}{2} \\[1ex] \hline
+ g' & 0 & \searrow & -\dfrac{1}{2}+\dfrac{\sqrt{3}\pi}{12} & \nearrow & -1+\dfrac{\sqrt{3}\pi}{4}
+ \end{array}
+\end{align*}
+となる。ここで、$\sqrt{3}\pi>1.7\times3.1=5.27$だから、$-\dfrac{1}{2}+\dfrac{\sqrt{3}\pi}{12}<0$~\footnote{増減表から明らかではある。}, $-1+\dfrac{\sqrt{3}\pi}{4}>0$がわかる。中間値の定理より、開区間$\left(\dfrac{\pi}{6}, \dfrac{\pi}{2}\right)$内の$\alpha$であって、$g(\alpha)=0$を満たすものが存在する。これを用いて改めて増減表を書くと、
+\begin{align*}
+ \begin{array}{c|c|c|c|c|c}
+ x & 0 & \cdots & \alpha & \cdots & \dfrac{\pi}{2} \\[1ex] \hline
+ g' & 0 & - & 0 & + & -1+\dfrac{\sqrt{3}\pi}{4} \\[1ex] \hline
+ g & 1 & \searrow & g(\alpha) & \nearrow & \dfrac{\sqrt{3}\pi^2}{16}
+ \end{array}
+\end{align*}
+となる。$\sqrt{3}\pi^2>1.7\times3.1^2=16.337$だから、$\dfrac{\sqrt{3}\pi^2}{16}>1$がわかる。
+
+したがって、求める最大値は$\dfrac{\sqrt{3}\pi^2}{16}$ ($x=\pm\dfrac{\pi}{2}$のとき)。
+

@@ -1,0 +1,27 @@
+\begin{thm}{116}{\hosi 5}{阪大レベル模試}
+ $a$を$0<a<\dfrac{\pi}{2}$を満たす定数として、$x$の方程式 $a\sin x = 1-\cos a$ について、この方程式は区間$(0,a)$にただ一つの実数解$x_a$を持つことを示し、$\disp \lim_{a\to +0} \frac{x_a}{a}$ の値を求めよ。
+\end{thm}
+
+関数$f(x)$を、$f(x)=a\sin x+\cos a-1$とおく。すると、$f(0)=\cos a-1 < 0$となっている($\cdots$\marunum{1})。次に、$f(a)=a\sin a+\cos a-1$の値を考える。関数$g(x)=x\sin x+\cos x-1$をおく。$g'(x)=x\cos x$となって、$0<x<\dfrac{\pi}{2}$の範囲では常に$g'(x)>0$となっている。よって$g(x)$は単調増加であって、$g(0)=0$と合わせると、この範囲では$g(x)>0$であることがわかる。これによって、$f(a)>0$である($\cdots$\marunum{2})。
+
+続いて、$f'(x)=a\cos x$であるから、$0<x<a<\dfrac{\pi}{2}$の範囲において、常に$f'(x)>0$である。したがって$f(x)$は常に単調増加する。\marunum{1} \marunum{2}と合わせれば、区間$(0, a)$内で$f(x)=0$を満たす実数はただ一つであることが示される。
+
+さて、$0<x<\dfrac{\pi}{2}$を満たす任意の$x$について、
+\[ \sin x < x < \tan x \]
+が成り立つから\footnote{これの読者には明らかとしてよいと思っています。}、
+\[ \frac{\sin x_a}{a} < \frac{x_a}{a} < \frac{\tan x_a}{a} \]
+が得られる。さらに、$a\sin x_a=1-\cos a$が成り立っているから、
+\[ \frac{1-\cos a}{a^2} < \frac{x_a}{a} < \frac{1-\cos a}{a^2\cos a} \]
+である。
+
+さて、
+\begin{align*}
+ \lim_{a\to +0} \frac{1-\cos a}{a^2}&=\lim_{a\to +0} \frac{(1-\cos a)(1+\cos a)}{a^2(1+\cos a)} \\
+ &= \lim_{a\to +0} \frac{\sin^2 a}{a^2} \frac{1}{1+\cos a} = \frac{1}{2}
+\end{align*}
+と求まる。加えて、
+\begin{align*}
+ \lim_{a\to +0} \frac{1-\cos a}{a^2\cos a}=\lim_{a\to +0} \frac{\sin^2 a}{a^2} \frac{1}{\cos a(1+\cos a)}=\frac{1}{2}
+\end{align*}
+と求まるから、はさみうちの原理によって、
+\[ \lim_{a\to +0} \frac{x_a}{a} =\frac{1}{2} \]

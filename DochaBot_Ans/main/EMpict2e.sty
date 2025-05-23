@@ -1,0 +1,577 @@
+% EMpict2e.sty by tDB (emath@nifty.ne.jp)
+%
+\NeedsTeXFormat{LaTeX2e}[1999/12/01]
+\ProvidesPackage{EMpict2e}[2014/11/24 v0.11alpha]
+\DeclareOption{dvips}{\def\@EMpict@opt{dvips}}
+\DeclareOption{dvipdfm}{\def\em@grdrv{dvipdfm}\def\@EMpict@opt{dvipdfm}}
+\IfFileExists{p2e-dvipdfmx.def}{%
+  \DeclareOption{dvipdfmx}{\def\em@grdrv{dvipdfmx}\def\pdfmx@{}\edef\@EMpict@opt{dvipdfmx}}%
+}{%
+  \DeclareOption{dvipdfmx}{\def\pdfmx@{}\edef\@EMpict@opt{dvipdfm}}
+}%%
+\DeclareOption{tpic}{\def\EMpict@tpic{}}%
+\ProcessOptions\relax
+%
+\@ifundefined{@EMpict@opt}{%
+  \errmessage{EMpict2e はロードオプションが必須です}}{}%
+\@ifpackageloaded{pict2e}{}{\RequirePackage[\@EMpict@opt]{pict2e}[2011/04/05]}%
+\@ifundefined{pIIearc}{\let\pIIearc\arc}{}%
+%
+\RequirePackage{emathC}%
+\@ifundefined{pdfmx@}{}{%
+  \ifthenelse{\equal{\@EMpict@opt}{dvipdfm}}{%
+    \def\pdfliteral#1{\special{pdf:content #1}}
+  }{}%
+}%
+%
+\edef\fbox@dash{}%
+%
+\ifcase\pIIe@mode
+\or
+  \RequirePackage[dvips]{graphicx,color}%
+\or
+  \@ifundefined{pdfmx@}{%
+    \RequirePackage[dvipdfmx]{graphicx,color}%
+  }{%
+    \RequirePackage[dvipdfmx]{graphicx,color}%
+  }%
+\fi
+%
+\ifnum\pIIe@mode>\z@
+  \ifcase\pIIe@mode\relax
+  \or
+    \newcommand*\pIIe@setdash@op{setdash}
+  \or
+    \newcommand*\pIIe@setdash@op{d}
+  \fi
+  \renewcommand*\pIIe@drawGraph{%
+      \edef\x{\pIIe@debug@comment\space
+              \pIIe@scale@PTtoBP}%
+      \if@tempswa
+        \edef\y{\pIIe@fill@op}%
+      \else
+        \edef\x{\x\space\strip@pt\@wholewidth
+          \space\pIIe@setlinewidth@op
+          \fbox@dash
+          }%
+        \edef\y{\pIIe@stroke@op}%
+      \fi
+      \expandafter\pIIe@code\expandafter{%
+        \expandafter\x\the\pIIe@GRAPH\space\y}%
+      \global\pIIe@GRAPH{}\xdef\pIIe@CPx{}\xdef\pIIe@CPy{}%
+    \endgroup}
+  \def\oval{\@ifstar{\edef\oval@fill{1}\em@oval}{\edef\oval@fill{0}\em@oval}}%
+  \newcommand*\em@oval[1][\maxovalrad]{%
+    \begingroup \pIIe@defaultUL\pIIe@maxovalrad{#1}%
+      \ifdim\pIIe@maxovalrad<\z@ \pIIe@badcircarg \fi
+      \pIIe@oldoval}
+  \def\@oval(#1,#2)[#3]{%
+    \@ovxx#1\unitlength \divide\@ovxx\tw@
+    \@ovyy#2\unitlength \divide\@ovyy\tw@
+    \@tempdimc \ifdim\@ovyy>\@ovxx \@ovxx \else \@ovyy \fi
+    \ifdim\pIIe@maxovalrad<\@tempdimc \@tempdimc\pIIe@maxovalrad\relax \fi
+    \@xdim\@ovxx \advance\@xdim-\@tempdimc
+    \@ydim\@ovyy \advance\@ydim-\@tempdimc
+    \pIIe@get@quadrants{#3}%
+    \ifnum15=\@tempcnta \buttcap \fi
+    \@tempswatrue
+    \ifnum9=\@tempcnta
+      \pIIe@qoval\z@{-\@ovyy}{\@xdim}{-\@ovyy}\thr@@\@tempdimc\@ovxx\z@
+      \@tempcnta\@ne
+    \fi
+    \pIIe@qoval\@ovxx\z@\@ovxx\@ydim\z@\@tempdimc\z@\@ovyy
+    \pIIe@qoval\z@\@ovyy{-\@xdim}\@ovyy\@ne\@tempdimc{-\@ovxx}\z@
+    \pIIe@qoval{-\@ovxx}\z@{-\@ovxx}{-\@ydim}\tw@\@tempdimc\z@{-\@ovyy}%
+    \pIIe@qoval\z@{-\@ovyy}{\@xdim}{-\@ovyy}\thr@@\@tempdimc\@ovxx\z@
+    \ifnum\oval@fill=\z@
+      \pIIe@strokeGraph
+    \else
+      \pIIe@closepath\pIIe@fillGraph
+    \fi
+    \endgroup}
+\fi
+%
+%\Gin@codes
+%\let\Gin@codes\relax
+%
+\@ifundefined{EMpict@tpic}{%
+  \@ifpackageloaded{emathPh}{}{\RequirePackage[onlyP]{emathPh}}%
+%  \@ifpackageloaded{emathPh}{}{\RequirePackage[notpic]{emathPh}}%
+}{%
+  \@ifpackageloaded{emathPh}{}{\RequirePackage[notpic]{emathPh}}%
+  \let\pIIeoval\oval
+  \let\pIIe@oval\@oval
+  \RequirePackage{epic,eepic}
+\let\sensyu\drawline
+  \let\tpicoval\oval
+  \let\tpic@oval\@oval
+  \let\tpic@circle\circle
+  \let\tpic@@circle\@circle
+  \let\tpic@arc\arc
+  \let\tpic@@arc\@arc
+  \let\oval\pIIeoval
+  \let\@oval\pIIe@oval
+  \let\eepicdrawline\drawline
+    \renewcommand*\OriginalPictureCmds{%
+      \let\@sline\pIIe@old@sline
+      \let\line\pIIe@oldline
+      \let\vector\pIIe@oldvector
+      \let\@circle\pIIe@old@circle
+      \let\@dot\pIIe@old@dot
+      \let\@bezier\pIIe@old@bezier
+      \let\@cbezier\pIIe@old@cbezier
+%      \renewcommand*\oval[1][]{\pIIe@oldoval}%
+      \let\oval\tpicoval
+      \let\@oval\tpic@oval
+      \let\circle\tpic@circle
+      \let\@circle\tpic@@circle
+      \let\arc\tpic@arc
+      \let\@arc\tpic@@arc
+      \let\drawline\eepicdrawline
+    }
+}%
+\def\pIIeDrawline#1{%
+  \edef\dl@tmp{#1}%
+  \expandafter\polyline\dl@tmp
+}%
+%
+\def\pIIeTakakkei#1{%
+    \edef\dl@tmp{#1}%
+    \expandafter\polygon\dl@tmp
+}%
+%
+\def\pIIearrowline(#1,#2)(#3,#4){%
+  \pIIeArrowLine{(#1,#2)}{(#3,#4)}%
+}%
+\def\pIIeArrowLine{\begingroup
+  \@ifnextchar<{\@pIIeArrowLine}{\@pIIeArrowLine<\empty>}}%
+\def\@pIIeArrowLine<#1>#2#3{%
+%\edef\yazirusi@opt{a}%
+  \ifx\empty #1\else\setkeys{emP}{#1}\fi
+  \ifx\empty\iro@\else\color{\iro@}\fi
+%\ifdim\Arr@wHeadSize\p@=\z@\edef\yazirusi@opt{\empty}\fi
+%\ifdim\arrow@headsize\p@=\z@\edef\yazirusi@opt{\empty}\fi
+  \Subvec{#3}{#2}\AL@v
+  \vecXY\AL@v\AL@x\AL@y
+  \@ifundefined{xunitlength}{%
+    \@xdim=\AL@x\unitlength
+  }{%
+    \@xdim=\AL@x\xunitlength
+  }%
+  \@ifundefined{yunitlength}{%
+    \@ydim=\AL@y\unitlength
+  }{%
+    \@ydim=\AL@y\yunitlength
+  }%
+  \edef\AL@x{\strip@pt\@xdim}%
+  \edef\AL@y{\strip@pt\@ydim}%
+  \PhAbsvec{(\AL@x,\AL@y)}\AL@l%%%% 2011/11/22
+  \Divself\AL@x\AL@l
+  \Divself\AL@y\AL@l
+  \@xdim=\AL@x\p@
+  \@ydim=\AL@y\p@
+  \@linelen=\AL@l\p@
+%\ifx\empty\yazirusi@opt
+% \edef\AL@tmp{(0,0)(\AL@x,\AL@y)}%
+% \Put{#2}{\expandafter\Line\AL@tmp}%
+%\else
+  \Put{#2}{%
+    \pIIe@concat\@xdim\@ydim{-\@ydim}\@xdim\z@\z@
+    \pIIe@vector
+    \pIIe@fillGraph
+  }%
+%\fi
+  \endgroup
+}%
+%
+%\let\ArrowLine\pIIeArrowLine
+%
+%\def\pIIeEn#1#2{%
+%  \typeout{pIIeEn:arg1=#1,arg2=#2}%
+%  \Mul{#2}{2}\En@r
+%  \edef\tmp@{#1{\noexpand\circle{\En@r}}}%
+%  \expandafter\put\tmp@
+%}%
+%
+\def\EMpIIesetdash#1{%
+                \Strsep{#1}{,}\LG@a\LG@b
+                \uptkansan{\LG@a}\LG@a
+                \uptkansan{\LG@b}\LG@b
+                \edef\fbox@dash{%
+                  \space[\LG@a\space\LG@b]\space0\space\pIIe@setdash@op}%
+}%
+%
+\@ifundefined{ltxlinethickness}{\let\ltxlinethickness\linethickness}{}%
+\define@key{EMpIIe}{dash}{\EMpIIesetdash{#1}}%
+\define@key{EMpIIe}{iro}{\edef\iro@{#1}}%
+\define@key{EMpIIe}{nuriiro}{\edef\nuri@iro{#1}}%
+\define@key{EMpIIe}{linethickness}{\ltxlinethickness{#1}}%
+\define@key{EMpIIe}{border}[1]{\edef\draw@border{#1}}%
+\define@key{EMpIIe}{drawborder}[1]{\edef\draw@border{#1}}%
+%
+%
+% 円
+%
+\def\pIIeEn{\begingroup\@ifstar{\edef\nuri@iro{black}\@pIIeEn}%
+  {\edef\nuri@iro{\empty}\@pIIeEn}}%
+\def\@pIIeEn{\@ifnextchar<{\@@pIIeEn}{\@@pIIeEn<\empty>}}%
+\def\@@pIIeEn<#1>#2#3{%
+  \ifx\empty #1\else\setkeys{emP}{#1}\fi
+  \leavevmode
+  \ifx\empty\nuri@iro
+    \Put{#2}{\circle{#3}}%
+  \else
+%    \color{\nuri@iro}\Put{#2}{\circle*{#3}}%
+    \@iro{\nuri@iro}\Put{#2}{\circle*{#3}}%
+  \fi
+\endgroup
+}%
+%
+%
+\def\pIIeDaen{\@ifnextchar<{\@pIIeDaen}{\@pIIeDaen<\empty>}}%
+\def\@pIIeDaen<#1>#2#3#4{\begingroup
+  \edef\Daen@rval{0.552284749830793389}%
+% \@ifundefined{Daen@rval}{%
+%   \@ifundefined{fpcalcval}{%
+%     \calcval{4*(sqrt(2)-1)/3}\Daen@rval
+%   }{%
+%     \fpcalcval{4*(sqrt(2)-1)/3}\Daen@rval
+%   }%
+%   \xdef\Daen@rval{\Daen@rval}%
+%\typeout{Daen@rval=\Daen@rval}%
+% }{}%
+%
+    \def\@cbezier[##1](##2,##3)(##4,##5)(##6,##7)(##8,##9){%
+      \@killglue
+%      \pIIe@moveto{##2\unitlength}{##3\unitlength}%
+      \pIIe@curveto{##4\unitlength}{##5\unitlength}%
+        {##6\unitlength}{##7\unitlength}{##8\unitlength}{##9\unitlength}%
+%      \fillpath
+      \ignorespaces}%
+%
+  \edef\iro@{\empty}%
+  \edef\nuri@iro{\empty}%
+  \edef\draw@border{0}%
+  \ifx\empty #1\else\setkeys{EMpIIe}{#1}\fi
+%  \calcval{4*(sqrt(2)-1)/3}\r@val
+  \edef\a@val{#3}%
+  \edef\b@val{#4}%
+%  \calcval[s]{\Daen@rval*\a@val}\aa@val
+%  \calcval[s]{\Daen@rval*\b@val}\bb@val
+  \Mul\a@val\Daen@rval\aa@val
+  \Mul\b@val\Daen@rval\bb@val
+%\typeout{aval=\a@val, aaval=\aa@val}%
+  \vecXY{#2}\x@val\y@val
+  \put(\x@val,\y@val){%
+    \pIIe@moveto{\a@val\unitlength}{0\unitlength}%
+    \ifx\empty\iro@\else\@iro{\iro@}\fi
+    \cbezier(\a@val,0)(\a@val,\bb@val)(\aa@val,\b@val)(0,\b@val)
+    \cbezier(0,\b@val)(-\aa@val,\b@val)(-\a@val,\bb@val)(-\a@val,0)
+    \cbezier(-\a@val,0)(-\a@val,-\bb@val)(-\aa@val,-\b@val)(0,-\b@val)
+    \cbezier(0,-\b@val)(\aa@val,-\b@val)(\a@val,-\bb@val)(\a@val,0)
+    \ifx\empty\nuri@iro
+      \pIIe@strokeGraph
+    \else
+      {%
+%      \color{\nuri@iro}\pIIe@fillGraph}%
+      \@iro{\nuri@iro}\pIIe@fillGraph}%
+      \ifnum\draw@border>\z@
+        \pIIe@moveto{\a@val\unitlength}{0\unitlength}%
+        \ifx\empty\iro@\else\@iro{\iro@}\fi
+        \cbezier(\a@val,0)(\a@val,\bb@val)(\aa@val,\b@val)(0,\b@val)
+        \cbezier(0,\b@val)(-\aa@val,\b@val)(-\a@val,\bb@val)(-\a@val,0)
+        \cbezier(-\a@val,0)(-\a@val,-\bb@val)(-\aa@val,-\b@val)(0,-\b@val)
+        \cbezier(0,-\b@val)(\aa@val,-\b@val)(\a@val,-\bb@val)(\a@val,0)
+        \pIIe@strokeGraph
+      \fi
+    \fi
+  }%
+\endgroup}%
+%
+%
+%
+%
+% 縦長の丸
+%
+%\def\maru@tatekei{21ex}%
+\def\maru@tatekei{18ex}%
+\DeclareRobustCommand\pIIeNagamaru{%
+%  \setlength{\unitlength}{1pt}%
+  \@ifstar{\pIIeNagamaru@}{\@pIIeNagamaru}}%
+\def\pIIeNagamaru@{\@ifnextchar[{\pIIeNagamaru@@}{\pIIeNagamaru@@[.5]}}%
+\def\pIIeNagamaru@@[#1]{\Sub{1}{#1}\Nm@thickness
+  \@@pIIeNagamaru<nuriiro={[gray]{\Nm@thickness}},border>}%
+\def\@pIIeNagamaru{\@ifnextchar<{\@@pIIeNagamaru}{\@@pIIeNagamaru<\empty>}}%
+\def\@@pIIeNagamaru<#1>#2{\begingroup%
+%  \ifnum\the\kcatcode`#2=17\gtfamily\else\fontfamily{phv}\fi
+    \fontfamily{phv}%
+  \@ifundefined{bf@switch}{}{%
+    \def\nagamaru@thickness{1pt}%
+    \bfseries%
+  }%
+  \settowidth\@tempdima{9}\advance\@tempdima\p@
+  \settowidth\@tempdimb{#2}%
+  \ifdim\@tempdimb>\@tempdima\edef\emNm@s{.8}\else\edef\emNm@s{.9}\fi
+  \ukansan\Nmaru@yokokei\Nmaru@x
+  \@Div\Nmaru@x{2}\Nmaru@a
+  \ukansan\Nmaru@tatekei\Nmaru@y
+  \@Div\Nmaru@y{2}\Nmaru@b
+%  \Mul\Nmaru@y{.75}\Nmaru@h
+  \Mul\Nmaru@y{.725}\Nmaru@h
+  \Sub\Nmaru@y\Nmaru@h\Nmaru@d
+  \Sub\Nmaru@h\Nmaru@d\Nmaru@cy
+  \Divself\Nmaru@cy{2}%
+  \edef\Nmaru@cx{\Nmaru@a}%
+  \@ifundefined{@xscale}{}{%
+    \Divself\Nmaru@cy\@yscale
+    \Divself\Nmaru@cx\@xscale
+  }%
+%
+%%\Addself\Nmaru@cy{-.6}%
+%\uykansan{.05em}\Nmaru@cy@
+%\uykansan{.01em}\Nmaru@cy@%%%%%%%%%%%% 2013/11/02
+%\Subself\Nmaru@cy\Nmaru@cy@
+\uykansan{.05em}\Nmaru@cy@%%%%%%%%%%%% 2013/11/02
+\Addself\Nmaru@cy\Nmaru@cy@
+%
+%\setbox0=\hbox{#2}%
+%\@tempdima=.5\wd0
+%\ukansan{\@tempdima}\Nmaru@cx
+%\typeout{cx=\Nmaru@cx}%
+%\@tempdima=\dp0
+%\advance\@tempdima\ht0
+%\ukansan{.5\@tempdima}\Nmaru@cy
+  \,\mbox{\begin{picture}(0,0)\relax
+%    \begin{zahyou*}(0,0)(0,0)%
+      \ifx\empty #1\relax
+        \linethickness{\nagamaru@thickness}%
+%        \put(\Nmaru@cx,\Nmaru@cy){\pIIeDaen{\Nmaru@a}{\Nmaru@b}}%
+        \pIIeDaen{(\Nmaru@cx,\Nmaru@cy)}\Nmaru@a\Nmaru@b
+    \pIIe@fillGraph
+      \else
+        \pIIeDaen<#1>{(\Nmaru@cx,\Nmaru@cy)}\Nmaru@a\Nmaru@b
+      \fi
+%    \end{zahyou*}%
+    \end{picture}%
+    \@ifundefined{yunitlength}{%
+      \makebox[\Nmaru@x\unitlength][c]{{\chgfontsizeratio{\emNm@s}{#2}}}%
+      \vrule height\Nmaru@h\unitlength depth\Nmaru@d\unitlength width\z@
+    }{%
+      \makebox[\Nmaru@x\xunitlength][c]{{\chgfontsizeratio{\emNm@s}{#2}}}%
+      \vrule height\Nmaru@h\yunitlength depth\Nmaru@d\yunitlength width\z@
+    }%
+  }\,\relax
+%\Add\Nmaru@b\Nmaru@cy\tmp@x
+%\Sub\Nmaru@b\Nmaru@cy\tmp@y
+%\vrule height\tmp@x\yunitlength depth\tmp@y\yunitlength width\p@}%
+\endgroup\let\bf@switch\undefined
+}%
+%
+\DeclareRobustCommand\pIIebNagamaru{%
+  \def\bf@switch{1}\pIIeNagamaru}%
+%  \def\nagamaru@thickness{1pt}\hbox{\normalfont\bfseries\pIIeNagamaru{#1}}}}%
+%
+\DeclareRobustCommand\bekutoruIIe{%
+  \@ifstar{\edef\beku@m{1}\@bekutoruIIe}{\edef\beku@m{0}\@bekutoruIIe}}%
+\def\@bekutoruIIe#1{{%
+  \let\pIIe@vector=\pIIe@vector@pst
+%%    \def\pIIe@FAL{1.4}%
+%%    \def\pIIe@FAW{2}%
+%%    \def\pIIe@CAW{1.5pt}%
+%%    \def\pIIe@FAI{0.4}%
+    \def\pIIe@FAL{1.2}%
+    \def\pIIe@FAW{3}%
+    \def\pIIe@FAI{0.25}%
+  \unitlength\p@
+\@ifundefined{bm@style}{%
+  \ifnum\beku@m>\z@
+    \setbox0=\hbox{{$\displaystyle #1$}}%
+  \else
+    \setbox0=\hbox{{#1}}%
+  \fi
+}{%
+  \ifnum\beku@m>\z@
+    \setbox0=\hbox{{$\displaystyle\bm{#1}$}}%
+  \else
+    \setbox0=\hbox{{\textbf{#1}}}%
+  \fi
+}%
+  \setbox1=\hbox{$($}%
+  \ifdim\ht0>\ht1
+    \edef\@y{\strip@pt\ht0}%
+  \else
+    \edef\@y{\strip@pt\ht1}%
+  \fi
+%  \Addself\@y{1.5}%
+  \Addself\@y{.5}%
+  \setbox1=\hbox{$a$}%
+  \ifdim\wd0<\wd1\relax
+    \edef\@x{\strip@pt\wd1}%
+  \else
+    \edef\@x{\strip@pt\wd0}%
+  \fi
+  \@Div\f@size{10}\ln@wd
+  \Mul\ln@wd{1.5}\@y@
+  \Addself\@y\@y@
+\@ifundefined{bm@style}{%
+  \Mulself\ln@wd{.4}%
+}{%
+  \Mulself\ln@wd{.6}%
+}%
+  \ensuremath{\leavevmode\hbox{%
+    \begin{picture}(0,0)%
+      \ltxlinethickness{\ln@wd\p@}%
+      \put(0,\@y){\vector(1,0){\@x}}%
+    \end{picture}%
+    \hbox to \@x\p@{\hss\box0\hss}%
+    \@tempdima\@y\p@
+    \advance\@tempdima\@halfwidth
+    \advance\@tempdima0.04em\relax
+    \vrule \@width\z@\@height\@tempdima
+  }}%
+}}%
+%
+\let\bekutoru\bekutoruIIe
+%
+%
+% \rightarrow
+%
+\def\pIIeto@{{\gsave
+  \mathchoice{%displaystyle
+    \setbox0=\hbox{$\rightarrow$}%\edef\wto{\the\wd0}%
+%    \edef\wd@esto{\strip@pt\wd0}%
+    \@tempdima\wd0\advance\@tempdima-.1111em\relax
+    \edef\wd@esto{\strip@pt\@tempdima}%
+    \@tempdima=.5ex\relax
+    \edef\dp@esto{\strip@pt\@tempdima}%
+    \@tempdima=.1ex\relax
+    \edef\l@wd{\the\@tempdima}%
+    \begin{picture}(\wd@esto,0)\relax
+      \linethickness{\l@wd}%
+      \let\pIIe@vector=\pIIe@vector@pst 
+      \def\pIIe@FAL{1}%
+      \put(0,\dp@esto){\vector(1,0){\wd@esto}}%
+    \end{picture}%
+  }{%textstyle
+    \setbox0=\hbox{$\rightarrow$}%\edef\wto{\the\wd0}%
+%    \edef\wd@esto{\strip@pt\wd0}%
+    \@tempdima\wd0\advance\@tempdima-.1111em\relax
+    \edef\wd@esto{\strip@pt\@tempdima}%
+    \@tempdima=.5ex\relax
+    \edef\dp@esto{\strip@pt\@tempdima}%
+    \@tempdima=.1ex\relax
+    \edef\l@wd{\the\@tempdima}%
+    \begin{picture}(\wd@esto,0)\relax
+      \linethickness{\l@wd}%
+      \let\pIIe@vector=\pIIe@vector@pst 
+      \def\pIIe@FAL{1}%
+      \put(0,\dp@esto){\vector(1,0){\wd@esto}}%
+    \end{picture}%
+  }{%scriptstyle
+    \setbox0=\hbox{$\scriptstyle\rightarrow$}%\edef\wto{\the\wd0}%
+%    \edef\wd@esto{\strip@pt\wd0}%
+    \@tempdima\wd0\advance\@tempdima-.1111em\relax
+    \edef\wd@esto{\strip@pt\@tempdima}%
+    \@tempdima=.4ex\relax
+    \edef\dp@esto{\strip@pt\@tempdima}%
+    \@tempdima=.06666ex\relax
+    \edef\l@wd{\the\@tempdima}%
+\mkern1mu\relax
+    \begin{picture}(\wd@esto,0)\relax
+      \linethickness{\l@wd}%
+      \let\pIIe@vector=\pIIe@vector@pst 
+      \def\pIIe@FAL{1}%
+      \put(0,\dp@esto){\vector(1,0){\wd@esto}}%
+    \end{picture}%
+\mkern1mu\relax
+  }{%scriptscript
+    \setbox0=\hbox{$\scriptscriptstyle\rightarrow$}%\edef\wto{\the\wd0}%
+%    \edef\wd@esto{\strip@pt\wd0}%
+    \@tempdima\wd0\advance\@tempdima-.1111em\relax
+    \edef\wd@esto{\strip@pt\@tempdima}%
+    \@tempdima=.4ex\relax
+    \edef\dp@esto{\strip@pt\@tempdima}%
+    \@tempdima=.06666ex\relax
+    \edef\l@wd{\the\@tempdima}%
+\mkern1mu\relax
+    \begin{picture}(\wd@esto,0)\relax
+      \linethickness{\l@wd}%
+      \let\pIIe@vector=\pIIe@vector@pst 
+      \def\pIIe@FAL{1}%
+      \put(0,\dp@esto){\vector(1,0){\wd@esto}}%
+    \end{picture}%
+\mkern1mu\relax
+  }%
+\grestore}}%
+\DeclareRobustCommand\pIIeto{\mathrel{\pIIeto@}}%
+%
+%
+\AtBeginDocument{%
+% 増減を表す矢印
+  \def\@NE[#1]{{\unitlength1zw\relax
+    \begin{picture}[#1](1,0)%
+      \put(0,0){\pIIeArrowLine{(0,-0.2)}{(1,0.8)}}%
+    \end{picture}}}%
+  \def\@SE[#1]{{\unitlength1zw\relax
+    \begin{picture}[#1](1,0)%
+      \put(0,0){\pIIeArrowLine{(0,0.8)}{(1,-0.2)}}%
+    \end{picture}}}%
+  \def\@NW[#1]{{\unitlength1zw\relax
+    \begin{picture}[#1](1,0)%
+      \put(0,0){\pIIeArrowLine{(1,-0.2)}{(0,0.8)}}%
+    \end{picture}}}%
+  \def\@SW[#1]{{\unitlength1zw\relax
+    \begin{picture}[#1](1,0)%
+      \put(0,0){\pIIeArrowLine{(1,0.8)}{(0,-0.2)}}%
+    \end{picture}}}%
+}%
+%
+%
+\AtBeginDocument{%
+  \def\@EE[#1]{{\unitlength1zw\def\Arr@wHeadSize{.45}%
+    \begin{picture}[#1](1,0)%
+      \put(0,0.3){\pIIeArrowLine{(0,0)}{(1,0)}}%
+    \end{picture}}}%
+  \def\@WW[#1]{{\unitlength1zw\def\Arr@wHeadSize{.45}%
+    \begin{picture}[#1](1,0)%
+      \put(0,0.3){\pIIeArrowLine{(1,0)}{(0,0)}}%
+    \end{picture}}}%
+  \def\@NN[#1]{{\unitlength1zw\def\Arr@wHeadSize{.45}%
+    \begin{picture}[#1](1,0)%
+      \put(.5,0){\pIIeArrowLine{(0,-.2)}{(0,.8)}}%
+    \end{picture}}}%
+  \def\@SS[#1]{{\unitlength1zw\def\Arr@wHeadSize{.45}%
+    \begin{picture}[#1](1,0)%
+      \put(.5,0){\pIIeArrowLine{(0,.8)}{(0,-.2)}}%
+    \end{picture}}}%
+}%
+%
+\endinput
+%%
+%%
+%%
+%%
+\def\ltops#1#2{%
+  \@tempdima #1\unitlength
+  \@tempdima 10\@tempdima
+  \edef#2{\strip@pt\@tempdima}%
+% \Add{#2}{0.5}#2\Seisuububun{#2}#2
+}%
+%
+%%
+%%
+%% End of file `pict2e.sty'.
+%
+2009/07/10 v0.00α
+2010/07/01 v0.01α \pIIeArrowLine
+2010/07/24 v0.02α \EMpIIesetdash
+2011/04/07 v0.03α pict2e.sty v0.2y に対応
+2011/11/22 v0.04α \pIIeArrowLine: \Absvec --> \PhAbsvec
+2012/02/28 v0.05α \let\ArrowLine\pIIeArrowLine
+2013/01/22 v0.06α \bekutoruIIe
+2013/02/06 v0.07α \bekutoruIIe: 文字サイズへの追随
+2013/02/07 v0.08α \bekutoruIIe: \boldsymbol 対応
+                   \NE など：\pIIeArrowLine
+2014/06/02 v0.09alpha \pIIearc の処理を pict2e.sty v 0.2z に対応
+2014/06/04 v0.10alpha \pIIeto
+2014/11/24 v0.11alpha \pIIeNagamaru

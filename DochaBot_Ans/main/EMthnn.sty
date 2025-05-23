@@ -1,0 +1,11 @@
+%%
+\begingroup \makeatletter
+\@ifundefined{theorem@style}{\input{theorem.sty}}{}
+\gdef\th@nonumber{\normalfont\itshape
+  \def\@begintheorem##1##2{%
+        \item[\hskip\labelsep \theorem@headerfont ##1\relax]}%
+\def\@opargbegintheorem##1##2##3{%
+   \item[\hskip\labelsep \theorem@headerfont ##1\ \thmkakkokukuri{##3}]}}%
+\endgroup
+\endinput
+%%

@@ -1,0 +1,22 @@
+\thm{Q.33 \hosi ?  (2009 琉球大)}
+$a,b$を正の実数とする。すべての自然数	$n$に対して
+\[(1^a+2^a+3^a+\cdots +n^a)^2=1^b+2^b+3^b+\cdots +n^b\]
+が成立するとき, $a,b$をすべて求めよ。
+\enthm
+式を変形すると
+\[n^{2a+2}\left(\dfrac{1}{n}\disp\sum_{k=1}^{n}\left(\dfrac{k}{n}\right)^a\right)^2=n^{b+1}\cdot\dfrac{1}{n}\disp\sum_{k=1}^n\left(\dfrac{k}{n}\right)^b\]
+なので, 両辺を$n^{b+1}$で割って
+\[ n^{2a+1-b}\left(\dfrac{1}{n}\disp\sum_{k=1}^{n}\left(\dfrac{k}{n}\right)^a\right)^2=\dfrac{1}{n}\disp\sum_{k=1}^n\left(\dfrac{k}{n}\right)^b\]
+$2a+1-b=c$として, 両辺の$n\to \infty$の極限が一致するので, 区分求積法により
+\[\disp\lim_{n\to \infty} \left\{n^c\left(\dfrac{1}{n}\disp\sum_{k=1}^{n}\left(\dfrac{k}{n}\right)^a\right)^2\right\}=\disp\int_0^1 x^b dx = \dfrac{1}{b+1}\]
+となるため, 左辺が0でない値に収束することが必要となる。上の式の両辺を, 極限値
+\[\disp\lim_{n\to \infty} \left(\dfrac{1}{n}\disp\sum_{k=1}^n\left(\dfrac{k}{n}\right)^a\right)^{2} = \dfrac{1}{(a+1)^2}\]
+で割ったとき,
+\[\disp\lim_{n\to \infty} n^c = \dfrac{(a+1)^2}{b+1}\neq 0, \infty\]
+となるから, $c>0$では左辺が$\infty$に, $c<0$では左辺が$0$になるから不適。よって$c=0$であって,
+\[1=\dfrac{(a+1)^2}{b+1}\]
+となる。$c=0$はすなわち $b+1=2(a+1)$ ということになるので
+\[1=\dfrac{(a+1)^2}{2(a+1)}=\dfrac{a+1}{2}\]
+より $a=1$となる。このとき$b=3$で, 実際,すべての$n$に対して
+\[\disp\sum_{k=1}^n k^3=\left(\dfrac{n(n+1)}{2}\right)^2=\left(\disp\sum_{k=1}^n k^1\right)^2\]
+なのでよい。従って$(a,b)=(1,3)$ に限る。

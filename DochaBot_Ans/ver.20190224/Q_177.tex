@@ -1,0 +1,35 @@
+\thm{Q.177 $\bigstar 10$ (第4回和田杯 by 灘校数研)}
+$\tan{\theta}$ は整数値であるとする。\\
+$\tan^m{\theta}+\dfrac{\cos{n\theta}}{\cos^n{\theta}}=2016$ を満たす正の整数$m,n$ 及び $\tan{\theta}$ の値をすべて求めよ。
+\enthm
+\begin{enumerate}
+\item[]
+分母に$\cos^n{\theta}$ があるので, $\cos^n{\theta}\neq 0$ である。$\tan{\theta}=T$ とする。$i$を虚数単位として,\\
+$z=\cos{\theta}+i\sin{\theta}$とする。ド・モアブルの定理より $z^n=\cos{n\theta}+i\sin{n\theta}$\\
+一方で, $z=\cos{\theta}\left(1+iT\right)$ と表示すると, $z^n=\cos^n{\theta}\left(1+iT \right)^n $ である。\\
+二項定理を用いて $z^n$ の2つの表示における実部を比較し,
+\[\cos{n\theta}=\cos^n{\theta}\displaystyle\sum_{k=0}^{\lfloor\frac{n}{2}\rfloor} (-T^2)^k{}_nC_{2k}\]
+となり, $\cos^n{\theta}\neq 0$より, $\dfrac{\cos{n\theta}}{\cos^n{\theta}} = \displaystyle\sum_{k=0}^{\left\lfloor\frac{n}{2}\right\rfloor} (-T^2)^k{}_nC_{2k}$ となる。よって, 与式は
+\[T^m+\displaystyle\sum_{k=0}^{\left\lfloor\frac{n}{2}\right\rfloor} (-T^2)^k{}_nC_{2k}=2016\] と, $T$のみの式に表すことができる。次に以下の補題を示す。\\
+\\
+\thm{{\bf 補題.1}}
+ $T$が奇数であり, $n\ge 2$ であるならば, \\
+$\displaystyle\sum_{k=0}^{\left\lfloor\frac{n}{2}\right\rfloor} (-T^2)^k{}_nC_{2k}$ は偶数である。
+\enthm
+\\
+(証明)\\
+便宜上 ${}_{n-1}C_{-1}={}_{n-1}C_{n}=0$ と定義する。\\
+$T$は奇数であるから, $-T^2\equiv 1 (mod 2)$ である。 よって $\displaystyle\sum_{k=0}^{\left\lfloor\frac{n}{2}\right\rfloor} (-T^2)^k{}_nC_{2k}\equiv \displaystyle\sum_{k=0}^{\left\lfloor\frac{n}{2}\right\rfloor} {}_nC_{2k}$.\\
+次に, ${}_nC_{2k} ={}_{n-1}C_{2k}+{}_{n-1}C_{2k-1}$ を用いて, 
+\begin{eqnarray*}
+ \displaystyle\sum_{k=0}^{\left\lfloor\frac{n}{2}\right\rfloor} {}_nC_{2k} =\displaystyle\sum_{k=0}^{\left\lfloor\frac{n}{2}\right\rfloor} ({}_{n-1}C_{2k}+{}_{n-1}C_{2k-1} )= \displaystyle\sum_{k=-1}^{2\left\lfloor\frac{n}{2} \right\rfloor +1} {}_{n-1}C_{k} \\
+= \displaystyle\sum_{k=0}^{n-1} {}_{n-1}C_{k} =2^{n-1} \equiv 0 (mod 2)
+\end{eqnarray*}
+となる。ただし, 途中で ${}_{n-1}C_{-1}={}_{n-1}C_{n}=0$, $n\ge 2$ を用いた。\\
+よって $\displaystyle\sum_{k=0}^{\left\lfloor\frac{n}{2}\right\rfloor} (-T^2)^k{}_nC_{2k}\equiv 0 (mod 2)$ より, 題意は示された。   (証明終)\\
+\\
+シグマの$k=0$ の項のみを右辺に移項して,$T^m+\displaystyle\sum_{k=1}^{\left\lfloor\frac{n}{2}\right\rfloor} (-T^2)^k{}_nC_{2k} =2015$ であり, 左辺が$T$の倍数になる。よって, $T$は2015の約数になるから, {\bf $T$は奇数} である。このとき {\bf 補題.1} により, $n\ge 2$ ならば $\displaystyle\sum_{k=0}^{\left\lfloor\frac{n}{2}\right\rfloor} (-T^2)^k{}_nC_{2k}$ は偶数であり,$T^m=2016-\displaystyle\sum_{k=0}^{\left\lfloor\frac{n}{2}\right\rfloor} (-T^2)^k{}_nC_{2k}$ より, {\bf $T^m$ が偶数}になる。しかしこれは$T$が奇数であることに矛盾する。 よって$n\ge 2$ において解はない。\\
+\\
+$n=1$ として, 与式は $T^m+\dfrac{\cos{1\theta}}{\cos{\theta}}=T^m+1=2016$ だから, $T^m=2015$\\
+$2015=5\cdot 13\cdot 31$ より, 2015は平方数や立法数ではないことから,$m=1, T=2015$ が唯一の解になる。以上より, $(m,n,\tan{\theta})=(1,1,2015)$
+\end{enumerate}

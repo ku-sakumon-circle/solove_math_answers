@@ -1,0 +1,609 @@
+% emkasen.sty by tDB (emath@nifty.com)
+%
+\NeedsTeXFormat{LaTeX2e}%
+\ProvidesPackage{emkasen}[2014/12/19 v0.10]%
+%
+%\RequirePackage{plext}
+\RequirePackage{uline--}
+%\RequirePackage{ifthen}
+%\RequirePackage{keyval}
+%\RequirePackage{emath}
+\@ifpackageloaded{emath}{}{\RequirePackage{emath}}%
+%
+\let\kasenmline\mline
+%
+%  \@ifpackageloaded{emathT}{%
+%    \errmessage{emkasen.sty must be loaded before emathT.sty}}{}%
+%
+\def\emkasenmacro#1#2{%
+  \ifx\empty #1\else\def\emkasen@ydir{#1}\fi
+  \ifx\empty #2\else\def\emkasen@tdir{#2}\fi
+}%
+\def\kasensyu#1{%
+  \edef\kasensyu@name{#1}%
+  \iftdir
+    \def\emkasen@tdir{\csname o#1\endcsname}%
+    \edef\kasen@position{\csname @o#1position@tdir\endcsname}%
+  \else
+    \def\emkasen@ydir{\csname u#1\endcsname}%
+    \edef\kasen@position{\csname @u#1position@ydir\endcsname}%
+  \fi
+  \ifthenelse{\equal{#1}{wave}}{\advance\kasenkigou@sep\@ne\p@\edef\kasenkigou@dx{-2.5\p@}}{}%
+}%
+\def\ukasensyu#1{%
+  \edef\kasensyu@name{#1}%
+  \def\emkasen@ydir{\csname u#1\endcsname}%
+  \ifthenelse{\equal{#1}{wave}}{\advance\kasenkigou@sep\@ne\p@\edef\kasenkigou@dx{-2.5\p@}}{}%
+}%
+\def\okasensyu#1{%
+  \edef\kasensyu@name{#1}%
+  \def\emkasen@tdir{\csname o#1\endcsname}%
+  \ifthenelse{\equal{#1}{wave}}{\advance\kasenkigou@sep\@ne\p@\edef\kasenkigou@dx{-2.5\p@}}{}%
+}%
+%
+\def\kasenkigou@font{\scriptsize}%
+\def\kasenkigoufont#1{\def\kasenkigou@font{#1}}%
+\newdimen\kasenkigou@sep
+\def\kasenkigousep#1{\setlength{\kasenkigou@sep}{#1}}%
+\def\kasenlinegap#1{\edef\line@gap{#1}}%
+%
+\define@key{emkasen}{kigou}{\EMdef\kasen@kigou{#1}}%
+\define@key{emkasen}{kasenmacro}{\emkasenmacro{#1}{#1}}%
+\define@key{emkasen}{tkasenmacro}{\emkasenmacro{}{#1}}%
+\define@key{emkasen}{ykasenmacro}{\emkasenmacro{#1}{}}%
+\define@key{emkasen}{kasensyu}{\kasensyu{#1}}%
+\define@key{emkasen}{ukasensyu}{\ukasensyu{#1}}%
+\define@key{emkasen}{okasensyu}{\okasensyu{#1}}%
+\define@key{emkasen}{kasensw}{\def\kasen@sw{#1}}%
+\define@key{emkasen}{dx}{\edef\kasenkigou@dx{#1}}%
+\define@key{emkasen}{sep}{\setlength{\kasenkigou@sep}{#1}}%
+\define@key{emkasen}{kasenkigousep}{\setlength{\kasenkigou@sep}{#1}}%
+\define@key{emkasen}{lcr}{\edef\kasenkigou@lcr{#1}}%
+\define@key{emkasen}{addsep}{\advance\kasenkigou@sep #1}%
+\define@key{emkasen}{lines}{\edef\line@s{#1}}%
+\define@key{emkasen}{linegap}{\edef\line@gap{#1}}%
+\define@key{emkasen}{color}{\edef\iro@{#1}}%
+\define@key{emkasen}{dashlength}{\edef\dash@length{#1}}%
+\define@key{emkasen}{dashgap}{\edef\dash@gap{#1}}%
+\define@key{emkasen}{dotgap}{\edef\dot@gap{#1}}%
+\define@key{emkasen}{addposition}{%
+  \iftdir
+    \@tempdima\csname @o\kasensyu@name position@tdir\endcsname
+    \advance\@tempdima #1\relax
+    \expandafter\edef\csname @o\kasensyu@name position@tdir\endcsname{\the\@tempdima}%
+  \else
+    \@tempdima\csname @u\kasensyu@name position@ydir\endcsname
+    \advance\@tempdima #1\relax
+    \expandafter\edef\csname @u\kasensyu@name position@ydir\endcsname{\the\@tempdima}%
+  \fi
+}%
+\define@key{emkasen}{position}{%
+  \iftdir
+    \expandafter\edef\csname @o\kasensyu@name position@tdir\endcsname{#1}%
+  \else
+    \expandafter\edef\csname @u\kasensyu@name position@ydir\endcsname{#1}%
+  \fi
+}%
+\define@key{emkasen}{width}{%
+  \iftdir
+    \expandafter\edef\csname @o\kasensyu@name width\endcsname{#1}%
+  \else
+    \expandafter\edef\csname @u\kasensyu@name width\endcsname{#1}%
+  \fi
+}%
+\define@key{emkasen}{linethickness}{%
+  \iftdir
+    \expandafter\edef\csname @o\kasensyu@name width\endcsname{#1}%
+  \else
+    \expandafter\edef\csname @u\kasensyu@name width\endcsname{#1}%
+  \fi
+}%
+\define@key{emkasen}{olineposition}{%
+  \iftdir
+    \def\@olineposition@tdir{#1}%
+  \else
+    \def\@olineposition@ydir{#1}%
+  \fi
+}%
+\define@key{emkasen}{kizyunmozi}{%
+  \setbox0=\hbox{#1}%
+  \setbox\kizyunmozi@box=\hbox to\z@{\hss}%
+  \ht\kizyunmozi@box\ht0
+  \dp\kizyunmozi@box\dp0
+}%
+%
+\def\line@s{1}%
+\edef\line@gap{.8pt}%
+\def\add@position{0pt}%
+\def\addposition#1{\edef\add@position{#1}}%
+\def\kasen@sw{1}%
+%
+%\def\emkasen{\edef\auto@hd{0}\@ifstar{\edef\auto@hd{1}\@emkasen}{\@emkasen}}%
+\DeclareRobustCommand\emkasen{\edef\auto@hd{0}\@ifstar{\edef\auto@hd{1}\@emkasen}{\@emkasen}}%
+\def\@emkasen{\@ifnextchar<{\@@emkasen}{\@@emkasen<\empty>}}%
+\def\@@emkasen<#1>{\@ifnextchar[{\@@@emkasen<#1>}{\@@@emkasen<#1>[\empty]}}%
+\def\@@@emkasen<#1>[#2]#3{{%
+%
+  \iftdir
+    \@ifundefined{emkasen@tdir}{%
+      \def\emkasen@tdir{\oline}%
+      \edef\kasen@position{\@olineposition@tdir}%
+    }{}%
+  \else
+    \@ifundefined{emkasen@ydir}{%
+      \def\emkasen@ydir{uline}%
+      \edef\kasen@position{\@ulineposition@ydir}%
+    }{}%
+  \fi
+  \setbox0=\hbox to\z@{漢\hss}%
+  \setbox\kizyunmozi@box=\hbox to\z@{\hss}%
+  \ht\kizyunmozi@box=\ht0\relax
+  \dp\kizyunmozi@box=\dp0\relax
+%
+  \ifx\empty #1\else\setkeys{emkasen}{#1}\fi
+  \ifx\empty #2\else\setkeys{emkasen}{#2}\fi
+%
+  \ifnum\auto@hd>\z@
+    \ifmmode
+      \setbox0=\hbox{\ensuremath{#3}}%
+    \else
+      \setbox0=\hbox{#3}%
+    \fi
+    \setbox1=\hbox{漢}%
+    \ht\kizyunmozi@box=\ht0\relax
+    \dp\kizyunmozi@box=\dp0\relax
+    \iftdir
+      \@tempdima\add@position
+      \advance\@tempdima\ht0\relax
+      \advance\@tempdima-\ht1\relax
+      \edef\add@position{\the\@tempdima}%
+    \else
+      \@tempdima\add@position
+      \advance\@tempdima-\dp0\relax
+      \advance\@tempdima\dp1\relax
+      \edef\add@position{\the\@tempdima}%
+    \fi
+  \fi
+  \ifdim\add@position=\z@
+  \else
+    \iftdir
+      \@tempdima\csname @o\kasensyu@name position@tdir\endcsname
+      \advance\@tempdima\add@position\relax
+      \expandafter\edef\csname @o\kasensyu@name position@tdir\endcsname{\the\@tempdima}%
+    \else
+      \@tempdima\csname @u\kasensyu@name position@ydir\endcsname
+      \advance\@tempdima\add@position\relax
+      \expandafter\edef\csname @u\kasensyu@name position@ydir\endcsname{\the\@tempdima}%
+    \fi
+  \fi
+%
+  \@ifundefined{kasen@kigou}{}{%
+    \iftdir
+      \advance\kasenkigou@sep\csname @o\kasensyu@name position@tdir\endcsname
+      \advance\kasenkigou@sep-\ht\kizyunmozi@box
+      \@tempdima\csname @o\kasensyu@name width\endcsname
+      \advance\kasenkigou@sep.5\@tempdima
+      \ifnum\line@s>\@ne
+        \Ifor\emkasen@i{1}{\line@s}\Do{%
+          \advance\kasenkigou@sep\line@gap
+          \advance\kasenkigou@sep\csname @o\kasensyu@name width\endcsname
+        }%
+      \fi
+      \@@emoput{\kasen@kigou}%
+    \else
+      \@tempdima\csname @u\kasensyu@name position@ydir\endcsname
+      \advance\kasenkigou@sep-\@tempdima
+      \@tempdima\csname @u\kasensyu@name width\endcsname
+      \advance\kasenkigou@sep.5\@tempdima
+%      \advance\kasenkigou@sep-\dp\kizyunmozi@box
+      \ifnum\line@s>\@ne
+        \Ifor\emkasen@i{1}{\line@s}\Do{%
+          \advance\kasenkigou@sep\line@gap
+          \advance\kasenkigou@sep\csname @u\kasensyu@name width\endcsname
+        }%
+      \fi
+      \@@emuput{\kasen@kigou}%
+    \fi
+  }%
+\@ifundefined{if@rotsw}{%
+  \ifnum\kasen@sw>\z@
+    \ifydir
+      \ifx\empty #2%
+        \emkasen@ydir{#3}%
+      \else
+        \emkasen@ydir[#2]{#3}%
+      \fi
+    \else
+        \ifx\empty #2%
+          \emkasen@tdir{#3}%
+        \else
+          \emkasen@tdir[#2]{#3}%
+        \fi
+    \fi
+  \fi
+}{%
+  \ifnum\kasen@sw>\z@
+    \ifydir
+      \ifx\empty #2%
+        \emkasen@ydir{#3}%
+      \else
+        \emkasen@ydir[#2]{#3}%
+      \fi
+    \else
+      \if@rotsw
+        \ifx\empty #2%
+          \emkasen@ydir{#3}%
+        \else
+          \emkasen@ydir[#2]{#3}%
+        \fi
+      \else
+        \ifx\empty #2%
+          \emkasen@tdir{#3}%
+        \else
+          \emkasen@tdir[#2]{#3}%
+        \fi
+      \fi
+    \fi
+  \else
+    #3\relax
+  \fi
+}%
+}}%
+%
+\def\kasenlinewidth#1{\def\@ulinewidth{#1}\def\@olinewidth{#1}}%
+\def\ulinewidth#1{\def\@ulinewidth{#1}}%
+\def\olinewidth#1{\def\@olinewidth{#1}}%
+\def\kasendotlinewidth#1{\def\@udotlinewidth{#1}\def\@odotlinewidth{#1}}%
+\def\udotlinewidth#1{\def\@udotlinewidth{#1}}%
+\def\odotlinewidth#1{\def\@odotlinewidth{#1}}%
+\def\kasendashwidth#1{\def\@udashwidth{#1}\def\@odashwidth{#1}}%
+\def\udashwidth#1{\def\@udashwidth{#1}}%
+\def\odashwidth#1{\def\@odashwidth{#1}}%
+\def\kasenwavewidth#1{\def\@uwavewidth{#1}\def\@owavewidth{#1}}%
+\def\uwavewidth#1{\def\@uwavewidth{#1}}%
+\def\owavewidth#1{\def\@owavewidth{#1}}%
+\def\ulineposition#1{%
+  \iftdir
+    \def\@ulineposition@tdir{#1}%
+  \else
+    \def\@ulineposition@ydir{#1}%
+  \fi
+}%
+\def\udashposition#1{%
+  \iftdir
+    \def\@udashposition@tdir{#1}%
+  \else
+    \def\@udashposition@ydir{#1}%
+  \fi
+}%
+\def\odashposition#1{%
+  \iftdir
+    \def\@odashposition@tdir{#1}%
+  \else
+    \def\@odashposition@ydir{#1}%
+  \fi
+}%
+\def\uwaveposition#1{%
+  \iftdir
+    \def\@uwaveposition@tdir{#1}%
+  \else
+    \def\@uwaveposition@ydir{#1}%
+  \fi
+}%
+\def\owaveposition#1{%
+  \iftdir
+    \def\@owaveposition@tdir{#1}%
+  \else
+    \def\@owaveposition@ydir{#1}%
+  \fi
+}%
+\def\kasenposition#1{%
+  \iftdir
+    \olineposition{#1}%
+    \odotlineposition{#1}%
+    \odashposition{#1}%
+    \owaveposition{#1}%
+  \else
+    \ulineposition{#1}%
+    \udotlineposition{#1}%
+    \udashposition{#1}%
+    \uwaveposition{#1}%
+  \fi
+}%
+%
+\def\@@rensuji[#1]#2{\ifydir\hbox{#2}\else
+  \hskip\rensujiskip
+  \ifvmode\leavevmode\fi
+  \ifnot@advanceline\not@advancelinefalse\else
+    \@save@enumT
+    \setbox\z@\hbox{\yoko#2}%
+    \@pop@enumT
+    \@tempdima\ht\z@ \advance\@tempdima\dp\z@
+    \if #1c\relax\vrule\@width\z@ \@height.5\@tempdima \@depth.5\@tempdima
+    \else\if #1r\relax\vrule\@width\z@\@height\z@ \@depth\@tempdima
+    \else\vrule\@width\z@ \@height\@tempdima \@depth\z@
+    \fi\fi
+  \fi
+  \if #1c\relax\hbox to1zw{\yoko\hss#2\hss}%
+  \else\if #1r\relax\vbox{\hbox to1zw{\yoko\hss#2}}%
+  \else\vtop{\hbox to1zw{\yoko#2\hss}}%
+  \fi\fi
+  \hskip\rensujiskip
+\fi}
+%
+\newbox\kizyunmozi@box
+\edef\kasenkigou@lcr{l}%
+\edef\kasenkigou@dx{0pt}%
+\def\kasenkigoudx#1{\edef\kasenkigou@dx{#1}}%
+\def\kasenkigoulcr#1{\edef\kasenkigou@lcr{#1}}%
+%
+%
+\def\emoput{\@ifnextchar<{\@emoput}{\@emoput<\empty>}}%
+\def\@emoput<#1>#2{\begingroup
+  \setbox0=\hbox to\z@{漢\hss}%
+  \setbox\kizyunmozi@box=\hbox to\z@{\hss}%
+  \ht\kizyunmozi@box=\ht0\relax
+  \dp\kizyunmozi@box=\dp0\relax
+  \ifx\empty #1\else\setkeys{emkasen}{#1}\fi
+  \@@emoput{#2}%
+  \endgroup\ignorespaces
+}%
+%
+\def\@@emoput#1{%
+%
+  \setbox0=\hbox{\kasenkigou@font #1}%
+  \leavevmode
+  \if l\kasenkigou@lcr
+    \vbox{\baselineskip\z@skip \lineskip\kasenkigou@sep
+      \ialign{##\crcr\hbox to\z@{\hskip\kasenkigou@dx\box0\hss}\crcr
+        \copy\kizyunmozi@box\crcr}}%
+    \nobreak
+  \else\if r\kasenkigou@lcr
+    \@tempdimb\kasenkigou@dx
+    \vbox{\baselineskip\z@skip \lineskip\kasenkigou@sep
+      \ialign{##\crcr\hbox to\z@{\hss\box0\hskip-\@tempdimb}\crcr\copy\kizyunmozi@box\crcr}}%
+  \else\if *\kasenkigou@lcr
+    \vbox{\baselineskip\z@skip \lineskip\kasenkigou@sep
+      \ialign{##\crcr\box0\crcr\copy\kizyunmozi@box\crcr}}%
+  \else
+    \vbox{\baselineskip\z@skip \lineskip\kasenkigou@sep
+      \ialign{##\crcr\hbox to\z@{\hss\hbox{\null\hskip\kasenkigou@dx\box0}\hss}\crcr\copy\kizyunmozi@box\crcr}}%
+  \fi\fi\fi
+}%
+%
+\def\emsideput{%
+  \ifthenelse{\boolean{tdir}}{%
+    \emoput
+  }{%
+    \emuput
+  }%
+}%
+\def\emuput{\@ifnextchar<{\@emuput}{\@emuput<\empty>}}%
+\def\@emuput<#1>#2{\begingroup
+  \setbox\kizyunmozi@box=\hbox to\z@{\hss}%
+  \ht\kizyunmozi@box=\ht0\relax
+  \dp\kizyunmozi@box=\dp0\relax
+  \ifx\empty #1\else\setkeys{emkasen}{#1}\fi
+  \setbox0=\hbox to\z@{漢\hss}%
+  \@@emuput{#2}%
+  \endgroup\ignorespaces
+}%
+%
+\def\@@emuput#1{%
+  \setbox0=\hbox{\kasenkigou@font #1}%
+  \leavevmode
+  \if l\kasenkigou@lcr
+    \vtop{\baselineskip\z@skip \lineskip\kasenkigou@sep
+      \ialign{##\crcr\mbox{}\crcr
+        \hbox to\z@{\hskip\kasenkigou@dx \box0\hss}\crcr}}%
+    \nobreak
+  \else\if r\kasenkigou@lcr
+    \@tempdimb\kasenkigou@dx
+    \vtop{\baselineskip\z@skip \lineskip\kasenkigou@sep
+      \ialign{##\crcr\mbox{}\crcr\hbox to\z@{\hss \box0\hskip-\@tempdimb}\crcr}}%
+  \else\if *\kasenkigou@lcr
+    \vtop{\baselineskip\z@skip \lineskip\kasenkigou@sep
+      \ialign{##\crcr\mbox{}\crcr \box0\crcr}}%
+  \else
+    \vtop{\baselineskip\z@skip \lineskip\kasenkigou@sep
+      \ialign{##\crcr\mbox{}\crcr\hbox to\z@{\hss \box0\hss}\crcr}}%
+  \fi\fi\fi
+}%
+%
+\AtBeginDocument{%
+  \kasensyu{line}%
+  \setlength{\kasenkigou@sep}{\z@}%
+  \setbox0=\hbox to\z@{漢\hss}%
+  \setbox\kizyunmozi@box=\hbox to\z@{\hss}%
+  \ht\kizyunmozi@box=\ht0\relax
+  \dp\kizyunmozi@box=\dp0\relax
+}%
+%%
+%%
+%%
+%%
+\def\@uline@set@option#1#2{%
+   \def\@uline@line@alignment{#1}%
+   \def\@uline@leader@type{solidline}%
+   \def\@uline@linespec@type{rules}%
+   \def\@uline@layer{foreground}%
+   \let\@uline@linepos\@uline@linepos@default
+   \def\@uline@lines{\@ne}%
+   \edef\@uline@linegap{\line@gap}%
+   \def\@uline@dashlength{3\p@}%
+   \def\@uline@dashgap{\p@}%
+   \def\@uline@dotgap{2\p@}%
+   \let\@uline@thickness\@uline@default@thickness
+   \let\@uline@colorstart\@empty
+   \let\@uline@colorend\@empty
+   \protected@edef\@tempa{#2\space}%
+   \protected@edef\@tempa{\expandafter\zap@space\@tempa\@empty}%
+   \ifx\@tempa\@empty
+      \let\@tempa\@uline@default@options
+   \else
+      \toks@\expandafter{\@tempa}%
+      \edef\@tempa{%
+         \@uline@default@options
+         \ifx\@uline@default@options\@empty\else ,\fi
+         \the\toks@}%
+   \fi
+   \@for\@tempa:=\@tempa\do{\expandafter\@uline@set@option@\@tempa==\@nil}%
+   \@tempdima\@uline@linepos\relax
+   \@tempdimb\@uline@thickness\relax
+   \dimen@\@tempdimb
+   \advance\dimen@\@uline@linegap\relax
+   \count@\@uline@lines\relax \advance\count@\m@ne
+   \if b#1\relax
+      \def\@tempsigna{-}%
+      \def\@tempsignb{}%
+   \else
+      \def\@tempsigna{}%
+      \def\@tempsignb{-}%
+      \if c#1\relax
+         \multiply\@tempdima\tw@
+         \advance\@tempdima-\count@\dimen@
+         \divide\@tempdima\tw@
+      \fi
+   \fi
+   \advance\@tempdima.5\@tempdimb
+   \advance\@tempdimb-\@tempdima
+   \csname @uline@make@\@uline@leader@type\endcsname{#1}%
+   \expandafter\ifx
+      \csname @uline@linespec@\@uline@layer @patterns\endcsname
+      \@empty
+   \else
+      \def\@uline@linespec@type{patterns}%
+   \fi
+   \edef\@uline@this@linespec{%
+      \expandafter\noexpand
+      \csname
+         @uline@linespec%
+         @\@uline@layer
+         @\@uline@linespec@type
+      \endcsname}%
+   \toks@\expandafter\expandafter\expandafter{\@uline@this@linespec}%
+   \expandafter\edef\@uline@this@linespec{%
+      \the\toks@
+      \@uline@colorstart \@tempa \@uline@colorend}%
+   \edef\@uline@this@gluespec{%
+      \expandafter\noexpand
+      \csname
+         @uline@gluespec%
+         @\@uline@layer
+      \endcsname}%
+   \toks@\expandafter\expandafter\expandafter{\@uline@this@gluespec}%
+   \if@uline@altglue
+      \expandafter\edef\@uline@this@gluespec{%
+         \the\toks@
+         \expandafter\ifx\@uline@this@gluespec\@empty\else
+            \kern-\@uline@altglue@unit
+         \fi
+         \@uline@colorstart \@tempb \@uline@colorend}%
+   \else
+      \edef\@tempa{%
+         \expandafter\ifx\@uline@this@gluespec\@empty\else \nobreak\fi}%
+      \expandafter\edef\@uline@this@gluespec{%
+         \the\toks@
+         \expandafter\ifx\@uline@this@gluespec\@empty\else
+            \@tempa \hskip-\@uline@tempskip
+         \fi
+         \@uline@colorstart
+         \@tempa \@tempb
+         \@uline@colorend}%
+   \fi}
+%
+% \emkasenbox 行をまたぐ \fbox
+%
+\define@key{emkasen}{fboxsep}{\setlength\fboxsep{#1}}%
+\define@key{emkasen}{hsep}{\def\h@sep{#1}}%
+\define@key{emkasen}{tsep}{\def\t@sep{#1}}%
+\define@key{emkasen}{bsep}{\def\b@sep{#1}}%
+\define@key{emkasen}{vsep}{\def\v@sep{#1}\def\t@sep{#1}\def\b@sep{#1}}%
+\define@key{emkasen}{hvsep}{\def\h@sep{#1}\def\v@sep{#1}}%
+\define@key{emkasen}{lsep}{\def\l@sep{#1}}%
+\define@key{emkasen}{rsep}{\def\r@sep{#1}}%
+\define@key{emkasen}{framelinewidth}{\edef\frame@linewidth{#1}}%
+\define@key{emkasen}{framethickness}{\edef\frame@linewidth{#1}}%
+\define@key{emkasen}{framecolor}{\def\frame@color{#1}}%
+\define@key{emkasen}{backgroundcolor}{\edef\background@color{#1}}%
+\define@key{emkasen}{bgcolor}{\edef\background@color{#1}}%
+%
+\def\emkasenbox{\@ifnextchar<{\@emkasenbox}{\@emkasenbox<\empty>}}%
+\def\@emkasenbox<#1>#2{{%
+  \edef\h@sep{\the\fboxsep}%
+  \edef\v@sep{\the\fboxsep}%
+  \edef\l@sep{\empty}%
+  \edef\r@sep{\empty}%
+  \edef\t@sep{\empty}%
+  \edef\b@sep{\empty}%
+  \edef\frame@linewidth{.4pt}%
+  \edef\frame@color{\empty}%
+  \edef\background@color{\empty}%
+%
+  \ifx\empty #1\else\setkeys{emkasen}{#1}\fi
+%
+  \ifx\empty\t@sep\edef\t@sep{\v@sep}\fi
+  \ifx\empty\b@sep\edef\b@sep{\v@sep}\fi
+  \ifx\empty\l@sep\edef\l@sep{\h@sep}\fi
+  \ifx\empty\r@sep\edef\r@sep{\h@sep}\fi
+%
+  \setbox0=\hbox{#2}%
+  \@tempdima=\dp0
+  \advance\@tempdima\b@sep
+  \edef\b@sep@{\the\@tempdima}%
+  \@tempdima=\ht0
+  \advance\@tempdima\t@sep
+  \edef\t@sep@{\the\@tempdima}%
+  \ulineposition{-\b@sep@}%
+  \olineposition{\t@sep@}%
+  \ulinewidth{\frame@linewidth}%
+  \olinewidth{\frame@linewidth}%
+  \ifthenelse{\equal\frame@color\empty}{%
+    \ifthenelse{\equal\background@color\empty}{%
+      \uline{%
+      \oline{%
+        {\vrule\@height\t@sep@\@depth\b@sep@\@width\frame@linewidth}%
+        \hskip\l@sep#2\hskip\r@sep
+        {\vrule\@height\t@sep@\@depth\b@sep@\@width\frame@linewidth}%
+      }}%
+    }{%
+      \@ifundefined{colorbox}{\errmessage{needs color.sty}}{}%
+      \@tempdima=\t@sep@
+      \ht\strutbox=1.17647\@tempdima
+      \@tempdima=\b@sep@
+      \dp\strutbox=1.17647\@tempdima
+      \uline{%
+      \oline{%
+        {\vrule\@height\t@sep@\@depth\b@sep@\@width\frame@linewidth}%
+        \highlight{\background@color}{\hskip\l@sep #2\hskip\r@sep}%
+        {\vrule\@height\t@sep@\@depth\b@sep@\@width\frame@linewidth}%
+      }}%
+    }%
+  }{%
+    \@ifundefined{colorbox}{\errmessage{needs color.sty}}{}%
+    \uline[color=\frame@color]{%
+    \oline[color=\frame@color]{%
+      {\color{\frame@color}%
+        \vrule\@height\t@sep@\@depth\b@sep@\@width\frame@linewidth
+      }%
+      \hskip\l@sep#2\hskip\r@sep
+      {\color{\frame@color}%
+        \vrule\@height\t@sep@\@depth\b@sep@\@width\frame@linewidth
+      }%
+    }}%
+  }%
+}}%
+\endinput
+
+v 0.00 2011/01/10
+v 0.01 2011/01/11 [#2]: 有効とする
+v 0.02 2011/01/18 見直し（仕様変更）
+v 0.03 2011/01/18 見直し（仕様変更）
+v 0.04 2011/01/21 見直し（仕様変更）
+v 0.05 2011/01/24 見直し（仕様変更）
+v 0.06 2011/01/28 \emkasen*: 数式モード中かを判定
+                  \kasenlinegap: 二重観戦の間隔の初期値を指定
+v 0.07 2011/02/24 emathT.sty とのロード順 (BBS #9688)
+v 0.08 2011/04/04 \emkasenbox: 行をまたぐ \fbox
+v 0.09 2014/07/05 \RequirePackage{plext}を保留 (BBS #12374)
+v 0.10 2014/12/19 plext を読み込んでいない場合 (BBS #12579)

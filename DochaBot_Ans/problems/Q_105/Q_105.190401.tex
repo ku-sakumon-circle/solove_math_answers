@@ -1,0 +1,53 @@
+\begin{thm}{105}{}{Cauchy-Schwarzの不等式}
+ \begin{enumerate}
+  \item 実数$x, y$が $x>0$, $y>0$, $x+y=6$ を満たす。このとき、不等式
+	\[ \left(x+\frac{1}{x}\right)^2+\left(y+\frac{1}{y}\right)^2 \geq \frac{200}{9}	\]
+	を証明せよ。また、等号が成立するのはいつか。
+  \item 楕円 $\dfrac{x^2}{a^2}+\dfrac{y^2}{b^2}=1$ $(a, b>0)$ 上にある点$P(s,t)$ に対して、$s+t$ の最大値、最小値を求めよ。
+  \item 歪んださいころを2回続けて投げるとき、同じ目が2回続けて出る確率は$\dfrac{1}{6}$ より大きいことを示せ。ただし、さいころが歪んでいるとは、$1, 2, 3, 4, 5, 6$の目が同様に確からしく出ないことをいう。 (信州大 2015, 京都大 1979)
+  \item $x, y$が実数のとき、$\dfrac{x+y}{(1+x^2)(1+y^2)}$ の最大値を求めよ。 (東大実戦 理系 2016, 東大院試 2012)
+  \item $a, b, c$を負でない実数とする。負でない全ての実数$x$に対して、不等式
+	\[ (ax^2+bx+c)(cx^2+bx+a)\ge (a+b+c)^2 x^2 \]
+	を証明せよ。 (Titu Andreesce, Gazeta Mathematica)
+  \item $a_1, a_2, \cdots, a_n$, $b_1, b_2, \cdots, b_n$ は実数で、
+	\[ a_1^2+b_2^2+\cdots +a_n^2=b_1^2+b_2^2+\cdots +b_n^2=1 \]
+	を満たすとき、不等式
+	\[ (a_!b_2-a_2b_1) \le 2\left|a_1b_1+a_2b_2+\cdots +a_nb_n -1 \right| \]
+	を証明せよ。 (Korea MO 2002)
+ \end{enumerate}
+\end{thm}
+
+未完。
+
+\syoumon{1}
+Caushy-Schwarzの不等式より、
+\begin{align*}
+ &(1^2+1^2)\left\{\left(x+\frac{1}{x}\right)^2+\left(y+\frac{1}{y}\right)^2\right\} \\
+ \geq &\left\{\left(x+\frac{1}{x}\right)+\left(y+\frac{1}{y}\right)\right\}^2 = \left(6+\frac{6}{xy}\right)^2
+\end{align*}
+$x, y > 0$より、相加相乗不等式を用いて、$\dfrac{x+y}{2}=3\geq\sqrt{xy}$ なので、$0<xy\leq 9$ となる ($x=y=3$のときに$xy=9$が実現する)。
+
+よって、$6+\dfrac{6}{xy}\geq 6+\dfrac{6}{9}=\dfrac{20}{3}$ であるから、
+\begin{align*}
+ &(1^2+1^2)\left\{\left(x+\frac{1}{x}\right)^2+\left(y+\frac{1}{y}\right)^2\right\} \\
+ \geq &\left\{\left(x+\frac{1}{x}\right)+\left(y+\frac{1}{y}\right)\right\}^2 = \left(6+\frac{6}{xy}\right)^2 \\
+ \geq &\left(\frac{20}{3}\right)^2=\frac{400}{9}
+\end{align*}
+より、2で割って
+\[ \left(x+\frac{1}{x}\right)^2+\left(y+\frac{1}{y}\right)^2 \geq \frac{200}{9} \]
+が示された。等号が成立するのは、$xy=9$ かつ $1:1=\left(x+\dfrac{1}{x}\right):\left(y+\dfrac{1}{y}\right)$ のときであって、$x=y=3$の場合である。
+
+\syoumon{2}
+ここに解答を記述。
+
+\syoumon{3}
+ここに解答を記述。
+
+\syoumon{4}
+ここに解答を記述。
+
+\syoumon{5}
+ここに解答を記述。
+
+\syoumon{6}
+ここに解答を記述。

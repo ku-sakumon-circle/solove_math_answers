@@ -1,0 +1,226 @@
+% packages
+\usepackage{amsmath,amssymb,amsfonts,amsthm,ascmac}
+\usepackage{bm,braket,bigints}
+\usepackage{fancyhdr,framed,multicol}
+\usepackage{color}
+\usepackage{makeidx}
+\usepackage{enumitem}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{wrapfig}
+\usepackage{itembkbx}
+\usepackage{here}
+\usepackage{ulem}
+\usepackage{tcolorbox,cleveref}
+\usepackage[%
+top    = 25truemm,%
+bottom = 25truemm,%
+left   = 7truemm,%
+right  = 7truemm]{geometry}
+
+%% 索引を出力するための環境を調整
+\makeatletter
+\renewenvironment{theindex}{
+    % \if@twocolumn
+    %   \onecolumn\@restonecolfalse
+    % \else
+    %   \clearpage\@restonecoltrue
+    % \fi
+     \columnseprule.4pt \columnsep 2zw
+    % \ifx\multicols\@undefined
+    %   \def\presectionname{}\def\postsectionname{}%
+    %   \twocolumn[\section*{\indexname}]%
+    % \else
+    %   \ifdim\textwidth<\fullwidth
+    %     \setlength{\evensidemargin}{\oddsidemargin}
+    %     \setlength{\textwidth}{\fullwidth}
+    %     \setlength{\linewidth}{\fullwidth}
+    %     \def\presectionname{}\def\postsectionname{}%
+    %     \begin{multicols}{3}[\section*{\indexname}]%
+    %   \else
+    %     \def\presectionname{}\def\postsectionname{}%
+    %     \begin{multicols}{2}[\section*{\indexname}]%
+    %   \fi
+    % \fi
+    \@mkboth{\indexname}{\indexname}%
+    \plainifnotempty % \thispagestyle{plain}
+    \parindent\z@
+    \parskip\z@ \@plus .3\jsc@mpt\relax
+    \let\item\@idxitem
+    \raggedright
+    \footnotesize\narrowbaselines
+   }{
+  %   \ifx\multicols\@undefined
+  %     \if@restonecol\onecolumn\fi
+  %   \else
+  %     \end{multicols}
+  %   \fi
+     \clearpage
+   }
+\makeatother
+
+\renewcommand{\plainifnotempty}{\relax}
+
+% Enumerate 環境
+%\def\theenumi{\arabic{enumi}}
+%\def\labelenumi{(\theenumi)}
+\SetLabelAlign{CenterWithParen}{\hfil(\makebox[0.7em]{#1})\hfil}
+
+% 図・数式周囲の余白調整/改ページ許可
+\def\lengthparam{
+\setlength{\textfloatsep}{0pt}
+\setlength{\intextsep}{0pt}
+\setlength{\abovedisplayskip}{0.5pt}
+\setlength{\belowdisplayskip}{0.5pt}
+}
+\allowdisplaybreaks[4]
+
+% 問題を記述するための環境定義
+\def\probs{}
+\def\none{none}
+\def\breakboxparindent{0pt}
+\newenvironment{thm}[3]%
+{\bigskip \global\expandafter\def\expandafter\probs\expandafter{\probs \quad Q.#1} %
+ \begin{breakitembox}[l]{Q.#1\hspace{0.4eM}#2\hspace{0.4eM}#3}}
+{\end{breakitembox}\smallskip}
+
+% 問題の総数---------------------------------------------------
+\newcounter{qnum}
+\setcounter{qnum}{312} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%ここ！
+
+% 補題を記述するための環境定義
+\definecolor{gray}{rgb}{0.75,0.75,0.75}
+\newenvironment{subthm}[1]%
+{\def\FrameCommand{\textcolor{gray}{\vrule width 5pt} \hspace{3pt}}
+ \MakeFramed {\advance\hsize-\width \FrameRestore}
+ \hspace{6pt} \textbf{補題#1} \\}
+{\endMakeFramed}
+
+% ヘッダの設定
+\pagestyle{fancy}
+\lhead{\probs \global\def\probs{}}
+\rhead{}
+
+% 問題索引の作成を宣言
+\makeindex
+
+%ローマ数字を出力
+\newcounter{rom}
+\newcommand{\Rnum}[1]{\setcounter{rom}{#1} \hspace{-0.1ex}\Roman{rom}\hspace{-0.1ex}}
+\newcommand{\rnum}[1]{\setcounter{rom}{#1} \hspace{-0.1ex}\roman{rom}\hspace{-0.1ex}}
+
+% (Re)New commands
+%\newcommand{\thm}{\begin{itembox}[l]}
+\newcommand{\syoumon}[1]{\vspace{1ex}\hspace{1eM}{\large ({\bf #1})} \par \vspace{1ex}}
+\newcommand*{\vvv}{\overrightarrow}
+\newcommand{\combi}[2]{{}_{#1}\mathrm{C}_{#2}}
+\newcommand{\permu}[2]{{}_{#1}\mathrm{P}_{#2}}
+\newcommand{\disp}{\displaystyle}
+\newcommand{\dou}{\Leftrightarrow}  %%同値
+\newcommand{\naraba}{\Rightarrow}
+\newcommand{\irr}{\mbox{Irr}}
+\newcommand{\jap}{\mbox}
+\renewcommand{\leq}{\leqq}
+\renewcommand{\geq}{\geqq}
+\newcommand{\nea}{\nearrow}
+\newcommand{\hosi}{$\bigstar$}
+\newcommand{\maru}{$\circledcirc$}
+\newcommand{\marunum}[1]{\raise0.2ex\hbox{\textcircled{\footnotesize{#1}}}}
+\newcommand{\sea}{\searrow}
+\newcommand{\mb}{\mathbb}
+\newcommand{\mr}{\mathrm}
+\newcommand{\parena}[1]{\left(#1\right)}
+
+\newcommand{\ovl}{\overline}
+\newcommand{\bbox}{\quad\rule{2.2mm}{3mm}}
+\newcommand{\aran}{\leftarrow}
+\newcommand{\step}[2]{\textbf{Step #1.} (#2)\quad} 
+\newcommand{\dothom}[1]{ \underset{#1}{\overset{\cdot}{\simeq}}  }
+\newcommand{\prf}{\noindent{\large (\textbf{Proof.})\quad}} 
+\newcommand{\ten}{$\bullet\quad$} %黒丸
+\newcommand{\vin}{\rotatebox{90}{$\in$}}
+\newcommand{\ben}{\begin{enumerate}}
+\newcommand{\een}{\end{enumerate}}
+\newcommand{\bcas}{\begin{cases}}
+\newcommand{\ecas}{\end{cases}}
+\newcommand{\spec}[1]{\mr{Spec}\parena{#1}}
+%%%ふぉんと
+\newcommand{\maf}{\mathfrak} %%%フラクトゥール(素イデアルなど)
+\newcommand{\hana}{\mathscr} %%%花文字(圏のやつ)
+\newcommand{\mac}{\mathcal} %%%関手のやつ
+\newcommand{\besha}{\begin{shadebox}}
+\newcommand{\ensha}{\end{shadebox}}
+\newcommand{\ken}[1]{\text{\textbf{#1}}}
+\newcommand{\bealn}[1]{\begin{align*}#1\end{align*}}
+
+\newcommand{\bolm}[1]{{\mbox{\boldmath $#1$}}}
+\newcommand{\tf}{\textbf}
+
+\newcommand{\bracket}[1]{%
+\[
+ \left(
+ \begin{tabular}{p{0.9\hsize}}
+  #1
+ \end{tabular}
+ \right)
+\]}
+
+\renewcommand{\leq}{\leqq}
+\renewcommand{\geq}{\geqq}
+\renewcommand\thefootnote{*\arabic{footnote}}
+\newcommand{\kuro}[1]{\mr{\textbf{#1}}}  %%複体の文字とか
+
+%%%代数学
+\newcommand{\tens}{\mathbin{\otimes}} %%%テンソル
+\newcommand{\ilim}[1][]{\mathop{\varinjlim}\limits_{#1}}%%逆極限・射影極限
+\newcommand{\plim}[1][]{\mathop{\varprojlim}\limits_{#1}}%順極限・帰納極限
+\DeclareMathOperator{\Tr}{Tr}
+\newcommand{\im}[1]{\mr{Im}\,#1}
+\newcommand{\coker}[1]{\mr{Coker}\,#1}
+\newcommand{\rank}[1]{\mr{rank}\, #1}
+\newcommand{\tor}[2]{\mr{Tor}_{#1}^{#2}}  %%Tor{i番目}{環}
+\newcommand{\ext}[2]{\mr{Ext}^{#1}_{#2} }
+\renewcommand{\hom}[1]{\mr{Hom}\parena{#1}} %Hom関手
+\newcommand{\norgr}{\rotatebox{90}{$\triangle$}}  %%正規部分群
+\newcommand{\bep}{\begin{pmatrix}}
+\newcommand{\enp}{\end{pmatrix}} %行列
+\newcommand{\tr}[1]{\mr{Tr}\parena{#1}} %Trace
+%\newcommand{\gal}[1]{\mr{Gal}\parena{#1}} %Galois群
+\newcommand{\ord}[2]{\mr{ord}_{#1}{\parena{#2}}}
+\DeclareMathOperator{\ch}{ch}
+\newcommand{\trans}[1]{{}^{\mr{T}}\parena{#1}} %transpose
+
+
+%%%幾何学
+\newcommand{\supp}[1]{\mr{Supp}(#1)}
+\newcommand{\opensub}{\overset{\mr{open}}{\subset}}
+\newcommand{\sub}[1]{\overset{#1}{\subset}}
+
+
+%黒板文字
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+
+
+%\renewcommand{\labelenumi}{\fbox{\arabic{enumi}}}
+%\renewcommand{\labelenumii}{(\arabic{enumii})}
+%\renewcommand{\labelenumiii}{(\roman{enumiii})}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\renewcommand{\labelenumii}{(\roman{enumii})}
+
+\parindent=0pt
+
+
+
+
+
+
+%newtheorem 
+\newtheorem{supple}{補足}
+\newtheorem{claim}{Claim}
+\newtheorem{rem}{注意}
+\newtheorem{lem}{補題}
+\newtheorem{prop}{命題}
+\newtheorem{cor}{系}

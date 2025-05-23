@@ -1,0 +1,36 @@
+\begin{thm}{206}{\hosi 8}{駿台全国 誘導抜き 改題}
+ $n$を正の整数とする。成分がすべて有理数である$2n+1$個のベクトル
+ \[ \vvv{v_k}=(x_k,y_k) \quad (k=1, 2, \cdots, 2n+1) \]
+ について、以下の2つの関係式
+ \begin{align*}
+  \vvv{v_1}+\vvv{v_2}+\cdots+\vvv{v_{2n+1}}=\vvv{0} \\
+  |\vvv{v_1}|=|\vvv{v_2}|=\cdots=|\vvv{v_{2n+1}}|
+ \end{align*}
+ を同時に満たすならば、
+ \[ \vvv{v_1}=\vvv{v_2}=\cdots=\vvv{v_{2n+1}}=\vvv{0} \]
+ であることを証明せよ。
+\end{thm}
+
+$\vvv{v_1}=\vvv{v_2}=\dots=\vvv{v_{2n+1}}=\vvv{0}$でないと仮定する($\lozenge$)。十分大きい自然数$N$をとり、$N!\vvv{v_k}$の成分が全て整数であるようにできる。また、
+\[ N!x_1,\, N!x_2,\,\dots\,,\, N!x_{2n+1},\, N!y_1,\, N!y_2,\, \dots\,,\, N!y_{2n+1} \]
+の最大公約数を$g$とおく。$\dfrac{N!x_k}{g}=X_k$, $\dfrac{N!y_k}{g}=Y_k$とし、$\dfrac{N!}{g}\vvv{v_k}=\vvv{w_k}$とすると、$\vvv{w_k}$の成分は全て整数でかつ各成分の最大公約数は1となる。ゆえに、$\vvv{w_k}$の各成分の中に奇数が必ず一つは存在する。対称性から、$X_k$ $(k=1,2,\dots,2n+1)$の中に少なくとも1つ奇数があるとしてよい。
+
+このとき、
+\begin{align*}
+ \sum_{k=1}^{2n+1}\vvv{v_k}=\vvv{0} \,\dou\, \sum_{k=1}^{2n+1}\vvv{w_k}=\vvv{0} \,\dou\, \left\{
+ \begin{aligned}
+  \sum_{k=1}^{2n+1} X_k =0 \\
+  \sum_{k=1}^{2n+1} Y_k =0
+ \end{aligned} \right. \tag{\text{＊}}
+\end{align*}
+である。このことから、$X_k$ $(k=1,2,\dots,2n+1)$の中に奇数は偶数個ある。したがってこの中に偶数は奇数個(すなわち少なくとも1つ)あることになる。
+
+$X_a$が偶数であり$X_b$が奇数となるような$a$と$b$をとる。
+\begin{align*}
+ |\vvv{v_a}|=|\vvv{v_b}| \,\dou\, |\vvv{w_a}|=|\vvv{w_b}| \,\dou\,& X_a^2+Y_a^2=X_b^2+Y_b^2 \\
+ \dou\,& 0+Y_a^2 \equiv 1+Y_b^2 \pmod{4}
+\end{align*}
+である。一般に、自然数$m$について$m^2\equiv 0, 1 \pmod{4}$であることから、$Y_a\equiv 1 ,\, Y_b\equiv 0 \pmod{4}$
+のみが適する。したがって、$|\vvv{w_a}|^2\equiv |\vvv{w_b}|^2\equiv 1 \pmod{4}$となっているから、任意の$k$ $(k=1,2,\dots,2n+1)$に対して$|\vvv{w_k}|^2\equiv 1 \pmod{4}$となる。すなわち$X_k^2+Y_k^2$は奇数なので、$X_k$と$Y_k$の偶奇は異なる。すると$Y_k$ $(k=1,2,\dots, 2n+1)$の中に奇数は奇数個あるから、$\disp \sum_{k=1}^{2n+1}Y_k$は奇数となるが、これは(＊)に矛盾する。
+
+したがって、($\lozenge$)の仮定が誤りであって、題意の成立が示された。

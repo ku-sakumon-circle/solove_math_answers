@@ -1,0 +1,28 @@
+\begin{thm}{001}{}{最大公約数、互いに素}
+ $n\in \mathbb{N}$とする。
+ \begin{enumerate}
+  \item $n^2+1$と$n^2+2n+2$の最大公約数を求めよ。 \hosi 3 (京大実戦)
+  \item $2^n+3^{n+1}$と$3^n+2^{n+1}$の最大公約数を求めよ。 \hosi 5 (京大OP)
+ \end{enumerate}
+\end{thm}
+
+\syoumon{1}
+$n^2+1$と$n^2+2n+2$の最大公約数を$G$とし、互いに素な自然数$a, b$を用いて
+\[ n^2+1=aG,\quad n^2+2n+2=bG \]
+とおく。このとき$(2a-b)G=n(n-2)$となるから、$n(n-2)$は$G$の倍数である。一方$n^2-aG=1$より、$n$と$G$は互いに素。なので$n-2$が$G$の倍数で$n\equiv 2 \pmod{G}$。このとき
+\begin{align*}
+ n^2+1&=aG & &\Rightarrow & 5&\equiv 0 \pmod{G} \\
+ n^2+2n+2&=bG & &\Rightarrow & 10&\equiv 0 \pmod{G}
+\end{align*}
+となるから、$G$は1か5のいずれか。$n\equiv2\pmod{5}$のとき、$n^2+1$も$n^2+2n+2$も、5で割り切れるから、$G=5$。$n\equiv 0, \pm 1 \pmod{5}$のとき、$n^2+1\not\equiv0\pmod{5}$で、また$n\equiv 3 \pmod{5}$のとき、$n^2+2n+2\not\equiv0\pmod{5}$なので、これらの場合には$G\neq 5$だから、$G=1$。
+
+以上より、$\disp G=\begin{cases} 1 & \text{$n\not\equiv2 \pmod{5}$のとき} \\ 5 & \text{$n\equiv 2 \pmod{5}$のとき} \end{cases}$
+
+\syoumon{2}
+$2^n+3^{n+1}$と$3^n+2^{n+1}$の最大公約数を$G$とする。このとき、
+\[ 2^n \equiv -3^{n+1} \qquad \text{かつ} \qquad 3^n\equiv -2^{n+1} \quad \pmod{G} \]
+なので、
+\[ 2^n\equiv -3\cdot3^n\equiv -3\cdot(-2^{n+1}) \equiv 6\cdot2^n \pmod{G} \]
+より、$5\cdot2^n\equiv 0\pmod{G}$である。一方で$2^n+3^{n+1}$は奇数なので、$G$は奇数である。よって$G$は$5\cdot2^n$の奇数の約数に限られるから、$G$は1または5。$G=5$とすると、
+\[ 2^n+3^{n+1}\equiv 2^n+(-2)^{n+1}=2^n\bigl[1+2(-1)^{n+1}\bigr]\equiv 0 \pmod{5} \]
+を得て、2と5は互いに素であるから結局$1+2(-1)^{n+1}\equiv 0 \pmod{5}$となるが、この左辺は3または-1なので矛盾。よって$G=5$は不適で、求める最大公約数は$G=1$。

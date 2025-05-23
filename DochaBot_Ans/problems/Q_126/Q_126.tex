@@ -1,0 +1,49 @@
+\begin{thm}{126}{\hosi 8}{東京大}
+ 実数$a$の整数部分を$[a]$とする。自然数$n$として、$f(x)=\dfrac{x^2(54n-x)}{864n^2}$ とするとき、$[f(0)]$, $[f(1)]$, $\cdots$, $[f(36n)]$ の中に何種類の整数があるか、$n$を用いて答えよ。
+\end{thm}
+
+まず、
+\[ \frac{d}{dx}\bigl(864n^2f(x)\bigr)=3x(36n-x) \]
+であることに注意すると、$f(x)$は区間$[0,36n]$上増加しているため、$i$を$0\le i < 36n$を満たす整数として、$\bigl[f(i)\bigr] \le \bigl[f(i+1)\bigr]$ が常に成り立つことがわかる。したがって、このような$i$のうち、この不等式の等号を生じさせないものが$k$種類あるとすれば、求める個数は$k+1$である。
+
+$f(i+1)-f(i)-1$を計算する。
+\begin{align*}
+ &\frac{1}{864n^2}\bigl\{54n( (i+1)^2-i^2 )-( (i+1)^3-i^3 )\bigr\} -1 \\
+ =&\frac{1}{864n^2}\bigl\{-3i^2+(108n-3)i+(54n-1)-864n^2\bigr\}
+\end{align*}
+$\{{}\}$の中身の$i$の二次式について判別式$D$を計算する。
+\begin{align*}
+ D=(108n-3)^2+12(-864n^2+54n-1)=1296n^2-3
+\end{align*}
+よって、2次方程式$-3X^2+(108n-3)X+(-864n^2+54n-1)=0$ の解は$X=18n-\dfrac{1}{2}\pm\dfrac{\sqrt{D}}{6}$ と求まるので、
+\begin{align*}
+ &f(i+1)-f(i)-1\ge 0 \\
+ \dou\quad & 18n-\frac{1}{2}-\frac{\sqrt{D}}{6}\le i\le 18n-\frac{1}{2}+\frac{\sqrt{D}}{6}
+\end{align*}
+であることが分かる。これを満たす$i$とは、$i$は整数で考えていることを考慮すれば、天井関数と床関数を用いて
+\[ \left\lceil 18n-\frac{1}{2}-\frac{\sqrt{D}}{6}\right\rceil \le i\le \left\lfloor 18n-\frac{1}{2}+\frac{\sqrt{D}}{6}\right\rfloor \]
+を満たす$i$と言える。ここで、
+\[ 6n-\frac{1}{2} < \sqrt{D}=\sqrt{36n^2-\frac{1}{12}} < 6n \]
+に注意すれば、
+\begin{align*}
+ \left\lceil 18n-\frac{1}{2}-\frac{\sqrt{D}}{6}\right\rceil &= 12n \\
+ \left\lfloor 18n-\frac{1}{2}+\frac{\sqrt{D}}{6}\right\rfloor &= 24n-1
+\end{align*}
+が従うので、
+\[ f(i+1)-f(i)-1 \ge 0 \quad\dou\quad 12n\le i < 24n \]
+となる。この範囲の$i$においては、
+\[ f(i)+1\le f(i+1) \quad\Rightarrow\quad \bigl[f(i)\bigr] < \bigl[f(i+1)\bigr] \]
+が成り立つ。これは
+\[ 7n=\bigl[f(12n)\bigr]<\bigl[f(12n+1)\bigr]<\dots <\bigl[f(24n)\bigr]=20n \]
+という増加列$\bigl[f(i)\bigr]$が、どの2つも違う整数を登場させるので、この部分には$7n$から$20n$の間に飛び飛びで$12n+1$個の整数が登場していることが分かる。
+
+$0\le i < 12n$あるいは$24n\le i < 36n$ の場合が、
+\[ f(i) \le f(i+1) < f(i)+1 \]
+となるので、$\bigl[f(i)\bigr]\le \bigl[f(i+1)\bigr]$ の等号は成り立つ場合も成り立たない場合もあるが、等号が成り立たない場合であっても$\bigl[f(i)\bigr]$と$\bigl[f(i+1)\bigr]$の差は1にしかならない。つまり、
+\[ 0=\bigl[f(0)\bigr]\le\bigl[f(1)\bigr]\le\dots\le\bigl[f(12n)\bigr]=7n \]
+という整数の広義増加列は$0$から$7n$までの$7n+1$個の整数が全て登場している。同様に
+\[ 20n=\bigl[f(24n)\bigr]\le\bigl[f(24n+1)\bigr]\le\dots\le\bigl[f(36n)\bigr]=27n \]
+の間の$7n+1$個の整数も全て登場する。
+
+以上のことから登場する整数は、$7n$と$20n$の重複に注意して、
+\[ (12n+1)+(7n+1)+(7n+1)-2=26n+1 \]

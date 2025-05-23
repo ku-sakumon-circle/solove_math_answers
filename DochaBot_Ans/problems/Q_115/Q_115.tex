@@ -1,0 +1,46 @@
+\begin{thm}{115}{\hosi 8}{山口大}
+ 関数$f(x)$は微分可能で、次の条件を満たしているとする。
+ \begin{enumerate}
+  \renewcommand{\labelenumi}{(\alph{enumi})}
+  \item $f(x)\ge x+1$
+  \item 全ての実数$h$に対し、$f(x+h)\ge f(x)f(h)$
+ \end{enumerate}
+ 以下の問に答えよ。
+ \begin{enumerate}
+  \item $f(0)$, $f'(0)$ を求めよ。
+  \item $f(x)$ を求めよ。
+ \end{enumerate}
+\end{thm}
+
+\syoumon{1}
+条件(a)に、$x=0$を代入することで$f(0)\ge 1$がわかる。条件(b)に、$x=h=0$を代入することで、$f(0)\ge f(0)^2$がわかる。これをともに満たすのは$f(0)=1$。
+
+続いて、微分係数の定義から、
+\[ f'(0) = \lim_{h\to 0} \frac{f(0+h)-f(0)}{h} = \lim_{h\to 0}\frac{f(h)-1}{h} \]
+である。$h$を$-h$に置き換えることで、
+\[ f'(0) = \lim_{h\to 0} \frac{f(h)-1}{h} = \lim_{h\to +} \frac{f(-h)-1}{-h} \]
+を得る。
+ここに条件(a)を用いて、
+\[ f'(0) = \lim_{h\to 0}\frac{f(h)-1}{h} \ge \lim_{h\to 0}\frac{(h+1)-1}{h} = 1 \]
+が得られる。また、条件(a)において、
+\[ f(-h)\ge -h+1 \quad\dou\quad -f(-h)\le h-1 \]
+であるから、
+\[ f'(0) = \lim_{h\to 0} \frac{1-f(-h)}{h} \le \lim_{h\to 0} \frac{1+(h-1)}{h} = 1 \]
+が成り立つ。これらのことから、$f'(0) = 1$。
+
+\syoumon{2}
+導関数の定義から、
+\begin{align*}
+ f'(x) &= \lim_{h\to 0} \frac{f(x+h)-f(x)}{h}\ge \lim_{h\to 0} \frac{f(x)f(h)-f(x)}{h} \\
+ &= f(x) \lim_{h\to 0} \frac{f(h)-1}{h} = f(x)f'(0) = f(x)
+\end{align*}
+であり、さらに
+\begin{align*}
+ f'(x) &= \lim_{h\to 0} \frac{f(x-h)-f(x)}{-h}=\lim_{h\to 0}\frac{f(x)-f(x-h)}{h} \\
+ &\le \lim_{h\to 0} \frac{f(x)-f(x)f(-h)}{h} = f(x)\lim_{h\to 0}\frac{1-f(-h)}{h} \\
+ &= f(x)f'(0)=f(x)
+\end{align*}
+であるから、$f'(x)=f(x)$が従う。よって$f(x)=Ce^x$であることがわかる。ここで$C$は定数であって、$f(0)=1$であったから、$C=1$である。
+
+以上より、$f(x)=e^x$。
+

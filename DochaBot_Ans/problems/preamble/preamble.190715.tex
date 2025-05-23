@@ -1,0 +1,102 @@
+% packages
+\usepackage{amsmath,amssymb,amsfonts,amsthm,ascmac}
+\usepackage{bm,braket,bigints}
+\usepackage{fancyhdr,framed,multicol}
+\usepackage{color}
+\usepackage{makeidx}
+\usepackage{enumitem}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{wrapfig}
+\usepackage{itembkbx}
+\usepackage{here}
+\usepackage{ulem}
+\usepackage[%
+top    = 25truemm,%
+bottom = 25truemm,%
+left   = 7truemm,%
+right  = 7truemm]{geometry}
+
+% Enumerate 環境
+%\def\theenumi{\arabic{enumi}}
+%\def\labelenumi{(\theenumi)}
+\SetLabelAlign{CenterWithParen}{\hfil(\makebox[0.7em]{#1})\hfil}
+
+% 図・数式周囲の余白調整/改ページ許可
+\def\lengthparam{
+\setlength{\textfloatsep}{0pt}
+\setlength{\intextsep}{0pt}
+\setlength{\abovedisplayskip}{0.5pt}
+\setlength{\belowdisplayskip}{0.5pt}
+}
+\allowdisplaybreaks[4]
+
+% 問題を記述するための環境定義
+\def\probs{}
+\def\none{none}
+\def\breakboxparindent{0pt}
+\newenvironment{thm}[3]%
+{\bigskip \global\expandafter\def\expandafter\probs\expandafter{\probs \quad Q.#1} %
+ \begin{breakitembox}[l]{Q.#1\hspace{0.4eM}#2\hspace{0.4eM}#3}}
+{\end{breakitembox}\smallskip}
+
+% 問題の総数
+\newcounter{qnum}
+\setcounter{qnum}{228}
+
+% 補題を記述するための環境定義
+\definecolor{gray}{rgb}{0.75,0.75,0.75}
+\newenvironment{subthm}[1]%
+{\def\FrameCommand{\textcolor{gray}{\vrule width 5pt} \hspace{3pt}}
+ \MakeFramed {\advance\hsize-\width \FrameRestore}
+ \hspace{6pt} \textbf{補題#1} \\}
+{\endMakeFramed}
+
+% ヘッダの設定
+\pagestyle{fancy}
+\lhead{\probs \global\def\probs{}}
+\rhead{}
+
+% 問題索引の作成を宣言
+\makeindex
+
+%ローマ数字を出力
+\newcounter{rom}
+\newcommand{\Rnum}[1]{\setcounter{rom}{#1} \hspace{-0.1ex}\Roman{rom}\hspace{-0.1ex}}
+\newcommand{\rnum}[1]{\setcounter{rom}{#1} \hspace{-0.1ex}\roman{rom}\hspace{-0.1ex}}
+
+% (Re)New commands
+%\newcommand{\thm}{\begin{itembox}[l]}
+\newcommand{\syoumon}[1]{\vspace{1ex}\hspace{1eM}{\large ({\bf #1})} \par \vspace{1ex}}
+\newcommand*{\vvv}{\overrightarrow}
+\newcommand{\combi}[2]{{}_{#1}\mathrm{C}_{#2}}
+\newcommand{\permu}[2]{{}_{#1}\mathrm{P}_{#2}}
+\newcommand{\disp}{\displaystyle}
+%\newcommand{\enthm}{\end{itembox}\\}
+\newcommand{\dou}{\Leftrightarrow}  %%同値
+\newcommand{\naraba}{\Rightarrow}
+\newcommand{\irr}{\mbox{Irr}}
+\newcommand{\jap}{\mbox}
+\renewcommand{\leq}{\leqq}
+\renewcommand{\geq}{\geqq}
+\newcommand{\nea}{\nearrow}
+\newcommand{\hosi}{$\bigstar$}
+\newcommand{\maru}{$\circledcirc$}
+\newcommand{\marunum}[1]{\raise0.2ex\hbox{\textcircled{\footnotesize{#1}}}}
+\newcommand{\sea}{\searrow}
+\newcommand{\mb}{\mathbb}
+\newcommand{\mr}{\mathrm}
+\newcommand{\bracket}[1]{%
+\[
+ \left(
+ \begin{tabular}{p{0.9\hsize}}
+  #1
+ \end{tabular}
+ \right)
+\]}
+%\renewcommand{\labelenumi}{\fbox{\arabic{enumi}}}
+%\renewcommand{\labelenumii}{(\arabic{enumii})}
+%\renewcommand{\labelenumiii}{(\roman{enumiii})}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\renewcommand{\labelenumii}{(\roman{enumii})}
+
+\parindent=0pt

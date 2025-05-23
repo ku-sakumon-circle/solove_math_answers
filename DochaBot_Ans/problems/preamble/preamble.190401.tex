@@ -1,0 +1,81 @@
+% packages
+\usepackage{amsmath,amssymb,amsfonts,amsthm,ascmac}
+\usepackage{bm,braket}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{itembkbx}
+\usepackage{here}
+\usepackage[%
+top    = 25truemm,%
+bottom = 25truemm,%
+left   = 7truemm,%
+right  = 7truemm]{geometry}
+
+% Enumerate 環境
+%\def\theenumi{\arabic{enumi}}
+%\def\labelenumi{(\theenumi)}
+\SetLabelAlign{CenterWithParen}{\hfil(\makebox[0.7em]{#1})\hfil}
+
+% 図・数式周囲の余白調整
+\def\lengthparam{
+\setlength{\textfloatsep}{0pt}
+\setlength{\intextsep}{0pt}
+\setlength{\abovedisplayskip}{0.5pt}
+\setlength{\belowdisplayskip}{0.5pt}
+}
+
+% 問題を記述するための環境定義
+\def\probs{}
+\def\none{none}
+\def\breakboxparindent{0pt}
+\newenvironment{thm}[3]%
+{\bigskip \global\expandafter\def\expandafter\probs\expandafter{\probs \quad Q.#1} %
+ \begin{breakitembox}[l]{Q.#1\hspace{0.4eM}#2\hspace{0.4eM}#3}}
+{\end{breakitembox}\smallskip}
+
+% 問題の総数
+\newcounter{qnum}
+\setcounter{qnum}{227}
+
+%ヘッダの設定
+\pagestyle{fancy}
+\lhead{\probs \global\def\probs{}}
+
+%ローマ数字を出力
+\newcounter{rom}
+\newcommand{\Rnum}[1]{\setcounter{rom}{#1} \hspace{-0.1ex}\Roman{rom}\hspace{-0.1ex}}
+\newcommand{\rnum}[1]{\setcounter{rom}{#1} \hspace{-0.1ex}\roman{rom}\hspace{-0.1ex}}
+
+% (Re)New commands
+%\newcommand{\thm}{\begin{itembox}[l]}
+\newcommand{\syoumon}[1]{\vspace{0.3ex}\hspace{0.5eM}(#1) \par}
+\newcommand*{\vvv}{\overrightarrow}
+\newcommand{\disp}{\displaystyle}
+%\newcommand{\enthm}{\end{itembox}\\}
+\newcommand{\dou}{\Leftrightarrow}  %%同値
+\newcommand{\naraba}{\Rightarrow}
+\newcommand{\irr}{\mbox{Irr}}
+\newcommand{\jap}{\mbox}
+\renewcommand{\leq}{\leqq}
+\renewcommand{\geq}{\geqq}
+\newcommand{\nea}{\nearrow}
+\newcommand{\hosi}{$\bigstar$}
+\newcommand{\maru}{$\circledcirc$}
+\newcommand{\sea}{\searrow}
+\newcommand{\mb}{\mathbb}
+\newcommand{\bracket}[1]{%
+\[
+ \left(
+ \begin{tabular}{p{0.9\hsize}}
+  #1
+ \end{tabular}
+ \right)
+\]}
+%\renewcommand{\labelenumi}{\fbox{\arabic{enumi}}}
+%\renewcommand{\labelenumii}{(\arabic{enumii})}
+%\renewcommand{\labelenumiii}{(\roman{enumiii})}
+\renewcommand{\labelenumi}{(\arabic{enumi})}
+\renewcommand{\labelenumii}{(\roman{enumii})}
+
+\parindent=0pt

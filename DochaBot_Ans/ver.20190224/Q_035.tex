@@ -1,0 +1,35 @@
+\thm{Q.35 $\bigstar 8$ (学コン2017-10-5)}
+$n$を自然数, $a,b$を実数の定数として, 関数$f_n(x)$を次のように定める。
+\[f_1(x)=(ax+b)\sin{x}+(bx+a)\cos{x},　f_{n+1}(x)=\dfrac{d}{dx}f_n(x)\]
+$S_n=\disp\sum_{k=1}^n\disp\int_0^{\frac{\pi}{2}}f_k(x)\, dx$ とするとき, $S_{4m}$と$S_{4m+1}$　($m$は自然数)を求めよ。
+\enthm
+計算により次が成り立つ。
+\[ f_1(x)+f_3(x)=2a\cos{x}-2b\sin{x}\]
+\[ f_4(x) +f_2(x)=-(2a\sin{x}+2b\cos{x})\]
+足して, $2(a-b)=p, 2(a+b)=q$とすると
+\[\disp\sum_{k=1}^4f_k(x) = p\cos{x}-q\sin{x}\]
+両辺を$4n$回微分すれば
+\[\disp\sum_{k=1}^4f_{4n+k}(x) = p\cos{x}-q\sin{x}\]
+有限和であるため, $S_n =\disp\int_0^{\frac{\pi}{2}} \disp\sum_{k=1}^nf_k(x)\, dx$ としてよく,
+\[\disp\sum_{k=1}^{4m}f_k(x) = \disp\sum_{k=1}^{m}(p\cos{x}-q\sin{x})=m(p\cos{x}-q\sin{x})\]
+なので, $\disp\int_0^{\frac{\pi}{2}}\sin{x}dx=\disp\int_0^{\frac{\pi}{2}}\cos{x}dx=1$から
+\[S_{4m}=mp-mq=-4mb\]
+$S_{4m+1}=S_{4m}+\disp\int_{0}^{\frac{\pi}{2}}f_{4m+1}(x)dx$であるが,
+\[\disp\int_{0}^{\frac{\pi}{2}}f_{4m+1}(x)dx=\left[ f_{4m}(x)\right]^{\frac{\pi}{2}}_0 = f_{4m}\left(\dfrac{\pi}{2}\right)-f_{4m}(0)\]
+となる。そこで, $a_n=f_{4n}\left( \dfrac{\pi}{2}\right)-f_{4n}(0)$とする。$a_n$についての漸化式をこれから導く。ここで, 
+\[f_0(x)=(bx+2a)\sin{x}-ax\cos{x}\]
+とおくと, $f_1(x)=\dfrac{d}{dx}f_0(x)$ となっている。また, 計算により
+\[f_4(x)=f_0(x)-4a\sin{x}-4b\cos{x}\]
+であって, この式から微分を数回施し
+\[f_{4n+4}(x)=f_{4n}(x) -4a\sin{x}-4b\cos{x}　(n=0,1,2,\cdots )\]
+を導くことができる。この式に$x=0,\dfrac{\pi}{2}$を代入したとき
+\[f_{4n+4}\left(\dfrac{\pi}{2}\right)=f_{4n+4}\left( \dfrac{\pi}{2}\right)-4a\]
+\[f_{4n+4}(0)=f_{4n}(0)-4b\]
+を得るから,上式から下式を引いて
+\[a_{n+1}=a_n+4(b-a)\]
+を得る。これは等差数列の漸化式で, $a_m=a_0+4m(b-a)$になる。
+\[a_0=f_0\left(\dfrac{\pi}{2}\right)-f_0(0)=2a+\dfrac{\pi}{2}b\]
+なので, $m=0,1,\cdots $において
+\[a_m=(2-4m)a+\left(4m+\dfrac{\pi}{2}\right)b\]
+以上から, 
+\[S_{4m+1}=-4mb+a_m=(2-4m)a+\dfrac{\pi}{2}b\]

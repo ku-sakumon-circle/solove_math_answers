@@ -1,0 +1,190 @@
+\documentclass[twocolumn]{jsarticle}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{bm,braket,ascmac}
+\usepackage{amsmath,amssymb,amsfonts,amsthm,fancyhdr}
+
+\usepackage{ ascmac,fancyhdr}
+\usepackage[%
+top    = 25truemm,%
+bottom = 25truemm,%
+left   = 7truemm,%
+right  = 7truemm]{geometry}
+\pagestyle{fancy}
+\lhead{\rightmark}
+% Enumerate 環境
+\def\theenumi{\arabic{enumi}}
+\def\labelenumi{(\theenumi)}
+
+% (Re)New commands
+\newcommand{\thm}{\begin{itembox}[l]}
+\newcommand*{\vvv}{\overrightarrow}
+\newcommand{\disp}{\displaystyle}
+\newcommand{\enthm}{\end{itembox}\\}
+\newcommand{\dou}{\Leftrightarrow}  %%同値
+\newcommand{\naraba}{\Rightarrow}
+\newcommand{\irr}{\mbox{Irr}}
+\newcommand{\jap}{\mbox}
+\renewcommand{\leq}{\leqq}
+\renewcommand{\geq}{\geqq}
+\newcommand{\nea}{\nearrow}
+\newcommand{\hosi}{$\bigstar$}
+\newcommand{\sea}{\searrow}
+\newcommand{\mb}{\mathbb}
+\newcommand{\bracket}[1]{%
+\[
+ \left(
+ \begin{tabular}{p{0.9\hsize}}
+  #1
+ \end{tabular}
+ \right)
+\]}
+\renewcommand{\labelenumi}{\fbox{\arabic{enumi}}}
+\renewcommand{\labelenumii}{(\arabic{enumii})}
+\renewcommand{\labelenumiii}{(\roman{enumiii})}
+\usepackage{amsmath,amssymb,ascmac,bm,geometry,amsfonts}
+
+\parindent=0pt
+
+\begin{document}
+\fontsize{9pt}{7pt}\selectfont
+\bf
+{\Large どちゃ楽数学bot（solove\_ math）の解答をtexで全部仕上げて一冊にまとめてみんかプロジェクト}\\
+\\
+\\
+もう作って4年になったこのbot、中の人が準備を怠りすぎていまだに解答がそろえられてない。めんどくせえんだものねえ　DM
+で解答くださいって来てるやつ大分ほったらかしたりしてる（カスか？）\\
+だんだんtexも真剣に扱うようになってきたしこのさいこんな感じで一気にまとめてみようかと。できたら死ぬほど分厚い一冊にして記念にしちゃおう。（著作権の問題あるし販売は無理）　さて何年かかるかしら。.
+\\
+\\
+
+解答は大抵中の人が自分で編み出してきたやつなので最速とは限りません。このpdf
+における進捗は次のようになっています。
+\\
+\\
+完成（とりあえず議論一通りかいた）\\
+5　7\\
+18\\
+28\\
+33　35　39\\
+63\\
+98\\
+121　124　127\\
+151　157\\
+170　175\\
+177　178　180\\
+189\\
+198\\
+211\\
+225　226\\
+\\
+\\
+途中（途中放りだしてたり小問の一部のみだったり）\\
+2\\
+60\\
+138\\
+143\\
+161\\
+207\\
+\\
+\\
+特にこの問題の解答が欲しいとかいわれたら書くかもしれん　（協力者募集中）
+
+\newpage
+\section*{\markright{Q.1～Q.20}}
+
+\input{./Q_002.tex}
+
+\input{./Q_005.tex}
+
+\input{./Q_007.tex}
+
+\input{./Q_018.tex}
+
+\input{./Q_028.tex}
+
+\newpage
+
+\section*{\markright{Q.21～Q.40}}
+
+\input{./Q_033.tex}
+
+\input{./Q_035.tex}
+
+\input{./Q_039.tex}
+
+\input{./Q_060.tex}
+
+
+\section*{\markright{Q.61～Q.80}}
+
+\input{./Q_063.tex}
+
+\thm{Q. $\bigstar $ ()}
+\enthm
+\thm{Q. $\bigstar $ ()}
+\enthm
+\thm{Q. $\bigstar $ ()}
+\enthm
+
+\input{./Q_098.tex}
+
+\section*{\markright{Q.121～Q.140}}
+
+\input{./Q_121.tex}
+
+\input{./Q_124.tex}
+
+\input{./Q_127.tex}
+
+\input{./Q_138.tex}
+
+\section*{\markright{Q.141～Q.160}}
+
+\input{./Q_142.tex}
+
+\input{./Q_143.tex}
+
+\input{./Q_151.tex}
+
+\input{./Q_157.tex}
+
+
+\newpage
+\section*{\markright{Q.161～Q.180}}
+
+\input{./Q_161.tex}
+
+
+\newpage
+
+\input{./Q_170.tex}
+
+\thm{Q.}
+\enthm
+
+\input{./Q_175.tex}
+
+\input{./Q_177.tex}
+
+\input{./Q_178.tex}
+
+\input{./Q_180.tex}
+
+\input{./Q_189.tex}
+
+\input{./Q_198.tex}
+
+\input{./Q_207.tex}
+
+\input{./Q_210.tex}
+
+\input{./Q_211.tex}
+
+\input{./Q_218.tex}
+
+\input{./Q_225.tex}
+
+\input{./Q_226.tex}
+\end{document}

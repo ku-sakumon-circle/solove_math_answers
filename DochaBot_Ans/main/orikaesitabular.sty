@@ -1,0 +1,276 @@
+% orikaesitabular.sty by tDB (emath@nifty.com)
+%
+\NeedsTeXFormat{LaTeX2e}%
+\ProvidesPackage{orikaesitabular}[2015/06/02 v0.00]%
+%
+\RequirePackage{emathT}%
+%
+\def\rowifunc#1{#1}%
+%
+\def\orikaesitabular{\@ifnextchar<{\@orikaesitabular}{%
+  \@orikaesitabular<\empty>}}
+\def\@orikaesitabular<#1>#2{%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\edef\hline@tcb{tcb}%
+\def\orikaesi@kankaku{0pt}%
+\define@key{emT}{orikaesikankaku}{\edef\orikaesi@kankaku{##1}}%
+\define@key{emT}{retuhaba}{\edef\retu@haba{##1}}%
+\define@key{emT}{columnwidth}{\edef\retu@haba{##1}}%
+\define@key{emT}{columnlcr}{\edef\column@lcr{##1}%
+  \strsep[\tmp@f]{##1}{C}\tmp@a\tmp@b
+  \ifnum\tmp@f=\z@
+    \strsep[\tmp@f]{##1}{L}\tmp@a\tmp@b
+    \ifnum\tmp@f=\z@
+      \strsep[\tmp@f]{##1}{R}\tmp@a\tmp@b
+    \fi
+  \fi
+  \ifnum\tmp@f>\z@
+    \strsep\tmp@b{|}\tmp@a\tmp@b
+    \strsep\tmp@a{<}\tmp@a\tmp@b
+    \edef\retu@haba{\tmp@a}%
+  \fi
+  \ignorespaces
+  }%
+\define@key{emT}{hline}{\edef\hline@tcb{##1}}%
+\define@key{emT}{rowstrut}{\def\row@@strut{##1}}%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\output@orikaesitbl{%
+  \noindent
+  \edef\tbl@@{}%
+  \Ifor\@@i{1}{\row@N}\Do{%
+    \Strchr{\hline@tcb}{c}\orikaesitbl@tmp
+    \ifnum\orikaesitbl@tmp>\z@
+      \EMedefappend\tbl@@{%
+        \csname row@\romannumeral\@@i\endcsname\noexpand\\ \noexpand\hline}%
+    \else
+      \EMedefappend\tbl@@{%
+        \csname row@\romannumeral\@@i\endcsname\noexpand\\}%
+    \fi
+  }%
+  \Strchr{\hline@tcb}{b}\orikaesitbl@tmp
+  \ifnum\orikaesitbl@tmp>\z@
+    \EMedefappend\tbl@@{%
+      \csname row@\romannumeral\@@i\endcsname\noexpand\\ \noexpand\hline}%
+  \else
+    \EMedefappend\tbl@@{%
+      \csname row@\romannumeral\@@i\endcsname\noexpand\\}%
+  \fi
+  \EMedef\tmp@arg@{{\tmp@arg}}%
+  \Strchr{\hline@tcb}{t}\orikaesitbl@tmp
+  \ifnum\orikaesitbl@tmp>\z@
+    \expandafter\tabular\tmp@arg@\hline
+  \else
+    \expandafter\tabular\tmp@arg@
+  \fi
+    \tbl@@
+  \endtabular
+}%
+\def\@dpttl{%
+  \edef\@tmpt{\empty}%
+  \edef\@flg{0}%
+  \edef\tbl@width{0pt}%
+  \edef\tmp@i{0}%
+  \expandafter\@for\expandafter\@@c\expandafter:\expandafter=\ttl@column\do{%
+    \Incr\tmp@i
+    \setbox0=\hbox{\@@c}%
+    \ifx\empty\@@c\else\edef\dp@ttl@flg{}\fi
+    \@tempdima\wd0
+    \advance\@tempdima2\tabcolsep
+    \advance\@tempdima2\arrayrulewidth
+    \ifdim\@tempdima>\tbl@width
+      \edef\tbl@width{\the\@tempdima}%
+    \fi
+    \expandafter\EMedef\csname row@\romannumeral\tmp@i\endcsname{\@@c}%
+  }%
+  \edef\row@N{\tmp@i}%
+  \edef\column@N{0}%
+%\typeout{tbl@width=\tbl@width}%
+  \@ifundefined{dp@ttl@flg}{%
+    \EMedef\tmp@arg{|>{\noexpand\row@@strut\hspace*{-\tbl@width}}l}%
+    \edef\tbl@width{0.4pt}%
+  }{%
+    \EMedef\tmp@arg{|>{\noexpand\row@@strut}l|}%
+  }%
+}%
+\def\addcolumn{\@ifnextchar[{\@addcolumn}{\@addcolumn[\empty]}}%
+\def\@addcolumn[##1]##2{%
+  \edef\@tmpa{\empty}%
+  \edef\@flg{0}%
+  \edef\clm@width{0pt}%
+  \expandafter\@for\expandafter\@@c\expandafter:\expandafter=##2\do{%
+    \ifx\empty ##1\relax
+      \ifx\empty\retu@haba
+        \setbox0=\hbox{\@@c}%
+        \@tempdima\wd0
+      \else
+        \@tempdima=\retu@haba
+      \fi
+    \else
+      \setbox0=\hbox{\@@c}%
+      \@tempdima\wd0
+    \fi
+    \advance\@tempdima2\tabcolsep
+    \advance\@tempdima\arrayrulewidth
+    \ifdim\@tempdima>\clm@width
+      \edef\clm@width{\the\@tempdima}%
+    \fi
+  }%
+  \@tempdima\clm@width
+  \advance\@tempdima\tbl@width
+  \edef\tbl@width{\the\@tempdima}%
+%\typeout{\copy0:\tbl@width/\the\linewidth}%
+  \ifdim\tbl@width>\linewidth
+%\xxx
+    \output@orikaesitbl
+%    \\[20pt]
+\ifdim\orikaesi@kankaku=\z@
+    \\
+\else
+    \\[\orikaesi@kankaku]
+\fi
+    \@dpttl
+    \@tempdima\tbl@width
+    \advance\@tempdima\clm@width
+    \edef\tbl@width{\the\@tempdima}%
+  \fi
+  \Incr\column@N
+  \edef\tmp@i{0}%
+  \ifx\empty ##1\relax
+    \EMedefappend\tmp@arg{\tmp@arg@i}%
+  \else
+    \EMedefappend\tmp@arg{##1}%
+  \fi
+  \expandafter\@for\expandafter\@@c\expandafter:\expandafter=##2\do{%
+    \Incr\tmp@i
+    \ifnum\tmp@i=\@ne
+    \expandafter\EMedefappend\csname row@\romannumeral\tmp@i\endcsname{&\rowifunc{\@@c}}%
+    \else
+    \expandafter\EMedefappend\csname row@\romannumeral\tmp@i\endcsname{&\@@c}%
+    \fi
+  }%
+%\typeout{\meaning\row@i}%
+  \ignorespaces}%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \noindent
+  \ignorespaces
+  \edef\retu@haba{\empty}%
+  \def\column@lcr{r|}%
+  \edef\tbl@width{0pt}%
+  \def\row@@strut{\strut}%
+  \ifx\empty #1\else\setkeys{emT}{#1}\fi
+%  \ifx\empty\retu@haba
+    \EMedef\tmp@arg@i{\column@lcr}%
+%  \else
+%    \if c\column@lcr
+%      \EMedef\tmp@arg@i{C{\retu@haba}|}%%
+%    \else\if l\column@lcr
+%      \EMedef\tmp@arg@i{L{\retu@haba}|}%%
+%    \else
+%      \EMedef\tmp@arg@i{R{\retu@haba}|}%%
+%    \fi\fi
+%  \fi
+  \def\ttl@column{#2}%
+  \@dpttl
+}%
+\def\endorikaesitabular{%
+  \output@orikaesitbl
+}%
+%\let\turntabular\orikaesitabular
+%\let\endturntabular\endorikaesitabular
+%%
+%% turntabular
+%%
+%\def\turntabular{\@ifnextchar<{\@turntabular}{\@turntabular<\empty>}}%
+\def\turntabular#1{%
+  \@ifundefined{verbatim@start}{\errmessage{turntabular needs verbatim.sty}}{}%
+  \EMedef\tbl@arg@opt{#1}%
+  \edef\xychng@flnm{\jobname.txt}%
+    \bgroup\immediate\openout\em@whndl=\EM@workfiledir \xychng@flnm
+    \@bsphack\let\do\@makeother\dospecials
+    \catcode`\^^M\active
+    \def\verbatim@processline{%
+        \immediate\write\em@whndl{\the\verbatim@line}}%
+    \verbatim@start}%
+\def\turntabular@sub{%
+  \read\pl@in to \read@ln
+%
+  \ifeof\pl@in
+  \else
+    \ifthenelse{\equal\read@ln{\par }}{}{%
+      \ifeof\pl@in
+      \else
+        \Incr\tbl@lnnum
+        \Strsep\read@ln{\\}\tmp@a\tmp@b
+%\tailchar\read@ln\tmp@a\tmp@b
+        \csvhairetu*[&]\tmp@a{\romannumeral\tbl@lnnum foo}%
+        \turntabular@sub
+      \fi
+    }%
+  \fi
+}%
+%
+\def\endturntabular{\@esphack\immediate\closeout\em@whndl\egroup
+  \par\noindent
+  \let\emg@cr=\\%
+  \let\\=\relax%
+%\typeout{endturntabular}%
+  \openin\pl@in=\EM@workfiledir \xychng@flnm%
+  \edef\tbl@lnnum{0}%
+  \turntabular@sub
+  \immediate\closein\pl@in
+%\typeout{end of turntabular@sub}%
+\let\\=\emg@cr%
+  \EMedef\tbl@arg@{\empty}%
+  \edef\i@val{1}%
+    \Ifor*\j@val{1}{\tbl@lnnum}\Do{%
+      \ifnum\j@val=\@ne
+        \EMedef\tbl@arg@{\hairetu{\romannumeral\j@val foo}{\i@val}}%
+      \else
+        \EMedefappend\tbl@arg@{,\hairetu{\romannumeral\j@val foo}{\i@val}}%
+      \fi
+    }%
+  \EMedef\tbl@arg{<\tbl@arg@opt>{\tbl@arg@}}%
+%\typeout{arg=\tbl@arg}%
+\expandafter\orikaesitabular\tbl@arg
+  \Ifor*\i@val{2}{\ifooN}\Do{%
+    \edef\buf@{}%
+    \Ifor*\j@val{1}{\tbl@lnnum}\Do{%
+      \EMedefappend[,]\buf@{\hairetu{\romannumeral\j@val foo}{\i@val}}%
+    }%
+    \addcolumn{\buf@}
+  }%
+\endorikaesitabular
+}%
+%
+%
+\def\columntorows#1#2{%
+%
+  \immediate\openout\em@whndl=#2\relax
+%
+  \Cfor{\edef\i@val{0}\strsep{#1}{;}\ctortmp@a\ctortmp@b}%
+      {\not\equal\ctortmp@a\empty}%
+      {\strsep\ctortmp@b{;}\ctortmp@a\ctortmp@b}%
+  \do{%
+      \Incr\i@val
+      \csvhairetu*{\ctortmp@a}{\romannumeral\i@val @ctor}%
+  }%
+  \edef\ctor@NC{\i@val}%
+%
+  \Ifor*\j@val{1}{\i@ctorN}\Do{%
+    \edef\tmp@a{\hairetu{i@ctor}{\j@val}}%
+    \Ifor*\i@val{2}{\ctor@NC}\Do{%
+      \def\tmp@b{\romannumeral\i@val @ctor}%
+      \edefappend\tmp@a{&\hairetu\tmp@b\j@val}%
+    }%
+    \immediate\write\em@whndl{\tmp@a}%
+  }%
+  \immediate\closeout\em@whndl
+%
+\noindent
+  outfile = #2\relax\\
+}%
+%
+%
+\endinput
+
+v 0.00 2015/06/02 emathT.sty から独立

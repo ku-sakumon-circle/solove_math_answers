@@ -1,0 +1,419 @@
+%%% emathWfp.sty by tDB(emath@nifty.com)
+% 日本語
+\ProvidesPackage{emathWfp}[2013/06/01 v0.00]%
+%
+\RequirePackage{ftakousiki}%
+\RequirePackage{takousiki}%
+\RequirePackage{emathT}%
+\RequirePackage{emathW}%
+\RequirePackage{emathB}%
+%
+\def\csvfPzyohou{\@ifnextchar<{\@csvfPzyohou}{\@csvfPzyohou<\empty>}}%
+\def\@csvfPzyohou<#1>#2#3{{%
+  \let\Pzyo@sityuu\mathstrut
+  \Fseikeitrue
+  \edef\@mozi{x}%
+  \ifx\empty #1\else\setkeys{takousiki}{#1}\fi
+  \edef\A@{#2}%
+  \edef\B@{#3}%
+  \csvlen{#2}\Pzyo@AN
+  \csvlen{#3}\Pzyo@BN
+  \Strsep{#3}{,}\b@val\@dmy
+  \IAdd\Pzyo@AN{2}\retu@suu
+  \ISub\Pzyo@AN\Pzyo@BN\Pzyo@tmp
+  \hairetusyokika<dimen=\Pzyo@tmp+1,syokiti=0>{Pzyo@Q}%
+  \hairetucsv{Pzyo@Q}\syou@
+  \edef\buf@{\empty}%
+  \csvhairetu*{\A@}{A@@}%
+  \Cfor{\edef\loop@{0}}{\loop@=\z@}{}\do{%
+    \ISub\A@@N\Pzyo@BN\Pzyo@tmp
+    \hairetusyokika<dimen=\Pzyo@tmp+1,syokiti=0>{Pzyo@Q}%
+    \edef\Pzyo@tmp{\hairetu{A@@}{1}}%
+    \fPMul{1/\b@val}{\Pzyo@tmp}\Pzyo@tmp
+    \edefhairetu{Pzyo@Q}{1}{\Pzyo@tmp}%
+%   \edefhairetu{Pzyo@Q}{1}{\Pzyo@tmp/\b@val}%
+    \hairetucsv{Pzyo@Q}\Q@
+    \csvfPAdd\syou@\Q@\syou@
+    \csvfPMul{#3}\Q@\AQ@
+    \csvfPSub{\A@}{\AQ@}\A@
+    \csvhairetu*{\A@}{A@@}%
+    \csvhairetu*{\AQ@}{AQ@@}%
+    \csvfPstr\AQ@\csvP@tmp
+    \ISub\Pzyo@AN\AQ@@N\Pzyo@tuika
+    \Ifor\i@val{0}\Pzyo@tuika\Do{\EMedefappend\buf@{&}}%
+    \EMedefappend\buf@{&&\csvP@tmp\noexpand\Pzyo@sityuu
+      \noexpand\\\noexpand\cline{2-\retu@suu}}
+    \csvfPstr\A@\csvP@tmp
+    \csvhairetu*{\A@}{A@@}%
+    \ISub\Pzyo@AN\A@@N\Pzyo@tuika
+    \Ifor\i@val{0}\Pzyo@tuika\Do{\EMedefappend\buf@{&}}%
+    \EMedefappend\buf@{\EMvphantom[3pt]{(}&&\csvP@tmp\noexpand\Pzyo@sityuu
+      \noexpand\\}%
+    \ifnum\A@@N<\Pzyo@BN\Incr\loop@\fi
+  }%
+  \csvfPstr{\syou@}\csvP@tmp
+  \EMedef\q@buf{&&\csvP@tmp}%\xxx
+  \csvfPstr[]{#3}\csvP@tmp
+  \EMedef\main@buf{\csvP@tmp&\warikakko&}%
+  \csvfPstr{#2}\csvP@tmp
+  \EMedefappend\main@buf\csvP@tmp
+  \[ 
+%   \begin{array}{>{\Pzyo@sityuu}l@{}c@{}*{\retu@suu}{l}}
+    \begin{EMarray}{l@{}c@{}*{\retu@suu}{\s@r@e}}
+      \q@buf\Pzyo@sityuu\\\cline{2-\retu@suu}
+      \main@buf\\
+      \buf@
+    \end{EMarray}
+  \]
+}}%
+%
+\def\csvfPstr{\@ifnextchar[{\@csvfPstr}{\@csvfPstr[&]}}%
+\def\@csvfPstr[#1]#2#3{%\begingroup
+% -----------------------------------------------------------
+    \def\getflg@pm##1{%
+      \edef\flg@pm{0}%
+      \headchar{##1}\getflg@h\getflg@r
+      \if -\getflg@h\else\edef\getflg@r{##1}\fi
+      \Strsep{\getflg@r}{+}\gf@a\gf@b
+      \ifx\empty\gf@b
+        \Strsep{\getflg@r}{-}\gf@a\gf@b
+        \ifx\empty\gf@b\else\Incr\flg@pm\fi
+      \else
+        \Incr\flg@pm
+      \fi
+    }%
+% -----------------------------------------------------------
+%  \let\Pzyo@sityuu\mathstrut
+  \edef#3{}%
+  \edef\done@flg{0}%
+  \csvhairetu*{#2}{showP@P}%
+  \Ifor\showP@i{1}{\showP@PN}\Do{%
+    \ISub\showP@PN\showP@i\showP@beki
+    \edef\tmp@{\hairetu{showP@P}{\showP@i}}%
+\@orderedfP\tmp@
+    \EMedefappend[#1]#3{}%
+    \ifthenelse{\equal\tmp@{0}}{}{%
+      \getflg@pm\tmp@
+      \ifnum\flg@pm>\z@
+          \ifnum\showP@i=\@ne\else\EMedefappend#3{{}+}\fi
+          \ins@prF\EMedefappend#3{\left(\tmp@\right)}%
+      \else
+        \headchar\tmp@\tmp@t\tmp@r
+        \if -\tmp@t
+          \ifthenelse{\equal\tmp@r{1}}%
+            {\EMedefappend#3{{}-}}{\ins@prF\EMedefappend#3{{}\tmp@}}%
+        \else
+          \ifnum\showP@i>\@ne\EMedefappend#3{{}+}\fi
+          \ifthenelse{\equal\tmp@{1}}{}{\ins@prF\EMedefappend#3{\tmp@}}%
+        \fi
+      \fi
+      \ifnum\showP@beki>\@ne
+        \EMedefappend#3{\@mozi^{\showP@beki}}%
+      \else
+        \EMedefappend#3{\@mozi}%
+      \fi
+    }%
+  }%
+  \edef\tmp@{\hairetu{showP@P}{\showP@i}}%
+\@orderedfP\tmp@
+  \EMedefappend[#1]#3{}%
+  \edef\pre@tmp{}%
+  \ifnum\showP@PN=\@ne
+  \else
+    \headchar\tmp@\tmp@t\tmp@r
+    \if -\tmp@t
+    \else
+      \ifthenelse{\equal\tmp@{0}}{\edef\tmp@{}}{\edef\pre@tmp{{}+}}%
+    \fi
+  \fi
+  \ins@prF
+  \EMedefappend#3{\pre@tmp\tmp@}%
+}%
+\def\ins@prF{%
+  \edef\tmp@@{}%
+  \Cfor{}{\not\equal\tmp@\empty}{}\do{%
+    \Strsep{\tmp@}{/}\tmp@a\tmp@b
+    \ifx\empty\tmp@b
+      \edefappend\tmp@@{\tmp@a}%
+      \edef\tmp@{\empty}%
+    \else
+      \edef\tmp@{}%
+      \strtohairetu{\tmp@a}{htmp@a}
+      \strtohairetu{\tmp@b}{htmp@b}
+      \Ifor*\i@val\htmp@aN{1}[-1]\Do{%
+        \edef\c@{\hairetu{htmp@a}{\i@val}}%
+        \ifthenelse{\isodd{0\c@1}}{%
+          \edef\pre@I{\i@val}%
+        }{%
+          \edef\i@val{0}%
+        }%
+      }%
+      \edef\pre@prF{}%
+      \edef\post@prF{}%
+      \Ifor\i@val{1}{\pre@I}\Do{%
+        \edef\c@{\hairetu{htmp@a}{\i@val}}%
+        \edefappend\tmp@@{\c@}%
+      }%
+      \Ifor*\i@val\pre@I\htmp@aN\Do{%
+        \edef\c@{\hairetu{htmp@a}{\i@val}}%
+        \edefappend\pre@prF{\c@}%
+      }%
+      \Ifor*\i@val{1}\htmp@bN\Do{%
+        \edef\c@{\hairetu{htmp@b}{\i@val}}%
+        \ifthenelse{\isodd{0\c@1}}{%
+          \edef\pre@I{\i@val}%
+        }{%
+          \edef\i@val{1000}%
+        }%
+      }%
+      \Ifor*\i@val{1}\pre@I\Do{%
+        \edef\c@{\hairetu{htmp@b}{\i@val}}%
+        \edefappend\post@prF{\c@}%
+      }%
+      \edef\tmp@b{}%
+      \Cfor{\edef\i@val{\pre@I}}{\i@val<\htmp@bN}{}\do{%
+        \Incr\i@val
+        \edef\c@{\hairetu{htmp@b}{\i@val}}%
+        \edefappend\tmp@{\c@}%
+      }%
+      \let\Pzyo@sityuu\bsityuu
+      \EMedefappend\tmp@@{\noexpand\prF{\pre@prF/\post@prF}}%
+    \fi
+  }%
+  \EMedef\tmp@{\tmp@@}%
+}%
+%
+\let\fPzyohou\csvfPzyohou
+%
+%
+% 二次式で割る組立除法（分数・文字係数）
+%
+% 多項式 #1 を 2次式で割る
+%
+%\def\fPiisyndiv{\@ifnextchar<{\@fPiisyndiv}{\@fPiisyndiv<\empty>}}%
+\DeclareRobustCommand\fPiisyndiv{%
+  \@ifnextchar<{\@fPiisyndiv}{\@fPiisyndiv<\empty>}}%
+\def\@fPiisyndiv<#1>#2#3{{%
+% -----------------------------------------------
+\def\showP##1{%
+  \edef\keisuu@{\empty}%
+  \edef\mozi@{\empty}%
+  \edef\mozi@flg{0}%
+  \expandafter\@tfor\expandafter\showP@@c\expandafter:\expandafter=##1\do{%
+    \ifthenelse{\equal{\showP@@c}{+}\or\equal{\showP@@c}{-}}{%
+      \ensuremath{\prF{\keisuu@}\mozi@\showP@@c}%
+      \edef\keisuu@{\empty}%
+      \edef\mozi@{\empty}%
+      \edef\mozi@flg{0}%
+    }{%
+      \ifnum\mozi@flg=\z@
+        \ifcat a\showP@@c\edef\mozi@flg{1}\edef\mozi@{\showP@@c}%
+        \else\edefappend\keisuu@{\showP@@c}\fi
+      \else
+        \edefappend\mozi@{\showP@@c}%
+      \fi
+    }%
+  }%
+  \ensuremath{\prF{\keisuu@}\mozi@}%
+}%
+% -----------------------------------------------
+  \Fseikeitrue
+  \ifx\empty #1\else\setkeys{takousiki}{#1}\fi
+  \csvhairetu*{#2}{P@a}%
+  \csvhairetu*{#3}{P@b}%
+  \ifnum\P@bN=3\relax\else\errmessage{not 2ji}\fi
+  \edef\bunbo@{\hairetu{P@b}{1}}%
+  \edef\tmp@@{\hairetu{P@b}{2}}\fPMul\tmp@@{-1/\bunbo@}\l@val
+  \edef\tmp@@{\hairetu{P@b}{3}}\fPMul\tmp@@{-1/\bunbo@}\m@val
+% 1
+  \edef\a@val{\hairetu{P@a}{1}}%
+  \edef\q@val{\a@val}%
+  \edef\@buf{&\a@val}%
+  \edef\m@buf{\noexpand\multicolumn{1}{r|}{\noexpand\showP{\m@val}}&}%
+  \edef\l@buf{\noexpand\multicolumn{1}{r|}{\noexpand\showP{\l@val}}&}%
+  \ifthenelse{\equal{\bunbo@}{1}}{%
+    \edef\q@buf{&\q@val}%
+  }{%
+    \fPMul\q@val{1/\bunbo@}\qq@val
+    \edef\q@buf{\bunbo@\hbox to \z@{\hskip\arraycolsep $\Bigr)$\hss}%
+        \hskip\tw@\p@\null&\noexpand\showP{\q@val}}%
+    \edef\qq@buf{&\noexpand\bsityuu\noexpand\showP{\qq@val}}%
+  }%
+% 2
+  \edef\a@val{\hairetu{P@a}{2}}%
+  \edef\old@q@val{\q@val}%
+  \fPMul\old@q@val\l@val\ql@val
+    \fPAdd\ql@val\a@val\q@val
+  \@orderedfP\q@val
+  \EMedefappend\@buf{&\a@val}%
+  \EMedefappend\m@buf{&}%
+  \EMedefappend\l@buf{&\noexpand\showP{\ql@val}}%
+  \EMedefappend\q@buf{&\noexpand\showP{\q@val}}%
+  \ifthenelse{\equal{\bunbo@}{1}}{}{%
+    \fPMul\q@val{1/\bunbo@}\qq@val
+    \EMedefappend\qq@buf{&\noexpand\showP{\qq@val}}%
+  }%
+% 3 --- P@aN-1
+  \ISub\P@aN{1}\P@aNmi
+  \Ifor\syndiv@i{3}{\P@aN}\Do{%
+    \edef\a@val{\hairetu{P@a}{\syndiv@i}}%
+    \edef\oldold@q@val{\old@q@val}%
+    \edef\old@q@val{\q@val}%
+    \fPMul\oldold@q@val\m@val\qm@val
+    \fPMul\old@q@val\l@val\ql@val
+      \fPAdd\qm@val\a@val\q@val
+      \fPAdd\q@val\ql@val\q@val
+      \@orderedfP\q@val
+    \EMedefappend\@buf{&\a@val}%
+    \EMedefappend\m@buf{&\noexpand\showP{\qm@val}}%
+    \EMedefappend\l@buf{&\noexpand\showP{\ql@val}}%
+    \ifnum\syndiv@i=\P@aNmi
+      \EMedefappend\q@buf{&\noexpand\multicolumn{1}{|\s@r@e}{\noexpand\showP{\q@val}}}%
+    \else
+      \EMedefappend\q@buf{&\noexpand\showP{\q@val}}%
+      \ifthenelse{\equal{\bunbo@}{1}}{}{%
+        \fPMul\q@val{1/\bunbo@}\qq@val
+        \EMedefappend\qq@buf{&\noexpand\showP{\qq@val}}%
+      }%
+    \fi
+  }%
+% P@aN
+  \edef\a@val{\hairetu{P@a}{\P@aN}}%
+  \edef\oldold@q@val{\old@q@val}%
+  \fPMul\old@q@val\m@val\qm@val
+    \fPAdd\qm@val\a@val\q@val
+    \@orderedfP\q@val
+  \EMedefappend\@buf{&\a@val}%
+  \EMedefappend\m@buf{&\noexpand\showP{\qm@val}\bsityuu}%
+  \EMedefappend\l@buf{&\bsityuu}%
+  \EMedefappend\q@buf{&\noexpand\showP{\q@val}\bsityuu}%
+%
+  \ifthenelse{\equal{\bunbo@}{1}}{%
+  \ensuremath{%
+    \begin{EMarray}{r*{\P@aN}{\s@r@e}}%
+      \@buf \\
+      \m@buf \\
+      \l@buf \\\hline
+      \q@buf 
+    \end{EMarray}%
+  }%
+  }{%
+  \ensuremath{%
+    \begin{EMarray}{r*{\P@aN}{\s@r@e}}%
+      \@buf \\
+      \m@buf \\
+      \l@buf \\\hline
+      \q@buf \\\cline{2-\P@aNmi}
+      \qq@buf
+    \end{EMarray}%
+  }%
+  }%
+}}%
+%
+\def\Fiisyndiv{\@ifnextchar<{\@Fiisyndiv}{\@Fiisyndiv<\empty>}}%
+\def\@Fiisyndiv<#1>#2#3{{%
+  \Fseikeitrue
+  \edef\s@r@e{r}%
+  \ifx\empty #1\else\setkeys{takousiki}{#1}\fi
+  \csvhairetu*{#2}{P@a}
+  \csvhairetu*{#3}{P@b}
+  \ifnum\P@bN=3\relax\else\errmessage{not 2ji}\fi
+%  \ifnum\P@bi=\@ne\else\errmessage{coefficient of x^2 must be 1}\fi
+  \edef\bunbo@{\hairetu{P@b}{1}}%
+  \edef\tmp@@{\hairetu{P@b}{2}}\FMul\tmp@@{-1/\bunbo@}\m@val
+  \edef\tmp@@@{\hairetu{P@b}{3}}\FMul\tmp@@@{-1/\bunbo@}\n@val
+  \ifnum\P@aN=5\relax% 4次式
+    \edef\a@val{\hairetu{P@a}{1}}%
+    \edef\b@val{\hairetu{P@a}{2}}%
+    \edef\c@val{\hairetu{P@a}{3}}%
+    \edef\d@val{\hairetu{P@a}{4}}%
+    \edef\e@val{\hairetu{P@a}{5}}%
+  \else\ifnum\P@aN=4\relax% 3次式
+    \edef\a@val{0}%
+    \edef\b@val{\hairetu{P@a}{1}}%
+    \edef\c@val{\hairetu{P@a}{2}}%
+    \edef\d@val{\hairetu{P@a}{3}}%
+    \edef\e@val{\hairetu{P@a}{4}}%
+  \else\ifnum\P@aN=6\relax% 5次式
+    \edef\a@val{\hairetu{P@a}{1}}%
+    \edef\b@val{\hairetu{P@a}{2}}%
+    \edef\c@val{\hairetu{P@a}{3}}%
+    \edef\d@val{\hairetu{P@a}{4}}%
+    \edef\e@val{\hairetu{P@a}{5}}%
+    \edef\f@val{\hairetu{P@a}{6}}%
+  \fi\fi\fi
+  \edef\p@val{\a@val}%
+  \FMul\p@val\m@val\pm@val
+    \FAdd\b@val\pm@val\q@val
+  \FMul\q@val\m@val\qm@val
+  \FMul\p@val\n@val\pn@val
+    \FAdd\c@val\pn@val\r@val
+    \FAdd\r@val\qm@val\r@val
+  \FMul\r@val\m@val\rm@val
+  \FMul\q@val\n@val\qn@val
+    \FAdd\d@val\qn@val\s@val
+    \FAdd\s@val\rm@val\s@val
+  \FMul\r@val\n@val\rn@val
+    \FAdd\e@val\rn@val\t@val
+%  \@orderedP\p@val
+%  \@orderedP\q@val
+%  \@orderedP\r@val
+%  \@orderedP\s@val
+%  \@orderedP\t@val
+  \ifnum\P@aN=5\relax
+    \EMedef\@buf{&\a@val&\b@val&\c@val&\d@val&\e@val\noexpand\\
+      \noexpand\multicolumn{1}{r|}{\n@val}&&&\pn@val&\qn@val&\rn@val\noexpand\\
+      \noexpand\multicolumn{1}{r|}{\m@val}&&\pm@val&\qm@val&\rm@val&
+        \noexpand\\ \noexpand\hline
+      \bunbo@\Bigr)&\noexpand\prF{\p@val}%
+      &\noexpand\prF{\q@val}%
+      &\noexpand\multicolumn{1}{\s@r@e|}{\noexpand\prF{\r@val}}%
+      &\noexpand\prF{\s@val}%
+      &\noexpand\prF{\t@val}\bsityuu
+    }%
+    \ensuremath{%
+    \begin{EMarray}{r*5{\s@r@e}}
+      \@buf
+    \end{EMarray}}%
+  \else\ifnum\P@aN=4\relax
+    \EMedef\@buf{&\b@val&\c@val&\d@val&\e@val\noexpand\\
+      \noexpand\multicolumn{1}{r|}{\n@val}&&&\qn@val&\rn@val\noexpand\\
+      \noexpand\multicolumn{1}{r|}{\m@val}&&\qm@val&\rm@val&
+        \noexpand\\ \noexpand\hline
+      \bunbo@\Bigr)&\noexpand\prF{\q@val}%
+      &\noexpand\multicolumn{1}{\s@r@e|}{\noexpand\prF{\r@val}}%
+      &\noexpand\prF{\s@val}%
+      &\noexpand\prF{\t@val}\bsityuu
+    }%
+    \ensuremath{%
+    \begin{EMarray}{r*4{\s@r@e}}
+      \@buf
+    \end{EMarray}}%
+  \else\ifnum\P@aN=6\relax
+    \FMul\s@val\m@val\sm@val
+      \FAdd\t@val\sm@val\t@val
+    \FMul\s@val\n@val\sn@val
+      \FAdd\f@val\sn@val\u@val
+%    \@orderedP\t@val
+%    \@orderedP\u@val
+    \EMedef\@buf{&\a@val&\b@val&\c@val&\d@val&\e@val&\f@val\noexpand\\
+      \noexpand\multicolumn{1}{r|}{\n@val}&&&\pn@val&\qn@val&\rn@val&\sn@val
+            \noexpand\\
+      \noexpand\multicolumn{1}{r|}{\m@val}&&\pm@val&\qm@val&\rm@val&\sm@val
+        \noexpand\\ \noexpand\hline
+      \bunbo@\Bigr)&\noexpand\prF{\p@val}%
+      &\noexpand\prF{\q@val}%
+      &\noexpand\prF{\r@val}%
+      &\noexpand\multicolumn{1}{\s@r@e|}{\noexpand\prF{\s@val}}%
+      &\noexpand\prF{\t@val}%
+      &\noexpand\prF{\u@val}\bsityuu
+    }%
+    \ensuremath{%
+    \begin{EMarray}{r*6{\s@r@e}}
+      \@buf
+    \end{EMarray}}%
+  \fi\fi\fi
+}}%
+\let\fiisyndiv\Fiisyndiv
+%
+\endinput

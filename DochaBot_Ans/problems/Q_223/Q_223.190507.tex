@@ -1,0 +1,81 @@
+\begin{thm}{223}{\hosi 8}{東レ模試}
+ 点$O$を中心とする半径$R$の円を$K$とする。与えられた正の数$a, b, c$に対して$R$を十分大きく取り、$K$の周上に4点$A, B, C, D$を$AB=a$, $BC=b$, $CD=c$かつ、$\angle{ABC}$と$\angle{ACD}$が鈍角となるように取る。$AC=x$, $AD=y$とする。
+ \begin{enumerate}
+  \item $\disp \lim_{R\to\infty} R^2(a+b-x)$ を求めよ。
+  \item $\disp \lim_{R\to\infty} R^2(a+b+c-y)$ を求めよ。
+ \end{enumerate}
+\end{thm}
+
+本問で$R$に依存する量は$x,y,\angle{\mr{ABC}},\angle{\mr{ACD}}$などであることに注意する。
+
+\syoumon{1}
+$\angle{\mr{ABC}}=\theta_R$とおく。三角不等式より
+\begin{eqnarray}
+x<a+b\label{eq:triangle}
+\end{eqnarray}
+である。正弦定理および(\ref{eq:triangle})より
+\begin{eqnarray}
+\sin{\theta_R}=\dfrac{x}{2R}<\dfrac{a+b}{2R} \to 0　(R\to\infty)\label{eq:sinthm}
+\end{eqnarray}
+なので, $\theta_R>\dfrac{\pi}{2}$より
+\begin{eqnarray}
+\theta_R\to\pi　(R\to\infty)\label{eq:limtheta}
+\end{eqnarray}
+余弦定理より
+\[x^2=a^2+b^2-2ab\cos{\theta_R}\to (a+b)^2　(R\to\infty)\]
+だから, $a+b>0, x>0$ より 
+\begin{eqnarray}
+x\to a+b　(R\to\infty)\label{eq:limx}
+\end{eqnarray}
+ふたたび余弦定理, (\ref{eq:sinthm})により
+\begin{align*}
+ R^2(a+b-x)&=R^2\cdot\dfrac{(a+b)^2-x^2}{a+b+x}\\
+ &=R^2\cdot\dfrac{2ab(1+\cos{\theta_R})}{a+b+x}\\
+ &= R^2\cdot\dfrac{2ab}{(a+b+x)(1-\cos{\theta_R})}\sin^2{\theta_R}\\
+ &= R^2\dfrac{2ab}{(a+b+x)(1-\cos{\theta_R})}\left(\dfrac{x}{2R}\right)^2\\
+ &= \dfrac{2abx^2}{4(a+b+x)(1-\cos{\theta_R})}
+\end{align*}
+(\ref{eq:limtheta}), (\ref{eq:limx})より
+\[\disp\lim_{R\to\infty}R^2(a+b-x)=\dfrac{2ab(a+b)^2}{4(2a+2b)(1-(-1))}=\dfrac{ab(a+b)}{8}\]
+
+\syoumon{2}
+まず
+\[R^2(a+b+c-y)=R^2(a+b-x)+R^2(x+c-y)\]
+であるから $R^2(x+c-y)$の極限を見れば求まる。$\angle{\mr{ACD}}=\phi_R$とおく。三角不等式, (\ref{eq:triangle})により
+\begin{eqnarray}
+y<x+c<a+b+c\label{eq:triangle2}
+\end{eqnarray}
+正弦定理, (\ref{eq:triangle2})より
+\begin{eqnarray}
+\sin{\phi_R}=\dfrac{y}{2R}<\dfrac{a+b+c}{2R}\to 0　(R\to \infty)\label{eq:sinthm2}
+\end{eqnarray}
+である。$\phi_R>\dfrac{\pi}{2}$だから
+\begin{eqnarray}
+\phi_R\to\pi　(R\to\infty)\label{eq:limphi}
+\end{eqnarray}
+余弦定理,  (\ref{eq:limx}), (\ref{eq:limphi})より
+\[y^2=(x+c)^2-2xc(1+\cos{\phi_R})\to (a+b+c)^2　(R\to\infty)\]
+だから, $a+b+c>0, y>0$ より 
+\begin{eqnarray}
+y\to a+b+c　(R\to\infty)\label{eq:limy}
+\end{eqnarray}
+ふたたび余弦定理, (\ref{eq:sinthm2})により
+\begin{align*}
+ R^2(x+c-y)&=R^2\cdot\dfrac{(x+c)^2-y^2}{x+c+y}\\
+ &=R^2\cdot\dfrac{2xc(1+\cos{\phi_R})}{x+c+y}\\
+ &=R^2\cdot\dfrac{2xc}{(x+c+y)(1-\cos{\phi_R})}\sin^2{\phi_R}\\
+ &=R^2\dfrac{2xc}{(x+c+y)(1-\cos{\phi_R})}\left(\dfrac{y}{2R}\right)^2\\
+ &=\dfrac{2xcy^2}{4(x+c+y)(1-\cos{\phi_R})}
+\end{align*}
+(\ref{eq:limx}),(\ref{eq:sinthm2}),(\ref{eq:limphi}),(\ref{eq:limy})より
+\begin{align*}
+ \lim_{R\to\infty}R^2(x+c-y)&=\dfrac{2(a+b)c(a+b+c)^2}{4(2a+2b+2c)(1-(-1))}\\
+ &=\dfrac{c(a+b)(a+b+c)}{8}
+\end{align*}
+よって, 本問の(1)より
+\begin{align*}
+ \lim_{R\to\infty}R^2(a+b-x)&+\disp\lim_{R\to\infty}R^2(x+c-y)\\
+ &=\disp\lim_{R\to\infty}R^2(a+b+c-y)\\
+ &=\dfrac{ab(a+b)}{8}+\dfrac{c(a+b)(a+b+c)}{8}\\
+ &=\dfrac{(ab+bc+ca)(a+b+c)}{8}
+\end{align*}

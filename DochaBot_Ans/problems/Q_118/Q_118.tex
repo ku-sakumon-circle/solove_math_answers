@@ -1,0 +1,30 @@
+\begin{thm}{118}{\hosi 6}{自作}
+ \begin{enumerate}
+  \item 全ての$m\in\mathbb{N}$に対して、以下を示せ。
+	\[ \sum_{n=1}^m \mathrm{Arctan} \left(\frac{1}{n^2-n+1}\right) = \mathrm{Arctan} m \]
+  \item 全ての$m\in\mathbb{N}$に対して、以下を示せ。
+	\[ \frac{1}{m}\mathrm{Arctan}1 \le \mathrm{Arctan}\left(\frac{1}{m}\right) \]
+  \item $\disp \frac{\pi^3}{24} < \sum_{n=1}^\infty \mathrm{Arctan}\left(\frac{1}{n^2}\right) < \frac{\pi}{2}$ を示せ。 \\
+	必要ならば $\disp \sum_{n=1}^\infty \frac{1}{n^2}=\frac{\pi^2}{6}$ を用いてよい。
+ \end{enumerate}
+\end{thm}
+
+\syoumon{1} これは知ってる人は知ってます. 学コンでも見たことあるかも. 
+帰納法で示す. $m=1$のときは$\mathrm{Arctan}1 = \mathrm{Arctan}1$となって自明. $m=k$での成立を仮定せよ. すると$m=k+1$における示すべき等式は, 次の等式に同値.
+\[\arctan{k} + \arctan{\dfrac{1}{k^2+k+1}} = \arctan{(k+1)}\]
+(注: $(k+1)^2 - (k+1) + 1 = k^2+k+1$) \\
+代わりに次を示す: 
+\[
+\tan{\mathrm{Arctan}{\dfrac{1}{k^2+k+1}}} = \tan{\left\{ \mathrm{Arctan}{(k+1)} - \mathrm{Arctan}{k}\right\}}
+\]
+左辺はArctanの定義から$\dfrac{1}{k^2+k+1}$. 右辺は加法定理より同じくこの値になることがわかる. よって上の式は正しいので, $\mathrm{Arctan}{\dfrac{1}{k^2+k+1}}$と$\mathrm{Arctan}{(k+1)} - \mathrm{Arctan}{k}$は$N\pi$ ($N$は整数)程度の違いを除いて等しいことは分かったが, この二つの値が$-\pi < \theta < \pi$の間にあることも明らかなので$N\pi = 0$である. よって$m=k+1$でも示せた. 
+
+\syoumon{2}
+$m=1$なら明らかなので$m\geq 2$とする.
+斜辺の長さ$\sqrt{2}$の直角二等辺三角形を考えよう.  直角の頂点を$\mathrm{A}_0$とおき, 一つの鋭角の頂点を$\mathrm{A}_m$とよぶ. $\mathrm{A}_m$と呼ばれなかったほうの鋭角の頂点$\mathrm{B}$にて角の$m$等分線を引き, $m-1$本の交点を辺$\mathrm{A}_0\mathrm{A}_m$上に得るが,  それを$\mathrm{A}_0$に近い順から$\mathrm{A}_1,\dots, \mathrm{A}_{m-1}$とよぶ. 角の二等分線の性質を何回も用いれば分かることだが, $\mathrm{A}_k\mathrm{A}_{k+1} < \mathrm{A}_{k+1} \mathrm{A}_{k+2}$が$k=0,\dots, m-2$で成り立つ. この不等式から$\mathrm{A}_0 \mathrm{A}_1 < \dfrac{1}{m}$であることが分かるはずだ(分からないなら$m=4$で絵を書いてみよ!). さて, 左辺の$\dfrac{1}{m}\mr{Arctan}(1)$は角$\angle{\mathrm{A}_1\mathrm{B}\mathrm{A}_0}$に等しい. 一方$\mathrm{A}_0\mathrm{A}_1 < \dfrac{1}{m}$で$\mathrm{B}\mathrm{A}_0 = 1$だから, この角度のtanは$\dfrac{1}{m}$よりは小さいはず. よってArctanの定義から左辺は$\mr{Arctan}(1/m)$より小さいことが示された.
+
+\syoumon{3}
+前半の不等式を得るには, (2)をそのまま使って$\mr{Arctan}1 = \dfrac{\pi}{4}$に注意すればよい. $\dfrac{\pi}{4}\times \dfrac{\pi^2}{6} = \dfrac{\pi^3}{24}$だからそうなる. \\
+後半の不等式を得るには, (1)を使う. $\mr{Arctan}\dfrac{1}{n^2} \leq \mr{Arctan}\dfrac{1}{n^2-n+1}$で抑えてから, (1)を使えば, 真ん中は$\lim_{m\to \infty}\mr{Arctan}(m) = \dfrac{\pi}{2}$で抑えられると分かる. 
+
+

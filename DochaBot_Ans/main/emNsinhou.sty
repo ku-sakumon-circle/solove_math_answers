@@ -1,0 +1,350 @@
+% emNisinhou.sty by tDB (emath@nifty.com)
+
+\NeedsTeXFormat{LaTeX2e}%
+\ProvidesPackage{emNsinhou}[2016/06/24 v0.06]%
+%
+%\RequirePackage{emath}%
+\@ifpackageloaded{emath}{}{\RequirePackage{emath}}%
+%
+% 十進表記を n進表記に変換
+%
+  \define@key{Nsinsuu}{endshowq}{\edef\show@end@q{#1}}%
+  \def\endshowq#1{\edef\show@end@q{#1}}%
+  \endshowq{0}%
+  \define@key{Nsinsuu}{show}[3]{%
+    \ifthenelse{\equal{#1}{seisuu}}{%
+      \edef\show@hissan{1}%
+    }{%
+      \ifthenelse{\equal{#1}{syousuu}}{%
+        \edef\show@hissan{2}%
+      }{%
+        \edef\show@hissan{#1}%
+      }%
+    }%
+  }%
+%
+\def\dectoNprompt#1#2{%
+  \EMedef\dectoNprompt@i{#1}%
+  \EMedef\dectoNprompt@ii{#2}%
+}%
+\dectoNprompt{整数部分：\\}{小数部分：\\}%
+\def\Aasw{A}%
+\def\dectoN{\def\use@hbox{1}\@ifstar{\def\use@hbox{0}\@dectoN}{\@dectoN}}%
+\def\@dectoN{\@ifnextchar<{\@@dectoN}{\@@dectoN<\empty>}}%
+\def\@@dectoN<#1>_#2#3#4{%
+% #1: key=val
+%     show: 途中経過を筆算形式で示します。
+% #2: n
+% #3: 十進表記
+% #4: n進表記
+%---------------------------------------------------
+  \def\ihex##1##2{%
+    \ifnum##1<10\relax
+      \edef\r@char{##1}%
+    \else
+%      \setcounter{tempcnta}{55+##1}%
+%      \edef\r@char{\char\the\c@tempcnta}%
+      \setcounter{tempcnta}{##1-9}%
+      \if A\Aasw
+        \edef\r@char{\Alph{tempcnta}}%
+      \else
+        \edef\r@char{\alph{tempcnta}}%
+      \fi
+    \fi
+%   \EMedef##2{\r@char{}}%
+    \EMedef##2{\r@char}%
+  }%
+%---------------------------------------------------
+  \edef\show@hissan{0}%
+  \ifx\empty #1\else\setkeys{Nsinsuu}{#1}\fi
+  \ifthenelse{\equal{#3}{0}}{\edef#4{0}}{%
+    \edef\base@p{#2}%
+    \EMedef#4{}%
+    \Strsep{#3}{.}\toP@a\toP@b
+    \ifx\empty\toP@a
+      \edef\toP@a{0}%
+    \else
+      \ifnum\toP@a>\z@\i@dectoN{\toP@a}#4\fi\fi
+    \ifx\empty\toP@b\else\edefappend#4{.}\s@dectoN{\toP@b}#4\fi
+    \ifnum\use@hbox>\z@
+      \EMedeffrontappend{#4}{\protect\leavevmode}%
+    \fi
+  }%
+}%
+\def\i@dectoN#1#2{%
+  \hairetusyokika{toP@q}%
+  \hairetusyokika{toP@r}%
+  \edef\i@val{0}%
+  \edef\i@toP@tbl{}%
+  \edef\a@val{#1}%
+  \Cfor{\edef\q@val{#1}}{\q@val>\z@}{}\do{%
+    \Incr\i@val
+    \IDivMod{\q@val}{\base@p}\q@val\r@val
+    \edefhairetu{toP@q}\i@val{\q@val}%
+    \edefhairetu{toP@r}\i@val{\r@val}%
+    \ihex{\r@val}\r@char
+    \ifnum\use@hbox>\z@
+      \edeffrontappend#2{\hbox{\r@char}}%
+    \else
+      \edeffrontappend#2{\r@char}%
+    \fi
+    \ifnum\show@hissan>\z@
+      \ifnum\show@end@q=\z@
+        \ifnum\q@val=\z@
+          \EMedefappend\i@toP@tbl{&\noexpand\vphantom{\noexpand\Bigl)}%
+            &\q@val&\cdots&\r@val}%
+        \else
+          \EMedefappend\i@toP@tbl{\base@p\noexpand\,&\Bigl)
+            &\q@val&\cdots&\r@val\noexpand\\\noexpand\cline{2-3}}%
+        \fi
+      \else
+        \ifnum\q@val=\z@\else
+          \ifnum\q@val<\base@p
+            \EMedefappend\i@toP@tbl{\protect\vphantom{\Bigl)}&
+              &\q@val&\cdots&\r@val\noexpand\\}%
+          \else\relax
+            \EMedefappend\i@toP@tbl{\base@p\noexpand\,&\Bigl)
+              &\q@val&\cdots&\r@val\noexpand\\\noexpand\cline{2-3}}%
+          \fi
+        \fi
+      \fi
+    \fi
+  }%
+}%
+%
+\def\show@i@dectoN{%
+    \ensuremath{%
+      \begin{array}{@{}r@{}rrrr}
+        \base@p\,&\Bigl)&\a@val \\\cline{2-3}
+        \i@toP@tbl
+      \end{array}
+    }%
+}%
+%
+\def\s@dectoN#1#2{%
+%
+\@ifundefined{hissankakko}{\def\hissankakko{\ensuremath{\Big )\,\,}}}{}%
+%
+  \hairetusyokika{@iii}%
+  \hairetusyokika{@sss}%
+  \hairetutuika{@iii}{0}%
+  \hairetutuika{@sss}{#1}%
+  \Cfor{\edef\@b{#1}\edef\org@repeat{0}}{\org@repeat=0}{}\do{%
+    \Strlen{\@b}\@l
+    \IMul{\@b}{\base@p}\@tmp
+    \ItoS\@tmp{\@l}\@tmp
+    \Strsep\@tmp{.}\@a\@b
+    \ifx\empty\@a
+      \hairetutuika{@iii}{0}%
+    \else
+      \hairetutuika{@iii}{\@a}%
+    \fi
+    \ifnum\@b=\z@
+      \edef\org@repeat{\@iiiN}%
+      \hairetutuika{@sss}{0}%
+      \edef\repeat@{0}%
+    \else
+      \hairetukakunin{@sss}{\@b}\org@repeat%
+      \ifnum\org@repeat=\z@
+        \edef\repeat@{1}%
+      \else
+        \hairetutuika{@sss}{\@b}%
+      \fi
+    \fi
+  }%
+  \ifnum\show@hissan>\z@
+    \ifnum\@b=\z@
+      \def\@tbl{}%
+      \Ifor*\i@val{2}{\@sssN}\Do{%
+        \EMedefappend\@tbl{%
+          \times&\hissankakko&\noexpand\multicolumn{2}{r}{\base@p}%
+              \noexpand\\\noexpand\cline{1-4}
+          &&\EMfbox<notL,notT>{\hairetu{@iii}{\i@val}}&
+              .\hairetu{@sss}\i@val\noexpand\\
+        }%
+      }%
+    \else
+      \def\@tbl{}%
+      \Ifor*\i@val{2}{\@sssN}\Do{%
+        \EMedefappend\@tbl{%
+          \times&\hissankakko&\noexpand\multicolumn{2}{r}{\base@p}%
+              \noexpand\\\noexpand\cline{1-4}
+          &&\EMfbox<notL,notT>{\hairetu{@iii}{\i@val}}&
+              .\hairetu{@sss}\i@val}%
+        \ifnum\repeat@>\z@
+          \ifnum\i@val=\org@repeat
+            \EMedefappend\@tbl{%
+              \noexpand\hbox to\z@{$\noexpand\bullet$\noexpand\hss}}%
+          \else\ifnum\i@val=\@sssN
+            \EMedefappend\@tbl{%
+              \noexpand\hbox to\z@{$\noexpand\bullet$\noexpand\hss}}%
+          \fi\fi
+        \fi
+        \EMedefappend\@tbl{\noexpand\\}
+      }%
+    \fi
+    \def\show@s@dectoN{%
+      \ensuremath{%
+        \begin{array}{@{}r@{}r@{}r@{}l}
+% 三択 ------------------- BBS #11127
+          &&&.\@sssi\\
+%         &&0&.\@sssi\\
+%         &&\EMfbox<notL,notT>{0}&.\@sssi\\
+% ------------------------
+          \@tbl
+        \end{array}
+      }%
+    }%
+  \fi
+%\prhairetu{@iii}\\
+%\prhairetu{@sss}
+  \IAdd\org@repeat{1}\org@repeat@
+  \Ifor*\i@val{2}{\@sssN}\Do{%
+    \ihex{\hairetu{@iii}{\i@val}}\@c
+    \ifnum\repeat@>\z@
+      \ifnum\i@val=\org@repeat@
+        \EMedefappend#2{\hbox{$\dot{\hbox{\@c}}$}}%
+      \else\ifnum\i@val=\@sssN
+        \EMedefappend#2{\hbox{$\dot{\hbox{\@c}}$}}%
+      \else
+        \ifnum\use@hbox>\z@
+          \EMedefappend#2{\hbox{\@c}}%
+        \else
+          \EMedefappend#2{\@c}%
+        \fi
+      \fi\fi
+    \else
+      \ifnum\use@hbox>\z@
+        \EMedefappend#2{\hbox{\@c}}%
+      \else
+        \EMedefappend#2{\@c}%
+      \fi
+    \fi
+  }%
+}%
+%
+\def\showdectoN{%
+  \ifcase\show@hissan
+    \errmessage{needs show option.}
+  \or
+    \ifx\empty\toP@a\else
+      \ifnum\toP@a>\z@
+        \dectoNprompt@i
+        \show@i@dectoN
+      \fi
+    \fi
+  \or
+    \ifx\empty\toP@b\else
+      \dectoNprompt@ii
+      \show@s@dectoN
+    \fi
+  \or
+    \ifx\empty\toP@a\else
+      \ifnum\toP@a>\z@
+        \dectoNprompt@i
+        \show@i@dectoN
+      \fi
+    \fi
+    \ifx\empty\toP@b\else
+      \ifnum\toP@a>\z@ \\ \fi
+      \dectoNprompt@ii
+      \show@s@dectoN
+    \fi
+  \fi
+}%
+\def\showdectoNseisuu{%
+  \ifnum\show@hissan=\z@
+    \errmessage{needs show option.}
+  \else
+      \ifnum\toP@a>\z@
+%        \dectoNprompt@i
+        \show@i@dectoN
+      \fi
+  \fi
+}%
+\def\showdectoNsyousuu{%
+  \ifnum\show@hissan=\z@
+    \errmessage{needs show option.}
+  \else
+    \ifx\empty\toP@b\else
+%      \dectoNprompt@ii
+      \show@s@dectoN
+    \fi
+  \fi
+}%
+%
+% n進表記を十進表記に変換
+%
+\expandafter\def\csname t@dec0\endcsname{0}%
+\expandafter\def\csname t@dec1\endcsname{1}%
+\expandafter\def\csname t@dec2\endcsname{2}%
+\expandafter\def\csname t@dec3\endcsname{3}%
+\expandafter\def\csname t@dec4\endcsname{4}%
+\expandafter\def\csname t@dec5\endcsname{5}%
+\expandafter\def\csname t@dec6\endcsname{6}%
+\expandafter\def\csname t@dec7\endcsname{7}%
+\expandafter\def\csname t@dec8\endcsname{8}%
+\expandafter\def\csname t@dec9\endcsname{9}%
+\expandafter\def\csname t@decA\endcsname{10}%
+\expandafter\def\csname t@deca\endcsname{10}%
+\expandafter\def\csname t@decB\endcsname{11}%
+\expandafter\def\csname t@decb\endcsname{11}%
+\expandafter\def\csname t@decC\endcsname{12}%
+\expandafter\def\csname t@decc\endcsname{12}%
+\expandafter\def\csname t@decD\endcsname{13}%
+\expandafter\def\csname t@decd\endcsname{13}%
+\expandafter\def\csname t@decE\endcsname{14}%
+\expandafter\def\csname t@dece\endcsname{14}%
+\expandafter\def\csname t@decF\endcsname{15}%
+\expandafter\def\csname t@decf\endcsname{15}%
+%
+\def\Ntodec{\@ifnextchar<{\@Ntodec}{\@Ntodec<\empty>}}%
+\def\@Ntodec<#1>_#2#3#4{%
+  \ifx\empty #1\else\setkeys{Nsinsuu}{#1}\fi
+  \ifthenelse{\equal{#3}{0}}{\edef#4{0}}{%
+    \Strsep{#3}{.}\Nto@a\Nto@b
+    \ifx\empty\Nto@a
+      \s@Ntodec{#2}{\Nto@b}#4\relax
+      \edef #4{.#4}%
+    \else
+      \ifthenelse{\equal{\Nto@a}{0}}{%
+        \s@Ntodec{#2}{\Nto@b}#4\relax
+        \edef #4{.#4}%
+      }{%
+        \i@Ntodec{#2}{\Nto@a}#4\relax
+        \ifx\empty\Nto@b\else
+          \s@Ntodec{#2}{\Nto@b}\Nto@tmp
+          \edefappend#4{.\Nto@tmp}%
+        \fi
+      }%
+    \fi
+  }%
+}%
+\def\i@Ntodec#1#2#3{%
+  \strtohairetu{#2}{h@@}%
+  \edef\base@@{1}%
+  \edef #3{0}%
+  \Ifor*\i@val\h@@N{1}[-1]\Do{%
+    \IMul{\csname t@dec\hairetu{h@@}{\i@val}\endcsname}\base@@\tmp@a
+    \IAddself #3{\tmp@a}%
+    \IMulself\base@@{#1}%
+  }%
+}%
+\def\s@Ntodec#1#2#3{%
+  \i@Ntodec{#1}{#2}\Nto@bunsi
+  \Strlen{#2}\Nto@l
+  \IPower{#1}{\Nto@l}\Nto@bunbo
+  \FtoZ{\Nto@bunsi/\Nto@bunbo}\Nto@tmp
+  \Strsep\Nto@tmp{.}\dumy@ #3\relax
+}%
+%
+\IfFileExists{NAdd.sty}{\RequirePackage{NAdd}}{}%
+\endinput
+%
+v 0.00 2011/12/31 \dectoN
+v 0.01 2012/01/02 \Ntodec
+v 0.02 2012/01/03 十進有限小数→p進小数
+v 0.03 2012/02/05 \dectoN : 筆算の表示法 (BBS #10531)
+v 0.04 2012/07/07 \dectoN : \leavevmode  (BBS #10975)
+v 0.05 2012/11/16 \dectoN : endshowq=.. \dectoN の筆算表示終了のタイミング
+v 0.06 2016/06/26 \ihex (BBS #13031)

@@ -1,0 +1,188 @@
+%%% Ptenretu.sty by tDB(emath@nifty.com)
+% 日本語
+\ProvidesPackage{Ptenretu}[2013/10/06 v0.00]%
+%
+\def\Ptenretu{\def\show@label{1}%
+  \@ifstar{\def\show@label{0}\@Ptenretu}{\@Ptenretu}}%
+\def\@Ptenretu{\@ifnextchar<{\@@Ptenretu}{\@@Ptenretu<\empty>}}%
+\def\@@Ptenretu<#1>#2#3#4{%
+% #1: \tenretu(*) に引き継ぐオプション
+% #2: 関数 x=f(t)
+% #3: 関数 y=g(t)
+% #4: 「[名札]点名(x)配置オプション」を ; で区切った列
+%
+  \def\get@Pname{\@ifnextchar[{\@get@Pname}{\@@get@Pname}}%
+  \def\@get@Pname[##1]##2\@nil{%
+    \Strsep{##2}{(}\yt@a\yt@tmp
+    \EMedef\yt@a{[##1]\yt@a}%
+  }%
+  \def\@@get@Pname##1\@nil{%
+    \Strsep{##1}{(}\yt@a\yt@tmp
+  }%
+%
+  \edef\save@hairetu@baseN{\hairetu@baseN}%
+  \hairetubaseN{1}%
+  \hairetusyokika{P@name}%
+  \hairetusyokika{P@houi}%
+  \edef\P@x{\empty}%
+  \t@perl{#2}\x@perl@siki
+  \t@perl{#3}\y@perl@siki
+  \exfor[;]\yt@c@:=#4\do{%
+    \trim\yt@c@\to\yt@c
+%    \Strsep\yt@c{(}\yt@a\yt@tmp
+    \expandafter\get@Pname\yt@c\@nil
+    \edef\yt@kakko{1}%
+    \edef\yt@b{}%
+    \Cfor{\Headchar\yt@tmp\yt@a@\yt@b@}{\yt@kakko>\z@}{}\do{%
+      \if (\yt@a@
+        \Incr\yt@kakko
+      \else\if )\yt@a@
+        \Decr\yt@kakko
+      \fi\fi
+      \ifnum\yt@kakko>\z@
+        \EMedefappend\yt@b{\yt@a@}%
+        \Headchar\yt@b@\yt@a@\yt@b@
+      \fi
+    }%
+    \hairetutuika{P@name}{\yt@a}%
+    \hairetutuika{P@houi}{\yt@b@}%
+    \ifx\empty\P@x
+      \EMedefappend\P@x{\yt@b}%
+    \else
+      \EMedefappend\P@x{,\yt@b}%
+    \fi
+  }%
+  \CalcVal{%
+    my @Px=(\P@x);
+    my $i=0;
+    foreach $sx (@Px) {
+      $x=$sx;
+      $xx=\x@perl@siki;
+      $yy=\y@perl@siki;
+      if (abs($xx)<\emLlim){$xx=0;}
+      if (abs($yy)<\emLlim){$yy=0;}
+      if ($i==0)
+          {printf FHNDL "(\@percent s,\@percent s)",$xx,$yy;}
+      else
+          {printf FHNDL ";(\@percent s,\@percent s)",$xx,$yy;}
+      ++$i;
+    }
+  }\Y@Pseq
+  \edef\i@val{0}%
+  \exfor[;]\yt@c:=\Y@Pseq\do{%
+    \Incr\i@val
+    \ifnum\i@val=\@ne
+      \EMedef\Y@retu{\hairetu{P@name}{\i@val}\yt@c\hairetu{P@houi}{\i@val}}%
+    \else
+      \EMedefappend\Y@retu{%
+        ;\hairetu{P@name}{\i@val}\yt@c\hairetu{P@houi}{\i@val}}%
+    \fi
+  }%
+  \ifnum\show@label>\z@
+    \EMedef\Y@retu{<#1>{\Y@retu}}%
+    \expandafter\tenretu\Y@retu%
+  \else
+    \EMedef\Y@retu{*<#1>{\Y@retu}}%
+    \expandafter\tenretu\Y@retu%
+  \fi
+}%
+%
+\def\iiiPtenretu{\def\show@label{1}%
+  \@ifstar{\def\show@label{0}\@iiiPtenretu}{\@iiiPtenretu}}%
+\def\@iiiPtenretu{\@ifnextchar<{\@@iiiPtenretu}{\@@iiiPtenretu<\empty>}}%
+\def\@@iiiPtenretu<#1>#2#3#4#5{%
+% #1: \iiitenretu(*) に引き継ぐオプション
+% #2: 関数 x=f(t)
+% #3: 関数 y=g(t)
+% #4: 関数 z=h(t)
+% #5: 「[名札]点名(x)配置オプション」を ; で区切った列
+%
+%-----------------------------------------------------------------
+  \def\get@Pname{\@ifnextchar[{\get@Pname@}{\@get@Pname}}%
+  \def\get@Pname@[##1]##2\@nil{%
+    \Strsep{##2}{(}\yt@a\yt@tmp
+    \EMedef\yt@a{[##1]\yt@a}%
+  }%
+  \def\@get@Pname##1\@nil{%
+    \Strsep{##1}{(}\yt@a\yt@tmp
+    \EMedef\yt@a{\yt@a}%
+  }%
+%-----------------------------------------------------------------
+%
+  \edef\save@hairetu@baseN{\hairetu@baseN}%
+  \hairetubaseN{1}%
+  \hairetusyokika{P@name}%
+  \hairetusyokika{P@houi}%
+  \edef\P@x{\empty}%
+  \t@perl{#2}\x@perl@siki
+  \t@perl{#3}\y@perl@siki
+  \t@perl{#4}\z@perl@siki
+  \exfor[;]\yt@c@:=#5\do{%
+    \trim\yt@c@\to\yt@c
+%    \Strsep\yt@c{(}\yt@a\yt@tmp
+    \expandafter\get@Pname\yt@c\@nil
+    \edef\yt@kakko{1}%
+    \edef\yt@b{}%
+    \Cfor{\Headchar\yt@tmp\yt@a@\yt@b@}{\yt@kakko>\z@}{}\do{%
+      \if (\yt@a@
+        \Incr\yt@kakko
+      \else\if )\yt@a@
+        \Decr\yt@kakko
+      \fi\fi
+      \ifnum\yt@kakko>\z@
+        \EMedefappend\yt@b{\yt@a@}%
+        \Headchar\yt@b@\yt@a@\yt@b@
+      \fi
+    }%
+    \hairetutuika{P@name}{\yt@a}%
+    \hairetutuika{P@houi}{\yt@b@}%
+    \ifx\empty\P@x
+      \EMedefappend\P@x{\yt@b}%
+    \else
+      \EMedefappend\P@x{,\yt@b}%
+    \fi
+  }%
+  \CalcVal{%
+    my @Px=(\P@x);
+    my $i=0;
+    foreach $sx (@Px) {
+      $x=$sx;
+      $xx=\x@perl@siki;
+      $yy=\y@perl@siki;
+      $zz=\z@perl@siki;
+      if (abs($xx)<\emLlim){$xx=0;}
+      if (abs($yy)<\emLlim){$yy=0;}
+      if (abs($zz)<\emLlim){$zz=0;}
+      if ($i==0)
+          {printf FHNDL "(\@percent s,\@percent s,\@percent s)",$xx,$yy,$zz;}
+      else
+          {printf FHNDL ";(\@percent s,\@percent s,\@percent s)",$xx,$yy,$zz;}
+      ++$i;
+    }
+  }\Y@Pseq
+  \edef\i@val{0}%
+  \exfor[;]\yt@c:=\Y@Pseq\do{%
+    \Incr\i@val
+    \ifnum\i@val=\@ne
+      \EMedef\Y@retu{\hairetu{P@name}{\i@val}\yt@c\hairetu{P@houi}{\i@val}}%
+    \else
+      \EMedefappend\Y@retu{%
+        ;\hairetu{P@name}{\i@val}\yt@c\hairetu{P@houi}{\i@val}}%
+    \fi
+  }%
+  \ifnum\show@label>\z@
+    \EMedef\Y@retu{<#1>{\Y@retu}}%
+    \expandafter\iiitenretu\Y@retu%
+  \else
+    \EMedef\Y@retu{*<#1>{\Y@retu}}%
+    \expandafter\iiitenretu\Y@retu%
+  \fi
+}%
+%
+\endinput
+%
+v 0.00 2012/07/28
+v 0.01 2012/11/10 \iiiPtenretu
+v 0.02 2012/12/15 \iiiPtenretu: 引数の解釈補強 (BBS #11342)
+v 0.03 2013/05/19 \abctenretu
+v 0.04 2013/06/09 \Daentenretu

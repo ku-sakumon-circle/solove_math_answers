@@ -1,0 +1,751 @@
+% zougenhyou.sty by tDB (emath@nifty.com)
+%
+\NeedsTeXFormat{LaTeX2e}%
+\ProvidesPackage{zougenhyou}[2017/04/02 v0.07]%
+%
+\@ifpackageloaded{emathT}{}{\errmessage{zougenhyou need emathT.sty}}%
+%
+\let\gt@text\text
+\@ifundefined{if@enablejfam}{}{%
+	\if@enablejfam\let\gt@text\@firstofone\fi
+}%
+%
+\define@key{emZH}{outotu}[1]{\def\zh@outotu{}}%
+\define@key{emZH}{arraystretch}{\def\arraystretch{#1}}%
+\define@key{emZH}{dysign}[-]{%
+  \ifthenelse{\equal{#1}{-}}{\edef\inv@dy{1}}{\edef\inv@dy{0}}}%
+\define@key{emZH}{ddysign}[-]{%
+  \ifthenelse{\equal{#1}{-}}{\edef\inv@ddy{1}}{\edef\inv@ddy{0}}}%
+\define@key{emZH}{xname}{\def\zh@xname{#1}}%
+\define@key{emZH}{dyname}{\def\zh@dyname{#1}}%
+\define@key{emZH}{ddyname}{\def\zh@ddyname{#1}}%
+\define@key{emZH}{yname}{\def\zh@yname{#1}}%
+\define@key{emZH}{columnformats}{\def\zh@clmfmts{#1}}%
+\define@key{emZH}{columnformat}{\strchr{#1}{C}\zh@fixedwd\def\zh@clmfmt{#1}%
+  \ifnum\zh@fixedwd=\z@\def\arraystretch{1}\fi}%
+\define@key{emZH}{clmfmt}{\strchr{#1}{C}\zh@fixedwd\def\zh@clmfmt{#1}%
+  \ifnum\zh@fixedwd=\z@\def\arraystretch{1}\fi}%
+\define@key{emZH}{Cfmt}{\strchr{#1}{C}\zh@fixedwd\def\zh@clmfmt{#1}%
+  \ifnum\zh@fixedwd=\z@\def\arraystretch{1}\fi}%
+\define@key{emZH}{sityuu}{\def\arraystretch{1}\def\zh@sityuu{#1}}%
+\define@key{emZH}{gyoudaka}{\def\arraystretch{1}\def\zh@sityuu{#1}}%
+\define@key{emZH}{rowstrut}{\def\arraystretch{1}\def\zh@sityuu{#1}}%
+\define@key{emZH}{outputfilename}{\def\zh@file{#1}}%
+\define@key{emZH}{titlecolumn}{\EMedef\zh@TTL{#1}}%
+\define@key{emZH}{ttlclm}{\EMedef\zh@TTL{#1}}%
+\define@key{emZH}{Tclm}{\EMedef\zh@TTL{#1}}%
+\edef\zh@dy@bgcolor{\empty}%
+\edef\zh@ddy@bgcolor{\empty}%
+\def\zougenhyoudybgcolor#1{\edef\zh@ttlRkei{1}\edef\zh@dy@bgcolor{#1}}%
+\def\zougenhyouddybgcolor#1{\edef\zh@ttlRkei{1}\edef\zh@ddy@bgcolor{#1}}%
+\define@key{emZH}{dybgcolor}{\edef\zh@ttlRkei{1}\edef\zh@dy@bgcolor{#1}}%
+\define@key{emZH}{ddybgcolor}{\edef\zh@ttlRkei{1}\edef\zh@ddy@bgcolor{#1}}%
+\edef\zh@ttl@bgcolor{\empty}%
+\def\zougenhyouttlbgcolor#1{\edef\zh@ttl@bgcolor{#1}\def\zh@ttlRkei{1}}%
+\define@key{emZH}{ttlbgcolor}{\edef\zh@ttl@bgcolor{#1}\def\zh@ttlRkei{1}}%
+\edef\zh@framethickness{.4pt}%
+\def\zougenhyouframethickness#1{\edef\zh@framethickness{#1}}%
+\define@key{emZH}{framethickness}{\edef\zh@framethickness{#1}%
+  \ifdim #1=\z@\edef\zh@LRkei{0}\edef\zh@TBkei{0}\fi}%
+\def\zh@TBkei{1}%
+\def\zh@LRkei{1}%
+\def\zh@ttlRkei{2}%
+\def\zougenhyouLRkei#1{\EMedef\zh@LRkei{#1}}%
+\def\zougenhyouTBkei#1{\EMedef\zh@TBkei{#1}}%
+\define@key{emZH}{TBkei}{\EMedef\zh@TBkei{#1}}%
+\define@key{emZH}{LRkei}{\EMedef\zh@LRkei{#1}}%
+\def\zougenhyouttlRkei#1{\EMedef\zh@ttl@Rkei{#1}}%
+\define@key{emZH}{ttlRkei}{\EMedef\zh@ttlRkei{#1}}%
+\define@key{emZH}{leftcolumn}{%
+  \EMedef\zh@L{#1}%
+  \csvhairetu*{#1}{zh@L}%
+  \settowidth\@tempdima{\ensuremath{\zh@Li}}%
+  \settowidth\@tempdimb{\ensuremath{\zh@LN}}%
+  \ifdim\@tempdima>\@tempdimb\edef\zh@L@wd{\the\@tempdima}%
+  \else\edef\zh@L@wd{\the\@tempdimb}\fi
+}%
+\define@key{emZH}{Lclm}{%
+  \EMedef\zh@L{#1}%
+  \csvhairetu*{#1}{zh@L}%
+  \settowidth\@tempdima{\ensuremath{\zh@Li}}%
+  \settowidth\@tempdimb{%
+    \ensuremath{\csname zh@L\romannumeral\zh@LN\endcsname}}%
+  \ifdim\@tempdima>\@tempdimb\edef\zh@L@wd{\the\@tempdima}%
+  \else\edef\zh@L@wd{\the\@tempdimb}\fi
+}%
+\define@key{emZH}{rightcolumn}{%
+  \EMedef\zh@R{#1}%
+  \csvhairetu*{#1}{zh@R}%
+  \settowidth\@tempdima{\ensuremath{\zh@Ri}}%
+  \settowidth\@tempdimb{%
+    \ensuremath{\csname zh@R\romannumeral\zh@RN\endcsname}}%
+  \ifdim\@tempdima>\@tempdimb\edef\zh@R@wd{\the\@tempdima}%
+  \else\edef\zh@R@wd{\the\@tempdimb}\fi
+}%
+\define@key{emZH}{Rclm}{%
+  \EMedef\zh@R{#1}%
+  \csvhairetu*{#1}{zh@R}%
+  \settowidth\@tempdima{\ensuremath{\zh@Ri}}%
+  \settowidth\@tempdimb{%
+    \ensuremath{\csname zh@R\romannumeral\zh@RN\endcsname}}%
+  \ifdim\@tempdima>\@tempdimb\edef\zh@R@wd{\the\@tempdima}%
+  \else\edef\zh@R@wd{\the\@tempdimb}\fi
+}%
+\define@key{emZH}{yvals}{%
+  \EMedef\zh@Y{#1}%
+  \csvhairetu*{#1}{zh@Y}%
+}%
+\define@key{emZH}{dyvals}{%
+  \EMedef\zh@DY{#1}%
+  \csvhairetu*{#1}{zh@DY}%
+}%
+\define@key{emZH}{ddyvals}{%
+  \EMedef\zh@DDY{#1}%
+  \csvhairetu*{#1}{zh@DDY}%
+}%
+\define@key{emZH}{v}{%
+  \setbox0=\hbox{\ensuremath{\displaystyle{#1}}}%
+  \setlength{\rowheight}{\ht0}%
+  \setlength{\rowdepth}{\dp0}%
+  \setlength{\rowtotalheight}{\ht0+\dp0}%
+}%
+  \def\zh@xname{x}%
+  \def\zh@dyname{f'(x)}%
+  \def\zh@ddyname{f''(x)}%
+  \def\zh@yname{f(x)}%
+  \edef\zh@clmfmt{C{2zw}}%
+  \edef\zh@fixedwd{1}%
+%  \edef\zh@clmwd{2zw}%
+  \edef\zh@L{\empty}%
+  \edef\zh@R{\empty}%
+  \edef\zh@DY{\empty}%
+  \edef\zh@DDY{\empty}%
+  \edef\zh@Y{\empty}%
+  \edef\zh@sityuu{\empty}%
+%
+  \let\zhsubarray\subarray
+  \let\endzhsubarray\endsubarray
+  \def\zhsubarraystyle#1{%
+    \ifthenelse{\equal{#1}{t}}{%
+      \let\zhsubarray\tsubarray
+      \let\endzhsubarray\endtsubarray
+    }{%
+      \ifthenelse{\equal{#1}{f}}{%
+        \let\zhsubarray\fsubarray
+        \let\endzhsubarray\endfsubarray
+      }{%
+        \let\zhsubarray\subarray
+        \let\endzhsubarray\endsubarray
+      }%
+    }%
+  }%
+%
+% prestr=  x@atr=1: y'=0  dy@sign=1 ddy@sing=0
+% prestr=* x@atr=3: y'=0  dy@sign=0 ddy@sign=1
+% prestr=[ x@atr=2: y''=0 dy@sign=0 ddy@sing=1
+%
+\def\zh@checksign{\@ifstar{\zh@checksign@}{\@zh@checksign}}%
+\def\zh@checksign@#1\@nil{\edef\zh@h{3}\EMedef\zh@tmp{#1}}%
+\def\@zh@checksign{\@ifnextchar[{\@zh@checksign@}{\@@zh@checksign}}%
+\def\@@zh@checksign#1\@nil{\edef\zh@h{1}\EMedef\zh@tmp{#1}}%
+\def\@zh@checksign@[#1]\@nil{\edef\zh@h{2}\EMedef\zh@tmp{#1}}%
+%\def\zhinfty#1#2{\protect\gyousityuu\scriptstyle{#1}\infty\ \vrule\ {#2}\infty}%
+\def\arstrut{\setlength{\rowheight}{\ht\@arstrutbox}%
+  \setlength{\rowdepth}{\dp\@arstrutbox}%
+  \setlength{\rowtotalheight}{\rowheight+\rowdepth}%
+}%
+%
+\DeclareRobustCommand\zhinfty{\@ifnextchar<{\zhinfty@}{\@zhinfty}}%
+%\def\zhinfty{\@ifnextchar<{\zhinfty@}{\@zhinfty}}%
+\def\@zhinfty#1#2{{\arstrut
+  \scriptstyle
+  \ifthenelse{\equal{#1}{+}\or\equal{#1}{-}}{{#1}\infty}{#1}\ %
+  \lower\rowdepth\vbox to\rowtotalheight{\@tempdima.125\rowtotalheight
+  \leaders \vbox to\@tempdima{\vss\hbox{\protect\rule{.4pt}{1.25pt}}\vss}%
+  \vfil}\ %
+  \ifthenelse{\equal{#2}{+}\or\equal{#2}{-}}{{#2}\infty}{#2}%
+}}%
+\def\zhinfty@<#1>#2#3{{%
+  \setkeys{emZH}{#1}\relax
+  \setbox0=\hbox{\ensuremath{\displaystyle{#1}}}%
+  \setlength{\rowheight}{\ht0}%
+  \setlength{\rowdepth}{\dp0}%
+  \setlength{\rowtotalheight}{\ht0+\dp0}%
+  \scriptstyle
+%  {#2}\infty\ 
+  \ifthenelse{\equal{#2}{+}\or\equal{#2}{-}}{{#2}\infty}{#2}\ %
+  \lower\rowdepth\vbox to\rowtotalheight{\@tempdima.125\rowtotalheight
+  \leaders \vbox to\@tempdima{\vss\hbox{\protect\rule{.4pt}{1.25pt}}\vss}%
+  \vfil}\ %
+%  {#3}\infty}}%
+  \ifthenelse{\equal{#3}{+}\or\equal{#3}{-}}{{#3}\infty}{#3}}}%
+%
+%\MakeRobustCommand\zhinfty
+%
+\def\zougenhyou{%
+%  \ifx\empty\measure@type\else
+%    \errmessage{zougenhyouコマンドは別行立て数式環境内には配置できません。}
+%  \fi
+  \edef\inv@ddy{0}%
+  \@ifstar{\def\inv@dy{1}\@zougenhyou}{\def\inv@dy{0}\@zougenhyou}}%
+\def\@zougenhyou{\@ifnextchar<{\@@zougenhyou}{\@@zougenhyou<\empty>}}%
+\def\@@zougenhyou<#1>#2{{%
+%  \let\zhsubarraycmd\relax
+%  \let\zh@bunsuu\bunsuu
+%  \let\bunsuu\relax
+%  \let\zh@sqrt\sqrt
+%  \let\sqrt\relax
+%  \let\zh@cdots\cdots
+%  \let\cdots\relax
+%  \let\zh@sya\sya
+%  \let\sya\relax
+%  \let\zh@emTsya\emTsya
+%  \let\emTsya\relax
+%  \let\zh@NE\NE
+%  \let\NE\relax
+%  \let\zh@psNEE\psNEE
+%  \let\psNEE\relax
+%  \let\zh@psNEN\psNEN
+%  \let\psNEN\relax
+%  \let\zh@SE\SE
+%  \let\zh@psSEE\psSEE
+%  \let\psSEE\relax
+%  \let\zh@psSES\psSES
+%  \let\psSES\relax
+%  \let\SE\relax
+%  \let\zh@bsityuu\bsityuu
+%  \let\bsityuu\relax
+%  \@ifundefined{pIIeArrowLine}{}{\let\ArrowLine\pIIeArrowLine}%
+  \@ifundefined{psNEE}{%
+    \let\psNEE\NEE
+    \let\psNEN\NEN
+    \let\psSEE\SEE
+    \let\psSES\SES}{}%
+  \def\arraystretch{1.4}%
+  \csvhairetu*{#2}{kyokuti@x}
+  \ifx\empty #1\else\setkeys{emZH}{#1}\fi
+  \setlength\arrayrulewidthb{\zh@framethickness}%
+  \@ifundefined{zh@TTL}{}{%
+    \csvhairetu*{\zh@TTL}{zh@ttl}%
+    \EMedef\zh@xname{\zh@ttli}%
+    \EMedef\zh@dyname{\zh@ttlii}%
+    \EMedef\zh@yname{\zh@ttliii}%
+  }%
+  \edef\zh@Nx{\kyokuti@xN}%
+  \IMul\zh@Nx{2}\zh@retusuu
+  \Incr\zh@retusuu
+  \ifx\empty\zh@L\else\Incr\zh@retusuu\fi
+  \ifx\empty\zh@R\else\Incr\zh@retusuu\fi
+  \ifx\empty\zh@L
+    \EMedef\zh@xstr{\zh@xname&\cdots}%
+  \else
+    \EMedef\zh@xstr{\zh@xname&\zh@Li&\cdots}%
+  \fi
+  \edef\kyokuti@xN@dy{\kyokuti@xN}%
+  \edef\kyokuti@xN@ddy{\kyokuti@xN}%
+  \Ifor*\zh@i{1}\kyokuti@xN\Do{%
+    \EMedef\zh@tmp{\csname kyokuti@x\romannumeral\zh@i\endcsname}%
+    \expandafter\zh@checksign\zh@tmp\@nil
+    \edefhairetu{zh@h}{\zh@i}{\zh@h}%
+%    \ifthenelse{\equal\zh@h{*}}{%
+    \ifnum\zh@h=3\relax
+      \edefhairetu{zh@dysign}{\zh@i}{0}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+      \edefhairetu{zh@ddysign}{\zh@i}{1}%
+%      \Headchar\zh@tmp\zh@a\zh@b
+%      \EMedef\zh@tmp{\zh@b}%
+      \Decr\kyokuti@xN@dy
+    \else\ifnum\zh@h=2\relax
+      \def\zh@outotu{}%
+      \edefhairetu{zh@dysign}{\zh@i}{0}%
+      \edefhairetu{zh@ddysign}{\zh@i}{1}%
+      \Decr\kyokuti@xN@dy
+    \else
+      \Decr\kyokuti@xN@ddy
+      \edefhairetu{zh@dysign}{\zh@i}{1}%
+      \edefhairetu{zh@ddysign}{\zh@i}{0}%
+    \fi\fi
+    \EMedefappend\zh@xstr{&\zh@tmp&\cdots}%
+  }%
+  \@ifundefined{zh@TTL}{}{%
+    \@ifundefined{zh@outotu}{}{%
+      \csvhairetu*{\zh@TTL}{zh@ttl}%
+      \EMedef\zh@ddyname{\zh@ttliii}%
+      \EMedef\zh@yname{\zh@ttliv}%
+    }%
+  }%
+  \ifx\empty\zh@L\else\csvhairetu*{\zh@L}{zh@L}\fi
+  \ifx\empty\zh@R\else\csvhairetu*{\zh@R}{zh@R}\fi
+  \ifx\empty\zh@R\else\EMedefappend\zh@xstr{&\zh@Ri}\fi
+  \ifodd\kyokuti@xN@dy
+    \ifnum\inv@dy=\z@\def\dy@sign{-}\else\def\dy@sign{+}\fi
+  \else
+    \ifnum\inv@dy=\z@\def\dy@sign{+}\else\def\dy@sign{-}\fi
+  \fi
+  \@ifundefined{zh@outotu}{}{%
+    \ifodd\kyokuti@xN@ddy
+      \ifnum\inv@ddy=\z@\def\ddy@sign{-}\else\def\ddy@sign{+}\fi
+    \else
+      \ifnum\inv@ddy=\z@\def\ddy@sign{+}\else\def\ddy@sign{-}\fi
+    \fi
+  }%
+%
+% 左端２列
+%
+  \ifx\empty\zh@L
+    \EMedef\zh@ystr{\zh@yname}%
+  \else
+    \@ifundefined{zh@outotu}{%
+%      \EMedef\zh@ystr{\zh@yname&\zhLiii}%
+      \ifthenelse{\equal{\zh@Liii}{\sya}}{%
+        \ifnum\zh@fixedwd=\z@
+          \EMedef\zh@ystr{\zh@yname&\zh@Liii(W=\zh@L@wd)}%
+        \else
+          \EMedef\zh@ystr{\zh@yname&\zh@Liii}%
+        \fi
+      }{%
+        \EMedef\zh@ystr{\zh@yname&\zh@Liii}%
+      }%
+    }{%
+%      \EMedef\zh@ystr{\zh@yname&\zh@Liv}%
+      \ifthenelse{\equal{\zh@Liv}{\sya}}{%
+        \ifnum\zh@fixedwd=\z@
+          \EMedef\zh@ystr{\zh@yname&\zh@Liv(W=\zh@L@wd)}%
+        \else
+          \EMedef\zh@ystr{\zh@yname&\zh@Liv}%
+        \fi
+      }{%
+        \EMedef\zh@ystr{\zh@yname&\zh@Liv}%
+      }%
+    }%
+  \fi
+  \if+\dy@sign
+    \@ifundefined{zh@outotu}{%
+      \EMedefappend\zh@ystr{&\NE}%
+    }{%
+      \if+\ddy@sign
+        \EMedefappend\zh@ystr{&\psNEN}%
+      \else
+        \EMedefappend\zh@ystr{&\psNEE}%
+      \fi
+    }%
+  \else
+    \@ifundefined{zh@outotu}{%
+      \EMedefappend\zh@ystr{&\SE}%
+    }{%
+      \if+\ddy@sign
+        \EMedefappend\zh@ystr{&\psSEE}%
+      \else
+        \EMedefappend\zh@ystr{&\psSES}%
+      \fi
+    }%
+  \fi
+  \ifx\empty\zh@L
+    \EMedef\zh@dystr{\zh@dyname&\dy@sign}%
+  \else
+    \ifthenelse{\equal{\zh@Lii}{\sya}}{%
+        \ifnum\zh@fixedwd=\z@
+          \EMedef\zh@dystr{\zh@dyname&\zh@Lii(W=\zh@L@wd)&\dy@sign}%
+        \else
+          \EMedef\zh@dystr{\zh@dyname&\zh@Lii&\dy@sign}%
+        \fi
+    }{%
+      \EMedef\zh@dystr{\zh@dyname&\zh@Lii&\dy@sign}%
+    }%
+  \fi
+  \@ifundefined{zh@outotu}{}{%
+    \ifx\empty\zh@L
+      \EMedef\zh@ddystr{\zh@ddyname&\ddy@sign}%
+    \else
+%      \EMedef\zh@ddystr{\zh@ddyname&\zh@Liii&\ddy@sign}%
+      \ifthenelse{\equal{\zh@Liii}{\sya}}{%
+        \ifnum\zh@fixedwd=\z@
+          \EMedef\zh@ddystr{\zh@ddyname&\zh@Liii(W=\zh@L@wd)&\ddy@sign}%
+        \else
+          \EMedef\zh@ddystr{\zh@ddyname&\zh@Liii&\ddy@sign}%
+        \fi
+      }{%
+        \EMedef\zh@ddystr{\zh@ddyname&\zh@Liii&\ddy@sign}%
+      }%
+    \fi
+  }%
+%
+% 中央部列
+%
+  \Ifor*\zh@i{1}\kyokuti@xN\Do{%
+    \edef\zh@dys{\csname zh@dysign\romannumeral\zh@i\endcsname}%
+    \edef\zh@ddys{\csname zh@ddysign\romannumeral\zh@i\endcsname}%
+    \edef\zh@h{\csname zh@h\romannumeral\zh@i\endcsname}%
+%
+% 中央部・極値列
+%
+    \ifnum\zh@fixedwd=\z@
+      \EMedef\zh@xval{\csname kyokuti@x\romannumeral\zh@i\endcsname}%
+      \settowidth\hyouretuhaba{\ensuremath{\zh@xval}}%
+    \fi
+    \ifx\empty\zh@Y
+      \ifnum\zh@dys>\z@
+        \if-\dy@sign%
+          \EMedefappend\zh@ystr{&\gt@text{極小}}%
+        \else
+          \EMedefappend\zh@ystr{&\gt@text{極大}}%
+        \fi
+        \ifnum\zh@fixedwd=\z@\settowidth\@tempdima{極大}%
+          \ifdim\hyouretuhaba<\@tempdima\hyouretuhaba=\@tempdima\fi
+        \fi
+      \else
+        \@ifundefined{zh@outotu}{%
+          \EMedefappend\zh@ystr{&}%
+        }{%
+          \ifnum\zh@ddys>\z@\EMedefappend\zh@ystr{&\gt@text{変曲点}}\fi
+          \ifnum\zh@fixedwd=\z@\settowidth\@tempdima{変曲点}%
+            \ifdim\hyouretuhaba<\@tempdima\hyouretuhaba=\@tempdima\fi
+          \fi
+        }%
+      \fi
+    \else
+      \EMedef\zh@tmp{\csname zh@Y\romannumeral\zh@i\endcsname}%
+      \ifx\empty\zh@tmp
+        \ifnum\zh@dys>\z@
+          \if-\dy@sign%
+            \EMedef\zh@tmp{\gt@text{極小}}%
+          \else
+            \EMedef\zh@tmp{\gt@text{極大}}%
+          \fi
+        \else
+          \@ifundefined{zh@outotu}{%
+            \EMedef\zh@tmp{}%
+          }{%
+            \ifnum\zh@ddys>\z@\EMedef\zh@tmp{変曲点}\fi
+          }%
+        \fi
+        \ifnum\zh@fixedwd=\z@\settowidth\@tempdima{\zh@tmp}%
+          \ifdim\hyouretuhaba<\@tempdima\hyouretuhaba=\@tempdima\fi
+        \fi
+      \fi
+      \Strsep\zh@tmp{/}\zh@a\zh@b
+      \ifx\empty\zh@b
+      \else
+        \Strsep\zh@b{/}\zh@c\zh@d
+        \ifx\empty\zh@d\else
+          \EMedef\zh@tmp{%
+            \zhsubarraycmd{\zh@a}{\zh@d}
+          }%
+        \fi
+      \fi
+      \ifnum\zh@fixedwd=\z@
+        \settowidth{\@tempdima}{\ensuremath{\zh@tmp}}%
+        \ifdim\hyouretuhaba<\@tempdima\hyouretuhaba=\@tempdima\fi
+      \fi
+      \EMedefappend\zh@ystr{&\zh@tmp}%
+    \fi
+%
+% 中央部・.....
+%
+% ystr
+    \ifnum\zh@dys>\z@
+      \if-\dy@sign%
+        \def\dy@sign{+}%
+      \else
+        \def\dy@sign{-}%
+      \fi
+    \fi
+    \@ifundefined{zh@outotu}{}{%
+      \ifnum\zh@ddys>\z@
+        \if-\ddy@sign%
+          \def\ddy@sign{+}%
+        \else
+          \def\ddy@sign{-}%
+        \fi
+      \fi
+    }%
+    \if-\dy@sign%
+      \@ifundefined{zh@outotu}{%
+        \EMedefappend\zh@ystr{&\SE}%
+      }{%
+        \if+\ddy@sign
+          \EMedefappend\zh@ystr{&\psSEE}%
+        \else
+          \EMedefappend\zh@ystr{&\psSES}%
+        \fi
+      }%
+    \else
+      \@ifundefined{zh@outotu}{%
+        \EMedefappend\zh@ystr{&\NE}%
+      }{%
+        \if+\ddy@sign
+          \EMedefappend\zh@ystr{&\psNEN}%
+        \else
+          \EMedefappend\zh@ystr{&\psNEE}%
+        \fi
+      }%
+    \fi
+% dystr, ddystr
+    \ifx\empty\zh@DY
+      \ifnum\zh@h=\tw@
+        \EMedefappend\zh@dystr{&\dy@sign&\dy@sign}%
+      \else
+        \EMedefappend\zh@dystr{&0&\dy@sign}%
+      \fi
+    \else
+      \EMedef\zh@tmp{\csname zh@DY\romannumeral\zh@i\endcsname}%
+      \ifx\empty\zh@tmp
+        \ifnum\zh@h=\tw@
+          \EMedef\zh@tmp{\dy@sign}%
+        \else
+          \EMedef\zh@tmp{0}%
+        \fi
+      \fi
+      \ifnum\zh@fixedwd=\z@
+        \emstrstr{\zh@tmp}{\sya}
+        \ifnum\retval>\z@
+          \EMedefappend\zh@dystr{%
+            &\noexpand\hyouretuhaba\the\hyouretuhaba\zh@tmp}%
+        \else
+          \EMedefappend\zh@dystr{&\zh@tmp}%
+        \fi
+      \else
+        \EMedefappend\zh@dystr{&\zh@tmp}%
+      \fi
+      \EMedefappend\zh@dystr{&\dy@sign}%
+    \fi
+    \@ifundefined{zh@outotu}{}{%
+      \ifx\empty\zh@DDY
+        \ifnum\zh@ddys>\z@
+          \EMedefappend\zh@ddystr{&0&\ddy@sign}%
+        \else
+          \EMedefappend\zh@ddystr{&\ddy@sign&\ddy@sign}%
+        \fi
+      \else
+        \EMedef\zh@tmp{\csname zh@DDY\romannumeral\zh@i\endcsname}%
+        \ifx\empty\zh@tmp
+          \ifnum\zh@ddys>\z@
+            \EMedef\zh@tmp{0}%
+          \else
+            \EMedef\zh@tmp{\ddy@sign}%
+          \fi
+        \fi
+        \ifnum\zh@fixedwd=\z@
+          \emstrstr{\zh@tmp}{\sya}
+          \ifnum\retval>\z@
+            \EMedefappend\zh@ddystr{%
+              &\noexpand\hyouretuhaba\the\hyouretuhaba\zh@tmp}%
+          \else
+            \EMedefappend\zh@ddystr{&\zh@tmp}%
+          \fi
+        \else
+          \EMedefappend\zh@ddystr{&\zh@tmp}%
+        \fi
+        \EMedefappend\zh@ddystr{&\ddy@sign}%
+      \fi
+    }%
+  }%
+%
+% 右端列
+%
+  \ifx\empty\zh@R\else
+%    \EMedefappend\zh@dystr{&\zh@Rii}%
+      \ifthenelse{\equal{\zh@Rii}{\sya}}{%
+        \ifnum\zh@fixedwd=\z@
+          \EMedefappend\zh@dystr{&\zh@Rii(W=\zh@R@wd)}%
+        \else
+          \EMedefappend\zh@dystr{&\zh@Rii}%
+        \fi
+      }{%
+        \EMedefappend\zh@dystr{&\zh@Rii}%
+      }%
+    \@ifundefined{zh@outotu}{%
+%      \EMedefappend\zh@ystr{&\zh@Riii}%
+      \ifthenelse{\equal{\zh@Riii}{\sya}}{%
+        \ifnum\zh@fixedwd=\z@
+          \EMedefappend\zh@ystr{&\zh@Riii(W=\zh@R@wd)}%
+        \else
+          \EMedefappend\zh@ystr{&\zh@Riii}%
+        \fi
+      }{%
+        \EMedefappend\zh@ystr{&\zh@Riii}%
+      }%
+    }{%
+%      \EMedefappend\zh@ddystr{&\zh@Riii}%
+      \ifthenelse{\equal{\zh@Riii}{\sya}}{%
+        \ifnum\zh@fixedwd=\z@
+          \EMedefappend\zh@ddystr{&\zh@Riii(W=\zh@R@wd)}%
+        \else
+          \EMedefappend\zh@ddystr{&\zh@Riii}%
+        \fi
+      }{%
+        \EMedefappend\zh@ddystr{&\zh@Riii}%
+      }%
+%      \EMedefappend\zh@ystr{&\zh@Riv}%
+      \ifthenelse{\equal{\zh@Riv}{\sya}}{%
+        \ifnum\zh@fixedwd=\z@
+          \EMedefappend\zh@ystr{&\zh@Riv(W=\zh@R@wd)}%
+        \else
+          \EMedefappend\zh@ystr{&\zh@Riv}%
+        \fi
+      }{%
+        \EMedefappend\zh@ystr{&\zh@Riv}%
+      }%
+    }%
+  \fi
+%
+% 出力
+%
+  \@ifundefined{zh@clmfmts}{%
+    \ifnum\zh@LRkei>\z@% 左右縦罫線あり
+      \ifnum\zh@ttlRkei=\tw@%  ttl 右罫線２本
+        \ifx\empty\zh@ttl@bgcolor
+          \ifx\empty\zh@sityuu
+            \edef\zh@tmp{{Ic|*{\zh@retusuu}{|\zh@clmfmt}I}}%
+          \else
+            \EMedef\zh@tmp{%
+              'gyoudaka=\zh@sityuu'{Ic|*{\zh@retusuu}{|\zh@clmfmt}I}}%
+          \fi
+        \else
+          \ifx\empty\zh@sityuu
+            \EMedef\zh@tmp{{I>{\noexpand\columncolor{\zh@ttl@bgcolor}}c%
+                |*{\zh@retusuu}{|\zh@clmfmt}I}}%
+            \doublerulesepcolor{\zh@ttl@bgcolor}%
+          \else
+            \EMedef\zh@tmp{%
+              'gyoudaka=\zh@sityuu'{Ic|*{\zh@retusuu}{|\zh@clmfmt}I}}%
+          \fi
+        \fi
+      \else%                                  ttl 右罫線１本
+        \ifx\empty\zh@ttl@bgcolor
+          \ifx\empty\zh@sityuu
+            \edef\zh@tmp{{Ic*{\zh@retusuu}{|\zh@clmfmt}I}}%
+          \else
+            \EMedef\zh@tmp{%
+              'gyoudaka=\zh@sityuu'{Ic*{\zh@retusuu}{|\zh@clmfmt}I}}%
+          \fi
+        \else
+          \ifx\empty\zh@sityuu
+            \EMedef\zh@tmp{{I>{\noexpand\columncolor{\zh@ttl@bgcolor}}c%
+              *{\zh@retusuu}{|\zh@clmfmt}I}}%
+          \else
+            \EMedef\zh@tmp{'gyoudaka=\zh@sityuu'{I>{\noexpand\columncolor{%
+              \zh@ttl@bgcolor}}c*{\zh@retusuu}{|\zh@clmfmt}I}}%
+          \fi
+        \fi
+      \fi
+    \else% 左右縦罫線なし
+      \ifnum\zh@ttlRkei=\tw@%  ttl 右罫線２本
+          \ifx\empty\zh@sityuu
+            \edef\zh@tmp{{c|*{\zh@retusuu}{|\zh@clmfmt}}}%
+          \else
+            \EMedef\zh@tmp{%
+              'gyoudaka=\zh@sityuu'{c*{\zh@retusuu}{|\zh@clmfmt|}}}%
+          \fi
+      \else%                  ttl 右罫線１本
+          \ifx\empty\zh@sityuu
+            \edef\zh@tmp{{|c|*{\zh@retusuu}{\zh@clmfmt|}}}%
+          \else
+            \EMedef\zh@tmp{%
+              'gyoudaka=\zh@sityuu'{|c|*{\zh@retusuu}{\zh@clmfmt|}}}%
+          \fi
+      \fi
+    \fi
+  }{%
+    \ifx\empty\zh@sityuu
+      \EMedef\zh@tmp{{\zh@clmfmts}}%
+    \else
+      \EMedef\zh@tmp{'gyoudaka=\zh@sityuu'{{\zh@clmfmts}}}%
+    \fi
+  }%
+  \@ifundefined{zh@LRkei}{}{%
+    \ifnum\zh@LRkei=\z@
+      \ifx\empty\zh@sityuu
+        \edef\zh@tmp{{c|*{\zh@retusuu}{|\zh@clmfmt}}}%
+      \else
+        \EMedef\zh@tmp{'gyoudaka=\zh@sityuu'{c|*{\zh@retusuu}{|\zh@clmfmt}}}%
+      \fi
+    \fi%
+  }%
+  \@ifundefined{zh@ttl@Rkei}{}{%
+    \ifnum\zh@ttl@Rkei=\@ne
+      \ifx\empty\zh@sityuu
+        \edef\zh@tmp{{c*{\zh@retusuu}{|\zh@clmfmt}}}%
+      \else
+        \EMedef\zh@tmp{'gyoudaka=\zh@sityuu'{c*{\zh@retusuu}{|\zh@clmfmt}}}%
+      \fi
+    \fi%
+  }%
+  \@ifundefined{zh@file}{}{{%
+    \immediate\openout\em@whndl=\zh@file
+    \immediate\write\em@whndl{\string\begin{array}\zh@tmp\string\hline}%
+    \immediate\write\em@whndl{\zh@xstr\string\\ \string\hline}%
+    \immediate\write\em@whndl{\zh@dystr\string\\ \string\hline}%
+    \immediate\write\em@whndl{\zh@ddystr\string\\ \string\hline}%
+    \immediate\write\em@whndl{\zh@ystr\string\\ \string\hline}%
+    \immediate\write\em@whndl{\string\end{array}}%
+    \immediate\closeout\em@whndl
+  }}%
+%  \let\cdots\zh@cdots
+%  \let\emTsya\zh@emTsya
+%  \let\sya\zh@sya
+%  \let\NE\zh@NE
+%  \let\psNEE\zh@psNEE
+%  \let\psNEN\zh@psNEN
+%  \let\SE\zh@SE
+%  \let\psSEE\zh@psSEE
+%  \let\psSES\zh@psSES
+%  \let\bsityuu\zh@bsityuu
+%  \let\bunsuu\zh@bunsuu
+%  \let\sqrt\zh@sqrt
+%
+%  \def\zhsubarraycmd##1##2{%
+%      \begin{zhsubarray}{c}
+%        ##1\expandafter\\##2
+%      \end{zhsubarray}%
+%  }%
+%  \let\zhsubarraycmd\zhsubarraycmd@
+  \ensuremath{%
+    \expandafter\array\zh@tmp\ifnum\zh@TBkei>\z@\hlineb\fi
+      \zh@xstr\\\hline
+      \ifx\empty\zh@dy@bgcolor\else
+%       \doublerulesepcolor{\zh@dy@bgcolor}%
+        \rowcolor{\zh@dy@bgcolor}%
+      \fi
+      \zh@dystr\\\hline
+      \@ifundefined{zh@outotu}{}{%
+        \ifx\empty\zh@ddy@bgcolor\else
+%         \doublerulesepcolor{\zh@dy@bgcolor}%
+          \rowcolor{\zh@ddy@bgcolor}%
+        \fi
+        \zh@ddystr\\\hline
+      }%
+      \zh@ystr\ifnum\zh@TBkei>\z@\\\hlineb\fi
+    \endarray
+  }%
+}}%
+%
+%\def\zhsubarraycmd#1#2{%
+%\ensuremath{%
+%  \begin{zhsubarray}{c}
+%    #1\expandafter\\#2
+%  \end{zhsubarray}%
+%}}%
+%
+%\def\zhsubarraycmd@{\@ifnextchar[{\@zhsubarraycmd}{\@zhsubarraycmd[0pt]}}%
+\DeclareRobustCommand\zhsubarraycmd{\@ifnextchar[{\@zhsubarraycmd}{\@zhsubarraycmd[0pt]}}%
+\def\@zhsubarraycmd[#1]{\@ifnextchar[{\@@zhsubarraycmd[#1]}{%
+  \@@zhsubarraycmd[#1][#1]}}%
+\def\@@zhsubarraycmd[#1][#2]#3#4{%
+  \EMvphantom*[#1][#2]{%
+  \begin{zhsubarray}{c}
+    #3\expandafter\\#4\relax
+  \end{zhsubarray}%
+}}%
+\endinput
+%
+\unexpanded{<トークン>...}:
+http://d.hatena.ne.jp/zrbabbler/20110228/1298840752
+%
+v 0.01 2012/11/13 <dyvals=..> オプションのバグ修正 (BBS #11244)
+v 0.03 2012/12/22 \sya の横幅を自動取得
+v 0.04 2013/08/11 \zhinfty
+v 0.05 2013/11/10 <LRkei=0/1> \zougenhyouLRkei{0/1} (BBS #12020)
+v 0.06 2013/11/26 <Tclm=...> のバグ修正 (BBS #12030)
+v 0.07 2017/04/02 "極大"などに text を被せる (saloon #1407)
+
+

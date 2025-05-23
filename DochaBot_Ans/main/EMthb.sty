@@ -1,0 +1,23 @@
+% EMthb.sty by tDB (emath@nifty.com)
+
+\NeedsTeXFormat{LaTeX2e}%
+\ProvidesPackage{EMthb}[2011/04/18 v0.00]%
+% thb.sty を改変
+
+\begingroup
+\makeatletter
+\global\let\thbstrut\strut%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\@ifundefined{theorem@style}{\input{theorem.sty}}{}
+%\ProvidesFile{EMthb.sty}
+\gdef\th@break{\normalfont\slshape
+  \def\@begintheorem##1##2{\item[%
+       \rlap{\vbox{\hbox{\hskip \labelsep\ttlcmd@name{\theorem@headerfont
+                    ##1\ ##2\post@Thnum}}\hbox{\thbstrut}}}]}%
+\def\@opargbegintheorem##1##2##3{%
+  \item[\rlap{\vbox{\hbox{\hskip \labelsep \ttlcmd@name{\theorem@headerfont
+                      ##1\ ##2\post@Thnum\ \thmkakkokukuri{##3}}}%
+                      \hbox{\thbstrut}}}]}}%
+\endgroup
+\endinput
+%
+v 0.00 2011/04/18 QA638

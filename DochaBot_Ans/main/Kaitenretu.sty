@@ -1,0 +1,251 @@
+%%% Kaitenretu.sty by tDB(emath@nifty.com)
+% 日本語
+\ProvidesPackage{Kaitenretu}[2015/01/02 v0.02]%
+%
+\def\Kt@sub{\let\Kt@prnm\undefined
+  \edef\save@hankei{\Kt@hankei}%
+  \edef\save@bairitu{\Kt@bairitu}%
+  \@ifnextchar[{\Kt@sub@}{\Kt@sub@@}}%
+\def\Kt@sub@[#1]{\edef\Kt@hankei{#1}\Kt@sub@@}%
+\def\Kt@sub@@{\@ifnextchar<{\Kt@@sub@}{\Kt@@@sub@}}%
+\def\Kt@@sub@<#1>{%
+  \Strchr{#1}{=}\Kt@tmp
+  \ifnum\Kt@tmp>\z@\setkeys{emP}{#1}\else\edef\Kt@bairitu{#1}\fi
+  \Kt@@@sub@}%
+\def\Kt@@@sub@{\@ifnextchar({\Kt@sub@@@}{\@Kt@sub}}%
+\def\Kt@sub@@@(#1){\@Kt@sub{(#1)}}%
+%\def\@Kt@sub#1#2#3#4#5\@nil{%
+\def\@Kt@sub#1#2#3{%
+  \Kaiten[\Kt@hankei]<\Kt@bairitu>{#1}{#2}{#3}\Kt@P
+  \@ifnextchar[{\@@Kt@sub}{\@@@Kt@sub}}%
+\def\@@Kt@sub[#1]{\EMedef\Kt@prnm{#1}\@@@Kt@sub}%
+\def\@@@Kt@sub#1#2\@nil{%
+  \strip@cmd{#1}\Kt@name
+  \@ifundefined{Kt@prnm}{%
+    \EMedefappend[;]\Kt@str{\Kt@name\Kt@P#2}%
+  }{%
+    \EMedefappend[;]\Kt@str{[\Kt@prnm]\Kt@name\Kt@P#2}%
+  }%
+  \edef\Kt@bairitu{\save@bairitu}%
+  \edef\Kt@hankei{\save@hankei}%
+}%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\Kaitenretu{%
+  \define@key{emP}{hankei}{\ukansan{##1}\Kt@hankei}%
+  \define@key{emP}{bairitu}{\ukansan{##1}\Kt@bairitu}%
+  \def\show@label{1}%
+  \@ifstar{\def\show@label{0}\@Kaitenretu}{\@Kaitenretu}}%
+\def\@Kaitenretu{\@ifnextchar[{\@@Kaitenretu}{\@@Kaitenretu[\empty]}}%
+\def\@@Kaitenretu[#1]{\edef\Kt@hankei{#1}\@ifnextchar<{%
+  \@@@Kaitenretu}{\@@@Kaitenretu<\empty>}}%
+\def\@@@Kaitenretu<#1>{%
+  \edef\next@opt{\empty}%
+  \Strchr{#1}{=}\Kt@tmp
+  \ifnum\Kt@tmp>\z@\setkeys{emP}{#1}\else\edef\Kt@bairitu{#1}\fi
+  \@@@@Kaitenretu}%
+\def\@@@@Kaitenretu#1{%
+  \edef\Kt@str{\empty}%
+  \exfor[;]\Kt@c:=#1\do{%
+    \expandafter\Kt@sub\Kt@c\@nil
+  }%
+  \ifnum\show@label>\z@
+    \ifx\empty\next@opt
+      \EMedef\Kt@retu{{\Kt@str}}%
+    \else
+      \EMedef\Kt@retu{<\next@opt>{\Kt@str}}%
+    \fi
+    \expandafter\tenretu\Kt@retu
+  \else
+    \ifx\empty\next@opt
+      \EMedef\Kt@retu{*{\Kt@str}}%
+    \else
+      \EMedef\Kt@retu{*<\next@opt>{\Kt@str}}%
+    \fi
+    \expandafter\tenretu\Kt@retu
+  \fi
+}%
+%
+%
+%
+\def\Kaitens{\edef\show@label{1}\@ifstar{\edef\show@label{0}\@Kaitens}{\@Kaitens}}%
+\def\@Kaitens{\@ifnextchar[{\@@Kaitens}{\@@Kaitens[\empty]}}%
+\def\@@Kaitens[#1]{\@ifnextchar<{\@@@Kaitens[#1]}{\@@@Kaitens[#1]<\empty>}}%
+\def\@@@Kaitens[#1]<#2>#3#4#5#6{%
+% #2: 倍率 or key=val
+% #3: 回転の中心
+% #4: 回転の対称となる点列の制御綴名 (;区切り csv列）
+% #5: 回転角
+% #6: 回転後の点列の制御綴名 (;区切り csv列）
+%-------------------------------------------------------------
+  \def\Kts@sub{\let\Kts@prnm\undefined
+    \@ifnextchar[{\Kts@sub@}{\@Kts@sub}}%
+  \def\Kts@sub@[##1]{\edef\Kts@prnm{##1}\@Kts@sub}%
+  \def\@Kts@sub##1\@nil{%
+    \Strsep{##1}{(}\Kts@a\Kts@b
+    \ifx\empty\Kts@b
+      \Strsep{##1}{[}\Kts@a\Kts@b
+      \ifx\empty\Kts@b\else\edef\Kts@b{[\Kts@b}\fi
+    \else
+      \edef\Kts@b{(\Kts@b}%
+    \fi
+    \@ifundefined{Kts@prnm}{%
+      \EMedefappend[;]\ret@tenretu{\Kts@a\atmp@P\Kts@b}%
+    }{%
+      \EMedefappend[;]\ret@tenretu{[\Kts@prnm]\Kts@a\atmp@P\Kts@b}%
+    }%
+  }%
+%-------------------------------------------------------------
+  \edef\next@opt{\empty}%
+  \edef\oresen@name{\empty}%
+  \edef\byouga@dousa{\empty}%
+  \strchr{#2}{=}\Kt@tmp
+  \edef\ret@P{#6}%
+  \ifnum\Kt@tmp>\z@
+    \edef\@bairitu{\empty}%
+    \setkeys{emP}{#2}%
+    \edef\arg@ii{\@bairitu}%
+  \else
+    \edef\arg@ii{#2}%
+  \fi
+  \DegRad{#5}\@kaku\Cos\@kaku\@c\Sin\@kaku\@s
+  \strchr{#4}{;}\kt@tmp
+  \ifnum\kt@tmp>\z@
+    \csvhairetu*[;]{#4}{org@P}%
+    \csvhairetu*[;]{\ret@P}{ret@P}%
+  \else
+    \csvhairetu*{#4}{org@P}%
+    \csvhairetu*{\ret@P}{ret@P}%
+  \fi
+  \edef\ret@oresen{}%
+  \edef\ret@tenretu{}%
+  \Ifor*\i@val{1}\org@PN\Do{%
+    \edef\tmp@P{\hairetu{org@P}{\i@val}}%
+%    \Kaiten[#1]<\arg@ii>{#3}{\@nameuse{\tmp@P}}{#5}\atmp@P
+    \Subvec{\@nameuse{\tmp@P}}{#3}\tmp@v\vecXY\tmp@v\tmp@x\tmp@y
+    \Mul\tmp@x\@c\@xx\Mul\tmp@y\@s\tmp@t\Subself\@xx\tmp@t
+    \Mul\tmp@x\@s\@yy\Mul\tmp@y\@c\tmp@t\Addself\@yy\tmp@t
+    \ifx\empty\arg@ii\else
+      \Mulself\@xx\arg@ii
+      \Mulself\@yy\arg@ii
+    \fi
+    \Addvec{(\@xx,\@yy)}{#3}\atmp@P
+    \edefappend\ret@oresen{\atmp@P}%
+    \edef\temp@a{\csname ret@P\romannumeral\i@val\endcsname}%
+    \expandafter\Kts@sub\temp@a\@nil
+  }%
+  \ifx\empty\oresen@name\else
+    \expandafter\edef\csname\oresen@name\endcsname{\ret@oresen}\fi
+  \ifnum\show@label>\z@
+    \EMedef\Kts@tmp{<\next@opt>{\ret@tenretu}}%
+    \expandafter\tenretu\Kts@tmp
+  \else
+    \EMedef\Kts@tmp{*<\next@opt>{\ret@tenretu}}%
+    \expandafter\tenretu\Kts@tmp
+  \fi
+}%
+%
+\def\KaitenOresen{\@ifnextchar[{\@KaitenOresen}{\@KaitenOresen[\empty]}}%
+\def\@KaitenOresen[#1]{\@ifnextchar<{\@@KaitenOresen[#1]}{\@@KaitenOresen[#1]<\empty>}}%
+\def\@@KaitenOresen[#1]<#2>#3#4#5#6{%
+  \edef#6{}%
+  \strchr{#2}{=}\Kt@tmp
+  \ifnum\Kt@tmp>\z@
+    \edef\@bairitu{\empty}%
+    \setkeys{emP}{#2}%
+    \edef\arg@ii{\@bairitu}%
+  \else
+    \edef\arg@ii{#2}%
+  \fi
+  \DegRad{#5}\@kaku\Cos\@kaku\@c\Sin\@kaku\@s
+  \tenhairetu{#4}{KO@}%
+  \Ifor*\i@val{1}{\KO@N}\Do{%
+    \edef\KO@P{\hairetu{KO@}{\i@val}}%
+%    \Kaiten[#1]<#2>{#3}\KO@P{#5}\KO@Q
+    \Subvec\KO@P{#3}\tmp@v\vecXY\tmp@v\tmp@x\tmp@y
+    \Mul\tmp@x\@c\@xx\Mul\tmp@y\@s\tmp@t\Subself\@xx\tmp@t
+    \Mul\tmp@x\@s\@yy\Mul\tmp@y\@c\tmp@t\Addself\@yy\tmp@t
+    \ifx\empty\arg@ii\else
+      \Mulself\@xx\arg@ii
+      \Mulself\@yy\arg@ii
+    \fi
+    \Addvec{(\@xx,\@yy)}{#3}\KO@Q
+    \edefappend#6{\KO@Q}%
+  }%
+}%
+%
+\endinput
+%
+%
+%
+\documentclass{jarticle}
+\usepackage{graphicx,color}
+\usepackage{emathPs}
+\usepackage{kaitenretu}
+
+\begin{document}
+\begin{pszahyou}[ul=10mm](-4,4)(-4,8)
+  \tenretu<dousa=T>{A(1,0);B(2,1);C(1,2)}
+  \Kaitens*<bairitu=2,nextopt={dousa=T,iro=red}>\O{A;B;C}{90}%
+    {[A$'$]P[n];Q(0,0)[l];R[syaei,houi=s]}
+\end{pszahyou}
+\end{document}
+%
+\def\Kaitens{\@ifnextchar[{\@Kaitens}{\@Kaitens[\empty]}}%
+\def\@Kaitens[#1]{\@ifnextchar<{\@@Kaitens[#1]}{\@@Kaitens[#1]<\empty>}}%
+\def\@@Kaitens[#1]<#2>#3#4#5#6{%
+%---------------------------------------------------
+  \def\Kt@sub{\let\Kt@prnm\undefined%
+    \@ifnextchar[{\@Kt@sub}{\@@Kt@sub}}%
+  \def\@Kt@sub[##1]{\EMedef\Kt@prnm{##1}\@@Kt@sub}%
+  \def\@@Kt@sub##1##2\@nil{%
+    \strip@cmd{##1}\Kt@name
+    \edef\Kts@P{\hairetu{TH@V}{\Kts@n}}%
+    \Kaiten[#1]<\arg@ii>{#3}{\Kts@P}{#5}\Kts@Q
+    \@ifundefined{Kt@prnm}{%
+      \EMedefappend[;]\Kts@str{\Kt@name\Kts@Q##2}%
+    }{%
+      \EMedefappend[;]\Kts@str{[\Kt@prnm]\Kt@name\Kts@Q##2}%
+    }%
+%\typeout{oresen@name=\oresen@name}%
+    \ifx\empty\oresen@name\else
+      \expandafter\EMedefappend\csname\oresen@name\endcsname{\Kts@Q}%
+    \fi
+  }%
+%---------------------------------------------------
+  \edef\next@opt{\empty}%
+  \edef\oresen@name{\empty}%
+  \strchr{#2}{=}\Kt@tmp
+  \ifnum\Kt@tmp>\z@
+    \edef\@bairitu{\empty}%
+    \setkeys{emP}{#2}%
+    \edef\arg@ii{\@bairitu}%
+  \else
+    \edef\arg@ii{#2}%
+  \fi
+%\typeout{oresen@name=\oresen@name}%
+  \def\Kt@c{#6}%
+  \strchr{#4}{;}\Kts@s
+  \ifnum\Kts@s>\z@
+    \csvhairetu*[;]{#4}{TH@V}%
+  \else
+    \EMedef\Kts@tmp{#4}%
+    \expandafter\makeTenHairetu\Kts@tmp
+  \fi
+  \edef\Kts@n{0}%
+  \edef\Kts@str{\empty}%
+  \exfor[;]\Kts@c:=\Kt@c\do{%
+    \Incr\Kts@n
+    \expandafter\Kt@sub\Kts@c\@nil
+  }%
+  \ifx\empty\next@opt
+    \EMedef\Kts@tmp{{\Kts@str}}%
+  \else
+    \EMedef\Kts@tmp{<\next@opt>{\Kts@str}}%
+  \fi
+  \expandafter\tenretu\Kts@tmp%
+}%
+%
+%
+v 0.00 2013/09/29
+v 0.01 2014/12/31 \Kaitens (BBS #12582)
+v 0.02 2015/01/02 \KaitenOresen

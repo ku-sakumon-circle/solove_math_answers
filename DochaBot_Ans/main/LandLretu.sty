@@ -1,0 +1,240 @@
+%%% LandLretu.sty by tDB(emath@nifty.com)
+% 日本語
+\ProvidesPackage{LandLretu}[2013/08/31 v0.04]%
+%
+% LandLretu
+%
+\def\LandLretu{\let\LL@cmd\LandL\LandLretu@}%
+\def\Landlretu{\let\LL@cmd\Landl\LandLretu@}%
+\def\LandLretu@{%
+% -------------------------------------------------------------------
+  \def\LL@sub{\let\LL@prnm\undefined
+    \@ifnextchar[{\LL@@sub@}{\LL@sub@}}%
+  \def\LL@@sub@[##1]{\EMedef\LL@prnm{##1}\@LL@sub}%
+  \def\LL@sub@{\@ifnextchar({\LL@sub@@}{\@LL@sub}}%
+  \def\LL@sub@@(##1){\@LL@sub{(##1)}}%
+  \def\@LL@sub##1##2##3##4##5##6\@nil{%
+    \strip@cmd{##5}\LL@name
+    \LL@cmd{##1}{##2}{##3}{##4}##5\relax
+    \@ifundefined{LL@prnm}{%
+      \EMedefappend[;]\LL@str{\LL@name##5##6}%
+    }{%
+      \EMedefappend[;]\LL@str{[\LL@prnm]\LL@name##5##6}%
+    }%
+  }%
+% -------------------------------------------------------------------
+  \def\show@label{1}%
+  \@ifstar{\def\show@label{0}\@LandLretu}{\@LandLretu}}%
+\def\@LandLretu{\@ifnextchar<{\@@@LandLretu}{\@@@LandLretu<\empty>}}%
+\def\@@@LandLretu<#1>#2{%
+  \edef\LL@str{\empty}%
+  \exfor[;]\LL@c:=#2\do{%
+    \expandafter\LL@sub\LL@c\@nil
+  }%
+  \ifnum\show@label>\z@
+    \EMedef\LL@retu{<#1>{\LL@str}}%
+    \expandafter\tenretu\LL@retu
+  \else
+    \EMedef\LL@retu{*<#1>{\LL@str}}%
+    \expandafter\tenretu\LL@retu
+  \fi
+}%
+%
+% Landkretu
+%
+% -------------------------------------------------------------------
+\def\Landkretu{%
+% -------------------------------------------------------------------
+  \def\Lk@sub{\edef\Lk@prnm{\empty}%
+    \@ifnextchar[{\Lk@@sub@}{\Lk@sub@}}%
+  \def\Lk@@sub@[##1]{\EMedef\Lk@prnm{##1}\@Lk@sub}%
+  \def\Lk@sub@{\@ifnextchar({\Lk@sub@@}{\@Lk@sub}}%
+  \def\Lk@sub@@(##1){\@Lk@sub{(##1)}}%
+  \def\@Lk@sub##1##2##3##4##5##6\@nil{%
+    \strip@cmd{##5}\Lk@name
+    \Landk{##1}{##2}{##3}{##4}##5\relax
+    \ifx\empty\Lk@prnm
+      \EMedefappend[;]\Lk@str{\Lk@name##5##6}%
+    \else
+      \EMedefappend[;]\Lk@str{[\Lk@prnm]\Lk@name##5##6}%
+    \fi
+  }%
+% -------------------------------------------------------------------
+  \def\show@label{1}%
+  \@ifstar{\def\show@label{0}\@Landkretu}{\@Landkretu}}%
+\def\@Landkretu{\@ifnextchar<{\@@@Landkretu}{\@@@Landkretu<\empty>}}%
+\def\@@@Landkretu<#1>#2{%
+  \edef\Lk@str{\empty}%
+  \exfor[;]\Lk@c:=#2\do{%
+    \expandafter\Lk@sub\Lk@c\@nil
+  }%
+  \ifnum\show@label>\z@
+    \EMedef\Lk@retu{<#1>{\Lk@str}}%
+    \expandafter\tenretu\Lk@retu
+  \else
+    \EMedef\Lk@retu{*<#1>{\Lk@str}}%
+    \expandafter\tenretu\Lk@retu
+  \fi
+}%
+%
+% abcandabcretu
+%
+\def\abcandabcretu{%
+% -------------------------------------------------------------------
+  \def\abc@sub{\let\abc@prnm\undefined
+    \@ifnextchar[{\abc@@sub@}{\@abc@sub}}%
+  \def\abc@@sub@[##1]{\EMedef\abc@prnm{##1}\@abc@sub}%
+  \def\@abc@sub##1##2##3##4\@nil{%
+    \strip@cmd{##3}\abc@name
+    \abcandabc{##1}{##2}##3\relax
+    \@ifundefined{abc@prnm}{%
+      \EMedefappend[;]\abc@str{\abc@name##3##4}%
+    }{%
+      \EMedefappend[;]\abc@str{[\abc@prnm]\abc@name##3##4}%
+    }%
+  }%
+% -------------------------------------------------------------------
+  \def\show@label{1}%
+  \@ifstar{\def\show@label{0}\@abcandabcretu}{\@abcandabcretu}}%
+\def\@abcandabcretu{\@ifnextchar<{\@@@abcandabcretu}{\@@@abcandabcretu<\empty>}}%
+\def\@@@abcandabcretu<#1>#2{%
+  \edef\abc@str{\empty}%
+  \def\abc@tmp{s;#2}%
+  \edef\abc@i{0}%
+  \exfor[;]\abc@c:=\abc@tmp\do{%
+    \ifnum\abc@i>\z@
+      \expandafter\abc@sub\abc@c\@nil
+    \fi
+    \Incr\abc@i
+  }%
+  \ifnum\show@label>\z@
+    \EMedef\abc@retu{<#1>{\abc@str}}%
+    \expandafter\tenretu\abc@retu
+  \else
+    \EMedef\abc@retu{*<#1>{\abc@str}}%
+    \expandafter\tenretu\abc@retu
+  \fi
+}%
+%
+% Iabcandabcretu
+%
+\def\Iabcandabcretu{%
+% -------------------------------------------------------------------
+  \def\Iabc@sub{\edef\Iabc@prnm{\empty}%
+    \@ifnextchar[{\Iabc@@sub@}{\@Iabc@sub}}%
+  \def\Iabc@@sub@[##1]{\EMedef\Iabc@prnm{##1}\@Iabc@sub}%
+  \def\@Iabc@sub##1##2##3##4\@nil{%
+    \strip@cmd{##3}\Iabc@name
+    \Iabcandabc{##1}{##2}{##3}\relax
+    \ifx\empty\Iabc@prnm
+      \EMedefappend[;]\Iabc@str{\Iabc@name##3##4}%
+    \else
+      \EMedefappend[;]\Iabc@str{[\Iabc@prnm]\Iabc@name##3##4}%
+    \fi
+  }%
+% -------------------------------------------------------------------
+  \def\show@label{1}%
+  \@ifstar{\def\show@label{0}\@Iabcandabcretu}{\@Iabcandabcretu}}%
+\def\@Iabcandabcretu{%
+  \@ifnextchar<{\@@@Iabcandabcretu}{\@@@Iabcandabcretu<\empty>}}%
+\def\@@@Iabcandabcretu<#1>#2{%
+  \edef\Iabc@str{\empty}%
+  \def\Iabc@tmp{s;#2}%
+  \edef\Iabc@i{0}%
+  \exfor[;]\Iabc@c:=\Iabc@tmp\do{%
+    \ifnum\Iabc@i>\z@
+      \expandafter\Iabc@sub\Iabc@c\@nil
+    \fi
+    \Incr\Iabc@i
+  }%
+  \ifnum\show@label>\z@
+    \EMedef\Iabc@retu{<#1>{\Iabc@str}}%
+    \expandafter\tenretu\Iabc@retu
+  \else
+    \EMedef\Iabc@retu{*<#1>{\Iabc@str}}%
+    \expandafter\tenretu\Iabc@retu
+  \fi
+}%
+%
+\@ifpackageloaded{emathPk}{%
+%
+% Piiitoiiretu
+%
+\def\Piiitoiiretu{%
+% -------------------------------------------------------------------
+  \def\iiitoii@sub{\edef\iiitoii@prnm{\empty}%
+    \@ifnextchar[{\iiitoii@@sub@}{\iiitoii@sub@}}%
+  \def\iiitoii@@sub@[##1]{\EMedef\iiitoii@prnm{##1}\@iiitoii@sub}%
+  \def\iiitoii@sub@{\@ifnextchar({\iiitoii@sub@@}{\@iiitoii@sub}}%
+  \def\iiitoii@sub@@(##1){\@iiitoii@sub{(##1)}}%
+  \def\@iiitoii@sub##1##2##3\@nil{%
+    \strip@cmd{##2}\iiitoii@name
+    \Piiitoii{##1}{##2}\relax
+    \ifx\empty\iiitoii@prnm
+      \EMedefappend[;]\iiitoii@str{\iiitoii@name##2##3}%
+    \else
+      \EMedefappend[;]\iiitoii@str{[\iiitoii@prnm]\iiitoii@name##2##3}%
+    \fi
+  }%
+% -------------------------------------------------------------------
+  \def\show@label{1}%
+  \@ifstar{\def\show@label{0}\@Piiitoiiretu}{\@Piiitoiiretu}}%
+\def\@Piiitoiiretu{\@ifnextchar<{\@@@Piiitoiiretu}{\@@@Piiitoiiretu<\empty>}}%
+\def\@@@Piiitoiiretu<#1>#2{%
+  \edef\iiitoii@str{\empty}%
+  \exfor[;]\iiitoii@c:=#2\do{%
+    \expandafter\iiitoii@sub\iiitoii@c\@nil
+  }%
+  \ifnum\show@label>\z@
+    \EMedef\iiitoii@retu{<#1>{\iiitoii@str}}%
+    \expandafter\tenretu\iiitoii@retu
+  \else
+    \EMedef\iiitoii@retu{*<#1>{\iiitoii@str}}%
+    \expandafter\tenretu\iiitoii@retu
+  \fi
+}%
+%
+% Piitoiiiretu
+%
+\def\Piitoiiiretu{%
+% -------------------------------------------------------------------
+  \def\iitoiii@sub{\edef\iitoiii@prnm{\empty}%
+    \@ifnextchar[{\iitoiii@@sub@}{\iitoiii@sub@}}%
+  \def\iitoiii@@sub@[##1]{\EMedef\iitoiii@prnm{##1}\@iitoiii@sub}%
+  \def\iitoiii@sub@{\@ifnextchar({\iitoiii@sub@@}{\@iitoiii@sub}}%
+  \def\iitoiii@sub@@(##1){\@iitoiii@sub{(##1)}}%
+  \def\@iitoiii@sub##1##2##3\@nil{%
+    \strip@cmd{##2}\iitoiii@name
+    \Piitoiii{##1}{##2}\relax
+    \ifx\empty\iitoiii@prnm
+      \EMedefappend[;]\iitoiii@str{\iitoiii@name##2##3}%
+    \else
+      \EMedefappend[;]\iitoiii@str{[\iitoiii@prnm]\iitoiii@name##2##3}%
+    \fi
+  }%
+% -------------------------------------------------------------------
+  \def\show@label{1}%
+  \@ifstar{\def\show@label{0}\@Piitoiiiretu}{\@Piitoiiiretu}}%
+\def\@Piitoiiiretu{\@ifnextchar<{\@@@Piitoiiiretu}{\@@@Piitoiiiretu<\empty>}}%
+\def\@@@Piitoiiiretu<#1>#2{%
+  \edef\iitoiii@str{\empty}%
+  \exfor[;]\iitoiii@c:=#2\do{%
+    \expandafter\iitoiii@sub\iitoiii@c\@nil
+  }%
+  \ifnum\show@label>\z@
+    \EMedef\iitoiii@retu{<#1>{\iitoiii@str}}%
+    \expandafter\iiitenretu\iitoiii@retu
+  \else
+    \EMedef\iitoiii@retu{*<#1>{\iitoiii@str}}%
+    \expandafter\iiitenretu\iitoiii@retu
+  \fi
+}%
+}{}%
+%
+\endinput
+%
+v 0.00 2012/12/02
+v 0.01 2012/12/02 \Landkretu
+v 0.02 2012/12/03 \Suisenretu, \Piiitoiiretu, \Piitoiiiretu
+v 0.03 2013/05/21 \abcandabcretu
+v 0.04 2013/08/31 \Addvecretu, \Mulvecretu

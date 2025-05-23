@@ -1,0 +1,1695 @@
+This is e-upTeX, Version 3.141592653-p4.1.1-u1.30-230214-2.6 (utf8.sjis) (TeX Live 2024) (preloaded format=platex 2025.2.15)  18 FEB 2025 00:21
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**00main.tex
+(./00main.tex
+pLaTeX2e <2023-02-14>+1, based on
+LaTeX2e <2024-11-01> patch level 2
+L3 programming layer <2025-01-18>
+(c:/texlive/2024/texmf-dist/tex/platex/jsclasses/jsarticle.cls
+Document Class: jsarticle 2023/02/23 jsclasses (okumura, texjporg)
+Class jsarticle Info: Autodetected engine: pLaTeX on input line 236.
+\jsc@mpt=\dimen157
+\jsc@mmm=\dimen158
+\jsc@smallskipamount=\skip49
+LaTeX Info: Redefining \textmc on input line 511.
+LaTeX Info: Redefining \textgt on input line 513.
+\symmincho=\mathgroup4
+LaTeX Font Info:    Overwriting symbol font `mincho' in version `bold'
+(Font)                  JY1/mc/m/n --> JY1/gt/m/n on input line 575.
+LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
+(Font)              scaled to size 9.60999pt on input line 769.
+LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
+(Font)              scaled to size 9.60999pt on input line 769.
+\fullwidth=\dimen159
+LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
+(Font)              scaled to size 7.68799pt on input line 922.
+LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
+(Font)              scaled to size 7.68799pt on input line 922.
+\c@part=\count195
+\c@section=\count196
+\c@subsection=\count197
+\c@subsubsection=\count198
+\c@paragraph=\count199
+\c@subparagraph=\count266
+\@abstractbox=\box69
+\c@figure=\count267
+\c@table=\count268
+\abovecaptionskip=\skip50
+\belowcaptionskip=\skip51
+\jsc@tocl@width=\dimen160
+\@lnumwidth=\dimen161
+\bibindent=\dimen162
+(c:/texlive/2024/texmf-dist/tex/platex/jsclasses/jslogo.sty
+Package: jslogo 2019/07/25 okumura, texjporg
+LaTeX Info: Redefining \TeX on input line 82.
+LaTeX Info: Redefining \LaTeX on input line 135.
+LaTeX Info: Redefining \LaTeXe on input line 188.
+)
+\heisei=\count269
+)
+(../problems/preamble/preamble.tex
+(c:/texlive/2024/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2024/11/05 v2.17t AMS math features
+\@mathmargin=\skip52
+
+For additional information on amsmath, use the `?' option.
+(c:/texlive/2024/texmf-dist/tex/latex/amsmath/amstext.sty
+Package: amstext 2021/08/26 v2.01 AMS text
+
+(c:/texlive/2024/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks18
+\ex@=\dimen163
+))
+(c:/texlive/2024/texmf-dist/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen164
+)
+(c:/texlive/2024/texmf-dist/tex/latex/amsmath/amsopn.sty
+Package: amsopn 2022/04/08 v2.04 operator names
+)
+\inf@bad=\count270
+LaTeX Info: Redefining \frac on input line 233.
+\uproot@=\count271
+\leftroot@=\count272
+LaTeX Info: Redefining \overline on input line 398.
+LaTeX Info: Redefining \colon on input line 409.
+\classnum@=\count273
+\DOTSCASE@=\count274
+LaTeX Info: Redefining \ldots on input line 495.
+LaTeX Info: Redefining \dots on input line 498.
+LaTeX Info: Redefining \cdots on input line 619.
+\Mathstrutbox@=\box70
+\strutbox@=\box71
+LaTeX Info: Redefining \big on input line 721.
+LaTeX Info: Redefining \Big on input line 722.
+LaTeX Info: Redefining \bigg on input line 723.
+LaTeX Info: Redefining \Bigg on input line 724.
+\big@size=\dimen165
+LaTeX Font Info:    Redeclaring font encoding OML on input line 742.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 743.
+\macc@depth=\count275
+LaTeX Info: Redefining \bmod on input line 904.
+LaTeX Info: Redefining \pmod on input line 909.
+LaTeX Info: Redefining \smash on input line 939.
+LaTeX Info: Redefining \relbar on input line 969.
+LaTeX Info: Redefining \Relbar on input line 970.
+\c@MaxMatrixCols=\count276
+\dotsspace@=\muskip17
+\c@parentequation=\count277
+\dspbrk@lvl=\count278
+\tag@help=\toks19
+\row@=\count279
+\column@=\count280
+\maxfields@=\count281
+\andhelp@=\toks20
+\eqnshift@=\dimen166
+\alignsep@=\dimen167
+\tagshift@=\dimen168
+\tagwidth@=\dimen169
+\totwidth@=\dimen170
+\lineht@=\dimen171
+\@envbody=\toks21
+\multlinegap=\skip53
+\multlinetaggap=\skip54
+\mathdisplay@stack=\toks22
+LaTeX Info: Redefining \[ on input line 2953.
+LaTeX Info: Redefining \] on input line 2954.
+)
+(c:/texlive/2024/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+
+(c:/texlive/2024/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup5
+\symAMSb=\mathgroup6
+LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+))
+(c:/texlive/2024/texmf-dist/tex/latex/amscls/amsthm.sty
+Package: amsthm 2020/05/29 v2.20.6
+\thm@style=\toks23
+\thm@bodyfont=\toks24
+\thm@headfont=\toks25
+\thm@notefont=\toks26
+\thm@headpunct=\toks27
+\thm@preskip=\skip55
+\thm@postskip=\skip56
+\thm@headsep=\skip57
+\dth@everypar=\toks28
+)
+(c:/texlive/2024/texmf-dist/tex/latex/ascmac/ascmac.sty
+Package: ascmac 2020/01/15 v2.1 ascmac wrapper (community edition) 
+
+(c:/texlive/2024/texmf-dist/tex/latex/ascmac/tascmac.sty
+Package: tascmac 2020/01/15 v2.1 ascmac package (community edition) 
+\@savetbaselineshift=\dimen172
+\@saveybaselineshift=\dimen173
+\scb@x=\box72
+\scscb@x=\box73
+\@bw=\dimen174
+\@nbox=\box74
+\@nbody=\box75
+\@scw=\dimen175
+\ascmac@hoboxa=\box76
+\ascmac@hoboxb=\box77
+\@itemh=\dimen176
+\@iboxpos=\toks29
+\@iboxstr=\box78
+\@bwsp=\box79
+\@@bwsp=\box80
+\@bcal=\count282
+\shaderule=\dimen177
+))
+(c:/texlive/2024/texmf-dist/tex/latex/tools/bm.sty
+Package: bm 2023/12/19 v1.2f Bold Symbol Support (DPC/FMi)
+\symboldoperators=\mathgroup7
+\symboldletters=\mathgroup8
+\symboldsymbols=\mathgroup9
+Package bm Info: No bold for \OMX/cmex/m/n, using \pmb.
+\symboldmincho=\mathgroup10
+Package bm Info: No bold for \U/msa/m/n, using \pmb.
+Package bm Info: No bold for \U/msb/m/n, using \pmb.
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 149.
+)
+(c:/texlive/2024/texmf-dist/tex/latex/braket/braket.sty) (./bigints.sty
+Package: bigints 2010/02/15 Writing big integrals
+Package bigints Info: This is Bigints by Merciadri Luca. on input line 5.
+)
+(c:/texlive/2024/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
+Package: fancyhdr 2025/02/07 v5.2 Extensive control of page headers and footers
+
+\f@nch@headwidth=\skip58
+\f@nch@offset@elh=\skip59
+\f@nch@offset@erh=\skip60
+\f@nch@offset@olh=\skip61
+\f@nch@offset@orh=\skip62
+\f@nch@offset@elf=\skip63
+\f@nch@offset@erf=\skip64
+\f@nch@offset@olf=\skip65
+\f@nch@offset@orf=\skip66
+\f@nch@height=\skip67
+\f@nch@footalignment=\skip68
+\f@nch@widthL=\skip69
+\f@nch@widthC=\skip70
+\f@nch@widthR=\skip71
+\@temptokenb=\toks30
+)
+(c:/texlive/2024/texmf-dist/tex/latex/framed/framed.sty
+Package: framed 2011/10/22 v 0.96: framed or shaded text with page breaks
+\OuterFrameSep=\skip72
+\fb@frw=\dimen178
+\fb@frh=\dimen179
+\FrameRule=\dimen180
+\FrameSep=\dimen181
+)
+(c:/texlive/2024/texmf-dist/tex/latex/tools/multicol.sty
+Package: multicol 2024/09/14 v1.9i multicolumn formatting (FMi)
+\c@tracingmulticols=\count283
+
+
+Package multicol Warning: May not work with the twocolumn option on input line 
+140.
+
+\mult@box=\box81
+\multicol@leftmargin=\dimen182
+\c@unbalance=\count284
+\c@collectmore=\count285
+\doublecol@number=\count286
+\multicoltolerance=\count287
+\multicolpretolerance=\count288
+\full@width=\dimen183
+\page@free=\dimen184
+\premulticols=\dimen185
+\postmulticols=\dimen186
+\multicolsep=\skip73
+\multicolbaselineskip=\skip74
+\partial@page=\box82
+\last@line=\box83
+\mc@boxedresult=\box84
+\maxbalancingoverflow=\dimen187
+\mult@rightbox=\box85
+\mult@grightbox=\box86
+\mult@firstbox=\box87
+\mult@gfirstbox=\box88
+\@tempa=\box89
+\@tempa=\box90
+\@tempa=\box91
+\@tempa=\box92
+\@tempa=\box93
+\@tempa=\box94
+\@tempa=\box95
+\@tempa=\box96
+\@tempa=\box97
+\@tempa=\box98
+\@tempa=\box99
+\@tempa=\box100
+\@tempa=\box101
+\@tempa=\box102
+\@tempa=\box103
+\@tempa=\box104
+\@tempa=\box105
+\@tempa=\box106
+\@tempa=\box107
+\@tempa=\box108
+\@tempa=\box109
+\@tempa=\box110
+\@tempa=\box111
+\@tempa=\box112
+\@tempa=\box113
+\@tempa=\box114
+\@tempa=\box115
+\@tempa=\box116
+\@tempa=\box117
+\@tempa=\box118
+\@tempa=\box119
+\@tempa=\box120
+\@tempa=\box121
+\@tempa=\box122
+\@tempa=\box123
+\@tempa=\box124
+\c@minrows=\count289
+\c@columnbadness=\count290
+\c@finalcolumnbadness=\count291
+\last@try=\dimen188
+\multicolovershoot=\dimen189
+\multicolundershoot=\dimen190
+\mult@nat@firstbox=\box125
+\colbreak@box=\box126
+\mc@col@check@num=\count292
+) (c:/texlive/2024/texmf-dist/tex/latex/graphics/color.sty
+Package: color 2024/06/23 v1.3e Standard LaTeX Color (DPC)
+
+(c:/texlive/2024/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package color Info: Driver file: dvips.def on input line 149.
+
+(c:/texlive/2024/texmf-dist/tex/latex/graphics-def/dvips.def
+File: dvips.def 2022/09/22 v3.1e Graphics/color driver for dvips
+)
+(c:/texlive/2024/texmf-dist/tex/latex/graphics/dvipsnam.def
+File: dvipsnam.def 2016/06/17 v3.0m Driver-dependent file (DPC,SPQR)
+)
+(c:/texlive/2024/texmf-dist/tex/latex/graphics/mathcolor.ltx))
+(c:/texlive/2024/texmf-dist/tex/latex/base/makeidx.sty
+Package: makeidx 2021/10/04 v1.0m Standard LaTeX package
+)
+(c:/texlive/2024/texmf-dist/tex/latex/enumitem/enumitem.sty
+Package: enumitem 2025/02/06 v3.11 Customized lists
+\enitkv@toks@=\toks31
+\labelindent=\skip75
+\enit@outerparindent=\dimen191
+\enit@toks=\toks32
+\enit@inbox=\box127
+\enit@count@id=\count293
+\enitdp@description=\count294
+)
+(c:/texlive/2024/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
+
+(c:/texlive/2024/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
+\KV@toks@=\toks33
+)
+(c:/texlive/2024/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2024/08/06 v1.4g Standard LaTeX Graphics (DPC,SPQR)
+
+(c:/texlive/2024/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2023/12/02 v1.11 sin cos tan (DPC)
+)
+(c:/texlive/2024/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: dvipdfmx.def on input line 106.
+
+(c:/texlive/2024/texmf-dist/tex/latex/graphics-def/dvipdfmx.def
+File: dvipdfmx.def 2022/09/22 v5.0m Graphics/color driver for dvipdfmx
+))
+\Gin@req@height=\dimen192
+\Gin@req@width=\dimen193
+)
+(./wrapfig.sty
+\wrapoverhang=\dimen194
+\WF@size=\dimen195
+\c@WF@wrappedlines=\count295
+\WF@box=\box128
+\WF@everypar=\toks34
+Package: wrapfig 2003/01/31  v 3.6
+) (./itembkbx.sty
+Package: itembkbx 2012/05/24 v 0.23beta
+ (./eclbkbox.sty
+\bk@bxb=\box129
+\bk@bxa=\box130
+\bk@lcnt=\count296
+) (./itembbox.sty
+Package: itembbox 2011/01/20 v 0.21
+\iboxpos@=\toks35
+\sc@itemb@x=\box131
+\sc@itemb@x@=\box132
+\@itemw=\dimen196
+\shaderule=\dimen197
+\dblboxrule=\dimen198
+\dblboxrulein=\dimen199
+\dblboxsep=\dimen256
+) (./jquote.sty
+Package: jquote 2012/11/23 v0.14
+) (./emathC.sty
+Package: emathC 2018/04/23 v1.19
+ (c:/texlive/2024/texmf-dist/tex/latex/tools/calc.sty
+Package: calc 2023/07/08 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count297
+\calc@Bcount=\count298
+\calc@Adimen=\dimen257
+\calc@Bdimen=\dimen258
+\calc@Askip=\skip76
+\calc@Bskip=\skip77
+LaTeX Info: Redefining \setlength on input line 80.
+LaTeX Info: Redefining \addtolength on input line 81.
+\calc@Ccount=\count299
+\calc@Cskip=\skip78
+)
+(c:/texlive/2024/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2024/03/16 v1.1e Standard LaTeX ifthen package (DPC)
+) (./EMhairetu.sty
+Package: EMhairetu 2015/10/23 v0.05
+)
+\c@tempcnta=\count300
+\templa=\dimen259
+\h@ndle=\read2
+\em@whndl=\write3
+\emath@toks@=\toks36
+\Sett@width=\dimen260
+)
+\linesep=\dimen261
+\itembkbx@dima=\dimen262
+\rectbox@item@box=\box133
+)
+(c:/texlive/2024/texmf-dist/tex/latex/here/here.sty)
+(c:/texlive/2024/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count301
+\float@exts=\toks37
+\float@box=\box134
+\@float@everytoks=\toks38
+\@floatcapt=\box135
+) (./ulem.sty
+\UL@box=\box136
+\UL@hyphenbox=\box137
+\UL@skip=\skip79
+\UL@hook=\toks39
+\UL@height=\dimen263
+\UL@pe=\count302
+\UL@pixel=\dimen264
+\ULC@box=\box138
+Package: ulem 2012/05/18
+\ULdepth=\dimen265
+)
+(c:/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcolorbox.sty
+Package: tcolorbox 2024/10/22 version 6.4.1 text color boxes
+
+(c:/texlive/2024/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty
+(c:/texlive/2024/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty
+(c:/texlive/2024/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.tex
+\pgfutil@everybye=\toks40
+\pgfutil@tempdima=\dimen266
+\pgfutil@tempdimb=\dimen267
+)
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def
+\pgfutil@abb=\box139
+)
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.tex
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/pgf.revision.tex)
+Package: pgfrcs 2023-01-15 v3.1.10 (3.1.10)
+))
+Package: pgf 2023-01-15 v3.1.10 (3.1.10)
+
+(c:/texlive/2024/texmf-dist/tex/latex/pgf/basiclayer/pgfcore.sty
+(c:/texlive/2024/texmf-dist/tex/latex/pgf/systemlayer/pgfsys.sty
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.code.tex
+Package: pgfsys 2023-01-15 v3.1.10 (3.1.10)
+
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex
+\pgfkeys@pathtoks=\toks41
+\pgfkeys@temptoks=\toks42
+
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/utilities/pgfkeyslibraryfiltered.co
+de.tex
+\pgfkeys@tmptoks=\toks43
+))
+\pgf@x=\dimen268
+\pgf@y=\dimen269
+\pgf@xa=\dimen270
+\pgf@ya=\dimen271
+\pgf@xb=\dimen272
+\pgf@yb=\dimen273
+\pgf@xc=\dimen274
+\pgf@yc=\dimen275
+\pgf@xd=\dimen276
+\pgf@yd=\dimen277
+\w@pgf@writea=\write4
+\r@pgf@reada=\read3
+\c@pgf@counta=\count303
+\c@pgf@countb=\count304
+\c@pgf@countc=\count305
+\c@pgf@countd=\count306
+\t@pgf@toka=\toks44
+\t@pgf@tokb=\toks45
+\t@pgf@tokc=\toks46
+\pgf@sys@id@count=\count307
+ (c:/texlive/2024/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg
+File: pgf.cfg 2023-01-15 v3.1.10 (3.1.10)
+)
+Driver file for pgf: pgfsys-dvipdfmx.def
+
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-dvipdfmx.def
+File: pgfsys-dvipdfmx.def 2023-01-15 v3.1.10 (3.1.10)
+
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-common-pdf.def
+File: pgfsys-common-pdf.def 2023-01-15 v3.1.10 (3.1.10)
+)
+\pgfsys@objnum=\count308
+))
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.tex
+File: pgfsyssoftpath.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfsyssoftpath@smallbuffer@items=\count309
+\pgfsyssoftpath@bigbuffer@items=\count310
+)
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.code.tex
+File: pgfsysprotocol.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)) (c:/texlive/2024/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
+
+(c:/texlive/2024/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: dvips.def on input line 274.
+LaTeX Info: Redefining \color on input line 762.
+
+(c:/texlive/2024/texmf-dist/tex/latex/graphics/mathcolor.ltx)
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1349.
+Package xcolor Info: Model `RGB' extended on input line 1365.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1367.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1370.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1371.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1372.
+)
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.code.tex
+Package: pgfcore 2023-01-15 v3.1.10 (3.1.10)
+
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex)
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex
+\pgfmath@dimen=\dimen278
+\pgfmath@count=\count311
+\pgfmath@box=\box140
+\pgfmath@toks=\toks47
+\pgfmath@stack@operand=\toks48
+\pgfmath@stack@operation=\toks49
+)
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.tex)
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.basic.code.te
+x)
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.trigonometric
+.code.tex)
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.random.code.t
+ex)
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.comparison.co
+de.tex)
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.base.code.tex
+)
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.round.code.te
+x)
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.misc.code.tex
+)
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integerarithm
+etics.code.tex)
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex)
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.tex
+\c@pgfmathroundto@lastzeros=\count312
+))
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfint.code.tex)
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.code.tex
+File: pgfcorepoints.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@picminx=\dimen279
+\pgf@picmaxx=\dimen280
+\pgf@picminy=\dimen281
+\pgf@picmaxy=\dimen282
+\pgf@pathminx=\dimen283
+\pgf@pathmaxx=\dimen284
+\pgf@pathminy=\dimen285
+\pgf@pathmaxy=\dimen286
+\pgf@xx=\dimen287
+\pgf@xy=\dimen288
+\pgf@yx=\dimen289
+\pgf@yy=\dimen290
+\pgf@zx=\dimen291
+\pgf@zy=\dimen292
+)
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathconstruct.cod
+e.tex
+File: pgfcorepathconstruct.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@path@lastx=\dimen293
+\pgf@path@lasty=\dimen294
+)
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathusage.code.te
+x
+File: pgfcorepathusage.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@shorten@end@additional=\dimen295
+\pgf@shorten@start@additional=\dimen296
+)
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescopes.code.tex
+File: pgfcorescopes.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfpic=\box141
+\pgf@hbox=\box142
+\pgf@layerbox@main=\box143
+\pgf@picture@serial@count=\count313
+)
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicstate.code
+.tex
+File: pgfcoregraphicstate.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgflinewidth=\dimen297
+)
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransformations.c
+ode.tex
+File: pgfcoretransformations.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@pt@x=\dimen298
+\pgf@pt@y=\dimen299
+\pgf@pt@temp=\dimen300
+)
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcorequick.code.tex
+File: pgfcorequick.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreobjects.code.tex
+File: pgfcoreobjects.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathprocessing.co
+de.tex
+File: pgfcorepathprocessing.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcorearrows.code.tex
+File: pgfcorearrows.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfarrowsep=\dimen301
+)
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex
+File: pgfcoreshade.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@max=\dimen302
+\pgf@sys@shading@range@num=\count314
+\pgf@shadingcount=\count315
+)
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex
+File: pgfcoreimage.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreexternal.code.tex
+File: pgfcoreexternal.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfexternal@startupbox=\box144
+) (c:/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcorelayers.code.tex
+File: pgfcorelayers.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransparency.code
+.tex
+File: pgfcoretransparency.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepatterns.code.tex
+File: pgfcorepatterns.code.tex 2023-01-15 v3.1.10 (3.1.10)
+) (c:/texlive/2024/texmf-dist/tex/generic/pgf/basiclayer/pgfcorerdf.code.tex
+File: pgfcorerdf.code.tex 2023-01-15 v3.1.10 (3.1.10)
+))) (c:/texlive/2024/texmf-dist/tex/generic/pgf/modules/pgfmoduleshapes.code.te
+x
+File: pgfmoduleshapes.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfnodeparttextbox=\box145
+)
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/modules/pgfmoduleplot.code.tex
+File: pgfmoduleplot.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+(c:/texlive/2024/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-0-65.st
+y
+Package: pgfcomp-version-0-65 2023-01-15 v3.1.10 (3.1.10)
+\pgf@nodesepstart=\dimen303
+\pgf@nodesepend=\dimen304
+)
+(c:/texlive/2024/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-1-18.st
+y
+Package: pgfcomp-version-1-18 2023-01-15 v3.1.10 (3.1.10)
+)) (c:/texlive/2024/texmf-dist/tex/latex/pgf/utilities/pgffor.sty
+(c:/texlive/2024/texmf-dist/tex/latex/pgf/utilities/pgfkeys.sty
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex))
+(c:/texlive/2024/texmf-dist/tex/latex/pgf/math/pgfmath.sty
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex))
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/utilities/pgffor.code.tex
+Package: pgffor 2023-01-15 v3.1.10 (3.1.10)
+\pgffor@iter=\dimen305
+\pgffor@skip=\dimen306
+\pgffor@stack=\toks50
+\pgffor@toks=\toks51
+))
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex
+Package: tikz 2023-01-15 v3.1.10 (3.1.10)
+
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/libraries/pgflibraryplothandlers.co
+de.tex
+File: pgflibraryplothandlers.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@plot@mark@count=\count316
+\pgfplotmarksize=\dimen307
+)
+\tikz@lastx=\dimen308
+\tikz@lasty=\dimen309
+\tikz@lastxsaved=\dimen310
+\tikz@lastysaved=\dimen311
+\tikz@lastmovetox=\dimen312
+\tikz@lastmovetoy=\dimen313
+\tikzleveldistance=\dimen314
+\tikzsiblingdistance=\dimen315
+\tikz@figbox=\box146
+\tikz@figbox@bg=\box147
+\tikz@tempbox=\box148
+\tikz@tempbox@bg=\box149
+\tikztreelevel=\count317
+\tikznumberofchildren=\count318
+\tikznumberofcurrentchild=\count319
+\tikz@fig@count=\count320
+
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/modules/pgfmodulematrix.code.tex
+File: pgfmodulematrix.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfmatrixcurrentrow=\count321
+\pgfmatrixcurrentcolumn=\count322
+\pgf@matrix@numberofcolumns=\count323
+)
+\tikz@expandcount=\count324
+
+(c:/texlive/2024/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzli
+brarytopaths.code.tex
+File: tikzlibrarytopaths.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)))
+(c:/texlive/2024/texmf-dist/tex/latex/tools/verbatim.sty
+Package: verbatim 2024-01-22 v1.5x LaTeX2e package for verbatim enhancements
+\every@verbatim=\toks52
+\verbatim@line=\toks53
+\verbatim@in@stream=\read4
+)
+(c:/texlive/2024/texmf-dist/tex/latex/environ/environ.sty
+Package: environ 2014/05/04 v0.3 A new way to define environments
+
+(c:/texlive/2024/texmf-dist/tex/latex/trimspaces/trimspaces.sty
+Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
+))
+(c:/texlive/2024/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2025/02/11 v2.5l e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count325
+)
+\tcb@titlebox=\box150
+\tcb@upperbox=\box151
+\tcb@lowerbox=\box152
+\tcb@phantombox=\box153
+\c@tcbbreakpart=\count326
+\c@tcblayer=\count327
+\c@tcolorbox@number=\count328
+\l__tcobox_tmpa_box=\box154
+\l__tcobox_tmpa_dim=\dimen316
+\tcb@temp=\box155
+\tcb@temp=\box156
+\tcb@temp=\box157
+\tcb@temp=\box158
+)
+(c:/texlive/2024/texmf-dist/tex/latex/cleveref/cleveref.sty
+Package: cleveref 2018/03/27 v0.21.4 Intelligent cross-referencing
+Package cleveref Info: `amsthm' support loaded on input line 3026.
+)
+(c:/texlive/2024/texmf-dist/tex/latex/geometry/geometry.sty
+Package: geometry 2020/01/02 v5.9 Page Geometry
+
+(c:/texlive/2024/texmf-dist/tex/generic/iftex/ifvtex.sty
+Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
+
+(c:/texlive/2024/texmf-dist/tex/generic/iftex/iftex.sty
+Package: iftex 2024/12/12 v1.0g TeX engine tests
+))
+\Gm@cnth=\count329
+\Gm@cntv=\count330
+\c@Gm@tempcnt=\count331
+\Gm@bindingoffset=\dimen317
+\Gm@wd@mp=\dimen318
+\Gm@odd@mp=\dimen319
+\Gm@even@mp=\dimen320
+\Gm@layoutwidth=\dimen321
+\Gm@layoutheight=\dimen322
+\Gm@layouthoffset=\dimen323
+\Gm@layoutvoffset=\dimen324
+\Gm@dimlist=\toks54
+)
+\c@qnum=\count332
+\@indexfile=\write5
+\openout5 = `00main.idx'.
+
+
+Writing index file 00main.idx
+\c@rom=\count333
+\c@supple=\count334
+\c@claim=\count335
+\c@rem=\count336
+\c@lem=\count337
+\c@prop=\count338
+)
+\c@cor=\count339
+ (c:/texlive/2024/texmf-dist/tex/latex/l3backend/l3backend-dvips.def
+File: l3backend-dvips.def 2024-05-08 L3 backend support: dvips
+\l__pdf_internal_box=\box159
+\l__pdf_backend_content_box=\box160
+\l__pdf_backend_model_box=\box161
+\g__pdf_backend_annotation_int=\count340
+\g__pdf_backend_link_int=\count341
+\g__pdf_backend_link_sf_int=\count342
+)
+(./00main.aux
+
+LaTeX Warning: Label `eq:2' multiply defined.
+
+
+LaTeX Warning: Label `eq:2@cref' multiply defined.
+
+)
+\openout1 = `00main.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for JY1/mc/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for JT1/mc/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+
+*geometry* driver: auto-detecting
+*geometry* detected driver: dvips
+*geometry* verbose mode - [ preamble ] result:
+* driver: dvips
+* paper: <default>
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(19.91692pt, 557.67404pt, 19.91692pt)
+* v-part:(T,H,B)=(71.13188pt, 702.78308pt, 71.13188pt)
+* \paperwidth=597.50787pt
+* \paperheight=845.04684pt
+* \textwidth=557.67404pt
+* \textheight=702.78308pt
+* \oddsidemargin=-52.35307pt
+* \evensidemargin=-52.35307pt
+* \topmargin=-36.8353pt
+* \headheight=20.0pt
+* \headsep=15.69719pt
+* \topskip=12.76073pt
+* \footskip=28.45792pt
+* \marginparwidth=27.74062pt
+* \marginparsep=18.49374pt
+* \columnsep=18.49374pt
+* \skip\footins=16.0pt plus 5.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumntrue
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
+(Font)              scaled to size 8.64899pt on input line 6.
+LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
+(Font)              scaled to size 8.64899pt on input line 6.
+LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
+(Font)              scaled to size 16.60605pt on input line 14.
+LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
+(Font)              scaled to size 16.60605pt on input line 14.
+LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
+(Font)              scaled to size 11.53198pt on input line 14.
+LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
+(Font)              scaled to size 11.53198pt on input line 14.
+LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
+(Font)              scaled to size 5.76599pt on input line 14.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 14.
+
+(c:/texlive/2024/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 14.
+
+
+(c:/texlive/2024/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
+(Font)              scaled to size 11.53198pt on input line 14.
+LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
+(Font)              scaled to size 7.68799pt on input line 14.
+LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
+(Font)              scaled to size 5.76599pt on input line 14.
+
+
+[1
+
+
+]
+LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
+(Font)              scaled to size 11.53198pt on input line 20.
+LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
+(Font)              scaled to size 4.805pt on input line 30.
+LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
+(Font)              scaled to size 8.64899pt on input line 30.
+LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
+(Font)              scaled to size 4.805pt on input line 30.
+LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
+(Font)              scaled to size 9.60999pt on input line 37.
+LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
+(Font)              scaled to size 9.60999pt on input line 37.
+LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
+(Font)              scaled to size 5.76599pt on input line 41.
+LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
+(Font)              scaled to size 4.805pt on input line 41.
+LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <9> not available
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 42.
+LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
+(Font)              scaled to size 8.64899pt on input line 42.
+LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <9> not available
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 42.
+LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
+(Font)              scaled to size 8.64899pt on input line 42.
+
+
+[1
+
+]
+\c@q=\count343
+ (../problems/Q_001/Q_001.tex
+LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <12> not available
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 9.
+LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
+(Font)              scaled to size 11.53198pt on input line 9.
+LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <12> not available
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 9.
+LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
+(Font)              scaled to size 11.53198pt on input line 9.
+LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
+(Font)              scaled to size 6.72699pt on input line 16.
+LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
+(Font)              scaled to size 6.72699pt on input line 16.
+) (../problems/Q_002/Q_002.tex
+
+) (../problems/Q_003/Q_003.tex
+File: ../problems/Q_003/A_003_1.png Graphic file (type bmp)
+<../problems/Q_003/A_003_1.png>
+File: ../problems/Q_003/A_003_2.png Graphic file (type bmp)
+<../problems/Q_003/A_003_2.png>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[2
+
+]) (../problems/Q_004/Q_004.tex) (../problems/Q_005/Q_005.tex
+
+) (../problems/Q_006/Q_006.tex
+
+[3]) (../problems/Q_007/Q_007.tex) (../problems/Q_008/Q_008.tex
+
+) (../problems/Q_009/Q_009.tex)
+
+[4] (../problems/Q_010/Q_010.tex) (../problems/Q_011/Q_011.tex)
+(../problems/Q_012/Q_012.tex
+
+) (../problems/Q_013/Q_013.tex
+File: ../problems/Q_013/Q_013.jpg Graphic file (type bmp)
+<../problems/Q_013/Q_013.jpg>
+File: ../problems/Q_013/A_013.png Graphic file (type bmp)
+<../problems/Q_013/A_013.png>
+) (../problems/Q_014/Q_014.tex
+
+[5]) (../problems/Q_015/Q_015.tex) (../problems/Q_016/Q_016.tex
+
+LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
+(Font)              scaled to size 6.72699pt on input line 76.
+
+
+[6]
+
+) (../problems/Q_017/Q_017.tex
+
+[7]) (../problems/Q_018/Q_018.tex) (../problems/Q_019/Q_019.tex
+
+) (../problems/Q_020/Q_020.tex) (../problems/Q_021/Q_021.tex
+
+[8]) (../problems/Q_022/Q_022.tex) (../problems/Q_023/Q_023.tex
+File: ../problems/Q_023/A_023.png Graphic file (type bmp)
+<../problems/Q_023/A_023.png>
+)
+(../problems/Q_024/Q_024.tex
+File: ../problems/Q_024/Q_024.jpg Graphic file (type bmp)
+<../problems/Q_024/Q_024.jpg>
+File: ../problems/Q_024/A_024.png Graphic file (type bmp)
+<../problems/Q_024/A_024.png>
+
+Underfull \vbox (badness 2005) has occurred while \output is active []
+
+
+
+) (../problems/Q_025/Q_025.tex) (../problems/Q_026/Q_026.tex)
+(../problems/Q_027/Q_027.tex
+
+[9]) (../problems/Q_028/Q_028.tex
+
+) (../problems/Q_029/Q_029.tex) (../problems/Q_030/Q_030.tex
+
+[10]) (../problems/Q_031/Q_031.tex
+
+) (../problems/Q_032/Q_032.tex) (../problems/Q_033/Q_033.tex
+
+[11]) (../problems/Q_034/Q_034.tex) (../problems/Q_035/Q_035.tex
+
+) (../problems/Q_036/Q_036.tex
+
+[12]) (../problems/Q_037/Q_037.tex) (../problems/Q_038/Q_038.tex
+
+
+
+[13]
+
+) (../problems/Q_039/Q_039.tex
+LaTeX Font Info:    Font shape `JT1/mc/m/it' in size <9> not available
+(Font)              Font shape `JT1/mc/m/n' tried instead on input line 9.
+LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
+(Font)              scaled to size 8.64899pt on input line 9.
+LaTeX Font Info:    Font shape `JY1/mc/m/it' in size <9> not available
+(Font)              Font shape `JY1/mc/m/n' tried instead on input line 9.
+LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
+(Font)              scaled to size 8.64899pt on input line 9.
+) (../problems/Q_040/Q_040.tex)
+(../problems/Q_041/Q_041.tex
+
+[14]) (../problems/Q_042/Q_042.tex) (../problems/Q_043/Q_043.tex
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+File: ../problems/Q_043/A_043.png Graphic file (type bmp)
+<../problems/Q_043/A_043.png>
+) (../problems/Q_044/Q_044.tex
+
+[15]) (../problems/Q_045/Q_045.tex)
+
+(../problems/Q_046/Q_046.tex) (../problems/Q_047/Q_047.tex
+LaTeX Font Info:    Calculating math sizes for size <> on input line 18.
+
+
+LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <> not available
+(Font)              size <5> substituted on input line 18.
+
+
+LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <0.7> not available
+(Font)              size <5> substituted on input line 18.
+
+
+LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <0.5> not available
+(Font)              size <5> substituted on input line 18.
+
+
+LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <> not available
+(Font)              size <5> substituted on input line 18.
+
+
+LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <0.7> not available
+(Font)              size <5> substituted on input line 18.
+
+
+LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <0.5> not available
+(Font)              size <5> substituted on input line 18.
+
+
+LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <> not available
+(Font)              size <5> substituted on input line 18.
+
+
+LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <0.7> not available
+(Font)              size <5> substituted on input line 18.
+
+
+LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <0.5> not available
+(Font)              size <5> substituted on input line 18.
+
+LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
+(Font)              scaled to size 0.961pt on input line 18.
+LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
+(Font)              scaled to size 0.67268pt on input line 18.
+LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
+(Font)              scaled to size 0.4805pt on input line 18.
+
+LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <> not available
+(Font)              size <5> substituted on input line 18.
+
+
+LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <0.7> not available
+(Font)              size <5> substituted on input line 18.
+
+
+LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <0.5> not available
+(Font)              size <5> substituted on input line 18.
+
+
+LaTeX Font Warning: Font shape `OML/cmm/b/it' in size <> not available
+(Font)              size <5> substituted on input line 18.
+
+
+LaTeX Font Warning: Font shape `OML/cmm/b/it' in size <0.7> not available
+(Font)              size <5> substituted on input line 18.
+
+
+LaTeX Font Warning: Font shape `OML/cmm/b/it' in size <0.5> not available
+(Font)              size <5> substituted on input line 18.
+
+
+LaTeX Font Warning: Font shape `OMS/cmsy/b/n' in size <> not available
+(Font)              size <5> substituted on input line 18.
+
+
+LaTeX Font Warning: Font shape `OMS/cmsy/b/n' in size <0.7> not available
+(Font)              size <5> substituted on input line 18.
+
+
+LaTeX Font Warning: Font shape `OMS/cmsy/b/n' in size <0.5> not available
+(Font)              size <5> substituted on input line 18.
+
+LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
+(Font)              scaled to size 0.961pt on input line 18.
+LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
+(Font)              scaled to size 0.67268pt on input line 18.
+LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
+(Font)              scaled to size 0.4805pt on input line 18.
+
+
+[16]) (../problems/Q_048/Q_048.tex
+
+) (../problems/Q_049/Q_049.tex
+Underfull \vbox (badness 1496) has occurred while \output is active []
+
+
+
+[17]
+
+LaTeX Font Warning: Command \boldmath invalid in math mode on input line 33.
+
+
+LaTeX Font Warning: Command \mathversion invalid in math mode on input line 33.
+
+
+) (../problems/Q_050/Q_050.tex
+File: ../problems/Q_050/A_050.png Graphic file (type bmp)
+<../problems/Q_050/A_050.png>
+
+
+) (../problems/Q_051/Q_051.tex) (../problems/Q_052/Q_052.tex
+
+[18]) (../problems/Q_053/Q_053.tex) (../problems/Q_054/Q_054.tex
+File: ../problems/Q_054/A_054.png Graphic file (type bmp)
+<../problems/Q_054/A_054.png>
+
+
+) (../problems/Q_055/Q_055.tex) (../problems/Q_056/Q_056.tex
+
+[19]) (../problems/Q_057/Q_057.tex) (../problems/Q_058/Q_058.tex
+
+) (../problems/Q_059/Q_059.tex
+
+[20]
+LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
+(Font)              scaled to size 16.60605pt on input line 20.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+) (../problems/Q_060/Q_060.tex
+
+[21]) (../problems/Q_061/Q_061.tex
+File: ../problems/Q_061/A_061.png Graphic file (type bmp)
+<../problems/Q_061/A_061.png>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+) (../problems/Q_062/Q_062.tex) (../problems/Q_063/Q_063.tex)
+(../problems/Q_064/Q_064.tex
+
+[22]
+
+) (../problems/Q_065/Q_065.tex) (../problems/Q_066/Q_066.tex
+
+[23]) (../problems/Q_067/Q_067.tex
+File: ../problems/Q_067/A_067.png Graphic file (type bmp)
+<../problems/Q_067/A_067.png>
+) (../problems/Q_068/Q_068.tex
+
+File: ../problems/Q_068/A_068.png Graphic file (type bmp)
+<../problems/Q_068/A_068.png>
+) (../problems/Q_069/Q_069.tex) (../problems/Q_070/Q_070.tex
+File: ../problems/Q_070/Q_070.jpg Graphic file (type bmp)
+<../problems/Q_070/Q_070.jpg>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[24]
+File: ../problems/Q_070/A_070-1.png Graphic file (type bmp)
+<../problems/Q_070/A_070-1.png>
+
+
+File: ../problems/Q_070/A_070-2.png Graphic file (type bmp)
+<../problems/Q_070/A_070-2.png>
+) (../problems/Q_071/Q_071.tex) (../problems/Q_072/Q_072.tex
+
+[25]) (../problems/Q_073/Q_073.tex
+File: ../problems/Q_073/A_073.png Graphic file (type bmp)
+<../problems/Q_073/A_073.png>
+) (../problems/Q_074/Q_074.tex
+
+) (../problems/Q_075/Q_075.tex
+File: ../problems/Q_075/Q_075.jpg Graphic file (type bmp)
+<../problems/Q_075/Q_075.jpg>
+
+
+[26]
+File: ../problems/Q_075/A_075.png Graphic file (type bmp)
+<../problems/Q_075/A_075.png>
+) (../problems/Q_076/Q_076.tex) (../problems/Q_077/Q_077.tex
+
+) (../problems/Q_078/Q_078.tex
+
+[27]) (../problems/Q_079/Q_079.tex
+File: ../problems/Q_079/A_079.png Graphic file (type bmp)
+<../problems/Q_079/A_079.png>
+) (../problems/Q_080/Q_080.tex)
+(../problems/Q_081/Q_081.tex
+
+) (../problems/Q_082/Q_082.tex
+
+[28]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+) (../problems/Q_083/Q_083.tex) (../problems/Q_084/Q_084.tex)
+(../problems/Q_085/Q_085.tex) (../problems/Q_086/Q_086.tex
+
+[29]) (../problems/Q_087/Q_087.tex) (../problems/Q_088/Q_088.tex)
+(../problems/Q_089/Q_089.tex
+
+) (../problems/Q_090/Q_090.tex) (../problems/Q_091/Q_091.tex
+
+[30]) (../problems/Q_092/Q_092.tex) (../problems/Q_093/Q_093.tex)
+(../problems/Q_094/Q_094.tex) (../problems/Q_095/Q_095.tex
+
+) (../problems/Q_096/Q_096.tex
+Overfull \hbox (1.55934pt too wide) detected at line 10
+[][] \OT1/cmr/m/n/9 (\OML/cmm/m/it/9 ax[] \OT1/cmr/m/n/9 + \OML/cmm/m/it/9 bx\O
+T1/cmr/m/n/9 ) \OML/cmm/m/it/9 dx \OT1/cmr/m/n/9 = [][]  \OML/cmm/m/it/9 ax [] 
+ dx \OT1/cmr/m/n/9 = \OMS/cmsy/m/n/9 ^^@[] [][] \OT1/cmr/m/n/9 = []
+ []
+
+) (../problems/Q_097/Q_097.tex
+Underfull \vbox (badness 1436) has occurred while \output is active []
+
+
+
+[31]) (../problems/Q_098/Q_098.tex
+
+) (../problems/Q_099/Q_099.tex
+File: ../problems/Q_099/Q_099.jpg Graphic file (type bmp)
+<../problems/Q_099/Q_099.jpg>
+) (../problems/Q_100/Q_100.tex
+
+[32]) (../problems/Q_101/Q_101.tex
+File: ../problems/Q_101/A_101.png Graphic file (type bmp)
+<../problems/Q_101/A_101.png>
+
+
+) (../problems/Q_102/Q_102.tex) (../problems/Q_103/Q_103.tex)
+(../problems/Q_104/Q_104.tex
+
+[33]) (../problems/Q_105/Q_105.tex
+
+) (../problems/Q_106/Q_106.tex
+File: ../problems/Q_106/A_106.png Graphic file (type bmp)
+<../problems/Q_106/A_106.png>
+) (../problems/Q_107/Q_107.tex)
+(../problems/Q_108/Q_108.tex
+
+[34]
+File: ../problems/Q_108/A_108.png Graphic file (type bmp)
+<../problems/Q_108/A_108.png>
+
+
+) (../problems/Q_109/Q_109.tex
+
+[35]) (../problems/Q_110/Q_110.tex) (../problems/Q_111/Q_111.tex
+
+) (../problems/Q_112/Q_112.tex) (../problems/Q_113/Q_113.tex)
+(../problems/Q_114/Q_114.tex) (../problems/Q_115/Q_115.tex
+
+[36]) (../problems/Q_116/Q_116.tex
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+) (../problems/Q_117/Q_117.tex) (../problems/Q_118/Q_118.tex
+
+[37]) (../problems/Q_119/Q_119.tex
+
+
+
+[38]) (../problems/Q_120/Q_120.tex) (../problems/Q_121/Q_121.tex)
+(../problems/Q_122/Q_122.tex
+
+) (../problems/Q_123/Q_123.tex
+
+[39]) (../problems/Q_124/Q_124.tex) (../problems/Q_125/Q_125.tex
+
+
+
+[40]) (../problems/Q_126/Q_126.tex
+
+) (../problems/Q_127/Q_127.tex) (../problems/Q_128/Q_128.tex
+
+[41]) (../problems/Q_129/Q_129.tex) (../problems/Q_130/Q_130.tex
+File: ../problems/Q_130/A_130_1.png Graphic file (type bmp)
+<../problems/Q_130/A_130_1.png>
+
+
+) (../problems/Q_131/Q_131.tex) (../problems/Q_132/Q_132.tex)
+(../problems/Q_133/Q_133.tex
+
+[42]) (../problems/Q_134/Q_134.tex
+
+) (../problems/Q_135/Q_135.tex) (../problems/Q_136/Q_136.tex)
+(../problems/Q_137/Q_137.tex
+
+[43]) (../problems/Q_138/Q_138.tex
+Underfull \vbox (badness 1509) has occurred while \output is active []
+
+
+
+) (../problems/Q_139/Q_139.tex) (../problems/Q_140/Q_140.tex
+File: ../problems/Q_140/A_140.png Graphic file (type bmp)
+<../problems/Q_140/A_140.png>
+
+
+[44]) (../problems/Q_141/Q_141.tex) (../problems/Q_142/Q_142.tex
+
+
+
+[45]) (../problems/Q_143/Q_143.tex
+
+) (../problems/Q_144/Q_144.tex
+
+[46]) (../problems/Q_145/Q_145.tex
+File: ../problems/Q_145/Q_145.png Graphic file (type bmp)
+<../problems/Q_145/Q_145.png>
+) (../problems/Q_146/Q_146.tex
+
+) (../problems/Q_147/Q_147.tex) (../problems/Q_148/Q_148.tex)
+
+[47] (../problems/Q_149/Q_149.tex
+File: ../problems/Q_149/A_149.png Graphic file (type bmp)
+<../problems/Q_149/A_149.png>
+) (../problems/Q_150/Q_150.tex)
+(../problems/Q_151/Q_151.tex
+
+) (../problems/Q_152/Q_152.tex) (../problems/Q_153/Q_153.tex
+
+[48]) (../problems/Q_154/Q_154.tex) (../problems/Q_155/Q_155.tex
+
+) (../problems/Q_156/Q_156.tex) (../problems/Q_157/Q_157.tex)
+(../problems/Q_158/Q_158.tex
+
+[49]) (../problems/Q_159/Q_159.tex
+File: ../problems/Q_159/A_159.png Graphic file (type bmp)
+<../problems/Q_159/A_159.png>
+) (../problems/Q_160/Q_160.tex
+
+File: ../problems/Q_160/A_160.png Graphic file (type bmp)
+<../problems/Q_160/A_160.png>
+) (../problems/Q_161/Q_161.tex
+Underfull \vbox (badness 1430) has occurred while \output is active []
+
+
+
+[50]) (../problems/Q_162/Q_162.tex
+
+File: ../problems/Q_162/A_162.png Graphic file (type bmp)
+<../problems/Q_162/A_162.png>
+) (../problems/Q_163/Q_163.tex
+
+[51]
+Overfull \vbox (1.6556pt too high) has occurred while \output is active []
+
+
+
+) (../problems/Q_164/Q_164.tex) (../problems/Q_165/Q_165.tex
+
+[52]) (../problems/Q_166/Q_166.tex) (../problems/Q_167/Q_167.tex)
+(../problems/Q_168/Q_168.tex
+
+) (../problems/Q_169/Q_169.tex
+
+[53]) (../problems/Q_170/Q_170.tex) (../problems/Q_171/Q_171.tex
+
+
+
+[54]) (../problems/Q_172/Q_172.tex
+
+) (../problems/Q_173/Q_173.tex) (../problems/Q_174/Q_174.tex)
+(../problems/Q_175/Q_175.tex
+
+[55]) (../problems/Q_176/Q_176.tex)
+Overfull \hbox (146.20502pt too wide) in paragraph at lines 6--117
+[][]\OT1/cmtt/m/n/9 https://twitter.com/solove_math/status/1618203564731666473?
+s=20&t=35UjLXcB48qYh3KxW2BPYQ
+ []
+
+(../problems/Q_177/Q_177.tex
+
+) (../problems/Q_178/Q_178.tex) (../problems/Q_179/Q_179.tex
+
+[56]) (../problems/Q_180/Q_180.tex
+
+) (../problems/Q_181/Q_181.tex) (../problems/Q_182/Q_182.tex
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[57]) (../problems/Q_183/Q_183.tex
+
+) (../problems/Q_184/Q_184.tex
+
+[58]) (../problems/Q_185/Q_185.tex
+File: ../problems/Q_185/A_185.png Graphic file (type bmp)
+<../problems/Q_185/A_185.png>
+
+
+) (../problems/Q_186/Q_186.tex) (../problems/Q_187/Q_187.tex
+
+[59]) (../problems/Q_188/Q_188.tex) (../problems/Q_189/Q_189.tex
+
+) (../problems/Q_190/Q_190.tex) (../problems/Q_191/Q_191.tex)
+(../problems/Q_192/Q_192.tex
+
+[60]
+File: ../problems/Q_192/A_192_1.png Graphic file (type bmp)
+<../problems/Q_192/A_192_1.png>
+File: ../problems/Q_192/A_192_2.png Graphic file (type bmp)
+<../problems/Q_192/A_192_2.png>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+) (../problems/Q_193/Q_193.tex
+File: ../problems/Q_193/A_193.png Graphic file (type bmp)
+<../problems/Q_193/A_193.png>
+) (../problems/Q_194/Q_194.tex
+
+[61]) (../problems/Q_195/Q_195.tex) (../problems/Q_196/Q_196.tex)
+(../problems/Q_197/Q_197.tex
+
+) (../problems/Q_198/Q_198.tex
+
+[62]) (../problems/Q_199/Q_199.tex) (../problems/Q_200/Q_200.tex
+
+File: ../problems/Q_200/A_200_1.png Graphic file (type bmp)
+<../problems/Q_200/A_200_1.png>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[63]) (../problems/Q_201/Q_201.tex
+Overfull \vbox (2.80676pt too high) has occurred while \output is active []
+
+
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[64]) (../problems/Q_202/Q_202.tex) (../problems/Q_203/Q_203.tex
+File: ../problems/Q_203/A_203.png Graphic file (type bmp)
+<../problems/Q_203/A_203.png>
+
+
+) (../problems/Q_204/Q_204.tex
+
+[65]) (../problems/Q_205/Q_205.tex) (../problems/Q_206/Q_206.tex
+
+) (../problems/Q_207/Q_207.tex) (../problems/Q_208/Q_208.tex
+File: ../problems/Q_208/A_208.png Graphic file (type bmp)
+<../problems/Q_208/A_208.png>
+
+
+[66]) (../problems/Q_209/Q_209.tex
+File: ../problems/Q_209/A_209_1.png Graphic file (type bmp)
+<../problems/Q_209/A_209_1.png>
+File: ../problems/Q_209/A_209_2.png Graphic file (type bmp)
+<../problems/Q_209/A_209_2.png>
+
+
+) (../problems/Q_210/Q_210.tex) (../problems/Q_211/Q_211.tex
+
+[67]) (../problems/Q_212/Q_212.tex) (../problems/Q_213/Q_213.tex
+
+File: ../problems/Q_213/A_213.png Graphic file (type bmp)
+<../problems/Q_213/A_213.png>
+) (../problems/Q_214/Q_214.tex
+
+[68]) (../problems/Q_215/Q_215.tex
+
+) (../problems/Q_216/Q_216.tex) (../problems/Q_217/Q_217.tex
+File: ../problems/Q_217/A_217.png Graphic file (type bmp)
+<../problems/Q_217/A_217.png>
+
+
+[69]
+File: ../problems/Q_217/A_217_2.png Graphic file (type bmp)
+<../problems/Q_217/A_217_2.png>
+) (../problems/Q_218/Q_218.tex
+LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <7> not available
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 20.
+LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
+(Font)              scaled to size 6.72699pt on input line 20.
+LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <7> not available
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 20.
+LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
+(Font)              scaled to size 6.72699pt on input line 20.
+
+
+) (../problems/Q_219/Q_219.tex) (../problems/Q_220/Q_220.tex
+
+[70]) (../problems/Q_221/Q_221.tex) (../problems/Q_222/Q_222.tex
+
+) (../problems/Q_223/Q_223.tex
+Underfull \vbox (badness 5316) has occurred while \output is active []
+
+
+
+[71]) (../problems/Q_224/Q_224.tex
+
+) (../problems/Q_225/Q_225.tex
+
+[72]
+
+) (../problems/Q_226/Q_226.tex
+File: ../problems/Q_226/Q_226.jpg Graphic file (type bmp)
+<../problems/Q_226/Q_226.jpg>
+) (../problems/Q_227/Q_227.tex
+
+[73]) (../problems/Q_228/Q_228.tex
+
+
+
+[74]) (../problems/Q_229/Q_229.tex
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[75]) (../problems/Q_230/Q_230.tex
+File: ../problems/Q_230/A_230.png Graphic file (type bmp)
+<../problems/Q_230/A_230.png>
+) (../problems/Q_231/Q_231.tex
+
+
+Underfull \hbox (badness 1348) in paragraph at lines 17--19
+\JY1/mc/m/n/9 であるから 、 右辺は $\OML/cmm/m/it/9 p[]$ \JY1/mc/m/n/9 に等しく
+な ってはならないので 、
+ []
+
+) (../problems/Q_232/Q_232.tex
+Underfull \hbox (badness 4739) in paragraph at lines 8--9
+[]\JY1/mc/m/n/9 控えめな有理数 $\OML/cmm/m/it/9 a[]; [] ; a[]$ \JY1/mc/m/n/9 が
+与えられたとき 、
+ []
+
+) (../problems/Q_233/Q_233.tex
+
+[76]) (../problems/Q_234/Q_234.tex) (../problems/Q_235/Q_235.tex
+
+
+Overfull \hbox (5.9109pt too wide) detected at line 33
+[]
+ []
+
+
+
+[77]) (../problems/Q_236/Q_236.tex) (../problems/Q_237/Q_237.tex
+
+
+Overfull \hbox (24.69048pt too wide) detected at line 24
+[] [][]  \OML/cmm/m/it/10 A[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x\OT1/cmr/m/n/10
+ ) \OML/cmm/m/it/10 dx \OMS/cmsy/m/n/10 ^^T [][]  \OML/cmm/m/it/10 f\OT1/cmr/m/
+n/10 (\OML/cmm/m/it/10 x\OT1/cmr/m/n/10 ) \OML/cmm/m/it/10 dx \OMS/cmsy/m/n/10 
+^^T [] [][]  \OML/cmm/m/it/10 A[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x\OT1/cmr/m/
+n/10 ) \OML/cmm/m/it/10 dx  [] []
+ []
+
+
+Overfull \hbox (4.90378pt too wide) detected at line 30
+[]
+ []
+
+) (../problems/Q_238/Q_238.tex
+
+[78]) (../problems/Q_239/Q_239.tex) (../problems/Q_240/Q_240.tex
+Overfull \hbox (14.29288pt too wide) detected at line 11
+  []   []
+ []
+
+LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <10> not available
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 15.
+LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
+(Font)              scaled to size 9.60999pt on input line 15.
+LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <10> not available
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 15.
+LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
+(Font)              scaled to size 9.60999pt on input line 15.
+
+
+) (../problems/Q_241/Q_241.tex
+
+[79]) (../problems/Q_242/Q_242.tex
+
+) (../problems/Q_243/Q_243.tex) (../problems/Q_244/Q_244.tex
+
+[80]
+
+) (../problems/Q_245/Q_245.tex
+
+[81]
+
+) (../problems/Q_246/Q_246.tex
+
+[82]
+Overfull \hbox (15.54843pt too wide) detected at line 62
+\OML/cmm/m/it/10 W[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 X\OT1/cmr/m/n/10 ) = \OMS
+/cmsy/m/n/10 ^^@\OT1/cmr/m/n/10 3(\OML/cmm/m/it/10 X[] \OMS/cmsy/m/n/10 ^^@ \OT
+1/cmr/m/n/10 6\OML/cmm/m/it/10 X \OT1/cmr/m/n/10 + 3) = \OMS/cmsy/m/n/10 ^^@\OT
+1/cmr/m/n/10 3 [] []
+ []
+
+
+
+) (../problems/Q_247/Q_247.tex
+
+[83]) (../problems/Q_248/Q_248.tex
+Underfull \vbox (badness 3690) has occurred while \output is active []
+
+
+
+) (../problems/Q_249/Q_249.tex) (../problems/Q_250/Q_250.tex
+Overfull \hbox (1.11275pt too wide) detected at line 12
+[]
+ []
+
+) (../problems/Q_251/Q_251.tex
+
+[84]) (../problems/Q_252/Q_252.tex
+
+
+
+[85]) (../problems/Q_253/Q_253.tex
+
+) (../problems/Q_254/Q_254.tex
+
+[86]) (../problems/Q_255/Q_255.tex) (../problems/Q_256/Q_256.tex)
+(../problems/Q_257/Q_257.tex
+
+) (../problems/Q_258/Q_258.tex
+
+[87]
+Overfull \hbox (7.52458pt too wide) detected at line 23
+[] \OT1/cmr/m/n/10 2018[] \OMS/cmsy/m/n/10 ^^@ \OML/cmm/m/it/10 N \OT1/cmr/m/n/
+10 = 7[]\OML/cmm/m/it/10 ;  \OT1/cmr/m/n/10 2018[] + 2018[]\OML/cmm/m/it/10 N \
+OT1/cmr/m/n/10 + \OML/cmm/m/it/10 N[] \OT1/cmr/m/n/10 = 271[]
+ []
+
+
+Overfull \hbox (9.60901pt too wide) detected at line 24
+[] \OT1/cmr/m/n/10 2018[] \OMS/cmsy/m/n/10 ^^@ \OML/cmm/m/it/10 N \OT1/cmr/m/n/
+10 = 1\OML/cmm/m/it/10 ;  \OT1/cmr/m/n/10 2018[] + 2018[]\OML/cmm/m/it/10 N \OT
+1/cmr/m/n/10 + \OML/cmm/m/it/10 N[] \OT1/cmr/m/n/10 = 1897[]
+ []
+
+
+
+
+Overfull \hbox (10.65517pt too wide) detected at line 53
+\OT1/cmr/m/n/10 1897[] \OMS/cmsy/m/n/10 ^^@ \OT1/cmr/m/n/10 1 \OMS/cmsy/m/n/10 
+^^Q \OT1/cmr/m/n/10 9[] \OMS/cmsy/m/n/10 ^^@ \OT1/cmr/m/n/10 1 \OMS/cmsy/m/n/10
+ ^^Q \OT1/cmr/m/n/10 8([]16) (\U/msa/m/n/10 * \OT1/cmr/m/n/10 1897 = 1600 + 160
+ + 128 + 9)
+ []
+
+
+LaTeX Font Warning: Command \boldmath invalid in math mode on input line 56.
+
+
+LaTeX Font Warning: Command \mathversion invalid in math mode on input line 56.
+
+
+
+Overfull \hbox (2.74368pt too wide) detected at line 57
+[][]\OML/cmm/b/it/10 ;  a \U/msa/m/n/10 = \OT1/cmr/bx/n/10 3\OML/cmm/b/it/10 ; 
+ r \OT1/cmr/bx/n/10 : []
+ []
+
+
+Underfull \vbox (badness 3312) has occurred while \output is active []
+
+
+

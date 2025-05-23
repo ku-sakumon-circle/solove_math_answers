@@ -1,0 +1,15 @@
+\begin{thm}{009}{\hosi 7}{学コン 2009-5-5}
+ 2つの三角形があり、その面積が等しく、外接円の半径も等しく、内接円の半径も等しいとき、この2つの三角形は合同であることを示せ。
+\end{thm}
+
+これら2つの三角形の面積を$S$、外接円半径を$R$、内接円半径を$r$とおく。また、それぞれの3辺の長さを、$a, b, c$と$d, e, f$とおく。すると、
+\begin{align*}
+ S=\frac{abc}{4R}&=\frac{def}{4R} & &\dou & abc&=def \\
+ S=\frac{r(a+b+c)}{2}&=\frac{r(d+e+f)}{2} & &\dou & a+b+c&=d+e+f
+\end{align*}
+$abc=def=u$, $a+b+c=d+e+f=2t$とおくと、ヘロンの公式より、
+\begin{align*}
+ S=\sqrt{t(t-a)(t-b)(t-c)}&=\sqrt{t(t-d)(t-e)(t-f)} \\
+ \dou \quad (t-a)(t-b)(t-c)&=(t-d)(t-e)(t-f)
+\end{align*}
+となって、展開して整理すれば$ab+bc+ca=de+ef+fd$が得られる。この値を$v$とすると、組$(a, b, c)$も$(d, e, f)$も、ともに3次方程式$x^3-2tx^2+vx-u=0$の解である。すなわち2つの三角形は3辺の長さが全て等しく合同である。

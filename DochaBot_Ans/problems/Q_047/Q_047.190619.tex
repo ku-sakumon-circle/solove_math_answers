@@ -1,0 +1,37 @@
+\begin{thm}{047}{\hosi 5}{学習院大 (2011)}
+ 次の3つの条件を全て満たす三角形の三辺の長さを求めよ。
+ \begin{enumerate}
+  \renewcommand{\labelenumi}{(\alph{enumi})}
+  \item 最大角と最小角の差は$90^\circ$
+  \item 3辺の長さを大きさの順に並べたものは等差数列をなす
+  \item 3辺の長さの和は3
+ \end{enumerate}
+\end{thm}
+
+$\triangle\mr{ABC}$において、$\mr{A}\le\mr{B}\le\mr{C}$とすると、辺と角の大小関係から$a\le b\le c$である。この三角形が与えられた条件を全て満たすとすると、
+\begin{align*}
+ \mr{C}&=\mr{A}+90^\circ \tag{1} \\
+ 2b&=a+c \tag{2} \\
+ a+b+c&=3 \tag{3}
+\end{align*}
+(2)と(3)から$b=1$を得る。また、正弦定理から、
+\[ a:b:c=\sin\mr{A}:\sin\mr{B}:\sin\mr{C} \tag{4} \]
+なので、(2)より、
+\[ 2\sin\mr{B}=\sin\mr{A}+\sin\mr{C} \tag{5} \]
+となる。(1)および$\mr{A}+\mr{B}+\mr{C}=180^\circ$から、$\mr{B}=90^\circ-2\mr{A}$であるので、(5)より
+\begin{align*}
+ 2\sin(90^\circ-2\mr{A})&= \sin\mr{A}+\sin(90^\circ+mr{A}) \\
+ \dou\quad 2\cos 2\mr{A} &= \sin\mr{A}+\cos\mr{A}
+\end{align*}
+が成立する。これを変形して、
+\[ 2(\cos\mr{A}+\sin\mr{A})(\cos\mr{A}-\sin\mr{A})=\sin\mr{A}+\cos\mr{A} \]
+$0^\circ < \mr{A}<90^\circ$なので$\sin\mr{A}+\cos\mr{A}\neq 0$であるから、
+\[ 2(\cos\mr{A}-\sin\mr{A})=1 \quad\dou\quad \cos\mr{A}-\sin\mr{A}=\frac{1}{2} \tag{6} \]
+である。両辺2乗して整理すると、
+\[-\sin\mr{A}\cos\mr{A}=-\frac{3}{8} \tag{7} \]
+となる。(6), (7)より、$\cos\mr{A}$と$-\sin\mr{A}$は二次方程式$t^2-\dfrac{1}{2}t-\dfrac{3}{8}=0$の解 $t=\dfrac{1\pm\sqrt{7}}{4}$である。$\sin\mr{A}>0$, $\cos\mr{A}>0$なので、$\sin\mr{A}=\dfrac{\sqrt{7}-1}{4}$, $\cos\mr{A}=\dfrac{\sqrt{7}+1}{4}$である。これより$\sin\mr{C}=\dfrac{\sqrt{7}+1}{4}$, $\sin\mr{B}=\dfrac{\sqrt{7}}{4}$もわかる。したがって(4)より、
+\begin{align*}
+ a&=\frac{\sin\mr{A}}{\sin{B}}\cdot b=1-\frac{\sqrt{7}}{7} \\
+ c&=\frac{\sin\mr{C}}{\sin{B}}\cdot b=1+\frac{\sqrt{7}}{7} \\
+\end{align*}
+となり、求めるものが得られた。

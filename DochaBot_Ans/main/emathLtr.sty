@@ -1,0 +1,63 @@
+%%% emathLtr.sty by tDB(emath@nifty.com)
+%
+\ProvidesPackage{emathLtr}[2008/11/25 v0.00]%
+%
+\RequirePackage{emathPh}%
+\RequirePackage{emgyouretu}%
+%
+\def\Ltrmat#1{%
+  \csvhairetu*{#1}{Mat@}%
+  \gyouretu{\Mat@i}{\Mat@ii}{\Mat@iii}{\Mat@iv}%
+}%
+\def\Ltrvec#1{%
+  \vecXY{(#1)}\vec@i\vec@ii
+  \retube\vec@i\vec@ii
+}%
+\def\Ltrinv#1#2{%
+  \csvhairetu*{#1}{Mat@}%
+  \edef\invM@d{\Mat@i}%
+  \Mulself\invM@d\Mat@iv
+  \edef\invM@tmp{\Mat@ii}%
+  \Mulself\invM@tmp\Mat@iii
+  \Subself\invM@d\invM@tmp
+  \Div\Mat@iv\invM@d\invMans@i
+  \Div\Mat@i\invM@d\invMans@iv
+  \Div\Mat@ii\invM@d\invMans@ii\Mulself\invMans@ii{-1}%
+  \Div\Mat@iii\invM@d\invMans@iii\Mulself\invMans@iii{-1}%
+  \edef#2{\invMans@i,\invMans@ii,\invMans@iii,\invMans@iv}%
+}%
+\def\Ltrans#1#2#3{%
+  \csvhairetu*{#1}{Mat@}%
+  \vecXY{(#2)}\vec@i\vec@ii
+  \Mul\Mat@i\vec@i\vec@x
+  \Mul\Mat@ii\vec@ii\vec@tmp\Addself\vec@x\vec@tmp
+  \Mul\Mat@iii\vec@i\vec@y
+  \Mul\Mat@iv\vec@ii\vec@tmp\Addself\vec@y\vec@tmp
+  \edef#3{\vec@x,\vec@y}%
+}%
+%
+\def\MMul#1#2#3{%
+  \csvhairetu*{#1}{A@}%
+  \csvhairetu*{#2}{B@}%
+  \Mul\A@i\B@i\C@i\Mul\A@ii\B@iii\C@tmp\Addself\C@i\C@tmp
+  \Mul\A@i\B@ii\C@ii\Mul\A@ii\B@iv\C@tmp\Addself\C@ii\C@tmp
+  \Mul\A@iii\B@i\C@iii\Mul\A@iv\B@iii\C@tmp\Addself\C@iii\C@tmp
+  \Mul\A@iii\B@ii\C@iv\Mul\A@iv\B@iv\C@tmp\Addself\C@iv\C@tmp
+  \edef#3{\C@i,\C@ii,\C@iii,\C@iv}%
+}%
+\def\Ltrrot{\@ifnextchar<{\Ltrrot@}{\@Ltrrot}}%
+\def\Ltrrot@<#1>#2#3{%
+  \ifthenelse{\equal{#1}{perl}}{%
+    \calcval[s]{Degcos(#2)}\A@i
+    \calcval[s]{-Degsin(#2)}\A@ii
+    \calcval[s]{Degsin(#2)}\A@iii
+    \edef#3{\A@i,\A@ii,\A@iii,\A@i}%
+  }{\errmessage{Ltrrot: illegal option}}%
+}%
+\def\@Ltrrot#1#2{%
+  \DegCos{#1}\A@i
+  \DegSin{#1}\A@iii
+  \Mul\A@iii{-1}\A@ii
+  \edef#2{\A@i,\A@ii,\A@iii,\A@i}%
+}%
+\endinput

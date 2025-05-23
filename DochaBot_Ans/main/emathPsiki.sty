@@ -1,0 +1,588 @@
+% emathPsiki.sty by tDB(emath@nifty.com)
+%
+  \NeedsTeXFormat{LaTeX2e}
+  \ProvidesPackage{emathPsiki}[2017/11/03 v 0.14]%
+%
+      \RequirePackage{emathT}
+      \RequirePackage{emathLb}%
+      \RequirePackage{emfpcalc}%
+      \RequirePackage{verbatim}%
+%
+\@ifpackageloaded{emathPsb}{}{\usepackage{emathPsb}}%
+%
+% 式各項のセンターのx座標 (\sikixposi, \skixposii, \sikixposiii，...)
+% 式全体の高さ(\sikiyh)，深さを求める(\sikiyd)。
+%
+\DeclareRobustCommand\sikipicture{%
+  \edef\show@flg{1}\@sikipicture
+}%
+\def\@sikipicture{\@ifnextchar<{\@@sikipicture}{\@@sikipicture<\empty>}}%
+\def\@@sikipicture<#1>#2{\bgroup
+  \edef\phz@option{\empty}%
+  \ifx\empty #1\else\setkeys{emP}{#1}\fi
+  \def\skxyp@s{}%
+  \def\skxyp@i{0}%
+  \expandafter\@for\expandafter\skxyp@c\expandafter:\expandafter=#2\do{%
+    \Incr\skxyp@i
+    \EMedefappend\skxyp@s{\skxyp@c}%
+    \@ifundefined{hakobanpush}{}{\hakobanpush}%
+    \if@display
+      \setbox0=\hbox{$\displaystyle\skxyp@c$}%
+      \setbox1=\hbox{$\displaystyle\skxyp@s$}%
+    \else
+      \setbox0=\hbox{$\skxyp@c$}%
+      \setbox1=\hbox{$\skxyp@s$}%
+    \fi
+    \@ifundefined{hakobanpush}{}{\hakobanpop}%
+    \@tempdima\wd0
+    \@tempdimb\wd1
+    \expandafter\edef\csname sikixrpos\romannumeral\skxyp@i\endcsname{\strip@pt\@tempdimb}%
+    \advance\@tempdimb-\@tempdima
+    \expandafter\edef\csname sikixlpos\romannumeral\skxyp@i\endcsname{\strip@pt\@tempdimb}%
+    \@tempdima=.5\@tempdima
+    \advance\@tempdimb\@tempdima
+    \expandafter\edef\csname sikixpos\romannumeral\skxyp@i\endcsname{\strip@pt\@tempdimb}%
+    \expandafter\edef\csname sikiyhpos\romannumeral\skxyp@i\endcsname{\strip@pt\ht0}%
+    \@tempdima-\dp0%%%%%%%%%%%% 2006/11/17
+    \expandafter\edef\csname sikiydpos\romannumeral\skxyp@i\endcsname{\strip@pt\@tempdima}%
+    \expandafter\edef\csname sikiB\romannumeral\skxyp@i\endcsname{(\strip@pt\@tempdimb,-\strip@pt\dp0)}%
+    \expandafter\edef\csname sikiT\romannumeral\skxyp@i\endcsname{(\strip@pt\@tempdimb,\strip@pt\ht0)}%
+  }%
+  \edef\sikiyh{\strip@pt\ht1}%
+  \edef\sikiyd{\strip@pt\dp1}%
+  \edef\sikixyp@w{\strip@pt\wd1}%
+  \Ifor*\skxyp@j{1}\skxyp@i\Do{%
+    \expandafter\edef\csname sikiTT\romannumeral\skxyp@j\endcsname{(\csname sikixpos\romannumeral\skxyp@j\endcsname,\sikiyh)}%
+    \expandafter\edef\csname sikiBB\romannumeral\skxyp@j\endcsname{(\csname sikixpos\romannumeral\skxyp@j\endcsname,\sikiyd)}%
+  }%
+  \edef\xmin{0}%
+  \edef\xmax{\sikixyp@w}%
+  \edef\ymin{-\sikiyd}%
+  \edef\ymax{\sikiyh}%
+  \ifnum\show@flg>\z@
+    \ifx\empty\phz@option
+      \edef\sikipic@opt{[ul=1pt,haiti=x]}%
+    \else
+      \edef\sikipic@opt{[\phz@option,ul=1pt,haiti=x]}%
+    \fi
+    \expandafter\csname zahyou*\expandafter\endcsname
+      \sikipic@opt(0,\sikixyp@w)(-\sikiyd,\sikiyh)\ignorespaces
+  \fi
+}
+\def\endsikipicture{%
+  \ifnum\show@flg>\z@
+    \if@display
+      \put(0,0){$\displaystyle \skxyp@s$}\relax
+    \else
+      \put(0,0){$\skxyp@s$}\relax
+    \fi
+%%  \end{zahyou*}%
+    \csname endzahyou*\endcsname
+  \fi
+  \egroup\@ignoretrue
+}%
+\let\sikixypos\sikipicture
+\let\endsikixypos\endsikipicture
+%
+\expandafter\def\csname sikipicture*\endcsname{\edef\show@flg{0}\@sikipicture}%
+\expandafter\def\csname endsikipicture*\endcsname{\endsikipicture}%
+%
+\def\bunpicture#1{\bgroup
+  \def\bnxyp@s{}%
+  \def\bnxyp@i{0}%
+  \expandafter\@for\expandafter\bnxyp@c\expandafter:\expandafter=#1\do{%
+    \Incr\bnxyp@i
+    \EMedefappend\bnxyp@s{\bnxyp@c}%
+    \setbox0=\hbox{\bnxyp@c}%
+    \setbox1=\hbox{\bnxyp@s}%
+    \@tempdima\wd0
+    \@tempdimb\wd1
+    \expandafter\edef\csname bunxrpos\romannumeral\bnxyp@i\endcsname{\strip@pt\@tempdimb}%
+    \advance\@tempdimb-\@tempdima
+    \expandafter\edef\csname bunxlpos\romannumeral\bnxyp@i\endcsname{\strip@pt\@tempdimb}%
+    \@tempdima=.5\@tempdima
+    \advance\@tempdimb\@tempdima
+    \expandafter\edef\csname bunxpos\romannumeral\bnxyp@i\endcsname{\strip@pt\@tempdimb}%
+    \expandafter\edef\csname bunyhpos\romannumeral\bnxyp@i\endcsname{\strip@pt\ht0}%
+    \expandafter\edef\csname bunydpos\romannumeral\bnxyp@i\endcsname{\strip@pt\dp0}%
+    \expandafter\edef\csname bunB\romannumeral\bnxyp@i\endcsname{(\strip@pt\@tempdimb,-\strip@pt\dp0)}%
+    \expandafter\edef\csname bunT\romannumeral\bnxyp@i\endcsname{(\strip@pt\@tempdimb,\strip@pt\ht0)}%
+  }%
+  \edef\bunyh{\strip@pt\ht1}%
+  \edef\bunyd{\strip@pt\dp1}%
+  \edef\bunxyp@w{\strip@pt\wd1}%
+\begin{zahyou*}[ul=1pt,haiti=x](0,\bunxyp@w)(-\bunyd,\bunyh)\ignorespaces
+}
+\def\endbunpicture{%
+  \put(0,0){\bnxyp@s}\relax
+  \end{zahyou*}\egroup\@ignoretrue
+}%
+%
+%
+\newwrite\Sikipic@hndl
+\def\Sikipicture#1#2{%
+%
+  \edef\Sikipic@lbl{#1}%
+  \def\Sikipic@xmax{0}%
+%
+  \Cfor{\edef\Sikipic@n{0}\Strsep{#2}{;}\Sikipic@a\Sikipic@b}{\not\equal\Sikipic@a\empty}{%
+      \Strsep\Sikipic@b{;}\Sikipic@a\Sikipic@b}\do{%
+    \Incr\Sikipic@n
+    \expandafter\EMedef\csname #1\romannumeral\Sikipic@n\endcsname{\Sikipic@a}%
+    \dimenref*{W\Sikipic@lbl\romannumeral\Sikipic@n}\Sikipic@tmpp
+      \ifdim\Sikipic@tmpp\p@>\Sikipic@xmax\p@\edef\Sikipic@xmax{\Sikipic@tmpp}\fi
+  }%
+%
+    \bgroup\immediate\openout\Sikipic@hndl=\Sikipic@lbl.tex\relax
+    \@bsphack\let\do\@makeother\dospecials
+    \catcode`\^^M\active
+    \def\verbatim@processline{%
+        \immediate\write\Sikipic@hndl{\the\verbatim@line}}%
+    \verbatim@start
+}
+\def\endSikipicture{\@esphack\immediate\closeout\Sikipic@hndl\egroup
+  \unitlength\p@
+  \expandafter\edef\csname \Sikipic@lbl yi\endcsname{0}%
+  \Cfor{\edef\Sikipic@i{1}}{\Sikipic@i<\Sikipic@n}{\Incr\Sikipic@i}\do{%
+    \IAdd\Sikipic@i{1}\Sikipic@j
+    \dimenref*[10]{D\Sikipic@lbl\romannumeral\Sikipic@i}\Sikipic@tmp
+      \Addself\Sikipic@tmp{\csname \Sikipic@lbl y\romannumeral\Sikipic@i\endcsname}%
+    \dimenref*[10]{H\Sikipic@lbl\romannumeral\Sikipic@j}\Sikipic@tmpp
+      \Addself\Sikipic@tmp\Sikipic@tmpp
+    \expandafter\edef\csname \Sikipic@lbl y\romannumeral\Sikipic@j\endcsname{\Sikipic@tmp}%
+  }%
+  \def\Li{(\xmin,0)}%
+  \def\Ri{(\xmax,0)}%
+  \Cfor{\edef\Sikipic@i{1}}{\Sikipic@i<\Sikipic@n}{}\do{%
+    \Incr\Sikipic@i
+    \expandafter\edef\csname \Sikipic@lbl y\romannumeral\Sikipic@i\endcsname{%
+      -\csname\Sikipic@lbl y\romannumeral\Sikipic@i\endcsname}%
+  }%
+\ensuremath{%
+  \arraycolsep=\z@
+  \begin{array}{@{}l}
+    \EMcell[label=\Sikipic@lbl i]<%
+      \Addself\Sikipic@xmax\xmin
+      \Cfor{\edef\Sikipic@i{0}}{\Sikipic@i<\Sikipic@n}{}\do{%
+        \Incr\Sikipic@i
+        \expandafter\edef\csname L\romannumeral\Sikipic@i\endcsname{%
+          (\xmin,\csname \Sikipic@lbl y\romannumeral\Sikipic@i\endcsname)}%
+        \expandafter\EMedef\csname R\romannumeral\Sikipic@i\endcsname{%
+          (\Sikipic@xmax,\csname \Sikipic@lbl y\romannumeral\Sikipic@i\endcsname)}%
+      }%
+      \input{\Sikipic@lbl.tex}>{l}{\csname \Sikipic@lbl i\endcsname}%
+      \\[\arrayrulewidth]\relax
+    \Cfor{\xdef\Sikipic@i{1}}{\Sikipic@i<\Sikipic@n}{}\do{%
+      \xIncr\Sikipic@i
+      \EMcell[label=\Sikipic@lbl\romannumeral\Sikipic@i]{l}{\csname \Sikipic@lbl\romannumeral\Sikipic@i\endcsname}%
+      \\[\arrayrulewidth]\relax
+    }%
+  \end{array}%
+}%\vskip-\baselineskip
+}
+%
+%\newwrite\Bunpic@hndl
+\def\Bunpicture#1#2{\leavevmode%
+%
+  \edef\Bunpic@lbl{#1}%
+  \def\xmin{0}%
+  \def\Bunpic@xmax{0}%
+%
+  \Cfor{\EMedef\Bunpic@n{0}\Strsep{#2}{;}\Bunpic@a\Bunpic@b}{\not\equal\Bunpic@a\empty}{%
+      \Strsep\Bunpic@b{;}\Bunpic@a\Bunpic@b}\do{%
+    \Incr\Bunpic@n
+    \expandafter\EMedef\csname #1\romannumeral\Bunpic@n\endcsname{\Bunpic@a}%
+    \dimenref*{W\Bunpic@lbl\romannumeral\Bunpic@n}\Bunpic@tmpp
+      \ifdim\Bunpic@tmpp\p@>\Bunpic@xmax\p@\edef\Bunpic@xmax{\Bunpic@tmpp}\fi
+  }%
+%
+    \bgroup\immediate\openout\Sikipic@hndl=\Bunpic@lbl.tex\relax
+    \@bsphack\let\do\@makeother\dospecials
+    \catcode`\^^M\active
+    \def\verbatim@processline{%
+        \immediate\write\Sikipic@hndl{\the\verbatim@line}}%
+    \verbatim@start
+}
+\def\endBunpicture{\@esphack\immediate\closeout\Sikipic@hndl\egroup
+  \unitlength\p@
+  \expandafter\EMedef\csname \Bunpic@lbl yi\endcsname{0}%
+  \Cfor{\EMedef\Bunpic@i{1}}{\Bunpic@i<\Bunpic@n}{\Incr\Bunpic@i}\do{%
+    \IAdd\Bunpic@i{1}\Bunpic@j
+    \dimenref*[10]{D\Bunpic@lbl\romannumeral\Bunpic@i}\Bunpic@tmp
+      \Addself\Bunpic@tmp{\csname \Bunpic@lbl y\romannumeral\Bunpic@i\endcsname}%
+    \dimenref*[10]{H\Bunpic@lbl\romannumeral\Bunpic@j}\Bunpic@tmpp
+      \Addself\Bunpic@tmp\Bunpic@tmpp
+    \expandafter\EMedef\csname \Bunpic@lbl y\romannumeral\Bunpic@j\endcsname{\Bunpic@tmp}%
+  }%
+  \def\Li{(\xmin,0)}%
+  \def\Ri{(\Bunpic@xmax,0)}%
+  \Cfor{\EMedef\Bunpic@i{1}}{\Bunpic@i<\Bunpic@n}{}\do{%
+    \Incr\Bunpic@i
+    \expandafter\EMedef\csname \Bunpic@lbl y\romannumeral\Bunpic@i\endcsname{%
+      -\csname\Bunpic@lbl y\romannumeral\Bunpic@i\endcsname}%
+  }%
+  \tabcolsep=\z@
+  \begin{tabular}{@{}l@{}}
+    \EMcell[label=\Bunpic@lbl i]<%
+      \Addself\Bunpic@xmax\xmin
+      \Cfor{\EMedef\Bunpic@i{0}}{\Bunpic@i<\Bunpic@n}{}\do{%
+        \Incr\Bunpic@i
+        \expandafter\EMedef\csname L\romannumeral\Bunpic@i\endcsname{%
+          (\xmin,\csname \Bunpic@lbl y\romannumeral\Bunpic@i\endcsname)}%
+        \expandafter\EMedef\csname R\romannumeral\Bunpic@i\endcsname{%
+          (\Bunpic@xmax,\csname \Bunpic@lbl y\romannumeral\Bunpic@i\endcsname)}%
+      }%
+      \input{\Bunpic@lbl.tex}>{l}{\mbox{\csname \Bunpic@lbl i\endcsname}}%
+      \\[\arrayrulewidth]\relax
+    \Cfor{\xdef\Bunpic@i{1}}{\Bunpic@i<\Bunpic@n}{}\do{%
+      \xIncr\Bunpic@i
+      \EMcell[label=\Bunpic@lbl\romannumeral\Bunpic@i]{l}{\mbox{\csname \Bunpic@lbl\romannumeral\Bunpic@i\endcsname}}%
+      \\[\arrayrulewidth]\relax
+    }%
+  \end{tabular}\vspace{-\baselineskip}%
+}
+%
+% \GozyohouSuii
+%
+\edef\GS@framethickness{0pt}%
+\edef\GS@oval{0pt}%
+\edef\GS@type{s}%
+\edef\GS@huteikai{0}%
+\def\GozyohouSuiiKata#1{\edef\GS@type{#1}}%
+\let\GS@label\undefined
+\newif\ifshowlastremainder\showlastremaindertrue
+%
+\define@key{emPsiki}{framethickness}{\edef\GS@framethickness{#1}}%
+\define@key{emPsiki}{oval}{\edef\GS@oval{#1}}%
+\define@key{emPsiki}{backgroundcolor}{\csvhairetu{,#1}{Qbox@iro@}\dmy@}%
+\define@key{emPsiki}{arrowcolor}{%
+  \ifthenelse{\equal{#1}{\empty}}{%
+    \let\GS@arrow\emgobbletwo
+  }{%
+    \csvhairetu{,#1}{Qbox@yasen@iro@}\dmy@
+  }}%
+\define@key{emPsiki}{baselineskip}{\uptkansan{#1}\GS@gyoukan}%
+\define@key{emPsiki}{gyoukan}{\uptkansan{#1}\GS@gyoukan}%
+%\define@key{emPsiki}{showlastline}{\edef\show@lstln{#1}}%
+\define@key{emPsiki}{showlastline}{\edef\last@rem{0}}%
+\define@key{emPsiki}{lastremainder}{\edef\last@rem{#1}}%
+\define@key{emPsiki}{type}{\edef\GS@type{#1}}%
+\define@key{emPsiki}{huteikai}[1]{\edef\last@rem{1}\edef\GS@huteikai{#1}}%
+\define@key{emPsiki}{label}{\edef\GS@siki@ban{\empty}\edef\GS@label{#1}}%
+\define@key{emPsiki}{EMlabel}{\edef\GS@siki@ban{\empty}\edef\GS@label{#1}}%
+\define@key{emPsiki}{sikiban}[\empty]{\edef\GS@siki@ban{#1}}%
+\define@key{emPsiki}{nextopt}{\EMedef\next@opt{#1}}%
+%
+\def\GSbox{%
+  \EMedef\GSbox@opt{oval=\GS@oval,framethickness=\GS@framethickness}%
+  \ifthenelse{\equal\bg@c\empty}{}{%
+    \EMedefappend[,]\GSbox@opt{backgroundcolor=\bg@c}%
+  }%
+  \EMedef\GSbox@opt@{<\GSbox@opt>}%
+  \expandafter\EMpsfbox\GSbox@opt@
+}%
+  \@tempdima=-\fboxsep
+  \edef\y@{\strip@pt\@tempdima}%
+%\def\GSbox{\relax}
+%   \edef\y@{0}%
+%
+\edef\bg@c{}%
+\def\GS@box#1{\edef\bg@c{\hairetu{Qbox@iro@}{#1}}%
+  \GSbox{\smash[b]{\hbox to \GS@wd{\hss\hairetu{A@}{#1}}}}}%
+\def\GS@arrow#1{\edef\ar@c{\hairetu{Qbox@yasen@iro@}{#1}}%
+  \edef\ar@opt{yazirusi=a}%
+  \ifthenelse{\equal\ar@c\empty}{}{%
+    \edefappend[,]\ar@opt{iro=\ar@c}%
+  }%
+  \edef\ar@opt@{<\ar@opt>}%
+%\typeout{ar@opt@=\ar@opt@}%
+  \expandafter\Drawline\ar@opt@
+}%
+\let\org@GS@arrow\GS@arrow
+%
+  \edef\last@rem{0}%
+	\def\lastremainder#1{\def\last@rem{#1}}%
+%
+\def\GozyohouSuii{\@ifnextchar<{\@GozyohouSuii}{\@GozyohouSuii<\empty>}}%
+\def\@GozyohouSuii<#1>#2#3{%
+  \uptkansan{1.5\baselineskip}\GS@gyoukan
+%  \edef\show@lstln{1}%
+%  \edef\last@rem{0}%
+  \edef\GS@a{#2}%
+  \edef\GS@b{#3}%
+%  \ifnum\GS@a<\GS@b\swap\GS@a\GS@b\fi
+  \setbox0=\hbox{\GS@a}%
+  \edef\GS@wd{\the\wd0}%
+  \setbox0=\hbox{\GSbox{\GS@a}}%
+  \edef\GS@boxwd{\the\wd0}%
+  \edefhairetu{A@}{1}{\GS@a}%
+  \edefhairetu{A@}{2}{\GS@b}%
+  \edef\r@val{\GS@b}%
+  \edef\Q@max{0}%
+  \Cfor{\edef\i@val{0}}{\r@val>0}{}\do{%
+    \Incr\i@val
+    \IAdd\i@val{1}\i@val@i
+    \IAdd\i@val{2}\i@val@ii
+    \IDivMod{\hairetu{A@}\i@val}{\hairetu{A@}\i@val@i}\q@val\r@val
+    \edefhairetu{A@}{\i@val@ii}{\r@val}
+    \edefhairetu{Q@}{\i@val}{\q@val}%
+    \ifnum\q@val>\Q@max\edef\Q@max{\q@val}\fi
+    \edef\Q@N{\i@val}%
+  }%
+  \Incr\i@val
+  \Incr\i@val
+  \edefhairetu{A@}{\i@val}{\r@val}%
+  \edef\A@N{\i@val}%
+  \setbox0=\hbox{\Q@max}%
+  \edef\Q@wd{\the\wd0}%
+  \Ifor*\i@val{1}{\A@N}\Do{\edefhairetu{Qbox@iro@}{\i@val}{}}%
+  \Ifor*\i@val{1}{\A@N}\Do{\edefhairetu{Qbox@yasen@iro@}{\i@val}{}}%
+  \noindent
+  \ifx\empty #1\else\setkeys{emPsiki}{#1}\fi
+  \ifnum\last@rem>\z@\Decr\Q@N\fi
+%\typeout{GS@framethickness=\GS@framethickness}%
+  \if s\GS@type \s@GozyohouSuii
+  \else\if w\GS@type\w@GozyohouSuii
+  \fi\fi
+}%
+\def\w@GozyohouSuii{%
+  \begin{sikipicture*}%
+    {%
+      \hbox to \GS@boxwd{\mathstrut\hss},
+      \div,
+      \hbox to \GS@boxwd{\mathstrut\hss},
+      {}={},
+      \Q@max,
+      ~~余り,
+      \hbox to \GS@boxwd{\mathstrut\hss},
+    }%
+    \ISub{\Q@N}{1}\y@tmp
+    \Mulself\y@tmp\GS@gyoukan
+    \Addself\y@tmp{6}%
+    \begin{pszahyou*}[ul=1pt,borderwidth=2pt](\xmin,\xmax)(-(\y@tmp),\ymax)
+      \linethickness{.4pt}%
+\ifnum\Q@N>\@ne
+      \tenretu*{Ai(\sikixlposiii,\sikiydposiii);
+                Aii(\sikixlposvii,\sikiydposiii)}%
+      \Addvec{(\sikixrposi,\sikiyhposiii)}{(0,-\GS@gyoukan)}\Bi
+      \Addvec{(\sikixrposiii,\sikiyhposiii)}{(0,-\GS@gyoukan)}\Bii
+%      \Drawlines<yazirusi=a>{\Ai\Bi;\Aii\Bii}%
+      \GS@arrow{2}{\Ai\Bi}
+      \GS@arrow{3}{\Aii\Bii}
+      \put(0,0){\hbox to \GS@boxwd{\hfil \GS@a\hfil}}
+      \put(\sikixlposii,0){$\ \div$}%
+      \Put{(\sikixlposiii,\y@)}{\GS@box{2}}%
+      \Put{(\sikixlposiv,0)}{${}={}$}%
+      \Put{(\sikixlposv,0)}{\hbox to \Q@wd{\hss\hairetu{Q@}{1}}}%
+      \Put{(\sikixlposvi,0)}{~~余り}%
+      \Put{(\sikixlposvii,\y@)}{\GS@box{3}}%
+\fi
+      \edef\y@pos{0}%
+      \Ifor\i@val{2}\Q@N\Do{%
+        \IAdd\i@val{1}\i@val@i
+        \IAdd\i@val{2}\i@val@ii
+        \Subself\y@pos{\GS@gyoukan}%
+        \Put{(0,\y@pos)}{%
+%          \Drawlines<yazirusi=a>{\Ai\Bi;\Aii\Bii}%
+          \Put{(\sikixlposi,\y@)}{\GS@box{\i@val}}%
+          \put(\sikixlposii,0){$\ \div$}%
+          \Put{(\sikixlposiii,\y@)}{\GS@box{\i@val@i}}%
+            \GS@arrow{\i@val@i}{\Ai\Bi}%
+          \Put{(\sikixlposiv,0)}{${}={}$}%
+          \Put{(\sikixlposv,0)}{\hbox to \Q@wd{\hss\hairetu{Q@}{\i@val}}}%
+          \Put{(\sikixlposvi,0)}{~~余り}%
+          \Put{(\sikixlposvii,\y@)}{\GS@box{\i@val@ii}}%
+            \GS@arrow{\i@val@ii}{\Aii\Bii}%
+        }%
+      }%
+%     \IAdd\i@val{1}\i@val@i
+%     \IAdd\i@val{2}\i@val@ii
+      \edef\i@val{\Q@N}%
+      \IAdd\Q@N{1}\i@val@i
+      \IAdd\Q@N{2}\i@val@ii
+      \Subself\y@pos{\GS@gyoukan}%
+      \Put{(0,\y@pos)}{%
+          \Put{(\sikixlposi,\y@)}{\GS@box{\i@val}}%
+          \put(\sikixlposii,0){$\ \div$}%
+          \Put{(\sikixlposiii,\y@)}{\GS@box{\i@val@i}}%
+          \Put{(\sikixlposiv,0)}{${}={}$}%
+          \Put{(\sikixlposv,0)}{\hbox to \Q@wd{\hss\hairetu{Q@}{\i@val}}}%
+          \Put{(\sikixlposvi,0)}{~~余り}%
+%         \Put{(\sikixlposvii,0)}{\hairetu{A@}{\i@val@ii}}%
+%         \Put{(\sikixlposvii,0)}{\hbox to\GS@wd{\hss\hairetu{A@}{\i@val@ii}}}%
+          \Put{(\sikixlposvii,\y@)}{\GS@box{\i@val@ii}}%
+      }%
+    \end{pszahyou*}%
+  \end{sikipicture*}\vspace{-6pt}%
+  \let\GS@arrow\org@GS@arrow
+  \ignorespaces
+}%
+\def\s@GozyohouSuii{%
+	\ifnum\GS@huteikai>\z@
+		ユークリッドの互除法を用いて，$a=\GS@a$, $b=\GS@b$の最大公約数を求める。
+		\begin{jquote}
+	\fi
+  \begin{sikipicture*}%
+    {%
+      \hbox to \GS@boxwd{\mathstrut\hss},
+      =,
+      \hbox to \GS@boxwd{\mathstrut\hss},
+      \times,
+      \Q@max,
+      +,
+      \hbox to \GS@boxwd{\mathstrut\hss},
+    }%
+    \ISub{\Q@N}{1}\y@tmp
+    \Mulself\y@tmp\GS@gyoukan
+    \Addself\y@tmp{6}%
+    \begin{pszahyou*}[ul=1pt,borderwidth=2pt]%
+    			(\xmin,\xmax)(-(\y@tmp),\ymax)
+      \linethickness{.4pt}%
+\ifnum\Q@N>\@ne
+      \tenretu*{Ai(\sikixlposiii,\sikiydposiii);
+                Aii(\sikixlposvii,\sikiydposiii)}%
+      \Addvec{(\sikixrposi,\sikiyhposiii)}{(0,-\GS@gyoukan)}\Bi
+      \Addvec{(\sikixrposiii,\sikiyhposiii)}{(0,-\GS@gyoukan)}\Bii
+%      \Drawlines<yazirusi=a>{\Ai\Bi;\Aii\Bii}%
+      \GS@arrow{2}{\Ai\Bi}
+      \GS@arrow{3}{\Aii\Bii}
+      \put(0,0){\hbox to \GS@boxwd{\hfil \GS@a\hfil}}
+      \put(\sikixlposii,0){=}%
+      \Put{(\sikixlposiii,\y@)}{\GS@box{2}}%
+      \Put{(\sikixlposiv,0)}{${}\times{}$}%
+      \Put{(\sikixlposv,0)}{\hbox to \Q@wd{\hss\hairetu{Q@}{1}}}%
+      \Put{(\sikixlposvi,0)}{${}+{}$}%
+      \Put{(\sikixlposvii,\y@)}{\GS@box{3}}%
+\fi
+      \edef\y@pos{0}%
+      \Ifor\i@val{2}\Q@N\Do{%
+        \IAdd\i@val{1}\i@val@i
+        \IAdd\i@val{2}\i@val@ii
+        \Subself\y@pos{\GS@gyoukan}%
+        \Put{(0,\y@pos)}{%
+%          \Drawlines<yazirusi=a>{\Ai\Bi;\Aii\Bii}%
+          \Put{(\sikixlposi,\y@)}{\GS@box{\i@val}}%
+          \put(\sikixlposii,0){=}%
+          \Put{(\sikixlposiii,\y@)}{\GS@box{\i@val@i}}%
+            \GS@arrow{\i@val@i}{\Ai\Bi}%
+          \Put{(\sikixlposiv,0)}{${}\times{}$}%
+          \Put{(\sikixlposv,0)}{\hbox to \Q@wd{\hss\hairetu{Q@}{\i@val}}}%
+          \Put{(\sikixlposvi,0)}{${}+{}$}%
+          \Put{(\sikixlposvii,\y@)}{\GS@box{\i@val@ii}}%
+            \GS@arrow{\i@val@ii}{\Aii\Bii}%
+        }%
+      }%
+      \edef\i@val{\Q@N}%
+      \IAdd\Q@N{1}\i@val@i
+      \IAdd\Q@N{2}\i@val@ii
+      \Subself\y@pos{\GS@gyoukan}%
+      \Put{(0,\y@pos)}{%
+          \Put{(\sikixlposi,\y@)}{\GS@box{\i@val}}%
+          \put(\sikixlposii,0){=}%
+          \Put{(\sikixlposiii,\y@)}{\GS@box{\i@val@i}}%
+          \Put{(\sikixlposiv,0)}{${}\times{}$}%
+          \Put{(\sikixlposv,0)}{\hbox to \Q@wd{\hss\hairetu{Q@}{\i@val}}}%
+					\edef\r@val{\hairetu{A@}{\i@val@ii}}%
+					\ifshowlastremainder
+	          \Put{(\sikixlposvi,0)}{${}+{}$}%
+  	        \Put{(\sikixlposvii,\y@)}{\GS@box{\i@val@ii}}%
+					\else
+						\ifnum\r@val>\z@
+		          \Put{(\sikixlposvi,0)}{${}+{}$}%
+    		      \Put{(\sikixlposvii,\y@)}{\GS@box{\i@val@ii}}%
+						\fi
+					\fi
+      }%
+    \end{pszahyou*}%
+  \end{sikipicture*}%\vspace{-1.6em}%
+  \let\GS@arrow\org@GS@arrow
+%
+\ifnum\GS@huteikai>\z@
+\vspace{-.6em}
+\end{jquote}%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\beku@to@seibun##1##2{%
+  \vecXY{##1}\@p\@q
+  \ifnum\@q<\z@
+    \edef##2{\@p\cdot a\@q\cdot b}%
+  \else
+    \edef##2{\@p\cdot a+\@q\cdot b}%
+  \fi
+}%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\tenretu*{A@@iii(1,-\Q@i)}%
+\itiziketugou{1,{(0,1)};-\Q@ii,\A@@iii}\A@@iv\beku@to@seibun\A@@iv\B@iv
+\Ifor*\i@val{3}{\Q@N}\Do{%
+  \IAdd\i@val{1}\ii@val
+  \IAdd\i@val{2}\iii@val
+  \itiziketugou{1,\hairetu{A@@}{\i@val};%
+      -\hairetu{Q@}{\i@val},\hairetu{A@@}{\ii@val}}\@tmp
+  \edefhairetu{A@@}{\iii@val}{\@tmp}%
+  \beku@to@seibun\@tmp\@@tmp\edefhairetu{B@}{\iii@val}{\@@tmp}%
+}%
+%\itiziketugou{1,\A@@iii;-\Q@iii,\A@@iv}\A@@v\beku@to@seibun\A@@v\B@v
+%\itiziketugou{1,\A@@iv;-\Q@iv,\A@@v}\A@@vi\beku@to@seibun\A@@vi\B@vi
+\edefhairetu{B@}{3}{a-\Q@i\cdot b}%
+%\par
+\noindent これらを変形して
+
+\begingroup
+\@ifundefined{next@opt}{\jquote}{%
+	\EMedef\@tmp{<\next@opt>}\expandafter\jquote\@tmp}%
+$\A@iii=a-\Q@i\cdot b$\\
+$\A@iv=b-\A@iii\times\Q@ii=b-(a-\Q@i\cdot b)\times\Q@ii=\B@iv$%\\
+%$\A@v=\A@iii-\A@iv\times\Q@iii=(a-\Q@i b)-(\B@iv)\times\Q@iii=\B@v$
+\Ifor*\i@val{3}{\Q@N}\Do{%
+  \IAdd\i@val{1}\ii@val
+  \IAdd\i@val{2}\iii@val
+  \\$\hairetu{A@}{\iii@val}
+    =\hairetu{A@}{\i@val}-\hairetu{A@}{\ii@val}\times\hairetu{Q@}{\i@val}
+    =(\hairetu{B@}{\i@val})-(\hairetu{B@}{\ii@val})\times\hairetu{Q@}{\i@val}
+    =\hairetu{B@}{\iii@val}$
+%$\A@vi=\A@iv-\A@v\times\Q@iv=(\B@iv)-(\B@v)\times\Q@iv=\B@vi$
+}%
+\@ifundefined{GS@siki@ban}{}{%
+	\ifx\empty\GS@siki@ban
+		\hfill
+		\@ifundefined{GS@label}{\houteisiki{}}{\houteisiki(EMlabel=\GS@label){}}%
+	\else
+		\hfill{\GS@siki@ban}%
+	\fi
+}%
+\endjquote
+\endgroup
+\fi
+  \ignorespaces
+}%
+%
+%\IfFileExists{iigenizihutei.sty}{\RequirePackage{iigenizihutei}}{}%
+%
+\endinput
+%
+v 0.01 2005/12/24
+         Bunpicture環境：新設
+v 0.02 2006/11/17
+        \sikiyposdi,... : 符号
+v 0.03 2008/02/17
+        \displaystyle か否かを判定
+v 0.04 2011/01/06
+        <phzoption=...> で，zahyou*環境に引き継ぐオプションを指定
+v 0.05 2011/05/24
+        \Hako の番号補正 (BBS #9897)
+v 0.06 2011/11/28
+        \sikiTTi, \sikiBBi
+v 0.07 2012/11/06
+        \sikipicture* : 計測のみで表示しない。
+        \GozyohouSuii (sallon #1035)
+v 0.08 2012/11/16
+        \GozyohouSuii : 調整
+v 0.09 2013/05/11
+        \GozyohouSuii : 調整 (BBS #11707)
+v 0.10 2013/08/12
+        <lastremainder=1>
+v 0.11 2013/12/17
+        \GozyohouSuii : 調整 (BBS #12082)
+v 0.13 2017/01/23
+				\GozyohouSuii : <huteikai> オプション
+v 0.14 2017/11/03
+        \ifshowlastremainder (BBS #13417)

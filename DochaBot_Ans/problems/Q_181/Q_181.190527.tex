@@ -1,0 +1,40 @@
+\begin{thm}{181}{\hosi 6}{神戸大 理系 前期 (2017)}
+ $a_1=1$, $a_{n+1}=2a_n+1$ $(n=1, 2, \cdots)$ で定義される数列$\{a_n\}$を考える。2つのベクトル$\vvv{p_n}=(a_n, a_{n+1})$ と$\vvv{p_{n+1}}=(a_{n+1},a_{n+2})$ のなす角を$\theta_n$とする。ただし$0\le\theta\le\pi$とする。$\tan\theta_n$ を$n$を用いて表し、$\disp \lim_{n\to\infty}2^n\theta_n$を求めよ。
+\end{thm}
+
+まず数列$\{a_n\}$の漸化式について
+\[ a_{n+1}=2a_n+1 \,\dou\, a_{n+1}+1=2(a_n+1) \]
+より、数列$\{a_n+1\}$は初項が$a_1+1=2$で公比が2の等比数列であるから、$a_n+1=2^n$。したがって$a_n=2^n-1$。
+
+$\vvv{p_n}$が$x$軸となす角を$\phi_n$とおくと、$\tan\phi_n=\dfrac{a_{n+1}}{a_n}=\dfrac{2^{n+1}-1}{2^n-1}$。一方、
+\begin{align*}
+ &\tan\phi_{n+1}-\tan\phi_n=\frac{a_{n+2}}{a_{n+1}}-\frac{a_{n+1}}{a_n} \\
+ =&\frac{1}{a_na_{n+1}}(a_na_{n+2}-a_{n+1}^2) \\
+ =&\frac{1}{a_na_{n+1}}\left(\frac{a_{n+1}-1}{2}(2a_{n+1}+1)-a_{n+1}^2\right) \\
+ =&\frac{1}{a_na_{n+1}}\left(-\frac{1}{2}a_{n+1}-\frac{1}{2}\right) < 0 \quad (\because a_n, a_{n+1}>0)
+\end{align*}
+が成り立つから、$\phi_n>\phi_{n+1}$である。よって$\theta_n=\phi_n-\phi_{n+1}$で、
+\begin{align*}
+ \tan\theta_n&=\frac{\tan\phi_n-\tan\phi_{n+1}}{1+\tan\phi_n\tan\phi_{n+1}} \\
+ &=\frac{\frac{a_{n+1}}{a_n}-\frac{a_{n+2}}{a_{n+1}}}{1+\frac{a_{n+1}}{a_n}\frac{a_{n+2}}{a_{n+1}}}\times\frac{a_na_{n+1}}{a_na_{n+1}} \\
+ &=\frac{a_{n+1}^2-a_na_{n+2}}{a_{n+1}(a_n+a_{n+2})} \\
+ &=\frac{(2^{n+1}-1)^2-(2^n-1)(2^{n+2}-1)}{(2^{n+1}-1)(2^{n+2}+2^n-2)} \\
+ \tan\theta_n&=\frac{2^n}{(2^{n+1}-1)(5\cdot 2^n-2)}
+\end{align*}
+と求まった。
+
+\begin{align*}
+ \lim_{n\to\infty} \tan\theta_n=\lim_{n\to\infty} \frac{1}{\left(2-\frac{1}{2^n}\right)(5\cdot2^n-2)}=0
+\end{align*}
+となり、かつ$0<\theta_n<\dfrac{\pi}{2}$なので、$\theta_n\to 0$である。
+\begin{align*}
+ 2^n\theta_n&=\frac{\theta_n}{\tan\theta_n}2^n\tan\theta_n \\
+ &=\cos\theta_n\frac{\theta_n}{\sin\theta_n}\frac{1}{\left(2-\frac{1}{2^n}\right)\left(5-\frac{1}{2^{n-1}}\right)}
+\end{align*}
+において、$n\to\infty$のとき$\theta_n\to 0$を踏まえて、
+\[ \cos\theta_n\to 1,\quad \frac{\theta_n}{\sin\theta_n}\to 1 \]
+であるから、
+\begin{align*}
+ &\lim_{n\to\infty} 2^n\theta_n = \lim_{n\to\infty} \cos\theta_n\frac{\theta_n}{\sin\theta_n}\frac{1}{\left(2-\frac{1}{2^n}\right)\left(5-\frac{1}{2^{n-1}}\right)} \\
+ =& 1\cdot 1\cdot \frac{1}{(2-0) (5-0)}=\frac{1}{10}
+\end{align*}

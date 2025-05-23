@@ -1,0 +1,21 @@
+\begin{thm}{166}{\hosi 8}{JMO本選 2017-1}
+ $a, b, c$を正の整数とするとき、$a$と$b$の最小公倍数と、$a+c$と$b+c$の最小公倍数は等しくないことを示せ。
+\end{thm}
+
+$a$と$b$の最大公約数を$g_1$、$a+c$と$b+c$の最大公約数を$g_2$とする。これら2組の最小公倍数が等しいことを仮定すると、
+\[ \frac{ab}{g_1}=\frac{(a+c)(b+c)}{g_2} \]
+が成り立つ。$a=Ag_1$, $b=Bg_1$, $a+c=Pg_2$, $b+c=Qg_2$と表すと、
+\[ ABg_1=PQg_2 \quad \cdots\,\marunum{1}\]
+である。次に、$a-b=(a+c)-(b+c)$により、
+\[ (A-B)g_1=(P-Q)g_2 \quad \cdots\, \marunum{2} \]
+である。\marunum{1}から、$g_1=\dfrac{PQ}{AB}g_2$なので、\marunum{2}に代入すると、
+\[ \frac{PQ(A-B)g_2}{AB}=(P-Q)g_2 \]
+$g_2\neq 0$より、$PQ(A-B)=AB(P-Q)$となる。ここで、$A$と$B$、$P$と$Q$はそれぞれ互いに素なので、$A-B$は$A$でも$B$でも割り切れず、$P-Q$は$P$でも$Q$でも割り切れない。よって$PQ$は$AB$で割り切れてかつ$AB$は$PQ$で割り切れるので、$AB=PQ$。ゆえに$A-B=P-Q$。\marunum{2}によって$g_1=g_2$。よって、
+\begin{align*}
+ \frac{ab}{g_1}&=\frac{(a+c)(b+c)}{g_2} \\
+ \dou\quad ab&=ab+c(a+b)+c^2 \\
+ \dou\quad c^2&=-c(a+b) < 0
+\end{align*}
+となって矛盾。
+
+よって、$a$と$b$、$a+c$と$b+c$の最小公倍数は等しくないことが示された。

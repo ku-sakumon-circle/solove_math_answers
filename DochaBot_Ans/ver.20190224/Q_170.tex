@@ -1,0 +1,18 @@
+\thm{Q.170 $\bigstar 7$ (2014 AIME I)}
+次の方程式を解け。
+\[\dfrac{3}{x-3}+\dfrac{5}{x-5}+\dfrac{17}{x-17}+\dfrac{19}{x-19}=x^2-11x-4\]
+\enthm
+\begin{enumerate}
+\item[] $x-11=y$ とすると
+\[\dfrac{3}{y+8}+\dfrac{5}{y+6}+\dfrac{17}{y-6}+\dfrac{19}{y-8}=y^2+11y-4\]
+左辺の各項は$\dfrac{11-k}{y+k}$ 　($k=\pm 6, \pm 8$) という形をしている。これに1を足すと $1+\dfrac{11-k}{y+k}=\dfrac{y+11}{y+k}$ となるので, 右辺の定数項である$-4$を移項して4つの1に分け, この$\dfrac{11-k}{y+k}$の項にひとつずつ足せば
+\[\dfrac{y+11}{y+8}+\dfrac{y+11}{y+6}+\dfrac{y+11}{y-6}+\dfrac{y+11}{y-8}=y(y+11)\]
+よって $y=-11 \dou x=0$ でひとつの解となる。$y\neq -11$ として $y+11$で割り, 通分を行うと
+\[\dfrac{2y}{y^2-64}+\dfrac{2y}{y^2-36}=y\]
+$y=0 \dou x=11$ はひとつの解である。$y\neq 0$ として両辺を$y$で割り, $y^2-50=z$ として分母を払ったとき
+\[2(z+14)+2(z-14)=z^2-196\] 
+整理して
+\[z^2-4z-196=0\]
+これを解き $z=2\pm 10\sqrt{2}\dou y=\pm\sqrt{52\pm 10\sqrt{2}}$ だから, 求める実数解は
+\[x=\mbox{{\boldmath $0, 11, 11\pm \sqrt{52\pm 10\sqrt{2}} $}}  　(\mbox{複号任意})\]
+\end{enumerate}

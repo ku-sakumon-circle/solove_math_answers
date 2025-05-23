@@ -1,0 +1,17 @@
+\thm{Q.121 $\star 7$ 　(東北大AO)}
+$x\geq 0$における関数 $\disp\int_{0}^x \dfrac{(1+x^2+t)^2}{(1+x^2-t)^3} dt$ の最大値を求めよ。
+\enthm
+$s:=1+x^2-t$と置換し, $1+x^2=f$とおいて
+\[\disp\int_{1+x^2}^{1+x^2-x} \dfrac{(2+2x^2-s)^2}{s^3} (-1)ds=\disp\int_{f-x}^{f} \dfrac{(2f-s)^2}{s^3}ds\]
+展開して積分すると
+\[=\disp\int_{f-x}^{f}\left(\dfrac{1}{s} -\dfrac{4f}{s^2}+\dfrac{4f^2}{s^3}\right)ds=\log{\dfrac{f}{f-x}}-4\dfrac{f}{f-x} +2\dfrac{f^2}{(f-x)^2}+2\]
+これは$\dfrac{x}{f}=g$とおくと
+\[\log{\dfrac{1}{1-g}}-4\dfrac{1}{1-g}+2\dfrac{1}{(1-g)^2}+2\]
+となり,さらに$\dfrac{1}{1-g}=h$とおくと,
+\[\log{h}-4h+2h^2+2\]
+である。\\
+$\disp\lim_{x\to\infty}g=0, g>0, x\leq 0$において$1+x^2\geq 2x$から $0<g\leq\dfrac{1}{2}$の範囲を動くので, $h$は$1<h\leq 2$の範囲を動く。$h$で$\log{h}-4h+2h^2+2$を微分すると
+\[\dfrac{1}{h}+4(h-1)\]
+となり, $h$の範囲からこれは正値をとる。よって, $h=2$つまり$x=1$で最大値を取り,その値は
+\[2+\log{2}\]
+である。

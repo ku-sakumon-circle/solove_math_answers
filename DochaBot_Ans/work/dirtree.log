@@ -1,0 +1,110 @@
+This is e-pTeX, Version 3.14159265-p3.8.1-180226-2.6 (utf8.euc) (TeX Live 2018/Cygwin) (preloaded format=platex 2018.12.11)  20 MAR 2020 11:48
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**dirtree.ins
+(./dirtree.ins
+pLaTeX2e <2018-04-01>+1 (based on LaTeX2e <2018-04-01> patch level 2)
+Babel <3.18> and hyphenation patterns for 3 language(s) loaded.
+(/usr/share/texmf-dist/tex/latex/base/docstrip.tex
+\blockLevel=\count83
+\emptyLines=\count84
+\processedLines=\count85
+\commentsRemoved=\count86
+\commentsPassed=\count87
+\codeLinesPassed=\count88
+\TotalprocessedLines=\count89
+\TotalcommentsRemoved=\count90
+\TotalcommentsPassed=\count91
+\TotalcodeLinesPassed=\count92
+\NumberOfFiles=\count93
+\inFile=\read1
+\inputcheck=\read2
+\off@0=\count94
+\off@1=\count95
+\off@2=\count96
+\off@3=\count97
+\off@4=\count98
+\off@5=\count99
+\off@6=\count100
+\off@7=\count101
+\off@8=\count102
+\off@9=\count103
+\off@10=\count104
+\off@11=\count105
+\off@12=\count106
+\off@13=\count107
+\off@14=\count108
+\off@15=\count109
+\@maxfiles=\count110
+\@maxoutfiles=\count111
+
+Utility: `docstrip' 2.5e <2014/09/29>
+English documentation    <2017/03/13>
+
+**********************************************************
+* This program converts documented macro-files into fast *
+* loadable files by stripping off (nearly) all comments! *
+**********************************************************
+
+********************************************************
+* No Configuration file found, using default settings. *
+********************************************************
+
+(./dirtree.ins
+*** Generating the `dirtree' package ***
+
+Generating file(s) ./dirtree.tex 
+\openout0 = `./dirtree.tex'.
+
+
+Processing file dirtree.dtx (tex) -> dirtree.tex
+Lines  processed: 825
+Comments removed: 609
+Comments  passed: 23
+Codelines passed: 185
+
+
+Generating file(s) ./dirtree.sty 
+\openout0 = `./dirtree.sty'.
+
+
+Processing file dirtree.dtx (latex-wrapper) -> dirtree.sty
+Lines  processed: 825
+Comments removed: 609
+Comments  passed: 23
+Codelines passed: 185
+
+***********************************************************
+*
+* To finish the installation you have to move the files
+* dirtree.sty and dirtree.tex in a directory/folder searched by TeX.
+*
+* To produce the documentation, run the file `dirtree.dtx'
+* through LaTeX.
+*
+* If you require the commented code, desactivating the
+* OnlyDescription macro, you must recompile, execute:
+* `makeindex -s gind.ist dirtree'
+* `makeindex -s gglo.ist -o dirtree.gls dirtree.glo'
+* and recompile.
+*
+***********************************************************
+)
+Overall statistics:
+Files  processed: 2
+Lines  processed: 1650
+Comments removed: 1218
+Comments  passed: 46
+Codelines passed: 370
+ ) ) 
+Here is how much of TeX's memory you used:
+ 321 strings out of 494754
+ 3167 string characters out of 6181838
+ 64575 words of memory out of 5000000
+ 4219 multiletter control sequences out of 15000+600000
+ 7511 words of font info for 31 fonts, out of 8000000 for 9000
+ 14 hyphenation exceptions out of 8191
+ 17i,0n,15p,202b,121s stack positions out of 5000i,500n,10000p,200000b,80000s
+
+No pages of output.

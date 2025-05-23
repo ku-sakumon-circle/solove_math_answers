@@ -1,0 +1,24 @@
+\begin{thm}{104}{\hosi 6}{Benelux (2013)}
+ 関数$f$は任意の実数に対して定義され、実数値をとる。任意の$(x,y)\in\mathbb{R}^2$に対して、
+ \[ f(x+y)+y \leq f\left(f\left(f(x)\right)\right) \]
+ が成り立つとき、$f$を全て求め、それが必要十分であることを示せ。
+\end{thm}
+
+$z=x+y$とおくと与式は、
+\[ f(z)+z \le f\left(f\left(f(x)\right)\right)+x \]
+と書ける。任意の実数$x, z$についてこれを満たす関数$f$を求めればよい。
+
+$z=f\left(f(x)\right)$とすれば、
+\[ f\left(f\left(f(x)\right)\right)+f\left(f(x)\right)\le f\left(f\left(f(x)\right)\right)+x \quad\dou\quad f\left(f(x)\right)\le x \]
+を得る。ここで$x$を$f(x)$に置き換えれば、$f\left(f\left(f(x)\right)\right) \le f(x)$を得る。これによって
+\[ f(z)+z \le f\left(f\left(f(x)\right)\right)+x \le f(x)+x \]
+となった。すなわち、任意の実数$x, z$について、$f(z)+z\le f(x)+x$である。$x$と$z$を入れ替えた$f(x)+x\le f(z)+z$も成り立つから、結局$f(z)+z=f(x)+x$である。$z=0$として、$f(x)+x=f(0)+0$となる。$f(0)=c$とおくと$f(x)=c-x$となって、これが必要条件である。
+
+逆に、ある実数$c$を用いて$f(x)=c-x$なる関数は、
+\begin{align*}
+ f(x+y)+y&=c-(x+y)+y=c-x \\
+ f\left(f\left(f(x)\right)\right)&=c-\left(c-\left(c-x\right)\right)=c-x
+\end{align*}
+となるから題意を満たす。
+
+以上より求める関数は、$f(x)=c-x$。ただし$c$は実数。

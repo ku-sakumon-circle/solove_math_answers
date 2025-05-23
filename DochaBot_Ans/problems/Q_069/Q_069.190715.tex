@@ -1,0 +1,19 @@
+\begin{thm}{069}{\hosi 4\maru}{一橋大 (1984)}
+ $\triangle\mr{ABC}$において、$\tan \mr{A}$, $\tan \mr{B}$, $\tan \mr{C}$の値が全て整数であるとき、それらの値を求めよ。
+\end{thm}
+
+$\angle\mr{A}\le\angle\mr{B}\le\angle\mr{C}$として一般性を失わない。$\angle\mr{C}=90^\circ$では$\tan\mr{C}$が定義されないので$\angle\mr{C}\neq 90^\circ$。三角形が成立することから、$\angle\mr{A}, \mr{B}, \mr{C}\neq 0^\circ$。また、$\angle\mr{A}+\angle\mr{B}+\angle\mr{C}=180^\circ$だから、$\angle\mr{B}<90^\circ$。$a=\tan\mr{A}$, $b=\tan\mr{B}$, $c=\tan\mr{C}$とおけば、$a, b, c$はすべて整数で、
+\[ 0<a\le b\le c \quad\text{or}\quad c<0<a\le b \]
+のいずれかの大小関係を満たしている。
+
+$c<0$のとき、$c$は整数だから$c\le -1$で、よって$\angle\mr{C}\ge 135^\circ$。このとき$\angle\mr{A}+\angle\mr{B}\le 45^\circ$となるが、これを満たし$\tan\mr{A}$, $\tan\mr{B}$が整数となるような$\angle\mr{A}$, $\angle\mr{B}$は存在しない。よって$c>0$である。さらに、$a=b=1$は、$\angle\mr{A}=\angle\mr{B}=45^\circ$を意味するが、このとき$\angle\mr{C}=90^\circ$となるために不適。
+
+$\angle\mr{C}=\pi-(\angle\mr{A}+\angle\mr{B})$だから、
+\[ \tan\mr{C}=-\tan(\mr{A+B})=\frac{\tan\mr{A}+\tan\mr{B}}{\tan\mr{A}\tan\mr{B}-1} \quad\dou\quad c=\frac{a+b}{ab-1} \]
+である。さらに整理して
+\[ c=\frac{a+b}{ab-1} \quad\dou\quad a+b+c=abc \quad\cdots\text{(＊)} \]
+であるから、$0<a\le b\le c$のもとでこの整数解を求めることを考える。
+\[ 3a\le a+b+c=abc \le 3c \quad\dou\quad 3\le bc \,\,\text{かつ}\,\, 1<ab\le 3 \]
+$1<ab\le 3$を満たす$(a, b)$の組は、$(1, 2), (1,3)$のみである。このときの$c$の値は(＊)よりそれぞれ$c=3, 2$であるが、後者は$b\le c$に反するので不適。よって$(a, b, c)=(1, 2, 3)$が必要であるが、これは実際に(＊)を満たす。
+
+以上のことから、$\tan\mr{A}$, $\tan\mr{B}$, $\tan\mr{C}$は$(1, 2, 3)$の並べ替えである。

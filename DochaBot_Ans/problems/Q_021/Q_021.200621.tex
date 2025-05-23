@@ -1,0 +1,13 @@
+\begin{thm}{021}{\hosi 6}{}
+ $xy$平面上の$\triangle\mr{ABC}$に対してその3頂点の座標がいずれも有理数であるとし、$\angle\mr{BAC}=\theta$とおく。このとき、$\cos\theta$が有理数であることと、$\sin\theta$が有理数であることは同値(必要十分)であることを示せ。
+\end{thm}
+
+$\vvv{\mr{AB}}=\vvv{b}$, $\vvv{\mr{AC}}=\vvv{c}$とおき、それぞれの成分を$b_x$などとおくと、これらの成分は全て有理数となる。内積を考えて、
+\[ \cos\theta=\frac{\vvv{b}\cdot\vvv{c}}{|\vvv{b}||\vvv{c}|}=\frac{b_xc_x+b_yc_y}{|\vvv{b}||\vvv{c}|} \]
+このとき、$b_xc_x+b_yc_y$は明らかに有理数である。$b_xc_x+b_yc_y\neq 0$すなわち$\theta\neq 90^\circ$に限れば、$\cos\theta$が有理数であることと$\dfrac{1}{|\vvv{b}||\vvv{c}|}$が有理数であることは同値である。
+
+続いて三角形の面積$S$について
+\[ S=\frac{1}{2}|\vvv{b}||\vvv{c}|\sin\theta=\frac{1}{2}|b_xc_y-b_yc_x| \quad\dou\quad \sin\theta=\frac{|b_xc_y-b_yc_x|}{|\vvv{b}||\vvv{c}|} \]
+このとき、$|b_xc_y-b_yc_x|$は3点$\mr{A,B,C}$が三角形を成すことから0より大きい有理数である。したがって$\sin\theta$が有理数であることと$\dfrac{1}{|\vvv{b}||\vvv{c}|}$が有理数であることは同値である。
+
+これらのことは、$\theta\neq 90^\circ$な三角形について、$\cos\theta$が有理数であることと$\sin\theta$が有理数であることは同値であることを示している。$\theta=90^\circ$の場合には、$\cos\theta=0$, $\sin\theta=1$となるからやはり題意を満たす。以上により、題意の成立が示された。

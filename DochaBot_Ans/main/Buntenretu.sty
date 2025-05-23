@@ -1,0 +1,175 @@
+%%% Buntenretu.sty by tDB(emath@nifty.com)
+% 日本語
+\ProvidesPackage{Buntenretu}[2013/06/19 v0.01]%
+%
+%
+% \Buntenretu
+%
+%\def\Bt@sub{\@ifnextchar({\Bt@sub@}{\@Bt@sub(1:1)}}%
+%\def\Bt@sub@(#1){%
+%  \Strsep{#1}{:}\Bt@a\Bt@b
+%  \ifthenelse{\not\equal\Bt@b\empty}{%
+%    \@Bt@sub(#1)
+%  }{%
+%    \edef\Bt@tmp{(1:1){(#1)}}%
+%    \expandafter\@Bt@sub\Bt@tmp
+%  }%
+%}%
+%\def\@Bt@sub(#1:#2)#3#4#5#6\@nil{%
+%  \strip@cmd{#5}\Bt@name
+%  \Bunten{#3}{#4}{#1}{#2}#5\relax
+%  \ifx\empty\Bt@str
+%    \EMedefappend\Bt@str{\Bt@name#5#6}%
+%  \else
+%    \EMedefappend\Bt@str{;\Bt@name#5#6}%
+%  \fi
+%}%
+\def\Bt@sub{\let\Bt@prnm\undefined
+  \@ifnextchar[{\Bt@@sub@}{\Bt@sub@}}%
+\def\Bt@@sub@[#1]{\EMedef\Bt@prnm{#1}\@Bt@sub}%
+\def\Bt@sub@{\@ifnextchar({\Bt@sub@@}{\@Bt@sub}}%
+\def\Bt@sub@@(#1){\@Bt@sub{(#1)}}%
+\def\@Bt@sub#1#2{%
+  \@ifnextchar({\@@Bt@sub{#1}{#2}}{\@@Bt@sub{#1}{#2}(\Bt@m:\Bt@n)}}%
+\def\@@Bt@sub#1#2(#3:#4)#5#6\@nil{%
+  \strip@cmd{#5}\Bt@name
+  \Bunten{#1}{#2}{#3}{#4}#5\relax
+  \@ifundefined{Bt@prnm}{%
+    \EMedefappend[;]\Bt@str{\Bt@name#5#6}%
+  }{%
+    \EMedefappend[;]\Bt@str{[\Bt@prnm]\Bt@name#5#6}%
+  }%
+}%
+\def\Buntenretu{\def\show@label{1}%
+  \@ifstar{\def\show@label{0}\@Buntenretu}{\@Buntenretu}}%
+\def\@Buntenretu{\@ifnextchar({\@@Buntenretu}{\@@Buntenretu(1:1)}}%
+\def\@@Buntenretu(#1:#2){\edef\Bt@m{#1}\edef\Bt@n{#2}%
+  \@ifnextchar<{\@@@Buntenretu}{\@@@Buntenretu<\empty>}}%
+\def\@@@Buntenretu<#1>#2{%
+  \edef\Bt@str{\empty}%
+  \exfor[;]\Bt@c:=#2\do{%
+    \expandafter\Bt@sub\Bt@c\@nil
+  }%
+  \ifnum\show@label>\z@
+    \EMedef\Bt@retu{<#1>{\Bt@str}}%
+    \expandafter\tenretu\Bt@retu
+  \else
+    \EMedef\Bt@retu{*<#1>{\Bt@str}}%
+    \expandafter\tenretu\Bt@retu
+  \fi
+}%
+%
+%
+%
+% Addvecretu
+%
+\def\Addvecretu{%
+% -------------------------------------------------------------------
+  \def\Av@sub{\edef\Av@prnm{\empty}%
+    \@ifnextchar[{\Av@@sub@}{\Av@sub@}}%
+  \def\Av@@sub@[##1]{\EMedef\Av@prnm{##1}\@Av@sub}%
+  \def\Av@sub@{\@ifnextchar({\Av@sub@@}{\@Av@sub}}%
+  \def\Av@sub@@(##1){\@Av@sub{(##1)}}%
+  \def\@Av@sub##1##2##3##4\@nil{%
+    \strip@cmd{##3}\Av@name
+    \Addvec{##1}{##2}##3\relax
+    \ifx\empty\Av@prnm
+      \EMedefappend[;]\Av@str{\Av@name##3##4}%
+    \else
+      \EMedefappend[;]\Av@str{[\Av@prnm]\Av@name##3##4}%
+    \fi
+  }%
+% -------------------------------------------------------------------
+  \def\show@label{1}%
+  \@ifstar{\def\show@label{0}\@Addvecretu}{\@Addvecretu}}%
+\def\@Addvecretu{\@ifnextchar<{\@@@Addvecretu}{\@@@Addvecretu<\empty>}}%
+\def\@@@Addvecretu<#1>#2{%
+  \edef\Av@str{\empty}%
+  \exfor[;]\Av@c:=#2\do{%
+    \expandafter\Av@sub\Av@c\@nil
+  }%
+  \ifnum\show@label>\z@
+    \EMedef\Av@retu{<#1>{\Av@str}}%
+    \expandafter\tenretu\Av@retu
+  \else
+    \EMedef\Av@retu{*<#1>{\Av@str}}%
+    \expandafter\tenretu\Av@retu
+  \fi
+}%
+%
+% Mulvecretu
+%
+\def\Mulvecretu{%
+% -------------------------------------------------------------------
+  \def\Av@sub{\edef\Av@prnm{\empty}%
+    \@ifnextchar[{\Av@@sub@}{\Av@sub@}}%
+  \def\Av@@sub@[##1]{\EMedef\Av@prnm{##1}\@Av@sub}%
+  \def\Av@sub@{\@ifnextchar({\Av@sub@@}{\@Av@sub}}%
+  \def\Av@sub@@(##1){\@Av@sub{(##1)}}%
+  \def\@Av@sub##1##2##3##4\@nil{%
+    \strip@cmd{##3}\Av@name
+    \Mulvec{##1}{##2}##3\relax
+    \ifx\empty\Av@prnm
+      \EMedefappend[;]\Av@str{\Av@name##3##4}%
+    \else
+      \EMedefappend[;]\Av@str{[\Av@prnm]\Av@name##3##4}%
+    \fi
+  }%
+% -------------------------------------------------------------------
+  \def\show@label{1}%
+  \@ifstar{\def\show@label{0}\@Mulvecretu}{\@Mulvecretu}}%
+\def\@Mulvecretu{\@ifnextchar<{\@@@Mulvecretu}{\@@@Mulvecretu<\empty>}}%
+\def\@@@Mulvecretu<#1>#2{%
+  \edef\Av@str{\empty}%
+  \exfor[;]\Av@c:=#2\do{%
+    \expandafter\Av@sub\Av@c\@nil
+  }%
+  \ifnum\show@label>\z@
+    \EMedef\Av@retu{<#1>{\Av@str}}%
+    \expandafter\tenretu\Av@retu
+  \else
+    \EMedef\Av@retu{*<#1>{\Av@str}}%
+    \expandafter\tenretu\Av@retu
+  \fi
+}%
+%
+\@ifpackageloaded{emathPk}{%
+\def\iiiBt@sub{\let\Bt@prnm\undefined
+  \@ifnextchar[{\iiiBt@@sub@}{\iiiBt@sub@}}%
+\def\iiiBt@@sub@[#1]{\EMedef\Bt@prnm{#1}\@iiiBt@sub}%
+\def\iiiBt@sub@{\@ifnextchar({\iiiBt@sub@@}{\@iiiBt@sub}}%
+\def\iiiBt@sub@@(#1){\@iiiBt@sub{(#1)}}%
+\def\@iiiBt@sub#1#2{\@ifnextchar({\@@iiiBt@sub{#1}{#2}}{%
+  \@@iiiBt@sub{#1}{#2}(\Bt@m:\Bt@n)}}%
+\def\@@iiiBt@sub#1#2(#3:#4)#5#6\@nil{%
+  \strip@cmd{#5}\Bt@name
+  \iiiBunten{#1}{#2}{#3}{#4}#5\relax
+  \@ifundefined{Bt@prnm}{%
+    \EMedefappend[;]\Bt@str{\Bt@name#5#6}%
+  }{%
+    \EMedefappend[;]\Bt@str{[\Bt@prnm]\Bt@name#5#6}%
+  }%
+}%
+\def\iiiBuntenretu{\def\show@label{1}%
+  \@ifstar{\def\show@label{0}\@iiiBuntenretu}{\@iiiBuntenretu}}%
+\def\@iiiBuntenretu{\@ifnextchar({\@@iiiBuntenretu}{\@@iiiBuntenretu(1:1)}}%
+\def\@@iiiBuntenretu(#1:#2){\edef\Bt@m{#1}\edef\Bt@n{#2}%
+  \@ifnextchar<{\@@@iiiBuntenretu}{\@@@iiiBuntenretu<\empty>}}%
+\def\@@@iiiBuntenretu<#1>#2{%
+  \edef\Bt@str{\empty}%
+  \exfor[;]\Bt@c:=#2\do{%
+    \expandafter\iiiBt@sub\Bt@c\@nil
+  }%
+  \ifnum\show@label>\z@
+    \EMedef\Bt@retu{<#1>{\Bt@str}}%
+    \expandafter\iiitenretu\Bt@retu
+  \else
+    \EMedef\Bt@retu{*<#1>{\Bt@str}}%
+    \expandafter\iiitenretu\Bt@retu
+  \fi
+}%
+}{}%
+\endinput
+%
+v 0.00 2012/07/28
+v 0.01 2013/06/19 [代替名] オプションの修正

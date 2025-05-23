@@ -1,0 +1,21 @@
+\thm{Q.2}
+(2) 実は$P(n)=P(m)$ならば $n=m$ である。このことを証明せよ。
+\enthm
+\begin{enumerate}
+\item[(2)] $a,b\in\mathbb{N}$に対して, $b$ が $a$ で割り切れるということ,すなわち $a$ が $b$ の正の約数であることを "$a\mid b$" と表す。\\
+これを用いて,$n$のすべての正の約数の総積$P(n)$を $\displaystyle\prod_{d\mid n}d$ と表す。 また, $d\mid n$ならば $\dfrac{n}{d}\mid n$であるから, $P(n)=\displaystyle\prod_{d\mid n}\dfrac{n}{d}$ とも表せる。これより, $D_n$で$n$の正の約数の個数を表すとすると,
+\begin{eqnarray*}
+P(n)^2 = \left(\displaystyle\prod_{d\mid n}d\right)\left(\displaystyle\prod_{d\mid n}\dfrac{n}{d}\right) = \displaystyle\prod_{d\mid n}d\cdot \dfrac{n}{d} = \displaystyle\prod_{d\mid n}n = n^{D_n}
+\end{eqnarray*}
+となる。したがって,$P(n)>0, n^{\frac{D_n}{2}}>0$ であることから $P(n)=n^{\frac{D_n}{2}}$ と表される。\\
+\\
+よって, $n^{\frac{D_n}{2}}=m^{\frac{D_m}{2}}$ ならば $n=m$ であることを示せばよい。ただし, 負の値になることがないので, $n^{D_n}=m^{D_m}$ で考えればよい。\\
+ある素数$p$に対して $p\mid n\Leftrightarrow p\mid m$ なので, $n$と$m$の素因数の種類は一致する。次に, $n$が素数$p$で割ることができる最大の回数を$M_p(n)$ と置く。このとき, $n^{D_n}=m^{D_m}$ であることは, $n$ (または $m$)を割り切る任意の素数$p$ に対して (左辺と右辺をそれぞれ何回割ることができるかを考えて) $D_nM_p(n)=D_mM_p(m)$ が成り立つことと同値である。\\
+\\
+対称性より, $D_m\le D_n$ とする。このとき,
+\begin{eqnarray*} 
+D_nM_p(n)=D_mM_p(m)\le D_nM_p(m) \Rightarrow M_p(n)\le M_p(m)
+\end{eqnarray*}
+が成立する。 よって, 任意の$n$を割り切る素数$p$ に関して, $m$ のほうが, $n$ と同じ回数, あるいは$n$ より多い回数だけ$p$ で割ることができる。よって, $\dfrac{m}{n}$ は整数であり, すなわち$n\mid m$ である。\\
+$m$ が $n$ の倍数ならば,  $D_n\le D_m$ であり, $D_m\le D_n\le D_m$ だから, $D_n=D_m$ となる。よって, $n^{D_n}=m^{D_m}=m^{D_n}$ であり, $n,m\in\mathbb{N}$ だから $n=m$ が示された。　　$\Box$
+\end{enumerate}

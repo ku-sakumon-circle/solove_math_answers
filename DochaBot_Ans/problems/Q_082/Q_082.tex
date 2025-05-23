@@ -1,0 +1,93 @@
+\begin{thm}{082}{\hosi 12}{春合宿}
+ 関数$f$は集合$S=\{1, 2, \dots, n\}$の部分集合に対して定義され、$1$以上$2^n$以下の整数値をとる。このような$f$のうち、次の3つの条件を満たすようなものはいくつ存在するか。
+ \begin{enumerate}
+  \renewcommand{\labelenumi}{\arabic{enumi}.}
+  \item 任意の$X, Y \subset S$ に対して $f(X)+f(Y) \ge f(X\cup Y)+f(X\cap Y)$ が成立する。
+  \item $X \neq Y$ ならば、$f(X)\neq f(Y)$
+  \item $f(\varnothing)=2^n$
+ \end{enumerate}
+\end{thm}
+
+補集合を考えるにあたって全体集合は$S$であることに注意する。まず、次の補題を示す。
+\begin{subthm}{082.1}
+ $f(X)+f(\overline{X})=2^n+1$ である。
+\end{subthm}
+
+(証明)~条件(i)において$Y=\overline{X}$とすると、$X\cup\overline{X}=S$, $X\cap\overline{X}=\varnothing$より、
+\[ f(X)+f(\overline{X})\ge f(S)+f(\varnothing)=f(S)+2^n \tag{1} \]
+これについて$S$のすべての部分集合にわたって総和をとる。
+\[ \sum_{X\subset S}\left(f(X)+f(\overline{X})\right)\ge\sum_{X\subset S} \left(f(S)+2^n\right) \tag{2} \]
+条件(ii)より$f$は単射であり、$X$が$S$の部分集合全体 ($2^n$個存在する) を動くとき、$f(X)$, $f(\overline{X})$は1以上$2^n$以下の整数全体を動く。よって式(2)の左辺は、
+\[ \sum_{X\subset S}\left(f(X)+f(\overline{X})\right)=2\sum_{k=1}^{2^n}k = 2^n(2^n+1) \]
+となる。式(2)の右辺については、
+\[ \sum_{X\subset S}\left(f(S)+2^n\right) = 2^n\left(f(S)+2^n\right) \]
+となる。以上により式(2)は
+\[ 2^n(2^n+1) \ge 2^n\left(f(S)+2^n \right) \,\dou\, 1\ge f(S) \]
+となり、$1\le f(S)$であったから、$f(S)=1$である。このとき総和の不等式(2)で等号が成立していることから、各$X$に対しての式(1)の不等式も等号が成り立っていなければならない。したがって$f(X)+f(\overline{X})=1+2^n$を得る。~(証明終)
+
+さらに次の補題を示す。
+\begin{subthm}{082.2}
+ 任意の$S$の部分集合$X, Y$に対して次が成り立つ。
+ \[ f(X)+f(Y)=f(X\cup Y)+f(X\cap Y)  \]
+\end{subthm}
+(証明)~条件(i)において$X$を$\overline{X}$に、$Y$を$\overline{Y}$にそれぞれおきかえて、
+\[ f(\overline{X})+f(\overline{Y})\ge f(\overline{X}\cup\overline{Y})+f(\overline{X}\cap\overline{Y}) \tag{3} \]
+補題082.1を用いると、$f(\overline{X})+f(\overline{Y})=(N-f(X))+(N-f(Y))$。ここで$N=2^n+1$とおいた。さらにド・モルガンの法則により、
+\begin{align*}
+ &f(\overline{X}\cup\overline{Y})+f(\overline{X}\cap\overline{Y})=f(\overline{X\cap Y})+f(\overline{X\cup Y}) \\
+ =&(N-f(X\cap Y))+(N-f(X\cup Y))
+\end{align*}
+以上を用いて式(3)を整理すると、$f(X)+f(Y)\le f(X\cup Y)+f(X\cap Y)$を得るから、(i)の等号は常に成り立つ。~(証明終)
+
+条件(ii)により、$f$は全単射なので、$f(X)=i$~$(i=1,2,\dots,2^n)$となる$X$はただひとつ存在する。このような$X$を$S_i$とし、また簡単のために$S_{2^n+1-i}=T_i$とおく。$T_1=S_{2^n}=\varnothing$となる。ここで$X\cup Y=T_2$かつ$X\cap Y=\varnothing$となるような$X, Y$をとる\footnote{このような$(X, Y)$を$T_2$の`直和分割'という}と、
+\[ f(X)+f(Y)=f(T_2)+f(\varnothing)=2^{n+1}-1 \]
+となるから、$\left(f(X), f(Y)\right)=(2^n, 2^n-1)$の組み合わせしかありえない。すなわち、$(X, Y)=(T_1, T_2)$である。このことは、$T_2$の元の個数が1であることを示している ($\cdots$ ＊)。さらに次の補題を示す。
+\begin{subthm}{082.3}
+ $T_{2^k+1}$~$(k=0, 1, 2,\dots, n-1)$の元の個数は1である。
+\end{subthm}
+(証明)~ある0以上$n-2$以下の整数$i$について、$T_{2^k+1}$~$(k=0,1,2,\dots,i)$の元の個数が1であると仮定する。任意の1以上$2^{i+1}$以下の整数$m$について、$0\le m-1\le 2^{i+1}-1$より集合$\{0, 1, 2,\dots,i\}$の部分集合$U_m$がただ一つ存在して、$m-1=\disp \sum_{t\in U_m} 2^t$のように2進展開される。$\disp V=\bigcup_{t\in U_m} T_{2^t+1}$とおく。$U_m=\{a_1, a_2,\dots, a_j\}$とし、$f(X\cup Y)=f(X)+f(Y)-f(X\cap Y)$を複数回用いて$f(V)$を求める。ここで、どの2つの$T_{2^k+1}$についても、それぞれの元の個数が1であることから共通部分は$\varnothing$となることに注意する。
+\begin{align*}
+ f(V)&=f\left( \bigcup_{t\in U_m-\{a_1\}} T_{2^t+1}\right)+f\left(T_{2^{a_1}+1}\right)-f(\varnothing) \\
+ &=f\left(\bigcup_{t\in U_m-\{a_1, a_2\}} T_{2^t+1}\right) \\
+ & \qquad +f\left(T_2^{a_2}+1\right)+f\left(T_{2^{a_1}+1}\right)-2f(\varnothing) \\
+ &= \cdots \\
+ &=\sum_{t\in U_m} f(T_{2^t+1}) -(j-1)f(\varnothing) \\
+ &= \sum_{t\in U_m}\left(f(T_{2^t+1})-f(\varnothing)\right) + f(\varnothing) \\
+ &= 2^n-\sum_{t\in U_m} 2^t = 2^n+1-m = f(T_m)
+\end{align*}
+したがって、$V=\disp \bigcup_{t\in U_m} T_{2^t+1}=T_m$となることが示された (＃)。
+
+さて、$m$がとれる値は$2^{i+1}$個であって、集合$\{0, 1, 2,\dots i\}$の部分集合の個数も$2^{i+1}$であるから、$m$を動かせば$U_m$は$\{0, 1, 2,\dots, i\}$の部分集合全体を動く。よって、逆に$T_m$が$T_{2^k+1}$~$(k=0, 1, 2,\dots, i)$の和集合で表されるならば、$m\le 2^{i+1}$である (☆)。
+
+さて、$X\cup Y=T_{2^{i+1}+1}$, $X\cap Y=\varnothing$となる$X, Y$をとれば、
+\[ f(X)+f(Y)=2^{n+1}-2^{i+1} \]
+となるから、$X, Y$の組としてありうるものは、
+\[ (X, Y)=(T_1, T_{2^{i+1}+1}),\, (T_2, T_{2^i+1}),\, \dots,\, (T_{2^{i+1}+1}, T_1) \]
+となるが、これらのうち最初と最後以外は全て不適である。なぜなら、それらの場合$f(X), f(Y)\le 2^{i+1}$であるから$X, Y$はともに$T_{2^t+1}$~$(t=0, 1, 2, \dots, i)$らの和集合によって表されることがわかり($\because$ ＃)、このとき$X\cup Y$もそのような和集合によって表されることになるが、(☆)によって従う$2^{i+1}+1\le 2^{i+1}$は矛盾するため。よって$(X,Y)=(T_1, T_{2^{i+1}+1}), (T_{2^{i+1}+1}, T_1)$が得られ、(＊)と同様の議論によって、$T_{2^{i+1}+1}$の元の個数も1である。
+
+以上、(＊)により$T_2$の元の個数が1であったことと合わせて、帰納法によって、補題082.3は示された。~(証明終)
+
+補題082.3によって、(＃)は次のように改められる。
+
+$1\le m\le 2^n$なる整数$m$について、$T_m$は$T_{2^k+1}$~$(k=0, 1, 2,\dots, n-1)$らの和集合で表すことができる(＃＃)。
+
+すなわち、$n$個の$T_{2^k+1}$に集合$\{0, 1, 2,\dots, n-1\}$の要素数1 ($n$個ある)の部分集合を割り当てるような$n!$個の$f$が必要条件になる。
+
+このような$f$の十分性を確認する。$X=T_x$, $Y=T_y$とし、$\{0, 1, 2,\dots, n-1\}$の部分集合$U_x$, $U_y$をとって、$x-1=\disp \sum_{t\in U_x} 2^t$, $y-1=\disp \sum_{t\in U_y} 2^t$とする。さらに$V_x=\disp \bigcup_{t\in U_x} T_{2^t+1}$, $V_y=\disp \bigcup_{t\in U_y} T_{2^t+1}$とおくと、補題082.3と同様の計算によって、
+\begin{align*}
+ f(V_x)&=2^n+1-x=f(T_x) & &\dou & V_x&=T_x=X \\
+ f(V_y)&=2^n+1-y=f(T_y) & &\dou & V_y&=T_y=Y
+\end{align*}
+が得られた。さらに、
+\[ X\cup Y=\bigcup_{t\in U_x\cup U_y} T_{2^t+1},\quad X\cap Y=\bigcap_{t\in U_x\cap U_y} T_{2^t+1} \]
+が成り立つ\footnote{$\cap$のほうは、$T_{2^t+1}$が要素数1の集合であるからこそ成り立つ式である}。よって、
+\[ f(X\cup Y)=2^n-\sum_{t\in U_x\cup U_y} 2^t,\quad f(X\cap Y)=2^n-\sum_{t\in U_x\cap U_y} 2^t \]
+これらをもとの関数方程式に代入して整理すれば、
+\begin{align*}
+ f(X)+f(Y) &\ge f(X\cup Y)+f(X\cap Y) \\
+\dou\quad \sum_{t\in U_x} 2^t +\sum_{t\in U_y} 2^t &\le \sum_{t\in U_x\cup U_y} 2^t +\sum_{t\in U_x\cap U_y} 2^t
+\end{align*}
+ 
+が得られるが、この式は包除原理から明らかである。よって必要条件であった$n!$個の$f$はいずれも条件を満たす。
+
+以上より、求める$f$の個数は$n!$である。

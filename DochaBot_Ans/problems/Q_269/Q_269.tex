@@ -1,0 +1,54 @@
+\begin{thm}{269}{\hosi 5}{東北2019文理共通}
+$a$を1ではない正の数とし, $n$を正の整数とする. 次の不等式を考える. 
+\[
+\log_{a}{(x-n)} > \dfrac{1}{2} \log_{a}{(2n-x)}
+\]
+\ben 
+\item $n=6$のとき, この不等式を満たす整数$x$をすべて求めよ. 
+\item この不等式を満たす整数$x$が存在するための$n$の必要十分条件を求めよ. 
+\een 
+\end{thm}
+まず真数条件により$n  <x  <2n$の必要がある. \par 
+$a>1$の場合を考える. 不等式は
+\[(x-n)^2 > 2n-x\]
+と同値. すなわち$x^2 - (2n-1)x + (n^2 - 2n) > 0$と同値. 左辺を$f_n(x)$とおく. 平方完成して
+\[f_n(x) = \left\{ x- \parena{n-\frac{1}{2}}\right\}^2 - \parena{n +\frac{1}{4}}\]
+であるから, $f_n(x)$は$n+1\leq x \leq 2n-1$で増加することが分かる. また, 二次方程式$f_n(x) = 0$を解くと
+\[x = \dfrac{(2n-1) \pm \sqrt{(2n-1)^2 - 4(n^2-2n)}}{2} = \dfrac{(2n-1) \pm \sqrt{4n+1}}{2}\]
+となり, 複合がマイナスのほうの解は$n$未満である. また, $n < \alpha < 2n$も分かる\footnote{グラフを書いてみるとよい. あるいは, $\sqrt{4n+1} < 2n+1$を利用しても分かる. }. したがって,  $\alpha = \frac{(2n-1) + \sqrt{4n+1}}{2}$, $\beta = \frac{(2n-1) - \sqrt{4n+1}}{2}$とおくとき, 次が言える. 
+\[f_n(x) > 0 \text{かつ} n < x < 2n \iff \alpha < x < 2n\]
+同様に, $0 < a < 1$の場合は不等号が反対になるので, 
+\[f_n(x) < 0 \text{かつ} n < x < 2n \iff n < x < \alpha\]
+
+\syoumon{1} 
+$\alpha = \frac{11 + \sqrt{25}}{2} = 8$である. 
+\begin{itemize}
+\item  $a>1$のとき$6 < x < 12$かつ$x < 8$を満たす整数ですべてである. よって\bolm{x = 7}. 
+\item $0<a<1$のとき, $6<x<12$かつ$8<x$を満たす整数ですべてである. よって\bolm{x = 9,10,11}. 
+\end{itemize}
+
+\syoumon{2}
+\begin{itemize}
+\item $1<a$のときを考える. $\alpha < x < 2n$を満たす整数$x$が存在することと, \textbf{この範囲に$2n-1$が属すこと}は同値であることに注意. よって
+\begin{align*} 
+(\text{求める条件}) &\iff \alpha < 2n-1 \\ 
+&\iff f_n(2n-1) > 0 \\ 
+&\iff n^2 - 2n > 0 \\ 
+&\iff \bolm{n\geq 3}
+\end{align*}
+\item $0<a<1$のときを考える. $n < x < \alpha$を満たす整数$x$が存在することと, \textbf{この範囲に$n+1$が属すこと}は同値であることに注意. よって
+\begin{align*} 
+(\text{求める条件}) &\iff  n+1 < \alpha  \\ 
+&\iff f_n(n+1) < 0 \qquad (\text{注}: \text{常に}\beta < n+1)\\ 
+&\iff -n + 2 < 0 \\ 
+&\iff \bolm{n \geq 3}
+\end{align*}
+\end{itemize}
+
+
+
+
+
+\begin{supple}
+こういう必要十分性の議論って言葉だけで書くと結構面倒なので, グラフとかを積極的に用いて説明するのが本来好ましいです. 
+\end{supple}

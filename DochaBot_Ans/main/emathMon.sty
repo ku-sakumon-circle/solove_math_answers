@@ -1,0 +1,186 @@
+%%% emathMon.sty by tDB(emath@nifty.com)
+
+\def\tmpname{LaTeX2e}%
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{emathMon}[2011/06/13 v0.00alpha]%
+%
+\RequirePackage{emathAe}
+%
+\newwrite\KAItou@out
+%
+\def\open@KAI{0}%
+\def\openKAIFile{%
+%
+  \def\section##1{%
+    \immediate\write\KAItou@out{\string\kaisection{##1}}%
+    \ltxsection{##1}
+  }
+  \def\subsection##1{%
+    \immediate\write\KAItou@out{\string\kaisubsection{##1}}%
+    \ltxsubsection{##1}
+  }
+  \def\subsubsection##1{%
+    \immediate\write\KAItou@out{\string\kaisubsubsection{##1}}%
+    \ltxsubsubsection{##1}
+  }
+%
+  \xIncr\open@KAI
+  \immediate\openout \KAItou@out\EM@workfiledir\jobname.K\relax
+}%
+\def\closeKAIFile{
+  \edef\open@KAI{0}%
+  \immediate\closeout\KAItou@out
+%  \resetcounter{section}%
+%  \let\section\ltxsection
+}%
+\def\inputKAIFile{\input{\EM@workfiledir\jobname.K}}%
+%
+%
+\xdef\enumA{0}%
+\xdef\enumB{0}%
+\xdef\enumC{0}%
+\newtoks\tkn@EnumA@ang
+\newtoks\tkn@EnumA@opt
+\newtoks\tkn@EnumB@ang
+\newtoks\tkn@EnumB@opt
+
+\def\enumerateA{%
+  \openKaiFile
+  \immediate\write\KAItou@out{%
+    \string\inputKaiFile[\jobname.k\KaiFilenum]}%
+  \edef\syoki@ti@{\enumA}%
+  \@ifnextchar<{\@enumerateA}{\@enumerateA<\empty>}}%
+\def\@enumerateA<#1>{\@ifnextchar[{\@enumerateA@<#1>}{\@@enumerateA<#1>}}%
+\def\@@enumerateA<#1>{%
+  \global\tkn@EnumA@ang={#1}%
+  \global\tkn@EnumA@opt={}%
+  \EMenumerate<#1>\relax
+}%
+\def\@enumerateA@<#1>[#2]{%
+  \global\tkn@EnumA@ang={#1}%
+  \global\tkn@EnumA@opt={#2}%
+  \@ifundefined{enum@fmti}{}{%
+    \@tempcnta\@enumdepth\advance\@tempcnta\@ne
+    \csname enum@opt\romannumeral\@tempcnta\endcsname{#1}%
+    \csname enum@fmt\romannumeral\@tempcnta\endcsname{#2}%
+  }%
+  \EMenumerate<#1>[#2]\relax
+}%
+\def\endenumerateA{%
+    \xdef\enumA{\getcurrentenum}%
+    \endEMenumerate
+    \closeKaiFile
+}%
+\expandafter\def \csname enumerateA*\endcsname{%
+  \openKaiFile
+  \immediate\write\KAItou@out{%
+    \string\inputKaiFile[\jobname.k\KaiFilenum]}%
+  \edef\syoki@ti@{\enumA}%
+  \ifx\empty\EnumA@opt@
+    \EMedef\cEnum@tmp{<\the\tkn@EnumA@ang>}%
+    \expandafter\EMenumerate\cEnum@tmp
+  \else
+    \EMedef\cEnum@tmp{<\the\tkn@EnumA@ang>[\the\tkn@EnumA@opt]}%
+    \expandafter\Enumerate\cEnum@tmp
+  \fi
+}%
+\expandafter\def\csname endenumerateA*\endcsname{%
+    \xdef\enumA{\getcurrentenum}%
+    \endEMenumerate
+    \closeKaiFile
+}%
+\def\enumerateB{%
+  \openKaiFile
+  \immediate\write\KAItou@out{%
+    \string\inputKaiFile[\jobname.k\KaiFilenum]}%
+  \edef\syoki@ti@{\enumB}%
+  \@ifnextchar<{\@enumerateB}{\@enumerateB<\empty>}}%
+\def\@enumerateB<#1>{\@ifnextchar[{\@enumerateB@<#1>}{\@@enumerateB<#1>}}%
+\def\@@enumerateB<#1>{%
+  \global\tkn@EnumB@ang={#1}%
+  \global\tkn@EnumB@opt={}%
+  \EMenumerate<#1>\relax
+}%
+\def\@enumerateB@<#1>[#2]{%
+  \global\tkn@EnumB@ang={#1}%
+  \global\tkn@EnumB@opt={#2}%
+  \@ifundefined{enum@fmti}{}{%
+    \@tempcnta\@enumdepth\advance\@tempcnta\@ne
+    \csname enum@opt\romannumeral\@tempcnta\endcsname{#1}%
+    \csname enum@fmt\romannumeral\@tempcnta\endcsname{#2}%
+  }%
+  \EMenumerate<#1>[#2]\relax
+}%
+\def\endenumerateB{%
+    \xdef\enumB{\getcurrentenum}%
+    \endEMenumerate
+    \closeKaiFile
+  }%
+\expandafter\def \csname enumerateB*\endcsname{%
+  \openKaiFile
+  \immediate\write\KAItou@out{%
+    \string\inputKaiFile[\jobname.k\KaiFilenum]}%
+  \edef\syoki@ti@{\enumB}%
+  \ifx\empty\EnumB@opt@
+    \EMedef\cEnum@tmp{<\the\tkn@EnumB@ang>}%
+    \expandafter\EMenumerate\cEnum@tmp
+  \else
+    \EMedef\cEnum@tmp{<\the\tkn@EnumB@ang>[\the\tkn@EnumB@opt]}%
+    \expandafter\Enumerate\cEnum@tmp
+  \fi
+}%
+\expandafter\def\csname endenumerateB*\endcsname{%
+    \xdef\enumB{\getcurrentenum}%
+    \endEMenumerate
+    \closeKaiFile
+}%
+%
+\let\kaisectionmark\@gobble
+\let\kaisubsectionmark\@gobble
+\let\kaisubsubsectionmark\@gobble
+
+\newcounter{kaisection}
+\newcounter{kaisubsection}[kaisection]
+\newcounter{kaisubsubsection}[kaisubsection]
+\renewcommand{\thekaisubsection}{%
+  \thekaisection.\@arabic{\c@kaisubsection}}%
+\renewcommand{\thekaisubsubsection}{%
+  \thekaisubsection.\@arabic{\c@kaisubsubsection}}%
+%
+\newcommand{\kaisection}{\@startsection{kaisection}{4}{\z@}%
+   {1.5\Cvs \@plus.5\Cvs \@minus.2\Cvs}%
+   {.5\Cvs \@plus.3\Cvs}%
+   {\reset@font\large\bfseries}}
+\newcommand{\kaisubsection}{\@startsection{kaisubsection}{5}{\z@}%
+   {1.5\Cvs \@plus.5\Cvs \@minus.2\Cvs}%
+   {.5\Cvs \@plus.3\Cvs}%
+   {\reset@font\normalsize\bfseries}}
+\newcommand{\kaisubsubsection}{\@startsection{kaisubsubsection}{6}{\z@}%
+   {1.5\Cvs \@plus.5\Cvs \@minus.2\Cvs}%
+   {.5\Cvs \@plus.3\Cvs}%
+   {\reset@font\normalsize\bfseries}}
+\renewcommand{\paragraph}{\@startsection{paragraph}{7}{\z@}%
+   {3.25ex \@plus 1ex \@minus .2ex}%
+   {-1em}%
+   {\reset@font\normalsize\bfseries}}
+\renewcommand{\subparagraph}{\@startsection{subparagraph}{8}{\z@}%
+   {3.25ex \@plus 1ex \@minus .2ex}%
+   {-1em}%
+   {\reset@font\normalsize\bfseries}}
+%
+\setcounter{secnumdepth}{6}%
+%
+\newcommand*{\l@kaisection}   {\@dottedtocline{4}{1.5em}{2.3em}}
+\newcommand*{\l@kaisubsection}{\@dottedtocline{5}{3.8em}{3.2em}}
+\newcommand*{\l@kaisubsubsection}{\@dottedtocline{6}{3.8em}{3.2em}}
+\renewcommand*{\l@paragraph}    {\@dottedtocline{7}{7.0em}{4.1em}}
+\renewcommand*{\l@subparagraph} {\@dottedtocline{8}{10em}{5em}}
+%
+%\renewcommand\theparagraph{\@arabic{\c@paragraph}}%
+%\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+%                                    {3.25ex \@plus1ex \@minus.2ex}%
+%                                    {3.25ex \@plus1ex \@minus.2ex}%
+%                                    {\normalfont\large\bfseries}}
+%\setcounter{secnumdepth}{4}%
+%
+\endinput

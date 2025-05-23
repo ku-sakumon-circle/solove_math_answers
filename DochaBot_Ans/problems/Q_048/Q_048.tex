@@ -1,0 +1,58 @@
+
+\begin{thm}{048}{\hosi ?}{学コン 1996-6}
+ $a$を実数をとする。$0\le x \le \pi$の範囲において、2曲線 $y=\sin x$, $y=ax(\pi-x)$ の共有点は何個あるか。
+\end{thm}
+
+$f(x)=\sin x -ax(\pi-x)$ (ただし$0\le x\le \pi$) とし、$f(x)=0$の解の個数を求めればよい。
+\[ f'(x)=\cos x+2ax-a\pi, \qquad f''(x)=-\sin x + 2a \]
+である。また、$f(\pi-x)=f(x)$なので、$0\le x\le \dfrac{\pi}{2}$の範囲で考えればよい。なお、$a$の値にかかわらず、$f(0)=f(\pi)=0$, $f'\left(\dfrac{\pi}{2}\right)=0$となることを注意しておく。
+
+(i)~$a\le 0$のとき、$0< x\le \dfrac{\pi}{2}$では$\sin x>0$でありかつ$ax(\pi-x)\le 0$なので、この範囲では常に$f(x)<0$である。$f(0)=0$であるから、$0\le x\le \pi$の範囲での$f(x)=0$の解は$x=0, \pi$の2つ。
+
+(ii)~$0<a\le\dfrac{1}{\pi}$のとき、$\sin t=2a$となる$t$が区間$\left(0, \dfrac{\pi}{2} \right)$に存在する。$f'(0)=1-a\pi\ge 0$ を踏まえて、増減表は次のように書ける。
+\begin{align*}
+ \begin{array}{c|c|c|c|c|c}
+  x & 0 & \cdots & t & \cdots & \frac{\pi}{2} \\ \hline
+  f''(x) & + & + & 0 & - & - \\ \hline
+  f'(x) & 0 \,\mr{or}\, + & \nearrow & + & \searrow & 0 \\ \hline
+  f(x) & 0 & \nearrow & + & \nearrow & + 
+ \end{array}
+\end{align*}
+よって$0\le x\le \dfrac{\pi}{2}$において$f(x)=0$を満たすのは$x=0$のみである。したがって$0\le x\le \pi$の範囲では$f(x)=0$の解は$x=0, \pi$の2つ。
+
+(iii)~$\dfrac{1}{\pi}<a\le\dfrac{4}{\pi^2}$のとき、$\sin t=2a$となる$t$が区間$\left(0, \dfrac{\pi}{2} \right)$に存在する。$f'(0)=1-a\pi< 0$および$f'(t)>f'\left(\dfrac{\pi}{2}\right)=0$から、中間値の定理によって、区間$(0,t)$に$f'(s)=0$を満たす実数$s$が存在する。さらに、$f\left(\dfrac{\pi}{2}\right)=1-a\dfrac{\pi^2}{4}>0$ を踏まえて、増減表は次のように書ける。
+\begin{align*}
+ \begin{array}{c|c|c|c|c|c|c|c}
+  x & 0 & \cdots & s & \cdots & t & \cdots & \frac{\pi}{2} \\ \hline
+  f''(x) & + & + & + & + & 0 & - & - \\ \hline
+  f'(x) & - & \nearrow & 0 & \nearrow &  + & \searrow & 0 \\ \hline
+  f(x) & 0 & \searrow & - & \nearrow & & \nearrow & +
+ \end{array}
+\end{align*}
+$f(s)<0$, $f\left(\dfrac{\pi}{2}\right)>0$であるから、中間値の定理によって区間$\left(s, \dfrac{\pi}{2}\right)$に$f(u)=0$を満たす実数$u$が存在する。よって$0\le x\le\dfrac{\pi}{2}$において$f(x)=0$を満たすのは$x=0, u$の2つである。したがって、$0\le x\le \pi$の範囲では$f(x)=0$の解は$x=0, u, \pi-u, \pi$の4つ。
+
+(iv)~$a=\dfrac{4}{\pi^2}$のとき、$f\left(\dfrac{\pi}{2}\right)=0$となる以外は(iii)と同様である。したがって、区間$\left(s, \dfrac{\pi}{2}\right)$において$f(x)$は常に負である。すなわち、$0\le x\le ^pi$における$f(x)=0$の解は$x=0,\dfrac{\pi}{2}, \pi$の3つ。
+
+(v)~$\dfrac{4}{\pi^2}<a<\le\dfrac{1}{2}$のとき、$\sin t=2a$となる$t$が区間$\left(0, \dfrac{\pi}{2} \right)$に存在する。(iii, vi)と同様に、区間$(0, t)$に$f'(s)=0$となる実数$s$が存在する。$f\left(\dfrac{\pi}{2}\right)<0$を踏まえて、増減表は次のように書ける。
+\begin{align*}
+ \begin{array}{c|c|c|c|c|c|c|c}
+  x & 0 & \cdots & s & \cdots & t & \cdots & \frac{\pi}{2} \\ \hline
+  f''(x) & + & + & + & + & 0 & - & - \\ \hline
+  f'(x) & - & \nearrow & 0 & \nearrow &  + & \searrow & 0 \\ \hline
+  f(x) & 0 & \searrow & - & \nearrow & & \nearrow & -
+ \end{array}
+\end{align*}
+よって$0\le x\le \dfrac{\pi}{2}$において$f(x)=0$を満たすのは$x=0$のみである。したがって$0\le x\le \pi$の範囲では$f(x)=0$の解は$x=0, \pi$の2つ。
+
+(vi)~$a\ge\dfrac{1}{2}$のとき、$0< x\le \dfrac{\pi}{2}$においては常に$f''(x)\ge 0$であるから、$f'(x)$は単調増加する。よって$f'(x)\le f'\left(\dfrac{\pi}{2}\right)=0$がわかるので、$f(x)$は単調減少する。これにより$f(x)<f(0)=0$となるから、$0\le x\le \dfrac{\pi}{2}$において$f(x)=0$を満たすのは$x=0$のみである。したがって$0\le x\le \pi$の範囲では$f(x)=0$の解は$x=0, \pi$の2つ。
+
+以上まとめると、共有点の個数は、
+\begin{align*}
+ \left\{
+ \begin{aligned}
+  a\le \frac{1}{\pi},\,& \frac{4}{\pi^2}\le a & &\text{のとき、2つ} \\
+  a=&\frac{4}{\pi^2} & &\text{のとき、3つ} \\
+  \frac{1}{\pi}<a&<\frac{4}{\pi^2} & &\text{のとき、4つ}
+ \end{aligned}
+ \right.
+\end{align*}

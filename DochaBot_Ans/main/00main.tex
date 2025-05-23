@@ -1,0 +1,125 @@
+\documentclass[twocolumn]{jsarticle}
+
+\input{../problems/preamble/preamble.tex}
+
+\begin{document}
+\fontsize{9pt}{7pt}\selectfont
+\lengthparam
+\onecolumn
+
+
+\begin{titlepage}
+\title{どちゃ楽数学bot解答編}
+\author{@solove\_math, ＠math\_Hurdia}
+\maketitle
+\onecolumn
+\thispagestyle{empty}
+\end{titlepage}
+
+
+\section{どちゃ楽数学botとは}
+主に高校数学における自作問題, 入試問題, 院試など, 中の人が好きな問題をまとめたbotです. 「楽」は「ラク」と読んで貰っても, 「タノ」と読んで貰っても構いません. 中の人の収集癖の結実です. 高校1年くらいのときに作った.  
+
+\section{これは何?}
+botの解答集です. 解答は最速とは限らないし, まれに間違えるので間違いを発見したら教えて下さい.\par
+載ってない問題の解答が欲しいとかいわれたら中の人に直接言って下さい. よかったら解答提供してくれると助かります. ＠math\_Hurdiaさんにはいくつかの解答の提供および, コーディングによる全体的な作業効率化にご尽力くださりました. ここに深く感謝の意を表します.  
+
+\section{難易度について}
+ツイート上では大学範囲に黒星をつけています. 大体以下の感覚でつけている. 
+\begin{itemize}
+\item $\star 1 \sim \star 2$: よくある問題
+\item $\star 3\sim \star 5$: ちょっと考える感じの問題
+\item $\star 6 \sim \star 8$: まあまあ(東大京大数学はこのあたりに来やすい)  
+\item $\star 9 \sim \star 10$: 結構難しい(中の人がまだ解ける)
+\item $\star 11 \sim \star 12$: かなり難しい(中の人が解けなかったものなどもある)
+\item $\star ?$: 気付けば簡単だったりするけど, それが簡単なのか難しいのかよく分からんときにつけてる
+\end{itemize} 
+\subsection{(2025/02/17追記) 難易度表記の一部変更}
+以下の形で表します. 
+\begin{itemize}
+\item 基本的な形: \hosi n - X
+\item ただし $n\in \{ 1,2,\dots, 12, ?\}$ であり, $\text{X} \in \{ 小, 中, 高, 大, 競\}$ である. 
+\item 意味としては, たとえば$\text{X} = \text{高}$ならば\textbf{高校数学の問題として扱う}ことを意味し, そのもとで主観的な難易度評価を下している. $\text{X} = \text{競}$ならば競技数学(OMC,　数学オリンピック)的な知識を必要とすることを意味する. $\text{X} = \text{小, 中, 大}$についても同様で, 小学校範囲, 中学校範囲, 大学範囲であることを意味する(一応, 高校数学か競技数学がメインですが). 
+\end{itemize}
+
+\section{記法の固定}
+ことわりの無い限りは以下のように記号を用います. 
+\begin{itemize}
+\item $\mathbb{C}$: 複素数全体の集合
+\item $\mathbb{R}$: 実数全体の集合
+\item $\mathbb{Q}$: 有理数全体の集合
+\item $\mathbb{Z}$: 整数全体の集合
+\item $\mathbb{N}$: 1以上の整数全体の集合
+\item $\pi$: 円周率
+\item $e$: 自然対数の底(ネイピア数)
+\item $[x]$ :$x$以下の最大の整数($\left\lfloor x \right\rfloor$とも書くことがある)
+\item $\lceil x \rceil$: $x$以上の最小の整数
+\end{itemize}
+
+\section{中の人関連}
+本垢 @Lim\_Rim\_  京都数学科の修士です. 博士課程に1年行っておりましたが2025年からは就職します. 専門はディオファントス幾何学でした. \par 
+1浪でしたが, 某商業高校から京大理学部に特色入試で入学しました. 苦手科目そっちのけで数学やってたり, 参考書に途中で飽きちゃうような性格で, 競争精神が強いわりには結構残念なタイプの受験生でしたが, 数学に対しては1問に向かって何十時間も集中力が続くタイプでした. 受験期に整数問題に目覚めるなどして, いろいろ遊んでるうちに作問が得意になってたので, 入学後「京大数学作問サークル」を立ち上げて京大オリジナル模試とか部誌を作ったりしています. 
+
+\begin{itemize}
+\item 
+\end{itemize}
+
+
+\subsection{大学への数学の投稿}
+大学への数学に自作問題を投稿するなどの活動もしています. 以下のリンク先(ツイート)にまとめているのでご覧ください. 
+\begin{center}
+\verb|https://twitter.com/Lim_Rim_/status/1512784379566718985?s=20&t=Mu-8sW1u2vbQHFo9OtM7pQ|
+\end{center}
+
+\subsection{京都大学数学作問サークル}
+原則京大関係者に限って活動しています. 京大オリジナル模試とか部誌にも僕の問題はたくさんあるし, 無料公開はできないけどすごい自信作もそっちにいろいろあるので, ぜひ購入して見てほしいです.....  以下のリンク先からサークルの商品が購入できます. 
+\begin{center}
+\verb|https://sakumoncircle.booth.pm/|
+\end{center}
+ 
+
+
+
+\subsection{最近やっていること(2025/2月)}
+仕事に向けて機械学習や統計学, 数理最適化などの勉強をしています. 競技プログラミングにも目覚めました. これからは余暇に競プロや応用数学やOMCや作問をやってる人になりたい. また自作問題が溜まったら個人作の京大模試とか出せるといいなとは思ってる. 
+
+\subsection{その他リンク}
+\begin{itemize}
+\item OMCのLimのページ \verb|https://onlinemathcontest.com/users/Lim_Rim_|
+\end{itemize}
+
+
+
+
+
+
+\twocolumn
+\newpage
+
+\newcounter{q}
+\setcounter{q}{0}
+\loop \ifnum\value{q}<\value{qnum}
+
+\stepcounter{q}
+
+\ifnum\value{q}<10
+\index{Q.00\the\value{q}}
+\input{../problems/Q_00\the\value{q}/Q_00\the\value{q}.tex}
+\else
+\ifnum\value{q}<100
+\index{Q.0\the\value{q}}
+\input{../problems/Q_0\the\value{q}/Q_0\the\value{q}.tex}
+\else
+\index{Q.\the\value{q}}
+\input{../problems/Q_\the\value{q}/Q_\the\value{q}.tex}
+\fi \fi
+
+\repeat
+
+\onecolumn
+\thispagestyle{empty}
+\begin{multicols}{5}
+ \printindex
+\end{multicols}
+
+\end{document}

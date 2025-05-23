@@ -1,0 +1,109 @@
+% EMtwocolumn.sty by tDB (emath@nifty.com)
+%
+\NeedsTeXFormat{LaTeX2e}%
+\ProvidesPackage{EMtwocolumn}[2014/02/04 v0.06]%
+%
+  \DeclareOption{hasen}{\def\clm@sensyu{h}}%
+  \DeclareOption{tensen}{\def\clm@sensyu{t}}%
+  \ProcessOptions\relax
+%
+\RequirePackage{keyval}%
+%
+\define@key{EMtwocol}{hasen}[h]{\def\clm@sensyu{h}}%
+\define@key{EMtwocol}{tensen}[t]{\def\clm@sensyu{t}}%
+\define@key{EMtwocol}{columnseprule}[.4pt]{\columnseprule=#1\relax}%
+\define@key{EMtwocol}{iro}{\def\EMtwocol@iro{#1}}%
+%
+\let\ltxtwocolumn\twocolumn
+\edef\EMtwocol@iro{\empty}%
+\edef\columnsep@msg{\empty}%
+\def\columnsepmsg#1{\gdef\columnsep@msg{#1}}%
+\def \twocolumn {%
+  \clearpage
+  \global\columnwidth\textwidth
+  \global\advance\columnwidth-\columnsep
+  \global\divide\columnwidth\tw@
+  \global\hsize\columnwidth
+  \global\linewidth\columnwidth
+  \global\@twocolumntrue
+  \global\@firstcolumntrue
+  \col@number \tw@
+  \let\clm@sensyu\undefined
+  \edef\columnsep@msg{\empty}%
+  \edef\EMtwocol@iro{\empty}%
+  \@ifnextchar<{\@EMtwocolumn}{\@EMtwocolumn<\empty>}%
+}
+\def\@EMtwocolumn<#1>{%
+  \ifx\empty #1\else\setkeys{EMtwocol}{#1}\fi
+  \@ifnextchar [\@topnewpage\@floatplacement
+}
+%
+\def\@outputdblcol{%
+  \if@firstcolumn
+    \global \@firstcolumnfalse
+    \global \setbox\@leftcolumn \box\@outputbox
+  \else
+    \global \@firstcolumntrue
+    \setbox\@outputbox \vbox {%
+                         \hb@xt@\textwidth {%
+                           \hb@xt@\columnwidth {%
+                             \box\@leftcolumn \hss}%
+                           \hfil
+                           {\normalcolor
+%
+  \bgroup
+  \@ifundefined{clm@sensyu}{%
+    \@ifundefined{@iro}{}{%
+      \ifx\empty\EMtwocolo@iro\else\@iro\EMtwocol@iro\fi
+    }%
+    \vrule \@width\columnseprule
+  }{%
+    \@ifundefined{@iro}{}{%
+      \ifx\empty\EMtwocolo@iro\else\@iro\EMtwocol@iro\fi
+    }%
+    \if t\clm@sensyu
+      \ifx\empty\columnsep@msg
+        \vbox to\@colht{\leaders \vbox to5pt{\vss\hbox{.}\vss}\vfil}%
+      \else
+        \vbox to\@colht{\leaders \vbox to5pt{\vss\hbox{\picsquare}\vss}\vfil
+          \hbox{\tate \smash{\columnsep@msg}}%
+          \leaders \vbox to5pt{\vss\hbox{\picsquare}\vss}\vfil}%
+      \fi
+    \else\if h\clm@sensyu
+      \ifx\empty\columnsep@msg
+        \vbox to\@colht{%
+          \leaders \vbox to5pt{\vss\hbox{\rule{.4pt}{3pt}}\vss}\vfil}%
+      \else
+        \vbox to\@colht{%
+          \leaders \vbox to5pt{\vss\hbox{\rule{.4pt}{3pt}}\vss}\vfil
+          \hbox{\tate \smash{\columnsep@msg}}%
+          \leaders \vbox to5pt{\vss\hbox{\rule{.4pt}{3pt}}\vss}\vfil}%
+      \fi
+    \fi\fi
+  }%
+  \egroup
+%
+                           }%
+                           \hfil
+                           \hb@xt@\columnwidth {%
+                             \box\@outputbox \hss}%
+                                             }%
+                              }%
+    \@combinedblfloats
+    \@outputpage
+    \begingroup
+      \@dblfloatplacement
+      \@startdblcolumn
+      \@whilesw\if@fcolmade \fi
+        {\@outputpage
+         \@startdblcolumn}%
+    \endgroup
+  \fi
+}
+\endinput
+%
+http://oku.edu.mie-u.ac.jp/~okumura/texfaq/qa/50482.html
+%
+v 0.04 2010/12/10 ロードオプション hasen, tensen
+v 0.05 2011/03/19 twocolumn に <hasen/tensen/columnseprule/iro> オプション
+v 0.06 2014/02/04 \columnsepmsg: 罫線中央部に文字列

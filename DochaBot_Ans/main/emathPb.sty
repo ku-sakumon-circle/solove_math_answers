@@ -1,0 +1,1196 @@
+% emathPb.sty by tDB(emath@nifty.com)
+%
+  \NeedsTeXFormat{LaTeX2e}%
+  \ProvidesPackage{emathPb}[2017/11/08 v 0.61]%
+%
+  \RequirePackage{emathPh}%
+  \RequirePackage{EMfbox}%
+%
+%
+\define@key{emPb}{mekurex}{\def\mekure@x{#1}}%
+\define@key{emPb}{mekurey}{\def\mekure@y{#1}}%
+\define@key{emPb}{mekurez}{\def\mekure@z{#1}}%
+\define@key{emPb}{mekured}{\def\mekure@d{#1}}%
+\define@key{emPb}{debeso}[1]{\def\rectbox@debeso{#1}}%
+\define@key{emPb}{kagi}[3pt]{%\edef\by@vrule{0}%
+  \def\rectbox@kagi{#1}}%
+%
+% 破線による囲み枠
+%   \hasenframebox[#1](#2)#3
+%     #1 : \unitlength default=10mm
+%     #2 : \fboxsep default=\fboxsep
+%     #3 : 囲む内容
+%
+\def\hasenframebox{\@ifnextchar[{\@hasenframebox}{\@hasenframebox[10mm]}}%
+\def\@hasenframebox[#1]{\@ifnextchar({\@@hasenframebox[#1]}{%
+  \@@hasenframebox[#1](\fboxsep)}}%
+\def\@@hasenframebox[#1](#2)#3{{\setbox0=\hbox{{#3}}\relax
+  \unitlength=#1\relax\fboxsep=#2\relax\edef\hfb@u{\strip@pt\unitlength}%
+  \@tempdima\ht0\advance\@tempdima\fboxsep\advance\@tempdima.5\fboxrule
+    \edef\hfb@h{\strip@pt\@tempdima}\@Div\hfb@h\hfb@u\hfb@h
+  \@tempdima\dp0\advance\@tempdima\fboxsep\advance\@tempdima.5\fboxrule
+    \edef\hfb@d{\strip@pt\@tempdima}\@Div\hfb@d\hfb@u\hfb@d
+  \@tempdima\wd0\advance\@tempdima2\fboxsep\advance\@tempdima\fboxrule
+    \edef\hfb@w{\strip@pt\@tempdima}\@Div\hfb@w\hfb@u\hfb@w
+  \begin{picture}(0,0)\relax
+    \hasen(0,-\hfb@d)(\hfb@w,-\hfb@d)(\hfb@w,\hfb@h)(0,\hfb@h)(0,-\hfb@d)%
+  \end{picture}%
+  \fboxrule\z@\framebox{\box0}}}%
+%
+% 囲み枠罫線の線種を変更できる rectbox 環境
+%
+% ナンバリングを行う rectbox環境
+%
+\newcounter{enumrectbox}%
+\newcounter{rectboxenum}%
+\let\c@rectboxenum\c@enumrectbox
+\def\enum@rectbox{0}%
+\def\labelenumrectbox{\theenumrectbox}%
+%
+\def\enumrectbox{\@ifnextchar<{\@enumrectbox}{\@enumrectbox<\empty>}}%
+\def\@enumrectbox<#1>{\@ifnextchar[{\@@enumrectbox<#1>}{\@@enumrectbox<#1>[\empty]}}%
+\def\@@enumrectbox<#1>[#2]{%
+  \EMedef\Aeprob{enumrectbox}%
+  \EMedef\Aeprobname{enumrectbox}%
+  \refstepcounter{enumrectbox}%
+  \ifx\empty #1\relax\else\label{#1}\fi
+  \def\enum@rectbox{1}%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \ifnum\enum@rectbox>\z@
+    \@ifundefined{ifpr@kaitou}{}{%
+    \ifpr@kaitou
+%
+      \@whilenum\K@currentenumdepth>\@enumdepth\do{%
+        \xDecr\K@currentenumdepth
+        \ifx\empty\edaenumopt
+          \ifx\empty\betaenumopt
+           \immediate\write\kaitou@out{%
+            \string\end\string\Kaienumerate\string\def\string\Kaienumerate{enumerate}\string\def\string\Kaienumopt{}}%
+          \else
+            \immediate\write\kaitou@out{\string\end{betaenumerate}\string\par}%
+            \xdef\betaenumopt{\empty}%
+          \fi
+        \else
+          \immediate\write\kaitou@out{\string\end{edaenumerate}\string\par}%
+         \xdef\edaenumopt{\empty}%
+        \fi
+      }%
+%
+      \immediate\write\kaitou@out{\string\end{\Aeprobname}}%
+      \global\pr@kaitoufalse
+    \fi}%
+  \fi
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \rectbox[#2]\relax
+}%
+%
+\def\endenumrectbox{%
+  \def\enum@rectbox{0}%
+    \@ifundefined{ifpr@kaitou}{}{%
+    \ifpr@kaitou
+%
+      \@whilenum\K@currentenumdepth>\@enumdepth\do{%
+        \xDecr\K@currentenumdepth
+        \ifx\empty\edaenumopt
+          \ifx\empty\betaenumopt
+            \immediate\write\kaitou@out{\string\end\string\Kaienumerate\string\def\string\Kaienumerate{enumerate}\string\def\string\Kaienumopt{}}%
+          \else
+            \immediate\write\kaitou@out{\string\end{betaenumerate}\string\par}%
+            \xdef\betaenumopt{\empty}%
+          \fi
+        \else
+          \immediate\write\kaitou@out{\string\end{edaenumerate}\string\par}%
+          \xdef\edaenumopt{\empty}%
+        \fi
+      }%
+      \immediate\write\kaitou@out{\string\end{\Aeprobname}}%
+      \global\pr@kaitoufalse
+    \fi}%
+  \endrectbox}%
+%
+%
+%
+\newbox\mekureb@x
+\def\mekurebox{%
+  \edef\mekurebox@item{\empty}\def\@pos{c}%
+  \edef\mekurebox@bitem{\empty}%
+  \def\mekurebox@width{}\def\mekurebox@Width{}%
+  \edef\h@sep{\empty}\edef\v@sep{\empty}\def\mekurebox@item@pos{l}%
+  \edef\h@sep{\empty}\edef\v@sep{\empty}\def\mekurebox@bitem@pos{r}%
+  \edef\frame@color{\empty}%
+  \edef\lining@color{\empty}%
+  \edef\background@color{\empty}\def\midasi@background@color{white}%
+  \def\mekure@x{40}\def\mekure@y{20}\def\mekure@z{1.75}%
+  \edef\mekure@d{\empty}%
+  \def\rectbox@parindent{\rectbox@parindent@}%
+  \@ifnextchar[{\mekurebox@}{\@mekurebox}}%
+\def\mekurebox@[#1]{\setkeys{emPb}{#1}\@mekurebox}%
+\def\@mekurebox{%
+%  \vspace{.5\baselineskip}%
+  \ifthenelse{\equal\h@sep\empty}{\edef\h@sep{\the\fboxsep}}{}%
+  \ifthenelse{\equal\v@sep\empty}{\edef\v@sep{\the\fboxsep}}{}%
+  \ifthenelse{\equal\mekurebox@Width\empty}{%
+    \ifthenelse{\equal\mekurebox@width\empty}{%
+      \edef\mekurebox@width{\the\linewidth}%
+    }{%
+      \setlength\@tempdima{\mekurebox@width}%
+      \setlength\@tempdimb{\h@sep}%
+      \advance\@tempdima2\@tempdimb
+      \edef\mekurebox@width{\the\@tempdima}%
+    }%
+  }{%
+    \edef\mekurebox@width{\mekurebox@Width}%
+  }%
+  \ifthenelse{\equal\mekurebox@item\empty}{\def\item@ht{0pt}}{%
+    \setbox\mekurebox@item@box=\hbox{\mekurebox@item}%
+    \@tempdima=\ht\mekurebox@item@box\advance\@tempdima\dp\mekurebox@item@box
+    \divide\@tempdima\tw@
+    \vspace\@tempdima
+    \edef\item@ht{\the\@tempdima}%
+  }%
+  \setbox\mekureb@x=\hbox to \mekurebox@width\bgroup
+    \begin{minipage}[\@pos]{\mekurebox@width}%
+      \setlength{\parindent}{\rectbox@parindent}%
+  \unitlength\p@
+  \ifx\empty\mekure@d
+    \begin{picture}(0,0)\relax
+      \tenretu*{@O(0,0);@X(-\mekure@x,0);@Y(0,\mekure@y)}%
+      \Suisen\@O\@X\@Y\@H
+      \Mulvec\mekure@z\@H\@V
+      \vecXY\@V\@xdmy\@ydmy
+      \xdef\mekure@d{\@ydmy}%
+    \end{picture}%
+  \fi
+%  \vskip\v@sep
+  \RB@jquotation(\h@sep)(\h@sep)[\z@]\relax
+}%
+\def\endmekurebox{%
+  \ifthenelse{\equal\mekurebox@bitem\empty}{%
+    \xdef\bitem@ht{0pt}\xdef\w@mekurebox@bitem{0pt}%
+  }{%
+    \setbox0=\hbox{\mekurebox@bitem}%
+    \xdef\w@mekurebox@bitem{\the\wd0}%
+    \@tempdima=\ht0\advance\@tempdima\dp0
+    \divide\@tempdima\tw@
+    \vspace\@tempdima
+    \xdef\bitem@ht{\the\@tempdima}%
+  }%
+  \vspace\v@sep
+  \vspace{\mekure@d\p@}%
+  \endRB@jquotation
+  \end{minipage}\hfill\egroup%\par
+  \noindent
+  {\unitlength=\p@\relax
+    \begin{zahyou*}(0,0)(0,0)%
+      \@tempdima\ht\mekureb@x\edef\hasenbox@h{\strip@pt\@tempdima}%
+%        \@Div\hasenbox@h{10}\hasenbox@h
+      \@tempdimb\dp\mekureb@x\edef\hasenbox@d{\strip@pt\@tempdimb}%
+%        \@Div\hasenbox@d{10}\hasenbox@d
+      \setlength{\@tempdimc}{\mekurebox@width}%
+      \edef\hasenbox@w{\strip@pt\@tempdimc}%
+%     \@Div\hasenbox@w{10}\hasenbox@w
+%% 背景色
+%      \ifthenelse{\equal\background@color\empty}{}{%
+%        \put(0,0){%
+%          \Nuritubusi[nuriiro=\background@color]{%
+%            (0,-\hasenbox@d)(\hasenbox@w,-\hasenbox@d)(%
+%            \hasenbox@w,\hasenbox@h)(0,\hasenbox@h)(0,-\hasenbox@d)}%
+%        }%
+%      }%
+%% 左右の枠線
+      \put(0,0){{%
+        \ifthenelse{\equal\frame@color\empty}{}{\@iro{\frame@color}}%
+        \wakusensyu(0,\hasenbox@h)(0,-\hasenbox@d)%
+        \Add{-\hasenbox@d}{\mekure@y}\mekure@ms
+        \wakusensyu(\hasenbox@w,\mekure@ms)(\hasenbox@w,\hasenbox@h)%
+      }}%
+%% 見出し（上）
+        \put(0,0){{%
+%         \ifthenelse{\equal\frame@color\empty}{}{\@iro{\frame@color}}%
+          \wakusensyu(0,\hasenbox@h)(\hasenbox@w,\hasenbox@h)%
+        }}%
+%      \ukansan{\wd\mekurebox@item@box}\wd@mekurebox@item@box
+%      \ifthenelse{\equal\mekurebox@item\empty}{%
+%        \put(0,0){{%
+%          \ifthenelse{\equal\frame@color\empty}{}{\@iro{\frame@color}}%
+%          \wakusensyu(0,\hasenbox@h)(\hasenbox@w,\hasenbox@h)%
+%        }}%
+%      }{%
+%        \if r\mekurebox@item@pos
+%          \Sub\hasenbox@w{1}\item@p
+%          \put(0,0){{%
+%            \ifthenelse{\equal\frame@color\empty}{}{\@iro{\frame@color}}%
+%            \wakusensyu(\item@p,\hasenbox@h)(\hasenbox@w,\hasenbox@h)%
+%            \Sub\item@p\wd@mekurebox@item@box\mekurebox@tmp
+%            \wakusensyu(0,\hasenbox@h)(\mekurebox@tmp,\hasenbox@h)%
+%          }}%
+%          \Put{(\item@p,\hasenbox@h)}(0,0)[rc]{{%
+%            \fboxsep=\z@
+%            \colorbox{\midasi@background@color}{\box\mekurebox@item@box}}}%
+%        \else\if c\mekurebox@item@pos
+%          \@Div\hasenbox@w{2}\item@p
+%          \put(0,0){{%
+%            \@Div\wd@mekurebox@item@box{2}\item@hw
+%            \Add\item@p\item@hw\item@r
+%            \Sub\item@p\item@hw\item@l
+%            \ifthenelse{\equal\frame@color\empty}{}{\@iro{\frame@color}}%
+%            \wakusensyu(0,\hasenbox@h)(\item@l,\hasenbox@h)%
+%            \wakusensyu(\item@r,\hasenbox@h)(\hasenbox@w,\hasenbox@h)%
+%          }}%
+%          \Put{(\item@p,\hasenbox@h)}(0,0)[cc]{{%
+%            \fboxsep=\z@
+%            \colorbox{\midasi@background@color}{\box\mekurebox@item@box}}}%
+%        \else
+%          \put(0,0){{%
+%            \ifthenelse{\equal\frame@color\empty}{}{\@iro{\frame@color}}%
+%            \wakusensyu(0,\hasenbox@h)(1,\hasenbox@h)%
+%            \Add\wd@mekurebox@item@box{1}\mekurebox@tmp
+%            \wakusensyu(\mekurebox@tmp,\hasenbox@h)(\hasenbox@w,\hasenbox@h)%
+%          }}%
+%          \Put{(1,\hasenbox@h)}(0,0)[lc]{{%
+%            \fboxsep=\z@
+%            \colorbox{\midasi@background@color}{\box\mekurebox@item@box}%
+%          }}%
+%        \fi\fi
+%      }%
+%% 見出し（下）
+        \put(0,0){{%
+%         \ifthenelse{\equal\frame@color\empty}{}{\@iro{\frame@color}}%
+          \Sub\hasenbox@w\mekure@x\mekure@sm
+          \wakusensyu(0,-\hasenbox@d)(\mekure@sm,-\hasenbox@d)%
+        }}%
+%      \ukansan{\w@mekurebox@bitem}\wd@mekurebox@bitem
+%      \ifthenelse{\equal\mekurebox@bitem\empty}{%
+%        \put(0,0){{%
+%          \ifthenelse{\equal\frame@color\empty}{}{\@iro{\frame@color}}%
+%          \wakusensyu(0,-\hasenbox@d)(\hasenbox@w,-\hasenbox@d)%
+%        }}%
+%      }{%
+%        \if r\mekurebox@bitem@pos
+%          \Sub\hasenbox@w{1}\item@p
+%          \put(0,0){{%
+%            \ifthenelse{\equal\frame@color\empty}{}{\@iro{\frame@color}}%
+%            \wakusensyu(\item@p,-\hasenbox@d)(\hasenbox@w,-\hasenbox@d)%
+%            \Sub\item@p\wd@mekurebox@bitem\mekurebox@tmp
+%            \wakusensyu(0,-\hasenbox@d)(\mekurebox@tmp,-\hasenbox@d)%
+%          }}%
+%          \Put{(\item@p,-\hasenbox@d)}(0,0)[rc]{{%
+%            \fboxsep=\z@
+%            \colorbox{\midasi@background@color}{\mekurebox@bitem}}}%
+%        \else\if c\mekurebox@bitem@pos
+%          \@Div\hasenbox@w{2}\item@p
+%          \put(0,0){{%
+%            \@Div\wd@mekurebox@bitem{2}\item@hw
+%            \Add\item@p\item@hw\item@r
+%            \Sub\item@p\item@hw\item@l
+%            \ifthenelse{\equal\frame@color\empty}{}{\@iro{\frame@color}}%
+%            \wakusensyu(0,-\hasenbox@d)(\item@l,-\hasenbox@d)%
+%            \wakusensyu(\item@r,-\hasenbox@d)(\hasenbox@w,-\hasenbox@d)%
+%          }}%
+%          \Put{(\item@p,-\hasenbox@d)}(0,0)[cc]{{%
+%            \fboxsep=\z@
+%            \colorbox{\midasi@background@color}{\mekurebox@bitem}}}%
+%        \else
+%          \put(0,0){{%
+%            \ifthenelse{\equal\frame@color\empty}{}{\@iro{\frame@color}}%
+%            \wakusensyu(0,-\hasenbox@d)(1,-\hasenbox@d)%
+%            \Add\wd@mekurebox@bitem{1}\mekurebox@tmp
+%            \wakusensyu(\mekurebox@tmp,-\hasenbox@d)(\hasenbox@w,-\hasenbox@d)%
+%          }}%
+%          \Put{(1,-\hasenbox@d)}(0,0)[lc]{{%
+%            \fboxsep=\z@
+%            \colorbox{\midasi@background@color}{\mekurebox@bitem}}}%
+%        \fi\fi
+%      }%
+%%
+      \tenretu*{@O(0,0);@X(-\mekure@x,0);@Y(0,\mekure@y)}%
+      \Suisen\@O\@X\@Y\@H\Mulvec\mekure@z\@H\@V
+      \put(\hasenbox@w,-\hasenbox@d){%
+%       \Drawline<iro=white>{\@X\@O\@Y}%
+        \Drawline{\@X\@Y}%
+        \ifthenelse{\equal\lining@color\empty}{%
+          \HenKo<henkoH=2pt>\@X\@V{}%
+          \HenKo<henkoH=2pt>\@V\@Y{}%
+        }{%
+          \HenKo<henkoH=2pt,oresen=mekure@oreseni>\@X\@V{}%
+          \HenKo<henkoH=2pt,oresen=mekure@oresenii>\@V\@Y{}%
+          \Nuritubusi[nuriiro=\lining@color]{\mekure@oreseni\mekure@oresenii}%
+          \Drawline{\mekure@oreseni\mekure@oresenii\@X}%
+        }%
+      }%
+    \end{zahyou*}\leavevmode\box\mekureb@x%
+%    \vspace\bitem@ht
+  }%
+% \vskip.5\baselineskip
+  \@ignoretrue
+}%
+%
+% コマンド形式 横幅を自然長に制限
+%
+\def\Rectbox{\@ifnextchar[{\@Rectbox}{\@Rectbox[\empty]}}%
+\long\def\@Rectbox[#1]#2{{%
+  \EMminipagefootnote
+  \def\in@Rectbox{}%
+  \edef\rectbox@parindent@{0pt}%
+  \Settowidth{\@tempdima}{#2}%
+  \edef\rectbox@ww{\the\@tempdima}%
+  \ifthenelse{\equal{#1}{\empty}}{%
+    \begin{rectbox}[rectboxwidth=\rectbox@ww]%
+      {#2}\relax
+    \end{rectbox}%
+  }{%
+    \EMedef\rectbox@arg{[#1,rectboxwidth=\rectbox@ww]\relax}%
+    \bgroup
+    \expandafter\rectbox\rectbox@arg
+      \mbox{}{#2}\relax%
+    \endrectbox
+    \egroup
+  }%
+\ignorespaces
+}}%
+%
+% \marginpar を使用できる囲み枠 kakomiwaku 環境
+%
+%\newwrite\kakomiwaku@out%
+\@ifundefined{em@whndl}{\newwrite\em@whndl}{}%
+\def\kakomiwaku{\@ifnextchar[{\@kakomiwaku}{\@kakomiwaku[\empty]}}%
+\def\@kakomiwaku[#1]{%
+    \ifthenelse{\equal{#1}\empty}{}{\setkeys{emPb}{#1}}%
+%    \edef\@cureqn{\arabic{equation}}%
+    \bgroup\immediate\openout\em@whndl=kkmwaku.tmp%
+    \@bsphack\let\do\@makeother\dospecials
+    \catcode`\^^M\active
+    \def\verbatim@processline{%
+        \immediate\write\em@whndl{\the\verbatim@line}}%
+    \verbatim@start
+}%
+\def\endkakomiwaku{%
+  \@esphack\immediate\closeout\em@whndl\egroup
+  \setbox\rectb@x=\hbox{%
+        \begin{minipage}[t]{\linewidth}%
+          \vspace\fboxsep
+          \begin{jquote}(\fboxsep)(\fboxsep)[\z@]%
+            \def\marginpar##1{\relax}%
+            \input{kkmwaku.tmp}%
+          \end{jquote}%
+          \vspace\fboxsep
+        \end{minipage}}%
+%  \vskip-.5\baselineskip
+  \vskip\z@
+  \noindent
+  {\unitlength=10pt\relax
+    \begin{picture}(0,0)%
+      \@tempdima\ht\rectb@x\edef\rectb@x@h{\strip@pt\@tempdima}%
+        \@Div\rectb@x@h{10}\rectb@x@h
+      \@tempdimb\dp\rectb@x\edef\rectb@x@d{\strip@pt\@tempdimb}%
+        \@Div\rectb@x@d{10}\rectb@x@d
+      \edef\rectb@x@w{\strip@pt\linewidth}\@Div\rectb@x@w{10}\rectb@x@w
+      \put(0,0){\wakusensyu(0,-\rectb@x@d)(\rectb@x@w,-\rectb@x@d)(%
+        \rectb@x@w,\rectb@x@h)(0,\rectb@x@h)(0,-\rectb@x@d)%
+      }%
+    \end{picture}%
+  }%
+  \vspace{-\fboxsep}%
+%  \vspace\fboxsep
+  \begin{jquote}(\fboxsep)(\fboxsep)[\z@]%
+    \input{kkmwaku.tmp}%
+  \end{jquote}%
+  \vspace\fboxsep
+%  \vspace{.5\baselineskip}%
+}%
+
+% \\, \par を含む段落を横幅を求めて囲む。
+%   \kakomi<#1>[#2]#3
+%     #1 : key=val
+%            fboxsep=..
+%            fboxrule=..
+%            parindent=..
+%     #2 : \parbox の配置オプション
+%     #3 : 囲む内容
+%     制限：内容には，別行立て数式行を含められない。
+%
+\def\kakomi{\@ifnextchar<{\@kakomi}{\@kakomi<>}}%
+\def\@kakomi<#1>{\@ifnextchar[{\@@kakomi<#1>}{\@@kakomi<#1>[c]}}%
+\long\def\@@kakomi<#1>[#2]#3{{\parindent=\z@
+  \ifthenelse{\equal{#1}\empty}{}{\setkeys{emPb}{#1}}%
+  \edef\kakomi@parindent{\the\parindent}%
+  \Settowidth\templa{#3}%
+  \templb=\linewidth\advance\templb-2\fboxsep\advance\templb-2\fboxrule
+  \ifdim\templa>\templb\templa=\templb\fi
+  \fbox{\parbox[#2]\templa{\parindent=\kakomi@parindent #3}}}}%
+%
+% ovalbox
+%
+\def\oval@kuikomi{3pt}%
+%\def\phovalbox{\@ifnextchar<{\@phovalbox}{\@phovalbox<\empty>}}%
+\DeclareRobustCommand\phovalbox{%
+  \@ifnextchar<{\@phovalbox}{\@phovalbox<\empty>}}%
+\def\@phovalbox<#1>{\@ifnextchar[{\@@phovalbox<#1>}{%
+                    \@@phovalbox<#1>[\fboxsep]}}%
+\def\@@phovalbox<#1>[#2]#3{{%
+  \setbox0=\hbox{{#3}}%
+  \@tempdima=#2\relax\advance\@tempdima\oval@kuikomi%\advance\@tempdima-.03\p@
+    \edef\phoval@r{\strip@pt\@tempdima}%
+  \@tempdima\wd0\edef\phoval@x{\strip@pt\@tempdima}%
+  \advance\@tempdima #2\relax\edef\phoval@xmax{\strip@pt\@tempdima}%
+  \@tempdima\ht0\edef\phoval@y{\strip@pt\@tempdima}%
+  \advance\@tempdima #2\relax\edef\phoval@ymax{\strip@pt\@tempdima}%
+  \@tempdima\dp0\edef\phoval@yo{\strip@pt\@tempdima}%
+  \advance\@tempdima #2\relax\edef\phoval@ymin{\strip@pt\@tempdima}%
+  \@tempdima #2\relax\edef\phoval@xmin{\strip@pt\@tempdima}%
+  \hspace*{#2}%
+  \@tempdima\oval@kuikomi\edef\phoval@xo{\strip@pt\@tempdima}%
+  \@tempdima\phoval@x\p@\advance\@tempdima-\oval@kuikomi
+    \edef\phoval@x{\strip@pt\@tempdima}%
+  \@tempdima\phoval@y\p@\advance\@tempdima-\oval@kuikomi
+    \edef\phoval@y{\strip@pt\@tempdima}%
+  \@tempdima-\phoval@yo\p@\advance\@tempdima\oval@kuikomi
+    \edef\phoval@yo{\strip@pt\@tempdima}%
+  \unitlength=\p@
+  \begin{picture}(0,0)%
+    \ifx\empty #1\else\setkeys{emPb}{#1}\fi
+    \Drawlines{(\phoval@xo,-\phoval@ymin)(\phoval@x,-\phoval@ymin);
+      (\phoval@xmax,\phoval@yo)(\phoval@xmax,\phoval@y);
+      (\phoval@xo,\phoval@ymax)(\phoval@x,\phoval@ymax);
+      (-\phoval@xmin,\phoval@yo)(-\phoval@xmin,\phoval@y)}%
+%    \put(\phoval@xo,\phoval@y){\enkoo\phoval@r{90}{180}}%
+    \Enko{(\phoval@xo,\phoval@y)}\phoval@r{90}{180}%
+%    \put(\phoval@xo,\phoval@yo){\enkoo\phoval@r{-180}{-90}}%
+    \Enko{(\phoval@xo,\phoval@yo)}\phoval@r{-180}{-90}%
+%    \put(\phoval@x,\phoval@y){\enkoo\phoval@r{0}{90}}%
+    \Enko{(\phoval@x,\phoval@y)}\phoval@r{0}{90}%
+%    \put(\phoval@x,\phoval@yo){\enkoo\phoval@r{-90}{0}}%
+    \Enko{(\phoval@x,\phoval@yo)}\phoval@r{-90}{0}%
+  \end{picture}\vrule height \phoval@ymax\p@ depth \phoval@ymin\p@ width \z@
+  \box0\hspace{#2}%
+}}%
+%
+\define@key{emPb}{ovalsep}{\def\EMoval@sep{#1}}%
+%
+%\def\EMovalbox{\@ifnextchar<{\@tEMovalbox}{\@EMovalbox}}%
+\def\EMovalbox{\@ifnextchar<{\@EMovalbox}{\@EMovalbox<\empty>}}%
+\def\@EMovalbox<#1>#2{{%
+  \edef\EMoval@sep{\the\fboxsep}%
+  \ifx\empty #1\else\setkeys{emPb}{#1}\fi
+  \setbox0=\hbox{{#2}}%
+  \@tempdima\ht0\advance\@tempdima\EMoval@sep
+  \edef\EMovalbox@h{\strip@pt\@tempdima}%
+  \@tempdima\dp0\advance\@tempdima\EMoval@sep
+  \edef\EMovalbox@d{\strip@pt\@tempdima}%
+  \edef\EMovalbox@w{\strip@pt\wd0}%
+  \@tempdima\EMoval@sep
+  \edef\EMovalbox@vsep{\strip@pt\@tempdima}%
+  \@tempdima\ht0\advance\@tempdima\dp0
+  \@tempdimc\@tempdima%                 直径
+  \divide\@tempdima\tw@
+  \advance\@tempdima\EMoval@sep
+  \edef\EMovalbox@r{\strip@pt\@tempdima}%
+  \advance\@tempdima\wd0
+  \edef\EMovalbox@xii{\strip@pt\@tempdima}%
+  \@tempdima\ht0\advance\@tempdima-\dp0
+  \divide\@tempdima\tw@
+  \edef\EMovalbox@yo{\strip@pt\@tempdima}%
+  \unitlength=\p@
+  \Add\EMovalbox@xii\EMovalbox@r\EMovalbox@x
+  \begin{picture}(0,0)\relax
+    \Enko{(\EMovalbox@r,\EMovalbox@yo)}\EMovalbox@r{90}{270}%
+    \Enko{(\EMovalbox@xii,\EMovalbox@yo)}\EMovalbox@r{-90}{90}%
+    \Drawline{(\EMovalbox@r,-\EMovalbox@d)(\EMovalbox@xii,-\EMovalbox@d)}%
+    \Drawline{(\EMovalbox@r,\EMovalbox@h)(\EMovalbox@xii,\EMovalbox@h)}%
+  \end{picture}%
+  \hspace*{\EMovalbox@r\p@}\hbox{#2}\hspace*{\EMovalbox@r\p@}\relax%%%%%%%% 2006/11/17
+}}%
+\def\tEMovalbox{\@ifnextchar<{\@tEMovalbox}{\@tEMovalbox<\empty>}}%
+\def\@tEMovalbox<#1>#2{{%
+  \setbox0=\hbox{{#2}}%
+  \edef\EMovalbox@h{\strip@pt\ht0}%
+  \edef\EMovalbox@d{\strip@pt\dp0}%
+  \edef\EMovalbox@w{\strip@pt\wd0}%
+  \@tempdima\wd0
+  \divide\@tempdima\tw@
+  \advance\@tempdima\fboxsep
+  \edef\EMovalbox@r{\strip@pt\@tempdima}%
+  \edef\EMovalbox@vsep{\strip@pt\fboxsep}%
+  \ifx\empty #1\else\setkeys{emPb}{#1}\fi
+  \unitlength=\p@
+  \begin{picture}(0,0)\relax
+    \Enko{(\EMovalbox@r,\EMovalbox@h)}\EMovalbox@r{0}{180}%
+    \Enko{(\EMovalbox@r,-\EMovalbox@d)}\EMovalbox@r{-180}{0}%
+    \Drawline{(0,\EMovalbox@h)(0,-\EMovalbox@d)}%
+    \Mul{2}\EMovalbox@r\EMovalbox@rr
+    \Drawline{(\EMovalbox@rr,\EMovalbox@h)(\EMovalbox@rr,-\EMovalbox@d)}%
+  \end{picture}%
+  \hspace*{\fboxsep}#2\hspace*{\fboxsep}\ignorespaces
+}}%
+%
+% 吹き出し
+%
+\edef\HDS@w@default{20pt}%
+\edef\HDS@h@default{10pt}%
+\def\hukidasihaba#1{\edef\HDS@w@default{#1}}%
+\def\hukidasitakasa#1{\edef\HDS@h@default{#1}}%
+\def\hukidasibox{%\begingroup
+  \unitlength=\p@
+  \edef\rectbox@item{\empty}\def\@pos{c}\def\rectbox@width{}%
+  \edef\frame@linewidth{.4pt}%
+  \edef\frame@color{\empty}%
+  \edef\background@color{\empty}%
+  \edef\h@sep{\empty}\edef\l@sep{\empty}\edef\r@sep{\empty}%
+  \edef\v@sep{\empty}\edef\t@sep{\empty}\edef\b@sep{\empty}%
+  \edef\hasenLG@opt{\empty}%
+  \edef\HDS@w{\HDS@w@default}\edef\HDS@h{\HDS@h@default}%
+  \edef\HDS@r{0pt}\edef\HDS@pos@{T}%
+  \edef\henv@x{0}%
+  \edef\henv@y{0}%
+  \edef\hen@i{(0,0)}%
+  \edef\hen@v{(0,0)}%
+  \define@key{emPb}{hankei}{\edef\HDS@r{##1}}%
+  \define@key{emPb}{width}{\edef\rectbox@width{##1}}%
+  \define@key{emPb}{hukidasihaba}{\edef\HDS@w{##1}}%
+  \define@key{emPb}{hukidasitakasa}{\edef\HDS@h{##1}}%
+  \define@key{emPb}{hukidasiiti}{\edef\HDS@pos@{##1}}%
+  \edef\h@sep{\empty}\edef\v@sep{\empty}\def\rectbox@item@pos{l}%
+  \@ifnextchar[{\hukidasibox@}{\@hukidasibox}}%
+\def\hukidasibox@[#1]{\setkeys{emPb}{#1}\@hukidasibox}%
+\def\@hukidasibox{%
+%  \vspace{.5\baselineskip}%
+  \@tempdima\HDS@w\relax\edef\HDS@w@{\strip@pt\@tempdima}%
+  \@Div\HDS@w@{2}\HDS@w@
+  \@tempdima\HDS@h\relax\edef\HDS@h@{\strip@pt\@tempdima}%
+  \@tempdima\HDS@r\relax\edef\HDS@r@{\strip@pt\@tempdima}%
+  \ifdim\@tempdima=\z@\else
+    \ifthenelse{\equal\h@sep\empty}{\edef\h@sep{\the\@tempdima}}{}%
+    \ifthenelse{\equal\v@sep\empty}{\edef\v@sep{\the\@tempdima}}{}%
+  \fi
+  \ifthenelse{\equal\h@sep\empty}{\edef\h@sep{\the\fboxsep}}{}%
+  \ifthenelse{\equal\v@sep\empty}{\edef\v@sep{\the\fboxsep}}{}%
+  \ifthenelse{\equal\rectbox@width\empty}{%
+    \edef\rectbox@width{\the\linewidth}%
+  }{%
+    \setlength\@tempdima{\rectbox@width}%
+    \setlength\@tempdimb{\h@sep}%
+    \advance\@tempdima2\@tempdimb
+    \edef\rectbox@width{\the\@tempdima}%
+  }%
+  \ifthenelse{\equal\rectbox@item\empty}{\def\item@ht{0pt}}{%
+%    \setbox0=\hbox{\rectbox@item}%
+    \setbox\rectbox@item@box=\hbox{\rectbox@item}%
+    \@tempdima=\ht\rectbox@item@box\advance\@tempdima\dp\rectbox@item@box
+    \divide\@tempdima\tw@
+    \vspace\@tempdima
+    \edef\item@ht{\the\@tempdima}%
+  }%
+\ifdim\rectbox@width>\linewidth\edef\rectbox@width{\the\linewidth}\fi
+  \setbox\rectb@x=\hbox to \rectbox@width\bgroup
+    \begin{minipage}[\@pos]{\rectbox@width}%
+  \vskip\v@sep
+  \jquote(\h@sep)(\h@sep)[\z@]\relax
+  \ifnum\EMWR@gyousuu>\@ne\parshape 1 \@totalleftmargin \linewidth\fi
+}%
+\def\endhukidasibox{%
+  \vspace\v@sep
+  \endjquote
+  \end{minipage}\hfill\egroup%\par
+  \noindent
+    \headchar\HDS@pos@\HDS@pos\HDS@tmp
+    \ifx\empty\HDS@tmp\edef\HDS@pos@@{C}%
+    \else
+      \headchar\HDS@tmp\HDS@pos@@\HDS@tmp@
+      \ifx\empty\HDS@tmp@\edef\HDS@dx{0}%
+      \else
+        \ukansan\HDS@tmp@\HDS@dx
+      \fi
+    \fi
+    \@tempdima\ht\rectb@x\edef\hasenbox@h{\strip@pt\@tempdima}%
+    \@tempdimb\dp\rectb@x\edef\hasenbox@d{\strip@pt\@tempdimb}%
+    \setlength{\@tempdimc}{\rectbox@width}%
+    \edef\hasenbox@w{\strip@pt\@tempdimc}%\@Div\hasenbox@w{10}\hasenbox@w
+    \if T\HDS@pos
+      \advance\@tempdima\HDS@h
+      \edef\HDS@lcr{c}%
+    \else\if B\HDS@pos
+      \@tempdima\dp\rectb@x
+      \advance\@tempdima\HDS@h\relax
+      \advance\@tempdima1zh\relax
+      \@tempdima-\@tempdima
+      \edef\HDS@lcr{c}%
+    \else\if L\HDS@pos
+      \@tempdima\ht\rectb@x
+      \advance\@tempdima-\dp\rectb@x
+      \advance\@tempdima-.8zh\relax
+      \divide\@tempdima\tw@
+      \edef\HDS@lcr{l}%
+    \else\if R\HDS@pos
+      \@tempdima\ht\rectb@x
+      \advance\@tempdima-\dp\rectb@x
+      \advance\@tempdima-.8zh\relax
+      \divide\@tempdima\tw@
+      \edef\HDS@lcr{r}%
+    \fi\fi\fi\fi
+\if T\HDS@pos
+  \edef\HDS@raise{-\the\@tempdima}%
+  \ukansan{-\@tempdima}\kuti@yo
+  \Add\HDS@h@\hasenbox@h\HDS@ymax
+%  \ukansan{\ht\strutbox}\HDS@tmp
+%  \Addself\HDS@ymax\HDS@tmp
+%  \ukansan{\dp\strutbox}\HDS@tmp
+%  \Addself\HDS@ymax\HDS@tmp
+  \Addself\HDS@ymax\hasenbox@d
+  \ukansan{\@wholewidth}\HDS@tmp
+  \Addself\HDS@ymax\HDS@tmp
+  \edef\HDS@ymin{-\HDS@ymax}%
+  \edef\HDS@ymax{0}%
+  \Addself\HDS@ymin\henv@y
+\else\if B\HDS@pos
+  \edef\HDS@raise{-\the\@tempdima}%
+  \ukansan{-\@tempdima}\kuti@yo
+  \Add\HDS@h@\hasenbox@h\HDS@ymax
+  \ukansan{\ht\strutbox}\HDS@tmp
+  \Addself\HDS@ymax\HDS@tmp
+  \ukansan{-\@wholewidth}\HDS@tmp
+  \Addself\HDS@ymax\HDS@tmp
+%  \ukansan{\dp\strutbox}\HDS@tmp
+%  \Addself\HDS@ymax\HDS@tmp
+  \Addself\HDS@ymax\hasenbox@d
+%  \ukansan{\@wholewidth}\HDS@tmp
+%  \Addself\HDS@ymax\HDS@tmp
+  \edef\HDS@ymin{0}%
+  \Addself\HDS@ymax\henv@y
+% \Addself\HDS@ymin\henv@y
+\else\if L\HDS@pos
+  \edef\HDS@raise{-\the\@tempdima}%
+  \ukansan{-\@tempdima}\kuti@yo
+  \edef\HDS@ymax{0}%
+  \edef\HDS@ymin{0}%
+\else\if R\HDS@pos
+  \edef\HDS@raise{-\the\@tempdima}%
+  \ukansan{-\@tempdima}\kuti@yo
+  \edef\HDS@ymax{0}%
+  \edef\HDS@ymin{0}%
+\fi\fi\fi\fi
+    \begin{zahyou*}[haiti=x](0,0)(\HDS@ymin,\HDS@ymax)%
+\ifx\empty\frame@linewidth\else
+  \linethickness{\frame@linewidth}%
+\fi
+      \@Div\hasenbox@w{2}\kuti@c
+      \Mulself\kuti@c{-1}%
+%      \Sub\kuti@c{10}\kuti@l
+%      \Add\kuti@c{10}\kuti@r
+      \Add\hasenbox@h{10}\kuti@h
+      \edef\LT@{(0,\hasenbox@h)}%
+      \edef\RT@{(\hasenbox@w,\hasenbox@h)}%
+      \edef\LB@{(0,-\hasenbox@d)}%
+      \edef\RB@{(\hasenbox@w,-\hasenbox@d)}%
+      \ifdim\HDS@r=\z@
+        \if T\HDS@pos
+          \Bunten\LT@\RT@11\CT@
+          \if C\HDS@pos@@
+            \Addvec\CT@{(-\HDS@w@,0)}\HDL@
+            \Addvec\CT@{(\HDS@w@,0)}\HDR@
+          \else\if L\HDS@pos@@
+            \edef\HDL@{\LT@}%
+            \Addvecself\HDL@{(\HDS@dx,0)}%%%%%%%%%%%%%%%%
+            \Addvec\HDL@{(\HDS@w@,0)}\CT@
+            \Addvec\CT@{(\HDS@w@,0)}\HDR@
+            \edef\kuti@c{-\HDS@w@}%
+            \Addself\kuti@c{-\HDS@dx}%%%%%%%%%%%%%%%%%%%%
+          \else\if R\HDS@pos@@
+            \edef\HDR@{\RT@}%
+            \Addvecself\HDR@{(-\HDS@dx,0)}%%%%%%%%%%%%%%%%
+            \Addvec\HDR@{(-\HDS@w@,0)}\CT@
+            \Addvec\CT@{(-\HDS@w@,0)}\HDL@
+            \edef\kuti@c{-\hasenbox@w}%
+            \Addself\kuti@c\HDS@w@
+            \Addself\kuti@c{\HDS@dx}%%%%%%%%%%%%%%%%%%%%
+          \fi\fi\fi
+          \Addvec\CT@{(0,\HDS@h@)}\HDV@
+          \Addvecself\HDV@\hen@v
+          \Addvec{(\kuti@c,\kuti@yo)}\hen@i\kuti@P
+          \Tyuuten\LB@\RT@\CC@
+          \edef\HD@takakkei{\LT@\LB@\RB@\RT@\HDR@\HDV@\HDL@}%
+          \Put\kuti@P{%
+              {%
+                \ifthenelse{\equal\frame@color\empty}{}{\@iro{\frame@color}}%
+                \ifthenelse{\equal\background@color\empty}{}{%
+                  \emPaint<nuriiro=\background@color>{\HD@takakkei}%
+                }%
+                \Takakkei\HD@takakkei
+              }%
+              \ifx\empty\apn@zahyou\else
+                {%
+                  \edef\LT{\LT@}%
+                  \edef\LB{\LB@}%
+                  \edef\RT{\RT@}%
+                  \edef\RB{\RB@}
+                  \apn@zahyou
+                }%
+              \fi
+              \Put\CC@(0,0)[c]{\box\rectb@x}%
+          }%
+        \else\if B\HDS@pos
+          \Bunten\LB@\RB@11\CT@
+%          \Addvec\CT@{(-\HDS@w@,0)}\HDL@
+%          \Addvec\CT@{(\HDS@w@,0)}\HDR@
+          \if C\HDS@pos@@
+            \Addvec\CT@{(-\HDS@w@,0)}\HDL@
+            \Addvec\CT@{(\HDS@w@,0)}\HDR@
+          \else\if L\HDS@pos@@
+            \edef\HDL@{\LB@}%
+            \Addvecself\HDL@{(\HDS@dx,0)}%%%%%%%%%%%%%%%%
+            \Addvec\HDL@{(\HDS@w@,0)}\CT@
+            \Addvec\CT@{(\HDS@w@,0)}\HDR@
+            \edef\kuti@c{-\HDS@w@}%
+            \Addself\kuti@c{-\HDS@dx}%%%%%%%%%%%%%%%%%%%%
+          \else\if R\HDS@pos@@
+            \edef\HDR@{\RB@}%
+            \Addvecself\HDR@{(-\HDS@dx,0)}%%%%%%%%%%%%%%%%
+            \Addvec\HDR@{(-\HDS@w@,0)}\CT@
+            \Addvec\CT@{(-\HDS@w@,0)}\HDL@
+            \edef\kuti@c{-\hasenbox@w}%
+            \Addself\kuti@c\HDS@w@
+            \Addself\kuti@c{\HDS@dx}%%%%%%%%%%%%%%%%%%%%
+          \fi\fi\fi
+          \Addvec\CT@{(0,-\HDS@h@)}\HDV@
+          \Addvecself\HDV@\hen@v
+          \Tyuuten\LB@\RT@\CC@
+          \Addvec{(\kuti@c,\kuti@yo)}\hen@i\kuti@P
+          \edef\HD@takakkei{\LT@\LB@\HDL@\HDV@\HDR@\RB@\RT@}%
+          \Put\kuti@P{%
+            {%
+              \ifthenelse{\equal\frame@color\empty}{}{\@iro{\frame@color}}%
+              \ifthenelse{\equal\background@color\empty}{}{%
+                \emPaint<nuriiro=\background@color>{\HD@takakkei}%
+              }%
+              \Takakkei{\HD@takakkei}%
+            }%
+            \Put\CC@(0,0)[c]{\box\rectb@x}%
+          }%
+        \else\if L\HDS@pos
+          \Bunten\LB@\LT@11\CT@
+          \Addvec\CT@{(0,-\HDS@w@)}\HDL@
+          \Addvec\CT@{(0,\HDS@w@)}\HDR@
+          \Addvec\CT@{(-\HDS@h@,0)}\HDV@
+          \Addvecself\HDV@\hen@v
+          \Tyuuten\LB@\RT@\CC@
+          \Addvec{(\HDS@h@,\kuti@yo)}\hen@i\kuti@P
+          \edef\HD@takakkei{\LT@\HDR@\HDV@\HDL@\LB@\RB@\RT@}%
+          \Put\kuti@P{%
+            {%
+              \ifthenelse{\equal\frame@color\empty}{}{\@iro{\frame@color}}%
+              \ifthenelse{\equal\background@color\empty}{}{%
+                \emPaint<nuriiro=\background@color>{\HD@takakkei}%
+              }%
+              \Takakkei{\HD@takakkei}%
+            }%
+            \Put\CC@(0,0)[c]{\box\rectb@x}%
+          }%
+        \else\if R\HDS@pos
+          \Bunten\RB@\RT@11\CT@
+          \Addvec\CT@{(0,-\HDS@w@)}\HDL@
+          \Addvec\CT@{(0,\HDS@w@)}\HDR@
+          \Addvec\CT@{(\HDS@h@,0)}\HDV@
+          \Addvecself\HDV@\hen@v
+          \Tyuuten\LB@\RT@\CC@
+          \Addvec{(-\HDS@h@,\kuti@yo)}\hen@i\kuti@P
+          \Addvecself\kuti@P{(-\hasenbox@w,0)}%
+          \edef\HDS@oresen{\LT@\LB@\RB@\HDL@\HDV@\HDR@\RT@}%
+          \Put\kuti@P{%
+            {%
+              \ifthenelse{\equal\frame@color\empty}{}{\@iro{\frame@color}}%
+              \ifthenelse{\equal\background@color\empty}{}{%
+                \emPaint<nuriiro=\background@color>{\HDS@oresen}%
+              }%
+              \Takakkei{\HDS@oresen}%
+            }%
+            \Put\CC@(0,0)[c]{\box\rectb@x}%
+          }%
+        \fi\fi\fi\fi
+      \else
+        \Addvec\LT@{(\HDS@r@,-\HDS@r@)}\LT@
+        \Addvec\LB@{(\HDS@r@,\HDS@r@)}\LB@
+        \Addvec\RT@{(-\HDS@r@,-\HDS@r@)}\RT@
+        \Addvec\RB@{(-\HDS@r@,\HDS@r@)}\RB@
+        \Addvec\LT@{(0,\HDS@r@)}\LTT@
+        \Addvec\LT@{(-\HDS@r@,0)}\LTL@
+        \Addvec\LB@{(-\HDS@r@,0)}\LBL@
+        \Addvec\LB@{(0,-\HDS@r@)}\LBB@
+        \Addvec\RT@{(0,\HDS@r@)}\RTT@
+        \Addvec\RT@{(\HDS@r@,0)}\RTR@
+        \Addvec\RB@{(\HDS@r@,0)}\RBR@
+        \Addvec\RB@{(0,-\HDS@r@)}\RBB@
+        \Sub\HDS@r@{.004}\HDS@r@@
+%        \Enko\LT@\HDS@r@@{90}{180}%
+%        \Enko\LB@\HDS@r@@{-180}{-90}%
+%        \Enko\RB@\HDS@r@@{-90}{0}%
+%        \Enko\RT@\HDS@r@@{0}{90}%
+%
+%          \Addvec\CT@{(-\HDS@w@,0)}\HDL@
+%          \Addvec\CT@{(\HDS@w@,0)}\HDR@
+        \if T\HDS@pos
+          \Bunten\LTT@\RTT@11\CT@
+          \if C\HDS@pos@@
+            \Addvec\CT@{(-\HDS@w@,0)}\HDL@
+            \Addvec\CT@{(\HDS@w@,0)}\HDR@
+          \else\if L\HDS@pos@@
+            \edef\HDL@{\LTT@}%
+            \Addvec\HDL@{(\HDS@w@,0)}\CT@
+            \Addvec\CT@{(\HDS@w@,0)}\HDR@
+            \edef\kuti@c{-\HDS@w@}%
+            \Addself\kuti@c{-\HDS@r@}%
+          \else\if R\HDS@pos@@
+            \edef\HDR@{\RTT@}%
+            \Addvec\HDR@{(-\HDS@w@,0)}\CT@
+            \Addvec\CT@{(-\HDS@w@,0)}\HDL@
+            \edef\kuti@c{-\hasenbox@w}%
+            \Addself\kuti@c\HDS@w@
+            \Addself\kuti@c\HDS@r@
+          \fi\fi\fi
+          \Addvec\CT@{(0,\HDS@h@)}\HDV@
+          \Addvecself\HDV@\hen@v
+          \Tyuuten\LB@\RT@\CC@
+          \Addvec{(\kuti@c,\kuti@yo)}\hen@i\kuti@P
+          \Put\kuti@P{%
+            {%
+              \ifthenelse{\equal\frame@color\empty}{}{\@iro{\frame@color}}%
+              \Drawlines{\LBB@\RBB@;\LTL@\LBL@;\RTR@\RBR@;%
+                \LTT@\HDL@\HDV@\HDR@\RTT@}%
+              \Enko\LT@\HDS@r@@{90}{180}%
+              \Enko\LB@\HDS@r@@{-180}{-90}%
+              \Enko\RB@\HDS@r@@{-90}{0}%
+              \Enko\RT@\HDS@r@@{0}{90}%
+            }%
+            \Put\CC@(0,0)[c]{\box\rectb@x}%
+          }%
+        \else\if B\HDS@pos
+          \Bunten\LBB@\RBB@11\CT@
+%          \Addvec\CT@{(-\HDS@w@,0)}\HDL@
+%          \Addvec\CT@{(\HDS@w@,0)}\HDR@
+          \if C\HDS@pos@@
+            \Addvec\CT@{(-\HDS@w@,0)}\HDL@
+            \Addvec\CT@{(\HDS@w@,0)}\HDR@
+          \else\if L\HDS@pos@@
+            \edef\HDL@{\LBB@}%
+            \Addvec\HDL@{(\HDS@w@,0)}\CT@
+            \Addvec\CT@{(\HDS@w@,0)}\HDR@
+            \edef\kuti@c{-\HDS@w@}%
+            \Addself\kuti@c{-\HDS@r@}%
+          \else\if R\HDS@pos@@
+            \edef\HDR@{\RBB@}%
+            \Addvec\HDR@{(-\HDS@w@,0)}\CT@
+            \Addvec\CT@{(-\HDS@w@,0)}\HDL@
+            \edef\kuti@c{-\hasenbox@w}%
+            \Addself\kuti@c\HDS@w@
+            \Addself\kuti@c\HDS@r@
+          \fi\fi\fi
+          \Addvec\CT@{(0,-\HDS@h@)}\HDV@
+          \Addvecself\HDV@\hen@v
+          \Tyuuten\LB@\RT@\CC@
+          \Addvec{(\kuti@c,\kuti@yo)}\hen@i\kuti@P
+          \Put\kuti@P{%
+            {%
+              \ifthenelse{\equal\frame@color\empty}{}{\@iro{\frame@color}}%
+              \Drawlines{\LBB@\HDL@\HDV@\HDR@\RBB@;\LTL@\LBL@;\RTR@\RBR@;%
+                \LTT@\RTT@}%
+              \Enko\LT@\HDS@r@@{90}{180}%
+              \Enko\LB@\HDS@r@@{-180}{-90}%
+              \Enko\RB@\HDS@r@@{-90}{0}%
+              \Enko\RT@\HDS@r@@{0}{90}%
+            }%
+            \Put\CC@(0,0)[c]{\box\rectb@x}%
+          }%
+        \else\if L\HDS@pos
+          \Bunten\LTL@\LBL@11\CT@
+          \Addvec\CT@{(0,-\HDS@w@)}\HDL@
+          \Addvec\CT@{(0,\HDS@w@)}\HDR@
+          \Addvec\CT@{(-\HDS@h@,0)}\HDV@
+          \Addvecself\HDV@\hen@v
+          \Tyuuten\LB@\RT@\CC@
+          \Addvec{(\HDS@h@,\kuti@yo)}\hen@i\kuti@P
+          \Put\kuti@P{%
+            {%
+              \ifthenelse{\equal\frame@color\empty}{}{\@iro{\frame@color}}%
+              \Drawlines{\LBB@\RBB@;\LTL@\HDR@\HDV@\HDL@\LBL@;\RTR@\RBR@;%
+                \LTT@\RTT@}%
+              \Enko\LT@\HDS@r@@{90}{180}%
+              \Enko\LB@\HDS@r@@{-180}{-90}%
+              \Enko\RB@\HDS@r@@{-90}{0}%
+              \Enko\RT@\HDS@r@@{0}{90}%
+            }%
+            \Put\CC@(0,0)[c]{\box\rectb@x}%
+          }%
+        \else\if R\HDS@pos
+          \Bunten\RTR@\RBR@11\CT@
+          \Addvec\CT@{(0,-\HDS@w@)}\HDL@
+          \Addvec\CT@{(0,\HDS@w@)}\HDR@
+          \Addvec\CT@{(\HDS@h@,0)}\HDV@
+          \Addvecself\HDV@\hen@v
+          \Tyuuten\LB@\RT@\CC@
+          \Addvec{(-\HDS@h@,\kuti@yo)}\hen@i\kuti@P
+          \Addvecself\kuti@P{(-\hasenbox@w,0)}%
+          \Put\kuti@P{%
+            {%
+              \ifthenelse{\equal\frame@color\empty}{}{\@iro{\frame@color}}%
+              \Drawlines{\LBB@\RBB@;\RTR@\HDR@\HDV@\HDL@\RBR@;\LTL@\LBL@;%
+                \LTT@\RTT@}%
+              \Enko\LT@\HDS@r@@{90}{180}%
+              \Enko\LB@\HDS@r@@{-180}{-90}%
+              \Enko\RB@\HDS@r@@{-90}{0}%
+              \Enko\RT@\HDS@r@@{0}{90}%
+            }%
+            \Put\CC@(0,0)[c]{\box\rectb@x}%
+          }%
+        \fi\fi\fi\fi
+      \fi
+      \ifthenelse{\equal\rectbox@item\empty}{}{%
+        \if r\rectbox@item@pos
+          \Sub\hasenbox@w{1}\item@p
+          \Put{(\item@p,\hasenbox@h)}(0,0)[rc]{{%
+            \fboxsep=\z@\colorbox{white}{\box\rectbox@item@box}}}%
+        \else\if c\rectbox@item@pos
+          \@Div\hasenbox@w{2}\item@p
+          \Put{(\item@p,\hasenbox@h)}(0,0)[cc]{{%
+            \fboxsep=\z@\colorbox{white}{\box\rectbox@item@box}}}%
+        \else
+          \Put{(1,\hasenbox@h)}(0,0)[lc]{{%
+            \fboxsep=\z@\colorbox{white}{\box\rectbox@item@box}}}%
+        \fi\fi
+      }%
+    \end{zahyou*}%
+    \leavevmode
+%    \makebox[0pt][\HDS@lcr]{\raisebox{\HDS@raise}{\box\rectb@x}}%
+%    }}%
+% \vskip.5\baselineskip
+%\endgroup
+}%
+\def\hukidasi{\@ifnextchar[{\@hukidasi}{\@hukidasi[\empty]}}%
+\long\def\@hukidasi[#1]#2{%
+% \leavevmode
+  \Settowidth{\@tempdima}{#2}%
+% \advance\@tempdima2\fboxsep
+  \edef\hukidasibox@w{\the\@tempdima}%
+  \ifthenelse{\equal{#1}{\empty}}{%
+    \begin{hukidasibox}[width=\hukidasibox@w]%
+      {#2}\relax
+    \end{hukidasibox}%
+  }{%
+    \EMedef\hukidasibox@arg{[width=\hukidasibox@w,#1]}%
+    \bgroup
+    \expandafter\hukidasibox\hukidasibox@arg
+      {#2}%
+    \endhukidasibox
+    \egroup
+  }%
+}%
+%
+% itemrectbox環境
+%
+%\def\itemrectbox{%%%%%%%%%%%%%%%%%%%%%%%%
+%  \edef\rectbox@item{\empty}\def\@pos{c}%
+%  \edef\rectbox@bitem{\empty}%
+%  \edef\frame@linewidth{\empty}%
+%  \def\rectbox@oval{\rectbox@oval@}%
+%  \def\rectbox@oct{\z@}%
+%  \edef\rectbox@parindent{\rectbox@parindent@}%
+%  \def\rectbox@width{}\def\rectbox@Width{}%
+%  \edef\h@sep{\empty}\edef\v@sep{\empty}\edef\t@sep{\empty}\edef\b@sep{\empty}%%
+%  \def\rectbox@item@pos{l}\def\rectbox@bitem@pos{r}%
+%  \edef\frame@color{\empty}%
+%  \edef\background@color{\empty}\def\midasi@background@color{white}%
+%  \@ifnextchar[{\itemrectbox@}{\@itemrectbox}}%%%
+%\def\itemrectbox@[#1]{\ifx\empty #1\relax\else\setkeys{emPb}{#1}\fi
+%   \@itemrectbox}%%%%%%
+%\def\@itemrectbox#1{%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  \def\rectbox@item{#1}%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  \ifx\empty\frame@linewidth\else
+%    \allinethickness{\frame@linewidth}%
+%  \fi
+%  \ifthenelse{\equal\h@sep\empty}{%
+%    \ifthenelse{\lengthtest{\rectbox@oval<\default@hsep}}{%
+%      \edef\h@sep{\default@hsep}}{\edef\h@sep{\rectbox@oval}}}{}%
+%  \ifthenelse{\equal\v@sep\empty}{%
+%    \ifthenelse{\lengthtest{\rectbox@oval<\default@vsep}}{%
+%      \edef\v@sep{\default@vsep}}{\edef\v@sep{\rectbox@oval}}}{}%
+%  \ifx\empty\t@sep\edef\t@sep{\v@sep}\fi
+%  \ifx\empty\b@sep\edef\b@sep{\v@sep}\fi
+%  \ifthenelse{\equal\rectbox@Width\empty}{%
+%    \ifthenelse{\equal\rectbox@width\empty}{%
+%      \edef\rectbox@width{\the\linewidth}%
+%    }{%
+%      \setlength\@tempdima{\rectbox@width}%
+%      \setlength\@tempdimb{\h@sep}%
+%      \advance\@tempdima2\@tempdimb
+%      \edef\rectbox@width{\the\@tempdima}%
+%    }%
+%  }{%
+%    \edef\rectbox@width{\rectbox@Width}%
+%  }%
+%\ifnum\enum@rectbox>\z@
+%\protected@edef\rectbox@item{\protect\labelenumrectbox\rectbox@item}\fi
+%  \ifthenelse{\equal\rectbox@item\empty}{\def\item@ht{0pt}}{%
+%    \setbox\rectbox@item@box=\hbox{\rectbox@item}%
+%    \@tempdima=\ht\rectbox@item@box\advance\@tempdima\dp\rectbox@item@box
+%    \divide\@tempdima\tw@
+%    \vspace\@tempdima
+%    \edef\item@ht{\the\@tempdima}%
+%  }%
+%  \setbox\rectb@x=\hbox to \rectbox@width\bgroup
+%    \begin{minipage}[\@pos]{\rectbox@width}%
+%      \setlength{\parindent}{\rectbox@parindent}%
+%  \ifdim\item@ht>\z@\vskip\item@ht\fi
+%% \vskip\v@sep
+%  \jquotation(\h@sep)(\h@sep)[\z@]\relax}%
+%
+%
+\def\itemrectbox{\@ifnextchar[{\@itemrectbox}{\@itemrectbox[\empty]}}%
+\def\@itemrectbox[#1]#2{%
+  \ifthenelse{\equal{#1}{c}}{%
+    \edef\arg@i{\empty}%
+  }{%
+    \edef\arg@i{#1}%
+  }%
+  \ifx\empty\arg@i
+    \EMedef\nxt@opt{[item=#2]}%
+  \else
+    \EMedef\nxt@opt{[item=#2,\arg@i]}%
+  \fi
+  \noindent
+  \expandafter\rectbox\nxt@opt
+}%
+\let\enditemrectbox\endrectbox
+%
+% 虫食い枠
+%
+% #1: 枠内行数（上端・下端を除く）
+% #2: 上端・枠開始位置（左端からの距離）
+% #3: 下端・枠終了位置（左端からの距離）
+%
+\def\musikuiwaku#1#2#3{%
+  \edef\frm@w{\strip@pt\linewidth}%
+  \@tempdima \baselineskip
+  \advance\@tempdima-\dp\strutbox
+  \edef\frm@h{\strip@pt\@tempdima}%
+  \@tempdima #1\baselineskip
+  \advance\@tempdima\baselineskip
+  \advance\@tempdima\dp\strutbox
+  \edef\frm@d{\strip@pt\@tempdima}%
+  \begin{picture}(0,0)\relax
+    \begin{zahyou*}[ul=1pt,haiti=o](0,\frm@w)(-\frm@d,\frm@h)
+      \@tempdima\baselineskip
+      \edef\frm@y{\strip@pt\@tempdima}%
+      \setlength{\@tempdima}{#2}%
+      \edef\frm@x{\strip@pt\@tempdima}%
+      \Addvec\LT{(\frm@x,0)}\frm@A
+      \Addvec\LT{(\frm@x,-\frm@y)}\frm@B
+      \Addvec\LT{(0,-\frm@y)}\frm@C
+      \@tempdima\linewidth
+      \setlength\@tempdimb{#3}%
+      \advance\@tempdima-\@tempdimb\relax
+      \edef\frm@x{\strip@pt\@tempdima}%
+      \Addvec\RB{(-\frm@x,0)}\frm@D
+      \Addvec\RB{(-\frm@x,\frm@y)}\frm@E
+      \Addvec\RB{(0,\frm@y)}\frm@F
+      \Takakkei{\frm@A\frm@B\frm@C\LB\frm@D\frm@E\frm@F\RT}%
+    \end{zahyou*}
+  \end{picture}%
+}%
+%
+\def\EManswerbox{\@ifnextchar[{\@EManswerbox}{\@EManswerbox[\empty]}}%
+\def\@EManswerbox[#1]{%
+  \ifmaskhako\maskrectbox{1}\else\maskrectbox{0}\fi
+  \ifx\empty #1\relax
+    \edef\ansbx@opt{[hvsep=0pt,framethickness=0pt]}%
+  \else
+    \edef\ansbx@opt{[hvsep=0pt,framethickness=0pt,#1]}%
+  \fi
+  \expandafter\rectbox\ansbx@opt
+  \EManswer
+}%
+\def\endEManswerbox{\endEManswer\endrectbox}%
+%
+\AtBeginDocument{%
+  \@ifundefined{pszahyou}{}{\RequirePackage{emathPsb}}%
+  \@ifundefined{answerbox}{%
+    \let\answerbox\EManswerbox
+    \let\endanswerbox\endEManswerbox
+  }{}%
+  \@ifundefined{EManswer}{%
+    \@ifpackageloaded{theorem}{%
+      {\theoremstyle{nonumber}%
+      \newtheorem{EManswer}{\EMfbox<hvsep=1pt>{解答}}}%
+    }{}%
+  }{}%
+}%
+\endinput
+
+v 0.00 2005/09/03 emathPh.sty から分離
+v 0.01 2005/09/10 分離すべきもの追加
+v 0.02 2006/03/12 mekurebox環境：rectboxparindent=.. を有効に
+                                 key として，mekurex, mekurey, mekurez, mekured を新設
+v 0.03 2006/03/30 framelinewidth=.. 新設
+v 0.04 2006/04/01 補足
+v 0.05 2006/09/30 rectboxoct=.. コーナーを直線で切り取る八角形ボックス
+                  emathPh.sty を読み込む
+                  octcorner オプションでコーナー補正
+v 0.06 2006/10/03 hvsep=..
+v 0.07 2006/10/06 itemrectbox環境
+v 0.08 2006/10/09 [LRonly]
+v 0.09 2006/10/23 henvi=.., Henvi=..
+v 0.10 2006/11/17 \EMovalbox : #1 --> \hbox{#1}%
+v 0.11 2007/02/23 rectboxwidth=.. , rectboxWidth=.. : 計算式を許容
+v 0.12 2007/05/22 rectbox : 下見出しに \fbox{...} を用いる場合の修正
+v 0.13 2007/06/14 \rectboxparindent : rectboxparindent のデフォルト値変更
+v 0.14 2007/07/09 emathPbb.sty との関係
+v 0.15 2007/10/04 rectbox : 空白の混入排除
+                            [Lonly], [Ronly], [LRonly]オプション整備
+                            linethickness=..
+v 0.16 2007/10/29 rectbox : 塗りつぶす場合，border オプションを付加
+                            tate=..
+                            \sikirisen
+v 0.17 2007/10/30 \sikirisen : escapelist環境下とする。
+v 0.18 2007/11/21 \sikirisen ----> \rectboxhrule
+                  rectbox環境：先頭行と末尾に \strut
+            11/30 上記 \strut は保留
+v 0.19 2007/12/20 rectbox環境：framelinewidth=.. オプションは枠線の太さのみ変更
+v 0.20 2008/01/04 \tEMovalbox : 縦型の \ovalbox
+v 0.21 2008/05/03 rectbox: rectboxWidth=.. 罫線幅を考慮
+v 0.22 2008/08/25 \Rectbox: 背景色をつける際，\ougigata* の境界線色 (BBS #7455)
+v 0.23 2008/08/31 enumrectbox: 閉じていない \if...
+v 0.24 2008/09/04 空白の混入対策
+v 0.25 2009/04/30 tsep= , bsep= 
+v 0.26 2009/05/06 [debeso] オプション
+                  [kagi] オプション
+v 0.27 2009/05/15 EMleftbrace環境
+v 0.28 2009/05/15 バグ修正
+v 0.31 2009/05/23 直角コーナーに対しては，\vrule を用いる。
+v 0.32 2009/06/02 出力調整 saloon #716
+v 0.33 2009/06/07 \rectboxtopsep, \rectboxbottomsep
+v 0.34 2009/06/10 \EMfbox
+v 0.35 2010/02/09 \EMminipagefootnote
+v 0.36 2010/03/21 apnzahyou
+v 0.37 2010/04/27 \EMminipagefootnote 修正 (BBS #8800)
+v 0.38 2010/05/24 rectbox に [shade=..] オプション（デフォルトは 5pt）
+v 0.40 2010/07/31 \HVsep
+v 0.41 2010/11/08 rectbox に [TBonly] オプション
+v 0.42 2010/12/28 上記の不備 (BBS #9598)
+v 0.43 2011/01/20 \EMfbox: \hbox に入れて，枠線と中身の分裂を回避
+v 0.44 2011/02/12 \endrectbox: \par --> \@endpetrue
+v 0.45 2011/03/01 \EMboxed
+v 0.46 2011/03/02 \EMboxed: バグフィックス (BBS #9695)
+v 0.47 2011/03/04 \EMfbox<oval=..>: pszayou*環境内で使用した場合はエラー終了
+v 0.48 2011/03/08 \EMfbox: \rectbox@LR の初期化 (BBS #9710)
+v 0.49 2011/03/31 \EMfbox: [notT], [notB] オプション
+v 0.50 2011/04/30 \endrectbox: 末尾に\hskip\z@ を付加
+v 0.51 2011/05/30 \hukidasi: [hukidasiiti=TL/TB/RL/RB] オプション (BBS #9923)
+                             [TL5pt/TB4pt/RL3pt/RB1mm] オプション
+v 0.52 2011/06/05 \hukidasi: zahyou環境の縦サイズ調整
+v 0.53 2011/06/16 \hukidasi: [hukidasiiti=R] オプション (BBS #9943)
+v 0.54 2011/06/18 \hukidasi: [hukidasiiti=R] と [hankei=..] の併用 (BBS #9952)
+                             枠線の太さ初期化 (BBS #9956)
+v 0.55 2011/06/19 \hukidasi: 初期化追加
+v 0.56 2011/06/26 \hukidasi: [Henvv], [Henvvi] オプション (BBS #9986)
+v 0.57 2011/06/30 \maskrectbox
+v 0.58 2011/07/05 \rectboxitemmargin, [itemmargin=..]
+v 0.59 2011/07/09 prebitem,postbitem: 有効に
+                  \rectboxlabelsep#1 など
+v 0.60 2011/12/19 item= の右辺値を box に入れる (BBS #10432)
+v 0.61 2017/11/08 \hukidasi: mawarikomi環境内における補正 (BBS #13440)

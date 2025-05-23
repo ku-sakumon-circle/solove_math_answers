@@ -1,0 +1,26 @@
+\begin{thm}{041}{\hosi 6}{東工大}
+ 実数$x,y$が、$x^2+y^2\le 1$を満たす。$m$を負でない実数とするとき、$m(x+y)+xy$ の最小値、最大値を求めよ。
+\end{thm}
+
+$x+y=s$, $xy=t$とおく。このとき解と係数の関係から$x, y$は2次方程式$z^2-sz+t=0$の実数解であるから、この判別式は非負であるので、$s^2-4t\ge 0$。続いて$x^2+y^2=s^2-2t\le 1$。
+
+これらによって、$\dfrac{s^2}{2}-\dfrac{1}{2}\le t\le \dfrac{s^2}{4}$となるから、
+\[ \frac{s^2}{2}-\frac{1}{2}\le \frac{s^2}{4} \,\dou\, -\sqrt{2}\le s\le \sqrt{2} \]
+が必要条件。この範囲で$s$を固定したときに$t$の動く範囲は$\dfrac{s^2}{2}-\dfrac{1}{2}\le t\le \dfrac{s^2}{4}$となる。このとき、
+\[ \frac{s^2}{2}+ms-\frac{1}{2}\le ms+t\le \frac{s^2}{4}+ms \]
+となる。
+
+求める最大値は、関数$f(s)=\dfrac{s^2}{4}+ms$の$-\sqrt{2}\le s\le\sqrt{2}$における最大値である。$f(s)=\dfrac{1}{4}(s^2+2m)^2-m^2$となることと$m\ge 0$であることから、2次関数$f(s)$のグラフを考えれば最大値は$s=\sqrt{2}$のとき、$f(\sqrt{2})=m\sqrt{2}+\dfrac{1}{2}$と求まる。
+
+求める最小値は、関数$g(s)=\dfrac{s^2}{2}+ms-\dfrac{1}{2}$の$-\sqrt{2}\le s\le \sqrt{2}$における最小値である。$g(s)=\dfrac{1}{2}(s+m)^2-\dfrac{m^2+1}{2}$となることと$m\ge 0$であることから、2次関数$g(s)$のグラフを考えれば最小値は、$0\ge m\ge\sqrt{2}$の場合には$s=-m$のときに$g(-m)=-\dfrac{m^2+1}{2}$、$m>\sqrt{2}$の場合には$s=-\sqrt{2}$のときに$g(-\sqrt{2})=-m\sqrt{2}+\dfrac{1}{2}$と求まる。
+
+以上まとめて、
+\begin{align*}
+ \text{最大値}&=m\sqrt{2}+\frac{1}{2} \\
+ \text{最小値}&=\left\{
+ \begin{aligned}
+  &-\frac{m^2+1}{2}  & (0\le m&\le\sqrt{2}) \\
+  &-m\sqrt{2}+\frac{1}{2} & (m&>\sqrt{2})
+ \end{aligned} \right.
+\end{align*}
+\footnote{関数や条件の式が対称式なので、対称式で攻めるとよいというわけでした。なお、$s, t$の存在範囲を求めてからは線形計画法でもいけます。}

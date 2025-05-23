@@ -1,0 +1,37 @@
+This is e-pTeX, Version 3.141592653-p4.0.0-220214-2.6 (utf8.sjis) (TeX Live 2022) (preloaded format=platex 2022.9.26)  30 SEP 2022 16:46
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**Q_268.tex
+(./Q_268.tex
+pLaTeX2e <2021-11-15> (based on LaTeX2e <2022-06-01> patch level 5)
+L3 programming layer <2022-08-30>
+
+! LaTeX Error: Environment thm undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1 \begin{thm}
+               {268}{\hosi ?}{京都大院試H2専門}
+? 
+! Emergency stop.
+ ...                                              
+                                                  
+l.1 \begin{thm}
+               {268}{\hosi ?}{京都大院試H2専門}
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+ 
+Here is how much of TeX's memory you used:
+ 18 strings out of 475534
+ 455 string characters out of 5794264
+ 346882 words of memory out of 5000000
+ 21741 multiletter control sequences out of 15000+600000
+ 473130 words of font info for 45 fonts, out of 8000000 for 9000
+ 929 hyphenation exceptions out of 8191
+ 15i,0n,23p,87b,18s stack positions out of 10000i,1000n,20000p,200000b,200000s
+No pages of output.

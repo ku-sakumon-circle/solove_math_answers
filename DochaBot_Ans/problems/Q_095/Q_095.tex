@@ -1,0 +1,18 @@
+\begin{thm}{095}{\hosi 4}{東大レベル模試}
+ 四角形$\mr{ABCD}$を底面とする四角錘$\mr{O-ABCD}$があり、$\mr{OA}=\mr{OB}=\mr{OC}=\mr{OD}=3\sqrt{2}$, $\mr{AB}=3$, $\mr{BC}=5$, $\angle\mr{ABC}=120^\circ$ を満たす。この四角錘の体積を$V$とするとき、$V$の最大値を求めよ。
+\end{thm}
+
+点$\mr{O}$から底面$\mr{ABCD}$へ垂線を下ろし、その足を$\mr{H}$とする。ここで4つの三角形$\triangle\mr{AOH}$, $\triangle\mr{BOH}$, $\triangle\mr{COH}$, $\triangle\mr{DOH}$は全て合同となる。これから$\mr{AH}=\mr{BH}=\mr{CH}=\mr{DH}$が従う。このことは、4点$\mr{A}, \mr{B}, \mr{C}, \mr{D}$が点$\mr{H}$を中心とする同一円周上にあることを意味する。
+
+底面$\mr{ABCD}$を、$\triangle\mr{ABC}$と$\triangle\mr{CDA}$に分割して考える。与えられた条件から$\triangle\mr{ABC}$は定まっていて、余弦定理を用いれば
+\[ \mr{CA}^2=\mr{AB}^2+\mr{BC}^2-2\mr{AB}\cdot\mr{CA}\cdot\cos 120^\circ \quad\therefore\quad \mr{CA}=7 \]
+である。また面積は、
+\[ \triangle\mr{ABC}=\frac{1}{2}\mr{AB}\cdot\mr{BC}\cdot\sin 120^\circ=\frac{15}{4}\sqrt{3} \]
+である。一方、正弦定理を用いれば、
+\[ \frac{7}{\sin 120^\circ}=2\mr{AH} \quad\dou\quad \mr{AH}=\frac{7}{\sqrt{3}} \]
+であり、これよりさらに$\mr{OH}=\sqrt{\mr{OA}^2-\mr{AH}^2}=\dfrac{\sqrt{5}}{\sqrt{3}}$と求まる。
+
+四面体$\mr{O-ABCD}$の体積を最大にするためには、$\triangle\mr{CDA}$の面積が最大となればよい。$\mr{CA}=7$を底辺と見れば、点$\mr{D}$までの高さが最大となるように$\mr{D}$を取ればよい。点$\mr{D}$は円周上を動くから、$\mr{CA}$の垂直2等分線上にとれば高さを最大とできる。$\angle\mr{CDA}=60^\circ$であるから、このとき$\mr{DC}=\mr{DA}=7$で、$\triangle\mr{CDA}=\dfrac{49}{4}\sqrt{3}$となる。
+
+以上のことから、体積$V$の最大値は
+\[ V=\frac{1}{3}\frac{\sqrt{5}}{\sqrt{3}}\left(\frac{15}{4}\sqrt{3}+\frac{49}{4}\sqrt{3}\right)=\frac{16}{3}\sqrt{5} \]

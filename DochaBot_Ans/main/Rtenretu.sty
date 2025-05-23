@@ -1,0 +1,95 @@
+%%% Rtenretu.sty by tDB(emath@nifty.com)
+% 日本語
+\ProvidesPackage{Rtenretu}[2013/10/06 v0.00]%
+%
+\def\Rtenretu{\def\show@label{1}%
+  \@ifstar{\def\show@label{0}\@Rtenretu}{\@Rtenretu}}%
+\def\@Rtenretu{\@ifnextchar<{\@@Rtenretu}{\@@Rtenretu<\empty>}}%
+\def\@@Rtenretu<#1>#2#3{%
+% #1: \tenretu(*) に引き継ぐオプション
+% #2: 関数 r=r(t)
+% #3: 「[名札]点名(x)配置オプション」を ; で区切った列
+%
+  \def\get@Pname{\@ifnextchar[{\@get@Pname}{\@@get@Pname}}%
+  \def\@get@Pname[##1]##2\@nil{%
+    \Strsep{##2}{(}\yt@a\yt@tmp
+    \EMedef\yt@a{[##1]\yt@a}%
+  }%
+  \def\@@get@Pname##1\@nil{%
+    \Strsep{##1}{(}\yt@a\yt@tmp
+  }%
+%
+  \edef\save@hairetu@baseN{\hairetu@baseN}%
+  \hairetubaseN{1}%
+  \hairetusyokika{P@name}%
+  \hairetusyokika{P@houi}%
+  \edef\P@x{\empty}%
+  \t@perl{#2}\r@perl@siki
+  \exfor[;]\yt@c@:=#3\do{%
+    \trim\yt@c@\to\yt@c
+%    \Strsep\yt@c{(}\yt@a\yt@tmp
+    \expandafter\get@Pname\yt@c\@nil
+    \edef\yt@kakko{1}%
+    \edef\yt@b{}%
+    \Cfor{\Headchar\yt@tmp\yt@a@\yt@b@}{\yt@kakko>\z@}{}\do{%
+      \if (\yt@a@
+        \Incr\yt@kakko
+      \else\if )\yt@a@
+        \Decr\yt@kakko
+      \fi\fi
+      \ifnum\yt@kakko>\z@
+        \EMedefappend\yt@b{\yt@a@}%
+        \Headchar\yt@b@\yt@a@\yt@b@
+      \fi
+    }%
+    \hairetutuika{P@name}{\yt@a}%
+    \hairetutuika{P@houi}{\yt@b@}%
+    \ifx\empty\P@x
+      \EMedefappend\P@x{\yt@b}%
+    \else
+      \EMedefappend\P@x{,\yt@b}%
+    \fi
+  }%
+  \CalcVal{%
+    my @Px=(\P@x);
+    my $i=0;
+    foreach $sx (@Px) {
+      $x=$sx;
+      $rr=\r@perl@siki;
+      $xx=$rr*cos($x);
+      $yy=$rr*sin($x);
+      if (abs($xx)<\emLlim){$xx=0;}
+      if (abs($yy)<\emLlim){$yy=0;}
+      if ($i==0)
+          {printf FHNDL "(\@percent s,\@percent s)",$xx,$yy;}
+      else
+          {printf FHNDL ";(\@percent s,\@percent s)",$xx,$yy;}
+      ++$i;
+    }
+  }\Y@Pseq
+  \edef\i@val{0}%
+  \exfor[;]\yt@c:=\Y@Pseq\do{%
+    \Incr\i@val
+    \ifnum\i@val=\@ne
+      \EMedef\Y@retu{\hairetu{P@name}{\i@val}\yt@c\hairetu{P@houi}{\i@val}}%
+    \else
+      \EMedefappend\Y@retu{%
+        ;\hairetu{P@name}{\i@val}\yt@c\hairetu{P@houi}{\i@val}}%
+    \fi
+  }%
+  \ifnum\show@label>\z@
+    \EMedef\Y@retu{<#1>{\Y@retu}}%
+    \expandafter\tenretu\Y@retu%
+  \else
+    \EMedef\Y@retu{*<#1>{\Y@retu}}%
+    \expandafter\tenretu\Y@retu%
+  \fi
+}%
+%
+\endinput
+%
+v 0.00 2012/07/28
+v 0.01 2012/11/10 \iiiPtenretu
+v 0.02 2012/12/15 \iiiPtenretu: 引数の解釈補強 (BBS #11342)
+v 0.03 2013/05/19 \abctenretu
+v 0.04 2013/06/09 \Daentenretu

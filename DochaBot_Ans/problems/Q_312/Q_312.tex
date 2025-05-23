@@ -1,0 +1,64 @@
+\begin{thm}{312}{\hosi 10-高}{自作, 大数宿題2025-1月号}
+$-1\leq x\leq 1$の範囲で定義された連続関数$f(x)$がすべての実数$\theta$に対して
+\[ f(\sin{\theta}) \leq f(\cos{2\theta}) \]
+を満たすとき, $f(x)$は定数関数であることを示せ. 
+\end{thm}
+
+
+ $\sin{\theta} = \cos{\parena{\frac{\pi}{2} - \frac{\theta}{2}}}$に注意する. $\theta_{0}=\frac{[(-2)^n \alpha +1]}{3}$, 
+ $\theta_{n+1}=\frac{\pi}{2} - \frac{\theta_{n}}{2}$ ($n=0,1,\dots$) を満たす数列$\set{\theta_{n}}$を考えると, 条件式から$\theta = \frac{\theta_n}{2}$とおくことで $f(\cos{\theta_{n+1}})\leq f(\cos{\theta_{n}})$を得る. 
+漸化式より
+ \[\theta_{N} = \frac{\pi}{3} + \parena{-\frac{1}{2}}^{N}\parena{\theta_1 - \frac{\pi}{3}}\]
+ であるので, とくに$N=2n,n$のとき
+\bealn{
+\theta_{2n} &= \frac{\pi}{3} + \frac{1}{4^n}\parena{\frac{[(-2)^n\alpha + 1]}{3}  - \frac{1}{3}}\pi\\ 
+\theta_n &= \frac{\pi}{3} + \parena{\frac{[(-2)^n\alpha + 1]}{3\cdot (-2)^n}  - \frac{1}{3\cdot (-2)^n}}\pi
+}
+である. $\disp\lim_{n\to \infty} \frac{[(-2)^n\alpha + 1]}{3\cdot (-2)^n} = \frac{\alpha}{3}$なので(床関数の評価からすぐ従う), 
+\[
+\lim_{n\to \infty} \theta_n = \frac{1+\alpha}{3}\pi ,\quad \lim_{n\to\infty} \theta_{2n} = \frac{\pi}{3}
+\]
+となる. いま, 条件から
+\begin{equation} \label{eq:7-3-1}
+f(\cos{\theta_{2n}}) \leq f(\cos{\theta_n}) \leq f(\cos{\theta_1})
+\end{equation}
+であるため, この式を$n\to \infty$として連続性を用いることで
+\[
+f\parena{\cos{\frac{\pi}{3}}} = f\parena{\frac{1}{2}} \leq f\parena{\cos{\frac{1+\alpha}{3}\pi }} \leq f\parena{\cos{\frac{[(-2)^n\alpha + 1]}{3}\pi}}
+\]
+が従う. 
+
+
+ここで次を示す. 
+\begin{lem}\label{on_(P)_constant}
+実数$\alpha$が次の条件(P)を満たすと仮定する. 
+\begin{center}
+(P): 自然数の増大列$n_1 < n_2 < \dots$が存在して, すべての$k$に対して $[(-2)^{n_k}\alpha + 1]\equiv 1,5\pmod{6}$.
+\end{center}
+このとき, $f(\cos{\frac{(1+\alpha)}{3}\pi}) = f(\frac{1}{2})$である. 
+\end{lem}
+\begin{proof}
+$\theta_1$が$\frac{\pi}{3}$の整数倍であることに注意すると, $n=n_k$のとき $f(\cos{\theta_1}) = f(\frac{1}{2})$となるので, \cref{eq:7-3-1}にて $k\to \infty$とすることで$f(\cos{\frac{(1+\alpha)}{3}\pi}) \leq f(\frac{1}{2})$が従い, $f(\cos{\frac{(1+\alpha)}{3}\pi}) = f(\frac{1}{2})$となる.     
+\end{proof}
+すべての実数$\alpha$が上の条件を満たすわけではないが, 十分多くの$\alpha$に対して上が成り立つことを示し, 稠密性によって$f(x)$が定数関数$f(x) \equiv f(\frac{1}{2})$となることを示す. 
+
+\begin{lem} \label{lem:alpha_an_bn}
+正の整数$a$と整数$b$に対し, 実数$\alpha_{a,b} = 3b/(-2)^a$は条件(P)を満たす. 
+\end{lem}
+\begin{proof}
+$N\geq 1$に対して$(-2)^N \equiv 4\pmod{6}$である. よって 
+$n\geq a+1$とすると, 
+\[(-2)^n \alpha_{a,b} + 1 = (-2)^{n-a}\cdot 3b + 1 \equiv 1\pmod{6}\]
+だから$n_k = a + k$ ($k=1,2,\dots$)とすればよい.     
+\end{proof}
+
+ここで次を示す. 
+\begin{lem}[稠密性] \label{density_of_alpha_anbn}
+任意の実数$\alpha$に対し, ある正の整数$a_1,a_2,\dots$と整数$b_1,b_2,\dots$が存在して, $\disp\lim_{n\to \infty}\alpha_{a_n, b_n} = \alpha$. 
+\end{lem}
+
+\begin{proof}
+$a_n = n$とし, $b_n$は $\alpha_{n,b_n} \leq \alpha < \alpha_{n,b_n + 1}$が成り立つものをとる(このような$b_n$はただ一つに定まる). このとき, $|\alpha - \alpha_{a_n,b_n}| < \frac{3}{2^n}$なので$\alpha_{a_n,b_n}\to \alpha$である. 
+\end{proof}
+
+$f(x)$が定数であることを示す. 実数$\alpha$を任意に取り, \cref{density_of_alpha_anbn}によって$\alpha_{a_n,b_n}$を構成する. \cref{lem:alpha_an_bn}と\cref{on_(P)_constant}により$f(\cos{\frac{(1+\alpha_{a_n,b_n})}{3}\pi}) = f(\frac{1}{2})$である. この式を$n \to \infty$とすることで, $f$とcosの連続性から, $f(\cos{\frac{(1+\alpha)}{3}\pi}) = f(\frac{1}{2})$が従う. $\alpha$は任意であったから, 任意の実数$x$に対して$f(x) = f(\frac{1}{2})$であることが示された. 

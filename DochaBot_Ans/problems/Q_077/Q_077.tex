@@ -1,0 +1,22 @@
+\begin{thm}{077}{\hosi 4}{京大実戦}
+ 1辺の長さが1の正六角形$\mr{ABCDEF}$があり、$s+t+u=1$を満たす0以上の実数$s, t, u$を用いて、$\disp \vvv{\mr{AP}}=s\vvv{\mr{AB}}+t\vvv{\mr{AD}}+u\vvv{\mr{AE}}$で表される点$\mr{P}$を考える。このとき、内積$\vvv{\mr{AP}}\cdot\vvv{\mr{AF}}$の取りうる値の範囲を求めよ。
+\end{thm}
+
+内積の性質より、
+\[ \vvv{\mr{AP}}\cdot\vvv{\mr{AF}}=s(\vvv{\mr{AB}}\cdot\vvv{\mr{AF}})+t(\vvv{\mr{AD}}\cdot\vvv{\mr{AF}})+u(\vvv{\mr{AE}}\cdot\vvv{\mr{AF}}) \]
+一方で、$\mr{AB}=\mr{AF}=1$, $\mr{AD}=2$, $\mr{AE}=\sqrt{3}$より、
+\begin{align*}
+ \vvv{\mr{AB}}\cdot\vvv{\mr{AF}}&=1\cdot 1\cdot \cos 120^\circ=-\frac{1}{2} \\
+ \vvv{\mr{AD}}\cdot\vvv{\mr{AF}}&=2\cdot 1\cdot \cos 60^\circ=1 \\
+ \vvv{\mr{AE}}\cdot\vvv{\mr{AF}}&=\sqrt{3}\cdot 1\cdot \cos 30^circ=\frac{3}{2}
+\end{align*}
+であるから、結局$s, t, u\ge 0$かつ$s+t+u=1$のもとで
+\[ \vvv{\mr{AP}}\cdot\vvv{\mr{AF}}=-\frac{1}{2}s+t+\frac{3}{2}u \]
+の動く範囲を求めればよい。右辺を$F$とおく。$t=1-s-u$で消去すると、
+\[ F=1-\frac{3}{2}s+\frac{1}{2}u \]
+であり、$t\ge 0$より、$s, u\ge 0$かつ$s+u\le 1$のもとで考えればよい。
+
+$s$を$0\le s\le 1$でひとつ固定したとき、$u$は$0\le u\le 1-s$を動くことができ、$F$は$u$の関数と見て単調増加なので、$s$を固定した上では
+\[ 1-\frac{3}{2}s\le F\le 1-\frac{3}{2}s+\frac{1}{2}(1-s) = \frac{3}{2}-2s \]
+の範囲を動く。$F$は連続なのでこの範囲を満遍なく走る。この左辺と右辺を$0\le s\le 1$でみると、左辺は$s=1$で最小となりその値は$-\dfrac{1}{2}$、右辺は$s=0$で最大となりその値は$\dfrac{3}{2}$、となるから、$F=\vvv{\mr{AP}}\cdot\vvv{\mr{AF}}$のとり得る範囲は、
+\[ -\frac{1}{2}\le \vvv{\mr{AP}}\cdot\vvv{\mr{AF}}\le \frac{3}{2} \]

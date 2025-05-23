@@ -1,0 +1,23 @@
+\thm{Q.138　\hosi 7 (1) 京大理系2014　(2) 2017東大実戦理系}
+$\triangle$ABCが条件 $\angle{\mbox{B}}=2\angle{\mbox{A}}$, BC$=1$を満たしているとする。\\
+(1) $\triangle$ABCの面積が最大になるときの$\cos{B}$の値を求めよ。\\
+(2) $\triangle$ABCの内接円半径$r$と外接円半径$R$の比 $r/R$ の取りうる値の範囲を求めよ。
+\enthm
+(2) $\angle{\mbox{A}}=\theta$ とすると, $\angle{\mbox{B}}=2\theta, 　\angle{\mbox{B}}=\pi-3\theta$ であるから, これらが0より大きく$pi$未満になることより $0<\theta<\dfrac{\pi}{3}$の範囲で動かす。内心をIとして, 内接円とABの接点をHとしたとき, 三角形IHBに注目すると, $\angle{\mbox{IBH}}=\theta$なので
+\[\mbox{HB}=\dfrac{r}{\tan{\theta}}\]
+である。同様に考えると
+\[\mbox{HA}=\dfrac{r}{\tan{\frac{\theta}{2}}}\]
+であり, 正弦定理より
+\[AB=2R\sin{ (\pi-3\theta) } =\mbox{HA$+$HB} =r\left( \dfrac{1}{ \tan{\frac{\theta}{2} }}+\dfrac{1}{\tan{\theta}}\right)\]
+を得る。$\sin{\frac{\theta}{2}}=s, \cos{\frac{\theta}{2}}=c$とおいて$\sin{(\pi-3\theta)=\sin{3\theta}}$と倍角の公式から,整理すると
+\begin{eqnarray*}
+\dfrac{R}{r}&=&\dfrac{1}{2}\left( \dfrac{\sin{\theta}\cos{\frac{\theta}{2}}  +\cos{\theta}\sin{ \frac{\theta}{2} }  }{\sin{\frac{\theta}{2}}\sin{\theta}\sin{3\theta}}\right)=\dfrac{1}{2}\left( \dfrac{2sc\cdot c + (2c^2-1)s}{s\cdot \sin{\theta} \sin{3\theta}}\right)\\
+&=&\dfrac{4c^2-1}{2\sin{\theta}\sin{3\theta}} = \dfrac{2\cos{\theta}+1}{2\sin{\theta}\sin{3\theta}}=\dfrac{2\cos{\theta}+1}{2\sin^2{\theta}(4\cos^2{\theta}-1)}\\
+&=&\dfrac{1}{2(1-\cos^2{\theta})(2\cos{\theta}-1)}
+\end{eqnarray*}
+となる。よって, $\cos{\theta}=x$ ($\dfrac{1}{2}<x<1$)とおいて
+\[\dfrac{r}{R}=2(2x-1)(1-x^2)\]
+の取りうる値の範囲を考えればよい。$x$で微分すると $-12x^2+4x+4=-4(3x^2-x-1)$となるから. $x=\dfrac{1\pm \sqrt{13}}{6}$で極値をとる。$\dfrac{1}{2}<\dfrac{1+\sqrt{13}}{6}<1$で, ここで極大値かつ最大値をとる。$\dfrac{r}{R}$に$x=\dfrac{1+\sqrt{13}}{6}$を代入し
+\[2\cdot\dfrac{\sqrt{13}-2}{3}\cdot\dfrac{22-2\sqrt{13}}{36} = \dfrac{1}{54}(26\sqrt{13} -70)=\dfrac{1}{27}(13\sqrt{13}-35)\]
+となる。$x\to 1-0$とすればいくらでも0に近づくので,求める範囲は
+\[0<\dfrac{r}{R}<\leq \dfrac{1}{27}(13\sqrt{13}-35)\]

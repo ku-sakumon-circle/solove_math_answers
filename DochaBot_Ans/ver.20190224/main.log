@@ -1,0 +1,442 @@
+This is e-pTeX, Version 3.14159265-p3.8.1-180901-2.6 (utf8.sjis) (TeX Live 2018/W32TeX) (preloaded format=platex 2018.12.11)  17 MAY 2019 23:19
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**main.tex
+(./main.tex
+pLaTeX2e <2018-12-01> (based on LaTeX2e <2018-12-01>)
+(c:/w32tex/share/texmf-dist/tex/platex/jsclasses/jsarticle.cls
+Document Class: jsarticle 2018/12/11 jsclasses (okumura, texjporg)
+\jsc@mpt=\dimen118
+\jsc@mmm=\dimen119
+\jsc@smallskipamount=\skip41
+LaTeX Info: Redefining \rmfamily on input line 466.
+LaTeX Info: Redefining \sffamily on input line 469.
+LaTeX Info: Redefining \ttfamily on input line 472.
+LaTeX Info: Redefining \textmc on input line 476.
+LaTeX Info: Redefining \textgt on input line 478.
+\symmincho=\mathgroup4
+LaTeX Font Info:    Overwriting symbol font `mincho' in version `bold'
+(Font)                  JY1/mc/m/n --> JY1/gt/m/n on input line 540.
+LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
+(Font)              scaled to size 9.60999pt on input line 731.
+LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
+(Font)              scaled to size 9.60999pt on input line 731.
+\fullwidth=\dimen120
+LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
+(Font)              scaled to size 7.68799pt on input line 884.
+LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
+(Font)              scaled to size 7.68799pt on input line 884.
+\c@part=\count83
+\c@section=\count84
+\c@subsection=\count85
+\c@subsubsection=\count86
+\c@paragraph=\count87
+\c@subparagraph=\count88
+\@abstractbox=\box43
+\c@figure=\count89
+\c@table=\count90
+\abovecaptionskip=\skip42
+\belowcaptionskip=\skip43
+\jsc@tocl@width=\dimen121
+\@lnumwidth=\dimen122
+\bibindent=\dimen123
+(c:/w32tex/share/texmf-dist/tex/platex/jsclasses/jslogo.sty
+Package: jslogo 2017/02/24 okumura, texjporg
+LaTeX Info: Redefining \TeX on input line 94.
+LaTeX Info: Redefining \LaTeX on input line 147.
+LaTeX Info: Redefining \LaTeXe on input line 200.
+)
+\heisei=\count91
+)
+(c:/w32tex/share/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2018/12/01 v2.17b AMS math features
+\@mathmargin=\skip44
+
+For additional information on amsmath, use the `?' option.
+(c:/w32tex/share/texmf-dist/tex/latex/amsmath/amstext.sty
+Package: amstext 2000/06/29 v2.01 AMS text
+
+(c:/w32tex/share/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks15
+\ex@=\dimen124
+))
+(c:/w32tex/share/texmf-dist/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen125
+)
+(c:/w32tex/share/texmf-dist/tex/latex/amsmath/amsopn.sty
+Package: amsopn 2016/03/08 v2.02 operator names
+)
+\inf@bad=\count92
+LaTeX Info: Redefining \frac on input line 223.
+\uproot@=\count93
+\leftroot@=\count94
+LaTeX Info: Redefining \overline on input line 385.
+\classnum@=\count95
+\DOTSCASE@=\count96
+LaTeX Info: Redefining \ldots on input line 482.
+LaTeX Info: Redefining \dots on input line 485.
+LaTeX Info: Redefining \cdots on input line 606.
+\Mathstrutbox@=\box44
+\strutbox@=\box45
+\big@size=\dimen126
+LaTeX Font Info:    Redeclaring font encoding OML on input line 729.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 730.
+\macc@depth=\count97
+\c@MaxMatrixCols=\count98
+\dotsspace@=\muskip10
+\c@parentequation=\count99
+\dspbrk@lvl=\count100
+\tag@help=\toks16
+\row@=\count101
+\column@=\count102
+\maxfields@=\count103
+\andhelp@=\toks17
+\eqnshift@=\dimen127
+\alignsep@=\dimen128
+\tagshift@=\dimen129
+\tagwidth@=\dimen130
+\totwidth@=\dimen131
+\lineht@=\dimen132
+\@envbody=\toks18
+\multlinegap=\skip45
+\multlinetaggap=\skip46
+\mathdisplay@stack=\toks19
+LaTeX Info: Redefining \[ on input line 2844.
+LaTeX Info: Redefining \] on input line 2845.
+)
+(c:/w32tex/share/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+
+(c:/w32tex/share/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup5
+\symAMSb=\mathgroup6
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+))
+(c:/w32tex/share/texmf-dist/tex/latex/tools/bm.sty
+Package: bm 2017/01/16 v1.2c Bold Symbol Support (DPC/FMi)
+\symboldoperators=\mathgroup7
+\symboldletters=\mathgroup8
+\symboldsymbols=\mathgroup9
+\symboldmincho=\mathgroup10
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 141.
+LaTeX Info: Redefining \bm on input line 207.
+)
+(c:/w32tex/share/texmf-dist/tex/latex/braket/braket.sty)
+(c:/w32tex/share/texmf-dist/tex/latex/ascmac/ascmac.sty
+Package: ascmac 2018/03/09 v2.0h ascmac wrapper (community edition) 
+
+(c:/w32tex/share/texmf-dist/tex/latex/ascmac/tascmac.sty
+Package: tascmac 2018/03/09 v2.0h ascmac package (community edition) 
+\@savetbaselineshift=\dimen133
+\@saveybaselineshift=\dimen134
+\scb@x=\box46
+\scscb@x=\box47
+\@bw=\dimen135
+\@nbox=\box48
+\@nbody=\box49
+\@scw=\dimen136
+\ascmac@hoboxa=\box50
+\ascmac@hoboxb=\box51
+\@itemh=\dimen137
+\@iboxpos=\toks20
+\@iboxstr=\box52
+\@bwsp=\box53
+\@@bwsp=\box54
+\@bcal=\count104
+\shaderule=\dimen138
+))
+(c:/w32tex/share/texmf-dist/tex/latex/amscls/amsthm.sty
+Package: amsthm 2017/10/31 v2.20.4
+\thm@style=\toks21
+\thm@bodyfont=\toks22
+\thm@headfont=\toks23
+\thm@notefont=\toks24
+\thm@headpunct=\toks25
+\thm@preskip=\skip47
+\thm@postskip=\skip48
+\thm@headsep=\skip49
+\dth@everypar=\toks26
+)
+(c:/w32tex/share/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
+Package: fancyhdr 2017/06/30 v3.9a Extensive control of page headers and footer
+s
+\f@nch@headwidth=\skip50
+\f@nch@O@elh=\skip51
+\f@nch@O@erh=\skip52
+\f@nch@O@olh=\skip53
+\f@nch@O@orh=\skip54
+\f@nch@O@elf=\skip55
+\f@nch@O@erf=\skip56
+\f@nch@O@olf=\skip57
+\f@nch@O@orf=\skip58
+)
+(c:/w32tex/share/texmf-dist/tex/latex/geometry/geometry.sty
+Package: geometry 2018/04/16 v5.8 Page Geometry
+
+(c:/w32tex/share/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks27
+)
+(c:/w32tex/share/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2018/09/07 v3.3 Provides the ifpdf switch
+)
+(c:/w32tex/share/texmf-dist/tex/generic/oberdiek/ifvtex.sty
+Package: ifvtex 2016/05/16 v1.6 Detect VTeX and its facilities (HO)
+Package ifvtex Info: VTeX not detected.
+)
+(c:/w32tex/share/texmf-dist/tex/generic/ifxetex/ifxetex.sty
+Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
+)
+\Gm@cnth=\count105
+\Gm@cntv=\count106
+\c@Gm@tempcnt=\count107
+\Gm@bindingoffset=\dimen139
+\Gm@wd@mp=\dimen140
+\Gm@odd@mp=\dimen141
+\Gm@even@mp=\dimen142
+\Gm@layoutwidth=\dimen143
+\Gm@layoutheight=\dimen144
+\Gm@layouthoffset=\dimen145
+\Gm@layoutvoffset=\dimen146
+\Gm@dimlist=\toks28
+
+(c:/w32tex/share/texmf-dist/tex/latex/geometry/geometry.cfg))
+No file main.aux.
+\openout1 = `main.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 50.
+LaTeX Font Info:    ... okay on input line 50.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 50.
+LaTeX Font Info:    ... okay on input line 50.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 50.
+LaTeX Font Info:    ... okay on input line 50.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 50.
+LaTeX Font Info:    ... okay on input line 50.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 50.
+LaTeX Font Info:    ... okay on input line 50.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 50.
+LaTeX Font Info:    ... okay on input line 50.
+LaTeX Font Info:    Checking defaults for JY1/mc/m/n on input line 50.
+LaTeX Font Info:    ... okay on input line 50.
+LaTeX Font Info:    Checking defaults for JT1/mc/m/n on input line 50.
+LaTeX Font Info:    ... okay on input line 50.
+*geometry* driver: auto-detecting
+*geometry* detected driver: dvips
+*geometry* verbose mode - [ preamble ] result:
+* driver: dvips
+* paper: <default>
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(19.91692pt, 557.67404pt, 19.91692pt)
+* v-part:(T,H,B)=(71.13188pt, 702.78308pt, 71.13188pt)
+* \paperwidth=597.50787pt
+* \paperheight=845.04684pt
+* \textwidth=557.67404pt
+* \textheight=702.78308pt
+* \oddsidemargin=-52.35307pt
+* \evensidemargin=-52.35307pt
+* \topmargin=-36.8353pt
+* \headheight=20.0pt
+* \headsep=15.69719pt
+* \topskip=12.76073pt
+* \footskip=28.45792pt
+* \marginparwidth=27.74062pt
+* \marginparsep=18.49374pt
+* \columnsep=18.49374pt
+* \skip\footins=16.0pt plus 5.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumntrue
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
+(Font)              scaled to size 8.64899pt on input line 51.
+LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
+(Font)              scaled to size 8.64899pt on input line 51.
+LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <9> not available
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 52.
+LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
+(Font)              scaled to size 8.64899pt on input line 52.
+LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <9> not available
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 52.
+LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
+(Font)              scaled to size 8.64899pt on input line 52.
+LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <14.4> not available
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 53.
+LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
+(Font)              scaled to size 13.83836pt on input line 53.
+LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <14.4> not available
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 53.
+LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
+(Font)              scaled to size 13.83836pt on input line 53.
+LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
+(Font)              scaled to size 11.53198pt on input line 95.
+LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
+(Font)              scaled to size 11.53198pt on input line 95.
+LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
+(Font)              scaled to size 11.53198pt on input line 95.
+LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
+(Font)              scaled to size 11.53198pt on input line 95.
+(./Q_002.tex
+LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
+(Font)              scaled to size 5.76599pt on input line 2.
+LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
+(Font)              scaled to size 4.805pt on input line 2.
+LaTeX Font Info:    Try loading font information for U+msa on input line 2.
+ (c:/w32tex/share/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 2.
+
+(c:/w32tex/share/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
+(Font)              scaled to size 5.76599pt on input line 2.
+LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
+(Font)              scaled to size 4.805pt on input line 2.
+LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <10> not available
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 7.
+LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
+(Font)              scaled to size 9.60999pt on input line 7.
+LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <10> not available
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 7.
+LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
+(Font)              scaled to size 9.60999pt on input line 7.
+LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
+(Font)              scaled to size 6.72699pt on input line 8.
+LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
+(Font)              scaled to size 6.72699pt on input line 8.
+) (./Q_005.tex
+LaTeX Font Info:    Font shape `JT1/mc/m/sl' in size <10> not available
+(Font)              Font shape `JT1/mc/m/n' tried instead on input line 10.
+LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
+(Font)              scaled to size 9.60999pt on input line 10.
+LaTeX Font Info:    Font shape `JY1/mc/m/sl' in size <10> not available
+(Font)              Font shape `JY1/mc/m/n' tried instead on input line 10.
+LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
+(Font)              scaled to size 9.60999pt on input line 10.
+ [1
+
+])
+(./Q_007.tex) (./Q_018.tex) (./Q_028.tex
+LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
+(Font)              scaled to size 5.76599pt on input line 16.
+LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
+(Font)              scaled to size 7.68799pt on input line 16.
+ [2]) (./Q_033.tex) (./Q_035.tex
+[3]) (./Q_039.tex
+LaTeX Font Info:    Font shape `JT1/mc/m/it' in size <9> not available
+(Font)              Font shape `JT1/mc/m/n' tried instead on input line 6.
+LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
+(Font)              scaled to size 8.64899pt on input line 6.
+LaTeX Font Info:    Font shape `JY1/mc/m/it' in size <9> not available
+(Font)              Font shape `JY1/mc/m/n' tried instead on input line 6.
+LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
+(Font)              scaled to size 8.64899pt on input line 6.
+) (./Q_060.tex [4]) (./Q_063.tex)
+Underfull \hbox (badness 10000) detected at line 125
+[]$[]$[]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 127
+[]$[]$[]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 129
+[]$[]$[]
+ []
+
+(./Q_098.tex) (./Q_121.tex [5]) (./Q_124.tex) (./Q_127.tex) (./Q_138.tex
+[6]) (./Q_142.tex) (./Q_143.tex) (./Q_151.tex) (./Q_157.tex) [7] (./Q_161.tex)
+(./Q_170.tex)
+Underfull \hbox (badness 10000) detected at line 165
+[]$[]$[]
+ []
+
+(./Q_175.tex [8]) (./Q_177.tex
+Underfull \hbox (badness 2318) in paragraph at lines 27--35
+[]\JY1/gt/m/n/9 シグマの $\OML/cmm/m/it/9 k \OT1/cmr/m/n/9 = 0$ \JY1/gt/m/n/9 
+の項のみを右辺に移項して\OT1/cmr/bx/n/9 ,$\OML/cmm/m/it/9 T[] \OT1/cmr/m/n/9 +
+ []
+
+) (./Q_178.tex) (./Q_180.tex [9]) (./Q_189.tex) (./Q_198.tex
+Overfull \hbox (0.85416pt too wide) detected at line 8
+\OML/cmm/m/it/9 P\OT1/cmr/m/n/9 (\OML/cmm/m/it/9 n \OT1/cmr/m/n/9 + \OML/cmm/m/
+it/9 P\OT1/cmr/m/n/9 (1)) = [] \OML/cmm/m/it/9 a[]\OT1/cmr/m/n/9 (\OML/cmm/m/it
+/9 n \OT1/cmr/m/n/9 + \OML/cmm/m/it/9 P\OT1/cmr/m/n/9 (1))[] \OMS/cmsy/m/n/9 ^^
+Q [] \OML/cmm/m/it/9 a[]n[] \OT1/cmr/m/n/9 = \OML/cmm/m/it/9 P\OT1/cmr/m/n/9 (\
+OML/cmm/m/it/9 n\OT1/cmr/m/n/9 ) \JY1/mc/m/n/9 　 \OT1/cmr/m/n/9 ([]\OML/cmm/m/
+it/9 P\OT1/cmr/m/n/9 (1))
+ []
+
+) (./Q_207.tex) (./Q_210.tex
+LaTeX Font Info:    Font shape `JT1/mc/m/it' in size <6> not available
+(Font)              Font shape `JT1/mc/m/n' tried instead on input line 2.
+LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
+(Font)              scaled to size 5.76599pt on input line 2.
+LaTeX Font Info:    Font shape `JY1/mc/m/it' in size <6> not available
+(Font)              Font shape `JY1/mc/m/n' tried instead on input line 2.
+LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
+(Font)              scaled to size 5.76599pt on input line 2.
+) (./Q_211.tex [10]
+Overfull \hbox (10.71503pt too wide) detected at line 19
+\OMS/cmsy/m/n/9 ^^@\OT1/cmr/m/n/9 (2[] \OMS/cmsy/m/n/9 ^^@ \OT1/cmr/m/n/9 1) \O
+ML/cmm/m/it/9 < \OT1/cmr/m/n/9 0 \OMS/cmsy/m/n/9 ^^@ \OML/cmm/m/it/9 a[] \OMS/c
+msy/m/n/9 ^^T \OT1/cmr/m/n/9 2\OML/cmm/m/it/9 a[] \OMS/cmsy/m/n/9 ^^@ \OML/cmm/
+m/it/9 a[] \OMS/cmsy/m/n/9 ^^T \OT1/cmr/m/n/9 2\OML/cmm/m/it/9 a[] \OMS/cmsy/m/
+n/9 ^^@ \OML/cmm/m/it/9 a[] < \OT1/cmr/m/n/9 2\OML/cmm/m/it/9 a[] \OMS/cmsy/m/n
+/9 ^^@ \OML/cmm/m/it/9 a[] \OT1/cmr/m/n/9 = \OML/cmm/m/it/9 a[] < \OT1/cmr/m/n/
+9 2[] \OMS/cmsy/m/n/9 ^^@ \OT1/cmr/m/n/9 1
+ []
+
+
+Overfull \hbox (3.97865pt too wide) detected at line 51
+\OML/cmm/m/it/9 b[] \OT1/cmr/m/n/9 = 2\OML/cmm/m/it/9 b[] \OMS/cmsy/m/n/9 ^^@ \
+OT1/cmr/m/n/9 (2[] \OMS/cmsy/m/n/9 ^^@ \OT1/cmr/m/n/9 1) = 2 \OMS/cmsy/m/n/9 ^^
+B \OT1/cmr/m/n/9 2[]\OML/cmm/m/it/9 b[] \OMS/cmsy/m/n/9 ^^@ \OT1/cmr/m/n/9 (2[]
+ \OMS/cmsy/m/n/9 ^^@ \OT1/cmr/m/n/9 1) = 2[]\OML/cmm/m/it/9 b[] \OMS/cmsy/m/n/9
+ ^^@ \OT1/cmr/m/n/9 (2[] \OMS/cmsy/m/n/9 ^^@ \OT1/cmr/m/n/9 1)
+ []
+
+) (./Q_218.tex) (./Q_225.tex
+Underfull \hbox (badness 1377) in paragraph at lines 27--40
+\JY1/gt/m/n/9 となる 。 しかし\OT1/cmr/bx/n/9 , \JY1/gt/m/n/9 相互法則と第一穂
+充則により $[] \OT1/cmr/m/n/9 =
+ []
+
+[11]
+Overfull \hbox (17.90605pt too wide) in alignment at lines 97--100
+ [][][] []
+ []
+
+[12]
+Overfull \hbox (3.0919pt too wide) detected at line 120
+[] \JY1/mc/m/n/10 　
+ []
+
+) (./Q_226.tex) [13
+
+] (./main.aux) ) 
+Here is how much of TeX's memory you used:
+ 2434 strings out of 493224
+ 28731 string characters out of 6146014
+ 128105 words of memory out of 5000000
+ 6285 multiletter control sequences out of 15000+600000
+ 24518 words of font info for 106 fonts, out of 8000000 for 9000
+ 934 hyphenation exceptions out of 8191
+ 39i,23n,43p,616b,391s stack positions out of 5000i,500n,10000p,500000b,80000s
+
+Output written on main.dvi (13 pages, 129832 bytes).

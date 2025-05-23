@@ -1,0 +1,30 @@
+\begin{thm}{008}{\hosi 5}{JMO予選 2014-3番 改題}
+ $15!$の正の約数$d$の全てについて、$\dfrac{1}{d+\sqrt{15!}}$を全て足し合わせたものを求めよ。
+\end{thm}
+\textbf{(解答:2021/11/27更新)} 
+$S_n = \sum_{0<d, d|n}\dfrac{1}{d+\sqrt{n}}$とおく. ここでシグマの$d$は$n$の正の約数を走るというものである. さて, $d$が$n$の正の約数を走るとき, $n/d$もそう走るので, 
+\[S_n = \sum_{0<d, d|n} \dfrac{1}{\dfrac{n}{d} + \sqrt{n}} = \sum_{0<d, d|n} \dfrac{d}{\sqrt{n}(\sqrt{n}+d)} \]
+が成り立つ. よって, 
+\begin{align*}
+S_n &= \dfrac{1}{2}S_n + \dfrac{1}{2} S_n \\
+&= \dfrac{1}{2}\sum_{0<d, d|n} \left\{ \dfrac{1}{d+\sqrt{n}} + \dfrac{d}{\sqrt{n}(\sqrt{n} + d)} \right\} \\
+&= \dfrac{1}{2}\sum_{0<d, d|n} \dfrac{\sqrt{n} + d}{\sqrt{n}(\sqrt{n} + d)}\\
+&= \dfrac{1}{2}\sum_{0<d, d|n} \dfrac{1}{\sqrt{n}} \\
+&= \dfrac{(nの正の約数の個数)}{2\sqrt{n}}
+\end{align*}
+ここで$n=15! = 2^11\times 3^6\times 5^3 \times 7^2\times 11\times 13$ のときは正の約数の個数が4032であるから, 
+\[S_{15!} = \dfrac{2016}{\sqrt{15!}} = \dfrac{1}{15\sqrt{1430}}\]
+\textbf{(旧解答)}
+$n=15!$とする。求めるものは、$\disp \sum_{d|n}\frac{1}{d+\sqrt{n}}$ である。ここで、
+\[ \frac{1}{d+\sqrt{n}} = \frac{d-\sqrt{n}}{d^2-n} = \frac{1}{d-\frac{n}{d}}-\frac{1}{\sqrt{n}}\frac{\frac{n}{d}}{d-\frac{n}{d}} \]
+と整理できる。\\
+$n=15!=2^{11}\times 3^6\times 5^3\times 7^2\times 11\times 13$より、$n$の約数の個数は明らかに偶数である。この個数を$2k$とおき、小さい順に$i$番目の$n$の約数を$d_i$とする。ここで、$i$を$1\le i \le k$の範囲で動かすとき、$\dfrac{n}{d_i}$は$k+1\le j \le 2k$の範囲のすべての$d_j$をとる。このことから、$n$の約数全体についての総和は、
+\begin{align*}
+ \sum_{d|n} \frac{1}{d-\frac{n}{d}}=\sum_{i=1}^k \left(\frac{1}{d_i-\frac{n}{d_i}}+\frac{1}{\frac{n}{d_i}-\frac{n}{n/d_i}}\right) &= 0 \\
+ \sum_{d|n} \frac{1}{\sqrt{n}}\frac{\frac{n}{d}}{d-\frac{n}{d}} = \frac{1}{\sqrt{n}} \sum_{i=1}^k \left(\frac{\frac{n}{d_i}}{d_i-\frac{n}{d_i}} + \frac{\frac{n}{n/d_i}}{\frac{n}{d_i}-\frac{n}{n/d_i}}\right) &= -\frac{k}{\sqrt{n}} 
+\end{align*}
+と書き直せる。以上のことから、
+\[ \sum_{d|n}\frac{1}{d+\sqrt{n}} = \frac{k}{\sqrt{n}} \]
+と求められた。$n$の素因数分解の結果から、$n$の約数の個数は4032個であり、これを$2k$としたので、$k=2016$である。
+
+よって求める値は、\textbf{$\dfrac{2}{15\sqrt{1430}}$}。

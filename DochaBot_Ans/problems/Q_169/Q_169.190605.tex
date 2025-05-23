@@ -1,0 +1,26 @@
+\begin{thm}{169}{\hosi 7}{学コン}
+ $f(x)=x(2-\log x)$ とする。
+ \begin{enumerate}
+  \item $1<x<e$ ならば、$2<f(x)<e$ であることを示せ。
+  \item $a_1=\alpha$ $(1<\alpha <e)$, $a_{n+1}=f(a_n)$ $(n=1, 2, 3, \cdots)$ により定まる数列$\{a_n\}$について、$\disp \lim_{n\to\infty} a_n = e$ であることを示せ。
+ \end{enumerate}
+\end{thm}
+
+\syoumon{1}
+$f'(x)=1-\log x$ であるから、$1<x<e$において常に$f'(x)>0$、すなわち$f(x)$は単調増加である。したがって、$1<x<e$において
+\[ f(1)<f(x)<f(e) \quad\dou\quad 2<f(x)<e \]
+であることが示された。
+
+\syoumon{2}
+(1)の結果より、帰納的に$n\ge 2$ならば$2<a_n<e$であることがわかる。$f(e)=e$であるから、漸化式から
+\[ |a_{n+1}-e|=|f(a_n)-f(e)| \]
+がいえる。この式の右辺について、平均値の定理から、ある$a_n\le t_n \le e$を満たす$t_n$が存在して
+\[ |f(a_n)-f(e)|=|a_n-e|\cdot f'(t_n) \]
+を満たす。この右辺を評価する。$n\ge 2$のとき$2<t_n\le e$であって、$f'(x)=1-\log x$は単調減少であることを踏まえて
+\[ |a_n-e|\cdot |f'(t_n)| < |a_n-e|\cdot |f'(2)| \]
+となるので、$n\le 3$において
+\[ 0\le |a_n-e|<|a_{n-1}-e|\cdot |f'(2)|<\dots< |a_2-e|\cdot |f'(2)|^{n-2} \]
+である。$|f'(2)|=1-\log 2=\log \dfrac{e}{2}<1$であるから、
+\[ \lim_{n\to\infty} |a_2-e|\cdot |f'(2)|^{n-2}=0 \]
+である。よってはさみうちの原理から、
+\[ \lim_{n\to\infty} |a_n-e|=0 \quad\dou\quad \lim_{n\to\infty} =e \]

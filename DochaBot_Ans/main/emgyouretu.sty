@@ -1,0 +1,776 @@
+%%% emgyouretu.sty by tDB(emath@nifty.com)
+% 日本語
+\ProvidesPackage{emgyouretu}[2015/08/16 v0.03]%
+%
+%\RequirePackage{emath}%
+\@ifpackageloaded{emath}{}{\RequirePackage{emath}}%
+%
+% 行列
+%
+\edef\gyouretu@gyoukan@{\empty}%
+\def\gyouretugyoukan#1{\edef\gyouretu@gyoukan@{#1}}%
+\define@key{emath}{gyoukan}{\edef\gyouretu@gyoukan{#1}}%
+%
+\def\gyouretu@haiti{c}%
+\def\gyouretu@haiti@{\gyouretu@haiti}
+\def\EMmatrixsep{\z@}%
+\renewenvironment{matrix}{%
+  \matrix@check\matrix\env@matrix
+}{%
+  \endarray \hskip -\arraycolsep\hskip\EMmatrixsep
+}
+\def\env@matrix{\hskip -\arraycolsep\hskip\EMmatrixsep
+  \let\@ifnextchar\new@ifnextchar
+  \edef\env@matrix@tmp{{*{\the\c@MaxMatrixCols}\gyouretu@haiti@}}%
+  \expandafter\array\env@matrix@tmp}
+% \array{*\c@MaxMatrixCols \gyouretu@haiti@}}
+\def\gyouretuhaiti#1{\def\gyouretu@haiti{#1}}
+%
+% ２次の正方行列
+%
+\DeclareRobustCommand{\gyouretu}{%
+    \edef\gyouretu@gyoukan{\gyouretu@gyoukan@}%
+    \@ifnextchar<{\@gyouretu@}{\@gyouretu}}%
+  \def\@gyouretu@<#1>{\setkeys{emath}{#1}\@gyouretu}%
+  \def\@gyouretu{\@ifnextchar[{\@@gyouretu}{\@@gyouretu[\gyouretu@haiti]}}
+  \def\@@gyouretu[#1]#2#3#4#5{\def\gyouretu@haiti@{#1}{\ensuremath{%
+    \begin{pmatrix}
+      #2 & #3 
+      \ifx\empty\gyouretu@gyoukan
+      \else
+        \vspace{\gyouretu@gyoukan}%
+      \fi
+      \\
+      #4 & #5 
+    \end{pmatrix}}}}%
+%
+% 回転行列
+%
+\DeclareRobustCommand{\Rgyouretu}{%
+    \edef\em@pre{\empty}%
+    \edef\gyouretu@gyoukan{\gyouretu@gyoukan@}%
+    \@ifstar{\@R@gyouretu}{\@Rgyouretu}}%
+  \def\@Rgyouretu{\@ifnextchar<{\@Rgyouretu@}{\@@Rgyouretu}}%
+  \def\@Rgyouretu@<#1>{\setkeys{emath}{#1}\@@Rgyouretu}%
+  \def\@@Rgyouretu{%
+    \@ifnextchar[{\@@@Rgyouretu}{\@@@Rgyouretu[\gyouretu@haiti]}}
+  \def\@@@Rgyouretu[#1]#2{\def\gyouretu@haiti@{#1}{\ensuremath{%
+    \begin{pmatrix}
+      \@ifundefined{hakobanpush}{}{\hakobanpush}%
+      \em@pre\cos#2 
+      \@ifundefined{hakobanpush}{}{\hakobanpop}%
+      &
+      \@ifundefined{hakobanpush}{}{\hakobanpush}%
+      -\em@pre\sin#2 
+      \@ifundefined{hakobanpush}{}{\hakobanpop}%
+      \ifx\empty\gyouretu@gyoukan
+      \else
+        \vspace{\gyouretu@gyoukan}%
+      \fi
+      \\
+      \@ifundefined{hakobanpush}{}{\hakobanpush}%
+      \em@pre\sin#2 
+      \@ifundefined{hakobanpush}{}{\hakobanpop}%
+      &
+      \em@pre\cos#2 
+    \end{pmatrix}}}}%
+  \def\@R@gyouretu{\@ifnextchar<{\@R@gyouretu@}{\@@R@gyouretu}}%
+  \def\@R@gyouretu@<#1>{\setkeys{emath}{#1}\@@R@gyouretu}%
+  \def\@@R@gyouretu{%
+    \@ifnextchar[{\@@@R@gyouretu}{\@@@R@gyouretu[\gyouretu@haiti]}}
+  \def\@@@R@gyouretu[#1]#2{\def\gyouretu@haiti@{#1}{\ensuremath{%
+    \edef\gyouretu@gyoukan{\gyouretu@gyoukan@}%
+    \begin{pmatrix}
+      \@ifundefined{hakobanpush}{}{\hakobanpush}%
+      \em@pre\cos#2 
+      \@ifundefined{hakobanpush}{}{\hakobanpop}%
+      &
+      \@ifundefined{hakobanpush}{}{\hakobanpush}%
+      \em@pre\sin#2 
+      \@ifundefined{hakobanpush}{}{\hakobanpop}%
+      \ifx\empty\gyouretu@gyoukan
+      \else
+        \vspace{\gyouretu@gyoukan}%
+      \fi
+      \\
+      \@ifundefined{hakobanpush}{}{\hakobanpush}%
+      -\em@pre\sin#2 
+      \@ifundefined{hakobanpush}{}{\hakobanpop}%
+      &
+      \em@pre\cos#2 
+    \end{pmatrix}}}}%
+%
+% 原点を通る直線に関する線対称移動
+%
+\DeclareRobustCommand{\Mgyouretu}{%
+    \edef\em@pre{\empty}%
+    \edef\gyouretu@gyoukan{\gyouretu@gyoukan@}%
+    \@ifstar{\@M@gyouretu}{\@Mgyouretu}}%
+  \def\@Mgyouretu{\@ifnextchar<{\@Mgyouretu@}{\@@Mgyouretu}}%
+  \def\@Mgyouretu@<#1>{\setkeys{emath}{#1}\@@Mgyouretu}%
+  \def\@@Mgyouretu{%
+    \@ifnextchar[{\@@@Mgyouretu}{\@@@Mgyouretu[\gyouretu@haiti]}}
+  \def\@@@Mgyouretu[#1]#2{\def\gyouretu@haiti@{#1}{\ensuremath{%
+    \begin{pmatrix}
+      \@ifundefined{hakobanpush}{}{\hakobanpush}%
+      \em@pre\cos#2 
+      \@ifundefined{hakobanpush}{}{\hakobanpop}%
+      &
+      \@ifundefined{hakobanpush}{}{\hakobanpush}%
+      \em@pre\sin#2 
+      \@ifundefined{hakobanpush}{}{\hakobanpop}%
+      \ifx\empty\gyouretu@gyoukan
+      \else
+        \vspace{\gyouretu@gyoukan}%
+      \fi
+      \\
+      \@ifundefined{hakobanpush}{}{\hakobanpush}%
+      \em@pre\sin#2 
+      \@ifundefined{hakobanpush}{}{\hakobanpop}%
+      &
+      -\em@pre\cos#2 
+    \end{pmatrix}}}}%
+  \def\@M@gyouretu{\@ifnextchar<{\@M@gyouretu@}{\@@M@gyouretu}}%
+  \def\@M@gyouretu@<#1>{\setkeys{emath}{#1}\@@M@gyouretu}%
+  \def\@@M@gyouretu{%
+    \@ifnextchar[{\@@@M@gyouretu}{\@@@M@gyouretu[\gyouretu@haiti]}}
+  \def\@@@M@gyouretu[#1]#2{\def\gyouretu@haiti@{#1}{\ensuremath{%
+    \edef\gyouretu@gyoukan{\gyouretu@gyoukan@}%
+    \begin{pmatrix}
+      \@ifundefined{hakobanpush}{}{\hakobanpush}%
+      -\em@pre\cos#2 
+      \@ifundefined{hakobanpush}{}{\hakobanpop}%
+      &
+      \@ifundefined{hakobanpush}{}{\hakobanpush}%
+      \em@pre\sin#2 
+      \@ifundefined{hakobanpush}{}{\hakobanpop}%
+      \ifx\empty\gyouretu@gyoukan
+      \else
+        \vspace{\gyouretu@gyoukan}%
+      \fi
+      \\
+      \@ifundefined{hakobanpush}{}{\hakobanpush}%
+      \em@pre\sin#2 
+      \@ifundefined{hakobanpush}{}{\hakobanpop}%
+      &
+      \em@pre\cos#2 
+    \end{pmatrix}}}}%
+%
+% ３次の正方行列
+%
+  \def\Gyouretu{%
+    \edef\gyouretu@gyoukan{\gyouretu@gyoukan@}%
+    \@ifnextchar<{\@Gyouretu@}{\@Gyouretu}}%
+  \def\@Gyouretu@<#1>{\setkeys{emath}{#1}\@Gyouretu}%
+  \def\@Gyouretu{\@ifnextchar[{\@@Gyouretu}{\@@Gyouretu[\gyouretu@haiti]}}
+  \def\@@Gyouretu[#1]{\def\gyouretu@haiti@{#1}\@@@Gyouretu}
+  \def\@@@Gyouretu#1#2#3#4#5#6#7#8#9{\ensuremath{%
+    \begin{pmatrix}
+      #1 & #2 & #3
+      \ifx\empty\gyouretu@gyoukan
+      \else
+        \vspace{\gyouretu@gyoukan}%
+      \fi
+      \\
+      #4 & #5 & #6
+      \ifx\empty\gyouretu@gyoukan
+      \else
+        \vspace{\gyouretu@gyoukan}%
+      \fi
+      \\
+      #7 & #8 & #9
+    \end{pmatrix}
+  }}%
+%
+% 列ベクトル・行ベクトル
+%
+  \def\retube{%
+    \edef\gyouretu@gyoukan{\gyouretu@gyoukan@}%
+    \@ifnextchar<{\@retube@}{\@retube}}%
+  \def\@retube@<#1>{\setkeys{emath}{#1}\@retube}%
+  \def\@retube{\@ifnextchar[{\@@retube}{\@@retube[\gyouretu@haiti]}}
+  \def\@@retube[#1]#2#3{\def\gyouretu@haiti@{#1}{\ensuremath{%
+    \begin{pmatrix} 
+      #2 
+      \ifx\empty\gyouretu@gyoukan
+      \else
+        \vspace{\gyouretu@gyoukan}%
+      \fi
+      \\
+      #3 
+    \end{pmatrix}}}}%
+  \def\Retube{%
+    \edef\gyouretu@gyoukan{\gyouretu@gyoukan@}%
+    \@ifnextchar<{\@Retube@}{\@Retube}}%
+  \def\@Retube@<#1>{\setkeys{emath}{#1}\@Retube}%
+  \def\@Retube{\@ifnextchar[{\@@Retube}{\@@Retube[\gyouretu@haiti]}}
+  \def\@@Retube[#1]#2#3#4{\def\gyouretu@haiti@{#1}{\ensuremath{%
+    \begin{pmatrix}
+      #2 
+      \ifx\empty\gyouretu@gyoukan
+      \else
+        \vspace{\gyouretu@gyoukan}%
+      \fi
+      \\
+      #3
+      \ifx\empty\gyouretu@gyoukan
+      \else
+        \vspace{\gyouretu@gyoukan}%
+      \fi
+      \\
+      #4
+    \end{pmatrix}}}}%
+  \def\gyoube#1#2{\ensuremath{\begin{pmatrix} #1 & #2 \end{pmatrix}}\ignorespaces}%
+  \def\Gyoube#1#2#3{\ensuremath{\begin{pmatrix} #1 & #2 & #3 \end{pmatrix}}}%
+%
+% 一般の行列
+%   ex. \pgyouretu{1,2,3;4,5,6}
+%
+%\def\pgyouretu{%
+\DeclareRobustCommand\pgyouretu{\begingroup
+    \edef\gyouretu@gyoukan{\gyouretu@gyoukan@}%
+    \@ifnextchar<{\@pgyouretu@}{\@pgyouretu}}%
+\def\@pgyouretu@<#1>{\setkeys{emath}{#1}\@pgyouretu}%
+\def\@pgyouretu{\@ifnextchar[{\@@pgyouretu}{\@@pgyouretu[\gyouretu@haiti]}}
+\def\@@pgyouretu[#1]#2{%\let\EMdef\gdef
+  \def\gyouretu@haiti@{#1}%
+  \ensuremath{%
+    \begin{pmatrix}
+      \edef\pM@tmp{}%
+      \Cfor%
+        {\Strsep{#2}{;}\pM@tempa\pM@tempb}%
+        {\not\equal\pM@tempa\empty}%
+        {\Strsep\pM@tempb{;}\pM@tempa\pM@tempb}%
+      \do{%
+        \edef\pM@i{0}%
+        \expandafter\@for\expandafter\pM@c\expandafter:\expandafter=\pM@tempa
+        \do{%
+          \ifnum\pM@i=\z@
+            \EMedefappend\pM@tmp{\pM@c}%
+          \else
+            \EMedefappend\pM@tmp{&\pM@c}%
+          \fi
+          \Incr\pM@i
+        }%
+        \ifthenelse{\equal\pM@tempb\empty}{}{%
+          \ifx\empty\gyouretu@gyoukan
+          \else
+            \EMedefappend\pM@tmp{\noexpand\vspace{\gyouretu@gyoukan}}%
+          \fi
+          \EMedefappend\pM@tmp{\noexpand\\}%
+        }%
+      }%
+      \pM@tmp
+    \end{pmatrix}%
+  }%
+  \endgroup
+}%
+%
+\def\bgyouretu{\@ifnextchar[{\@bgyouretu}{\@bgyouretu[\gyouretu@haiti]}}
+\def\@bgyouretu[#1]#2{{\let\EMdef\gdef
+  \def\gyouretu@haiti@{#1}\ensuremath{%
+  \begin{bmatrix}
+  \Cfor%
+    {\Strsep{#2}{;}\pM@tempa\pM@tempb}%
+    {\not\equal\pM@tempa\empty}%
+    {\Strsep\pM@tempb{;}\pM@tempa\pM@tempb}%
+    \do{%
+      \Cfor%
+        {\xdef\lntop{0}\Strsep\pM@tempa{,}\pM@tempc\pM@tempd
+        }%
+        {\not\equal\pM@tempc\empty}%
+        {\Strsep\pM@tempd,\pM@tempc\pM@tempd
+        }%
+        \do{%
+          \ifthenelse{\lntop=\z@}{%
+            \xdef\lntop{1}\pM@tempc
+          }{%
+             &\pM@tempc
+          }%
+        }
+      \ifthenelse{\equal\pM@tempb\empty}{}{\\}%
+    }
+  \end{bmatrix}
+}}}
+%
+\def\Bgyouretu{\@ifnextchar[{\@Bgyouretu}{\@Bgyouretu[\gyouretu@haiti]}}
+\def\@Bgyouretu[#1]#2{{\let\EMdef\gdef
+  \def\gyouretu@haiti@{#1}\ensuremath{%
+  \begin{Bmatrix}
+  \Cfor%
+    {\Strsep{#2}{;}\pM@tempa\pM@tempb}%
+    {\not\equal\pM@tempa\empty}%
+    {\Strsep\pM@tempb{;}\pM@tempa\pM@tempb}%
+    \do{%
+      \Cfor%
+        {\xdef\lntop{0}\Strsep\pM@tempa{,}\pM@tempc\pM@tempd
+        }%
+        {\not\equal\pM@tempc\empty}%
+        {\Strsep\pM@tempd,\pM@tempc\pM@tempd
+        }%
+        \do{%
+          \ifthenelse{\lntop=\z@}{%
+            \xdef\lntop{1}\pM@tempc
+          }{%
+             &\pM@tempc
+          }%
+        }
+      \ifthenelse{\equal\pM@tempb\empty}{}{\\}%
+    }
+  \end{Bmatrix}
+}}}
+%
+\def\vgyouretu{\@ifnextchar<{\vgyouretu@}{\@vgyouretu}}
+\def\vgyouretu@<#1>{\setkeys{emath}{#1}\@vgyouretu}%
+\def\@vgyouretu{\@ifnextchar[{\@@vgyouretu}{\@@vgyouretu[\gyouretu@haiti]}}
+\def\@@vgyouretu[#1]#2{{\let\EMdef\gdef
+  \edef\gyouretu@gyoukan{\gyouretu@gyoukan@}%
+  \def\gyouretu@haiti@{#1}\ensuremath{%
+  \begin{vmatrix}
+  \Cfor%
+    {\Strsep{#2}{;}\pM@tempa\pM@tempb}%
+    {\not\equal\pM@tempa\empty}%
+    {\Strsep\pM@tempb{;}\pM@tempa\pM@tempb}%
+    \do{%
+      \Cfor%
+        {\xdef\lntop{0}\Strsep\pM@tempa{,}\pM@tempc\pM@tempd
+        }%
+        {\not\equal\pM@tempc\empty}%
+        {\Strsep\pM@tempd,\pM@tempc\pM@tempd
+        }%
+        \do{%
+          \ifthenelse{\lntop=\z@}{%
+            \xdef\lntop{1}\pM@tempc
+          }{%
+             &\pM@tempc
+          }%
+        }
+      \ifthenelse{\equal\pM@tempb\empty}{}{
+        \ifx\empty\gyouretu@gyoukan
+        \else
+          \vspace{\gyouretu@gyoukan}%
+        \fi
+        \\
+      }%
+    }
+  \end{vmatrix}
+}}}
+%
+\def\ngyouretu{\@ifnextchar[{\@ngyouretu}{\@ngyouretu[\gyouretu@haiti]}}
+\def\@ngyouretu[#1]#2{{\let\EMdef\gdef
+  \def\gyouretu@haiti@{#1}\ensuremath{%
+  \edef\gyouretu@gyoukan{\gyouretu@gyoukan@}%
+  \begin{matrix}
+  \Cfor%
+    {\Strsep{#2}{;}\pM@tempa\pM@tempb}%
+    {\not\equal\pM@tempa\empty}%
+    {\Strsep\pM@tempb{;}\pM@tempa\pM@tempb}%
+    \do{%
+      \Cfor%
+        {\xdef\lntop{0}\Strsep\pM@tempa{,}\pM@tempc\pM@tempd
+        }%
+        {\not\equal\pM@tempc\empty}%
+        {\Strsep\pM@tempd,\pM@tempc\pM@tempd
+        }%
+        \do{%
+          \ifthenelse{\lntop=\z@}{%
+            \xdef\lntop{1}\pM@tempc
+          }{%
+             &\pM@tempc
+          }%
+        }
+      \ifthenelse{\equal\pM@tempb\empty}{}{\\}%
+    }
+  \end{matrix}
+}}}
+%
+\def\Vgyouretu{\@ifnextchar[{\@Vgyouretu}{\@Vgyouretu[\gyouretu@haiti]}}
+\def\@Vgyouretu[#1]#2{{\let\EMdef\gdef
+  \def\gyouretu@haiti@{#1}\ensuremath{%
+  \edef\gyouretu@gyoukan{\gyouretu@gyoukan@}%
+  \begin{Vmatrix}
+  \Cfor%
+    {\Strsep{#2}{;}\pM@tempa\pM@tempb}%
+    {\not\equal\pM@tempa\empty}%
+    {\Strsep\pM@tempb{;}\pM@tempa\pM@tempb}%
+    \do{%
+      \Cfor%
+        {\xdef\lntop{0}\Strsep\pM@tempa{,}\pM@tempc\pM@tempd
+        }%
+        {\not\equal\pM@tempc\empty}%
+        {\Strsep\pM@tempd,\pM@tempc\pM@tempd
+        }%
+        \do{%
+          \ifthenelse{\lntop=\z@}{%
+            \xdef\lntop{1}\pM@tempc
+          }{%
+             &\pM@tempc
+          }%
+        }
+      \ifthenelse{\equal\pM@tempb\empty}{}{\\}%
+    }
+  \end{Vmatrix}
+}}}
+%
+% 括弧の形状を plain TeX 風に
+%
+\def\sgyouretu@lr{3mu}%
+\def\sgyouretu@kugiri{1em}%
+\def\sgyouretuAki{\@ifnextchar[{\@sgyouretuAki}{\@sgyouretuAki[3]}}
+\def\@sgyouretuAki[#1]#2{%
+  \edef\sgyouretu@lr{#1mu}\edef\sgyouretu@kugiri{#2}}
+\def\orgmatrix#1{\null\mkern\sgyouretu@lr\vcenter{\normalbaselines\m@th
+    \ialign{\hfil$##$\hfil&&\kern\sgyouretu@kugiri\hfil$##$\hfil\crcr
+      \mathstrut\crcr\noalign{\kern-\baselineskip}
+      #1\crcr\mathstrut\crcr\noalign{\kern-\baselineskip}}}\mkern\sgyouretu@lr}
+\def\orgpmatrix#1{\left(\orgmatrix{#1}\right)}
+\def\sgyouretu#1#2#3#4{\ensuremath{\orgpmatrix{#1 & #2 \cr #3 & #4\cr}}}
+\def\sGyouretu#1#2#3#4#5#6#7#8#9{%
+  \ensuremath{\orgpmatrix{#1&#2&#3\cr #4&#5&#6\cr #7&#8&#9\cr}}}
+\def\sretube#1#2{\ensuremath{\orgpmatrix{#1\cr#2\cr}}}
+\def\sRetube#1#2#3{\ensuremath{\orgpmatrix{#1\cr#2\cr#3\cr}}}
+%
+% 行列の trace
+\newcommand{\tr}{\text{tr}}%
+%
+% 大きな 0
+%
+\def\bigzerosizeratio#1{%
+  \ifthenelse{\equal{#1}{1}}{\let\bigzero@ratio\undefined}{%
+    \def\bigzeroRT@ratio{#1}\def\bigzeroLB@ratio{#1}}}%
+\def\bigzeroRTsizeratio#1{%
+  \ifthenelse{\equal{#1}{1}}{\let\bigzeroRT@ratio\undefined}{%
+    \def\bigzeroRT@ratio{#1}}}%
+\def\bigzeroLBsizeratio#1{%
+  \ifthenelse{\equal{#1}{1}}{\let\bigzeroLB@ratio\undefined}{%
+    \def\bigzeroLB@ratio{#1}}}%
+\def\bigzerochar#1{\def\bigzero@char@LB{#1}\def\bigzero@char@RT{#1}}%
+\def\bigzeroLBchar#1{\def\bigzero@char@LB{#1}}%
+\def\bigzeroRTchar#1{\def\bigzero@char@RT{#1}}%
+\edef\bigzero@char@LB{0}%
+\edef\bigzero@char@RT{0}%
+%
+\DeclareRobustCommand\bigzeroRT{{%
+  \setbox0=\hbox{\bigzero@char@RT}%
+  \edef\xi{\strip@pt\wd0}%
+  \edef\yi{\strip@pt\ht0}%
+  \begin{zahyou*}[ul=1pt](0,\xi)(0,\yi)%
+  \@ifundefined{bigzeroRT@ratio}{%
+    \emathPut\RT(0,0)[rt]{\mbox{{\Huge\bigzero@char@RT}}}%
+  }{%
+    \emathPut\RT(0,0)[rt]{%
+      \mbox{{\chgfontsizeratio\bigzeroRT@ratio\bigzero@char@RT}}}%
+  }%
+  \end{zahyou*}%
+}}%
+\DeclareRobustCommand\bigzeroLB{{%
+  \setbox0=\hbox{\bigzero@char@LB}%
+  \edef\xi{\strip@pt\wd0}%
+  \edef\yi{\strip@pt\ht0}%
+  \begin{zahyou*}[ul=1pt](0,\xi)(0,\yi)%
+  \@ifundefined{bigzeroLB@ratio}{%
+    \emathPut\LB(0,0)[lb]{\mbox{{\Huge \bigzero@char@LB}}}%
+  }{%
+    \emathPut\LB(0,0)[lb]{%
+      \mbox{{\chgfontsizeratio\bigzeroLB@ratio\bigzero@char@LB}}}%
+  }%
+  \end{zahyou*}%
+}}%
+%
+% 階段行列
+%
+\define@key{kaidangyouretu}{drawcmd}{\edef\KD@drawcmd{#1}}%
+\define@key{kaidangyouretu}{drawopt}{\EMedef\KD@drawopt{#1}}%
+\edef\KD@drawcmd{Drawline}%
+\edef\KD@drawopt{\empty}%
+\def\kaidangyouretu{\@ifnextchar<{\@kaidangyouretu}{\@kaidangyouretu<\empty>}}%
+\def\@kaidangyouretu<#1>#2{%
+  \ifx\empty #1\else\setkeys{kaidangyouretu}{#1}\fi
+  \gyouretuiihairetu{KDclm@}{#2}%
+%\typeout{(Ni,Nj)=(\KDclm@Ni,\KDclm@Nj)}%
+  \edef\oresen@i{}%
+      \ISub\KDclm@Nj{1}\KDclm@Nj@
+      \edef\KD@ymin{-\KDclm@Ni}%
+      \Incr\KD@ymin
+%\typeout{KD@ymin=\KD@ymin}%
+  \Ifor*\i@val{1}\KDclm@Ni\Do{%
+    \Cfor{\edef\j@val{0}\edef\found@{0}}{\j@val<\KDclm@Nj\and\found@=0}{}\do{%
+      \Incr\j@val
+      \ifthenelse{\equal{\iihairetu{KDclm@}{\i@val}{\j@val}}{0}}{}{%
+          \ISub\j@val{1}\x@val
+          \IMul\i@val{-1}\y@val
+          \IAdd\y@val{1}\y@val@
+          \IAdd\y@val@{1}\y@val@@
+        \ifnum\j@val>\@ne
+          \edefappend\oresen@i{(\x@val,\y@val@@)(\x@val,\y@val@)}%
+        \else
+          \edef\oresen@i{(0,\y@val@)}%
+        \fi
+        \edef\found@{1}%
+      }%
+    }%
+%    \ifnum\found@=\z@
+%        \IAdd\KDclm@Nj{0}\x@val
+%        \IMul\i@val{-1}\y@val
+%        \IAdd\y@val{1}\y@val@
+%        \IAdd\y@val@{1}\y@val@@
+%        \edefappend\oresen@i{(\x@val,\y@val@@)(\x@val,\y@val@)}%
+%    \fi
+%\typeout{(i,j)=(\i@val,\j@val), found=\found@}%
+%\typeout{\oresen@i}%
+  }%
+%\typeout{KD@ymin=\KD@ymin,y@val@=\y@val@}%
+  \ifnum\KD@ymin=\y@val@\else
+    \edefappend\oresen@i{(\x@val,\y@val@)(\KDclm@Nj,\y@val@)(\KDclm@Nj,\KD@ymin)}%
+  \fi
+  \ifthenelse{\equal{\KD@drawcmd}{Drawline}}{}{%
+      \EMedefappend\oresen@i{(0,\KD@ymin)}%
+  }%
+  \def\KD@drawcmd@{\csname \KD@drawcmd\endcsname}%
+  \ensuremath{\left(\,\begingroup
+      \EMedef\KD@ary{%
+        \noexpand\emTsya(S=\iihairetu{KDclm@}{1}{1})[o]<%
+          \noexpand\begin{hyoupszahyou}[borderwidth=1pt](0,\KDclm@Nj)(\KD@ymin,1)\relax
+            \ifx\empty\KD@drawopt
+              \noexpand\KD@drawcmd@{\oresen@i}
+            \else
+              \noexpand\EMedef\noexpand\KD@tmp{<\KD@drawopt>{\oresen@i}}%
+              \noexpand\expandafter\noexpand\KD@drawcmd@\noexpand\KD@tmp
+            \fi
+          \noexpand\end{hyoupszahyou}\relax
+        >%
+      }%
+      \Ifor*\j@val{2}{\KDclm@Nj}\Do{%
+          \EMedefappend\KD@ary{&\iihairetu{KDclm@}{1}{\j@val}}%
+      }%
+      \Ifor*\i@val{2}\KDclm@Ni\Do{%
+        \EMedefappend\KD@ary{\noexpand\\ \iihairetu{KDclm@}{\i@val}{1}}%
+        \Ifor*\j@val{2}{\KDclm@Nj}\Do{%
+          \EMedefappend\KD@ary{&\iihairetu{KDclm@}{\i@val}{\j@val}}%
+        }%
+      }%
+    \edef\tmp@arg{'cellsize={2em,1.5em}'{*\KDclm@Nj{C{-}}}}%
+%\typeout{KD@ary=\meaning\KD@ary}%\aaaa
+    \expandafter\array\tmp@arg
+      \KD@ary
+    \endarray
+  \endgroup\,\right)}%
+}%
+%
+% 行列の和
+%
+\def\gAdd#1#2#3{%
+  \Strsep{#1}{;}\gAdd@A\gAdd@B
+  \Strsep\gAdd@A{,}\gAdd@a\gAdd@b
+  \Strsep\gAdd@B{,}\gAdd@c\gAdd@d
+  \Strsep{#2}{;}\gAdd@A\gAdd@B
+  \Strsep\gAdd@A{,}\gAdd@aa\gAdd@bb
+  \Strsep\gAdd@B{,}\gAdd@cc\gAdd@dd
+  \Addself\gAdd@a\gAdd@aa
+  \Addself\gAdd@b\gAdd@bb
+  \Addself\gAdd@c\gAdd@cc
+  \Addself\gAdd@d\gAdd@dd
+  \edef#3{\gAdd@a,\gAdd@b;\gAdd@c,\gAdd@d}%
+}%
+%
+\def\igAdd#1#2#3{%
+  \Strsep{#1}{;}\gAdd@A\gAdd@B
+  \Strsep\gAdd@A{,}\gAdd@a\gAdd@b
+  \Strsep\gAdd@B{,}\gAdd@c\gAdd@d
+  \Strsep{#2}{;}\gAdd@A\gAdd@B
+  \Strsep\gAdd@A{,}\gAdd@aa\gAdd@bb
+  \Strsep\gAdd@B{,}\gAdd@cc\gAdd@dd
+  \IAddself\gAdd@a\gAdd@aa
+  \IAddself\gAdd@b\gAdd@bb
+  \IAddself\gAdd@c\gAdd@cc
+  \IAddself\gAdd@d\gAdd@dd
+  \edef#3{\gAdd@a,\gAdd@b;\gAdd@c,\gAdd@d}%
+}%
+%
+% 行列の積
+%
+\def\gMul#1#2#3{%
+  \Strsep{#1}{;}\gMul@A\gMul@B
+  \Strsep\gMul@A{,}\gMul@a\gMul@b
+  \Strsep\gMul@B{,}\gMul@c\gMul@d
+  \Strsep{#2}{;}\gMul@A\gMul@B
+  \Strsep\gMul@A{,}\gMul@aa\gMul@bb
+  \Strsep\gMul@B{,}\gMul@cc\gMul@dd
+  \Mul\gMul@a\gMul@aa\gMul@tmpa
+  \Mul\gMul@b\gMul@cc\gMul@tmpb
+  \Add\gMul@tmpa\gMul@tmpb\gMul@ans@a
+  \Mul\gMul@a\gMul@bb\gMul@tmpa
+  \Mul\gMul@b\gMul@dd\gMul@tmpb
+  \Add\gMul@tmpa\gMul@tmpb\gMul@ans@b
+  \Mul\gMul@c\gMul@aa\gMul@tmpa
+  \Mul\gMul@d\gMul@cc\gMul@tmpb
+  \Add\gMul@tmpa\gMul@tmpb\gMul@ans@c
+  \Mul\gMul@c\gMul@bb\gMul@tmpa
+  \Mul\gMul@d\gMul@dd\gMul@tmpb
+  \Add\gMul@tmpa\gMul@tmpb\gMul@ans@d
+  \edef#3{\gMul@ans@a,\gMul@ans@b;\gMul@ans@c,\gMul@ans@d}%
+}%
+%
+\def\igMul#1#2#3{%
+  \Strsep{#1}{;}\gMul@A\gMul@B
+  \Strsep\gMul@A{,}\gMul@a\gMul@b
+  \Strsep\gMul@B{,}\gMul@c\gMul@d
+  \Strsep{#2}{;}\gMul@A\gMul@B
+  \Strsep\gMul@A{,}\gMul@aa\gMul@bb
+  \Strsep\gMul@B{,}\gMul@cc\gMul@dd
+  \IMul\gMul@a\gMul@aa\gMul@tmpa
+  \IMul\gMul@b\gMul@cc\gMul@tmpb
+  \IAdd\gMul@tmpa\gMul@tmpb\gMul@ans@a
+  \IMul\gMul@a\gMul@bb\gMul@tmpa
+  \IMul\gMul@b\gMul@dd\gMul@tmpb
+  \IAdd\gMul@tmpa\gMul@tmpb\gMul@ans@b
+  \IMul\gMul@c\gMul@aa\gMul@tmpa
+  \IMul\gMul@d\gMul@cc\gMul@tmpb
+  \IAdd\gMul@tmpa\gMul@tmpb\gMul@ans@c
+  \IMul\gMul@c\gMul@bb\gMul@tmpa
+  \IMul\gMul@d\gMul@dd\gMul@tmpb
+  \IAdd\gMul@tmpa\gMul@tmpb\gMul@ans@d
+  \edef#3{\gMul@ans@a,\gMul@ans@b;\gMul@ans@c,\gMul@ans@d}%
+}%
+%\def\iMMul#1#2#3{%
+%  \csvhairetu*[;]{#1}{iM@A}
+%  \convcsv<transposed>{#2}\iM@B
+%  \csvhairetu*[;]\iM@B{iM@B}
+%\typeouthairetu{iM@A}%
+%\typeouthairetu{iM@B}%
+%}%
+%
+% 逆行列
+%
+\def\gInv#1#2{%
+  \Strsep{#1}{;}\gInv@A\gInv@B
+  \Strsep\gInv@A{,}\gInv@a\gInv@b
+  \Strsep\gInv@B{,}\gInv@c\gInv@d
+  \Mul\gInv@a\gInv@d\gInv@delta
+  \Mul\gInv@b\gInv@c\gInv@tmp
+  \Subself\gInv@delta\gInv@tmp
+  \Divself\gInv@a\gInv@delta
+  \Divself\gInv@b\gInv@delta
+  \Divself\gInv@c\gInv@delta
+  \Divself\gInv@d\gInv@delta
+  \Mulself\gInv@b{-1}%
+  \Mulself\gInv@c{-1}%
+  \edef#2{\gInv@d,\gInv@b;\gInv@c,\gInv@a}%
+}%
+%
+\def\igInv#1#2#3{%
+  \Strsep{#1}{;}\gInv@A\gInv@B
+  \Strsep\gInv@A{,}\gInv@a\gInv@b
+  \Strsep\gInv@B{,}\gInv@c\gInv@d
+  \Mul\gInv@a\gInv@d\gInv@delta
+  \Mul\gInv@b\gInv@c\gInv@tmp
+  \Subself\gInv@delta\gInv@tmp
+  \ifnum\gInv@delta<\z@
+    \IMulself\gInv@a{-1}%
+    \IMulself\gInv@b{-1}%
+    \IMulself\gInv@c{-1}%
+    \IMulself\gInv@d{-1}%
+    \IMulself\gInv@delta{-1}%
+  \fi
+  \IGCMs{\gInv@a,\gInv@b,\gInv@c,\gInv@d,\gInv@delta}\gInv@gcm
+  \ifnum\gInv@gcm>\z@
+    \IDivself\gInv@a\gInv@gcm
+    \IDivself\gInv@b\gInv@gcm
+    \IDivself\gInv@c\gInv@gcm
+    \IDivself\gInv@d\gInv@gcm
+    \IDivself\gInv@delta\gInv@gcm
+  \fi
+  \IMulself\gInv@b{-1}%
+  \IMulself\gInv@c{-1}%
+  \edef#2{\gInv@delta}%
+  \edef#3{\gInv@d,\gInv@b;\gInv@c,\gInv@a}%
+}%
+%
+% 二元一次不定方程式
+%
+\def\get@Gzqseq#1#2{%
+  \edef\a@val{#1}%
+  \edef\b@val{#2}%
+  \edef\a@sign{1}%
+  \edef\b@sign{1}%
+  \ifnum\a@val<\z@\edef\a@sign{-1}\IMulself\a@val{-1}\fi
+  \ifnum\b@val<\z@\edef\b@sign{-1}\IMulself\b@val{-1}\fi
+  \edef\sw@p{0}%
+  \ifnum \a@val<\b@val
+    \edef\sw@p{1}\edef\Gz@ai{\b@val}\edef\Gz@aii{\a@val}%
+  \else
+    \edef\Gz@ai{\a@val}\edef\Gz@aii{\b@val}%
+  \fi
+  \edef\Gz@i{2}%
+  \IDivMod\Gz@ai\Gz@aii\Gz@q\Gz@r
+  \@whilenum\Gz@r>\z@\do{%
+    \IAdd\Gz@i{1}\Gz@ii
+    \expandafter\edef\csname Gz@a\romannumeral \Gz@ii\endcsname{\Gz@r}%
+    \IDivMod{%
+      \csname Gz@a\romannumeral\Gz@i\endcsname}{%
+      \csname Gz@a\romannumeral\Gz@ii\endcsname}\Gz@q\Gz@r
+    \edef\Gz@i{\Gz@ii}%
+  }%
+  \ISub\Gz@i{1}\Gz@mi
+  \EMedef\Gz@iln{}%
+  \hairetusyokika{Gzq@seq}%
+  \Ifor*\Gz@j{\Gz@mi}{1}[-1]\Do{%
+    \IAdd\Gz@j{1}\Gz@jj
+    \IDivMod{%
+      \csname Gz@a\romannumeral\Gz@j\endcsname}{%
+      \csname Gz@a\romannumeral\Gz@jj\endcsname}\Gz@q\Gz@r
+    \hairetutuika*{Gzq@seq}{\Gz@q}%
+  }%
+  \edef\gcm@val{\csname Gz@a\romannumeral\Gz@i\endcsname}%
+  \ifnum\gcm@val=\@ne\else\errmessage{iigenizihuteikai: gcm(#1,#2)=\gcm@val}\fi
+}
+\def\iigenizihuteikai{%
+  \@ifnextchar[{\@iigenizihuteikai}{\@iigenizihuteikai[1]}}%
+\def\@iigenizihuteikai[#1]#2#3#4#5{%
+  \edef\iHH@c{#1}%
+  \edef\iHH@a{#2}%
+  \edef\iHH@b{#3}%
+  \IGCMs{#1,#2,#3}\iHH@tmp
+  \ifnum\iHH@tmp>\@ne
+    \@warning{gcm (#2,#3,#1)=\iHH@tmp}%
+    \IDivself\iHH@a\iHH@tmp
+    \IDivself\iHH@b\iHH@tmp
+    \IDivself\iHH@c\iHH@tmp
+  \fi
+  \get@Gzqseq{\iHH@a}{\iHH@b}%
+  \edef\n@val{\Gzq@seqN}%
+  \ISub\n@val{1}\m@val
+  \igMul{\hairetu{Gzq@seq}{\n@val},1;1,0}{\hairetu{Gzq@seq}{\m@val},1;1,0}%
+        \Deq@Mtmp
+  \Cfor{\Decr\m@val}{\m@val>\z@}{\Decr\m@val}\do{%
+    \igMul\Deq@Mtmp{\hairetu{Gzq@seq}{\m@val},1;1,0}\Deq@Mtmp}%
+% \typeout{\meaning\Deq@Mtmp}%
+% \typeout{N=\Gzq@seqN,\pgyouretu\Deq@Mtmp}%
+  \Strsep\Deq@Mtmp{;}\ans@A\ans@B
+  \Strsep\ans@A{,}\@dmy{#5}%
+  \Strsep\ans@B{,}\@dmy{#4}%
+  \ifodd\Gzq@seqN
+    \IMulself{#4}{-1}%
+  \else
+    \IMulself{#5}{-1}%
+  \fi
+  \ifnum\sw@p>\z@
+    \swap{#4}{#5}%
+  \fi
+  \ifnum\a@sign<\z@\IMul{#4}{-1}#4\fi
+  \ifnum\b@sign<\z@\IMul{#5}{-1}#5\fi
+  \ifnum \iHH@c=\@ne\else
+    \IMulself{#4}{\iHH@c}%
+    \IMulself{#5}{\iHH@c}%
+    \IMod{#4}{\iHH@b}#4\relax
+%    \calcval[s]{(\iHH@c-(\iHH@a)*(#4))/(\iHH@b)}#5\relax
+    \fpcalcval{(\iHH@c-(\iHH@a)*(#4))/(\iHH@b)}#5\relax
+    \ifnum#5<\z@\IAddself{#5}{\iHH@a}\ISubself{#4}{\iHH@b}\fi
+  \fi
+}%
+\endinput
+
+v 0.01 2013/05/11 二次正方行列の和・積・逆行列
+                  \iigenizihuteikai: 二元一次不定方程式の特殊解
+v 0.02 2014/01/13 \fmtname による分岐を追放
+v 0.03 2015/08/16 \pgyouretu: ネスト (BBS #12759)

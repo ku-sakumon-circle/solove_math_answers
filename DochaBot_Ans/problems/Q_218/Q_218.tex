@@ -1,0 +1,42 @@
+\begin{thm}{218}{\hosi 8}{名古屋大 (2015)}
+ $f(x)$は実数全体で定義された連続関数であり、$x>0$ で $0<f(x)<1$ を満たすものとする。
+ \[ a_1=1,\quad a_{m+1}=\int_0^{a_m}\! f(x) \,dx \quad (m=1, 2, 3, \cdots) \]
+ により数列$\{a_m\}$を定める。1未満の任意の正の数$\varepsilon$に対して、$\varepsilon>a_m$を満たす$m$が存在することを示せ。
+\end{thm}
+
+\syoumon{解法1~~~\small{単調収束定理を用いて}}
+実数$t$ $(0\le t \le 1)$に対して定義される関数$g(t)$を、
+\[ g(t) = \int_0^t\! f(x) \,dx \]
+と定める。このとき、被積分関数が常に正であることから$g(t)\ge0$である。ここで$g(t)=0$となるのは$t=0$の場合のみである。さらに、
+\[ \int_0^t\! \left(1-f(x)\right) \,dx = t-g(t) \ge0 \]
+も同様の理由によって成り立つ。$t-g(t)=0$となるのは$t=0$の場合のみである。したがって$0 < t \le1$において$0<g(t)<t$である。
+
+さて、$a_1=1$であるから、$0<a_2<1$である。さらにある自然数2以上の$k$において$0<a_k<1$であれば、$0<g(a_k)=a_{k+1}<a_k<1$が成り立つから、帰納的に考えて、任意の自然数$m$において$a_{m+1}=g(a_m)$であり、$0<a_{m+1}<a_m$が成り立つ。したがって、数列$\{a_m\}$は極限値$\alpha$を$0\le\alpha\le1$の範囲に持つ。
+
+極限値$\alpha$について、$a_{m+1}=g(a_m)$の両辺の極限を考えることによって、
+\[ \lim_{m\to\infty} a_{m+1}=\lim_{m\to\infty} g(a_m) \,\dou\, \alpha=g(\alpha) \]
+を得る。つまり、$\{a_m\}$の極限値$\alpha$は、方程式$x=g(x)$の$0\le x\le 1$における解である。先に議論した関数$g$の性質からこの解は$x=0$に限ることがわかる。よって$\disp \lim_{m\to\infty} a_m=0$である。このことを用いれば、1未満の任意の正の数$\varepsilon$に対して、ある(往々にして大きな)自然数$m$を用いれば$0<a_m<\varepsilon\le a_{m-1}$とできることがわかる。これにより題意が示された。
+
+\syoumon{解法2~~~\scriptsize{最大値原理を用いて}}
+$f(x)<1$より、
+\begin{align*}
+ a_{m+1}=\int^{a_m}_0\! f(x) \,dx < \int^{a_m}_0 dx = a_m \quad (m\ge 1)
+\end{align*}
+なので、$a_1>a_2>a_3>\cdots$となる(\marunum{1})。全ての$m$で$a_m\ge\varepsilon$を仮定する。また、$\disp p=\int_0^\varepsilon\! f(x) \,dx$とおく。$f$は連続なので、$f(x)$は閉区間$[\varepsilon, a_2]\subset (0, 1)$上で最大値$M$をとる。このとき$0<M<1$である。$m\ge 2$に対して、\marunum{1}より$[\varepsilon, a_m]\subset [\varepsilon, a_2]$であるから、$x\in[\varepsilon, a_m] \Rightarrow f(x)\le M$が$m\ge 2$で成り立つ。よって$m\ge 3$として、
+\begin{align*}
+ &a_m=\int^\varepsilon_0\! f(x) \,dx + \int^{a_{m-1}}_\varepsilon\le p+M(a_{m-1}-\varepsilon) \\
+ \dou \quad& a_m-\frac{p-M\varepsilon}{1-M}\le M\left(a_{m-1}-\frac{p-M\varepsilon}{1-M}\right) \quad \cdots \marunum{2}
+\end{align*}
+となる。$\disp p<\int^\varepsilon_0=\varepsilon$と$0<1-M<1$に加えて\marunum{1}より、
+\begin{align*}
+ a_m-\frac{p-M\varepsilon}{1-M}=(a_m-\varepsilon)+\frac{\varepsilon-p}{1-M}\ge\frac{\varepsilon-p}{1-M}>0
+\end{align*}
+が言えるから、
+\begin{align*}
+ \marunum{2}\Rightarrow 0<\frac{\varepsilon-p}{1-M}\le a_m-\frac{p-M\varepsilon}{1-M}\le M^{m-2}\left(a_2-\frac{p-M\varepsilon}{1-M}\right)
+\end{align*}
+となって、これより
+\begin{align*}
+ 0<\frac{\varepsilon-p}{1-M}\left(a_2-\frac{p-M\varepsilon}{1-M}\right)^{-1}\le M^{m-2} \quad \cdots \marunum{3}
+\end{align*}
+が得られた。$\disp \lim_{m\to\infty}M^{m-2}=0$より、\marunum{3}は十分大きい$m\in\mathbb{N}$で成立しないから矛盾。よって$a_m<\varepsilon$となる$m$が必ず存在する。

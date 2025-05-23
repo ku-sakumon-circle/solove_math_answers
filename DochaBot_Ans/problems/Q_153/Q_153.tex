@@ -1,0 +1,11 @@
+\begin{thm}{153}{\hosi 5\maru}{一橋後期 (2012)}
+ $0\le\theta\le 2\pi$とする。$\log_2 (4\sin^2\theta+3\cos\theta-4)$ と $\log_2 (-4\cos^3\theta+3\cos\theta+1)$ がともに整数となるような$\theta$の値を求めよ。
+\end{thm}
+
+$\cos\theta=x$~$(-1\le x\le 1)$とおく。真数条件より、
+\[ 4\sin^2\theta+3\cos\theta-4=3x-4x^2 > 0 \,\dou\, 0<x<\frac{3}{4} \quad \cdots \marunum{1} \]
+続いて、$f(x)=-4x^3+3x+1$~$(0<x<\dfrac{3}{4})$とおくと、$f'(x)=-12x^2+3=3(1-4x^2)$より$f(x)$は、$0<x<\dfrac{1}{2}$で増加、$x=\dfrac{1}{2}$で極大、$\dfrac{1}{2}<x<\dfrac{3}{4}$で減少する。$f(0)=1$, $f\left(\dfrac{3}{4}\right)=\dfrac{25}{16}$, $f\left(\dfrac{1}{2}\right)=2$ (極大) であるから、\marunum{1}の範囲において$1<f(x)\le 2$なので、$0<\log_2{f(x)}\le 1$ であるから、$\log_2{f(x)}$が整数となるのは$\log_2{f(x)}=1$のとき。すなわち、
+\[ f(x)=-4x^3+3x+1=2 \quad  \text{よって}\quad x=-1, \frac{1}{2} \]
+ここで\marunum{1}を満たすのは$x=\dfrac{1}{2}$のみ。このとき$3x-4x^2=\dfrac{1}{2}$となるので$\log_2{(3x-4x^2)}=-1$となって題意を満たす。
+
+したがって、求める$\theta$は、$\cos\theta=\dfrac{1}{2}$かつ$0\le \theta < 2\pi$より、$\theta=\dfrac{1}{3}\pi, \dfrac{5}{3}\pi$

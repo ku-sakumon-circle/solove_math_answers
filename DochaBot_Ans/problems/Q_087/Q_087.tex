@@ -1,0 +1,28 @@
+\begin{thm}{087}{\hosi 3}{東北大 理系 (2019) 改題}
+ 実数を係数に持つ整式$A(x)$を$x^2+1$で割った余りとして現れる整式を$\left[A(x)\right]$と表す。
+ \begin{enumerate}
+  \item $\disp \left[ [2x^2+5x+3] [x^5-1] \right]$ を求めよ。
+  \item 整式$A(x), B(x)$に対して、次の等式が成り立つことを示せ。
+	\[ [A(x) B(x)]=\left[ [A(x)] [B(x)]\right] \]
+  \item 実数$\theta$と自然数$n$に対して、次の等式が成り立つことを示せ。
+	\[ \left[ (\cos\theta+x\sin\theta)^n \right] = \cos n\theta + x\sin n\theta \]
+  \item 次の式を満たす実数$a, b$の組を全て求めよ。
+	\[ \left[ (ax+b)^4 \right] = -1 \]
+ \end{enumerate}
+\end{thm}
+ツイートでも書いてるけど多項式を$x^2+1$で割って余りを出す操作は「$\bmod{x^2+1}$において$x^2 \equiv -1$である」という感じからもわかるように, $x$が虚数単位に対応した複素数の計算と全く同じです. 
+
+\syoumon{1}
+$(2i^2 + 2i + 3) (i^5 - 1) = (1 + 2i)(i-1) = -3 - i$だから$-3-x$. 
+
+\syoumon{2}
+$A(x) = (x^2+1)Q(x)  + (ax + b)$, $B(x) = (x^2 + 1)S(x) + (cx+d)$と書いてしまって, 
+\[A(x)B(x) = (x^2+1)(\dots) + (acx^2 + adx + bcx + bd) \]
+だが, 後半の括弧を再び$x^2+1$で割れば$(ad + bc)x + (bd-ac)$になる. これが(2)の左辺の値である. 右辺の値は$[(ax+b)(cx+d)]$だから, 全く同じ. 
+
+\syoumon{3}
+ド・モアブルなので帰納法で示してください. 
+
+\syoumon{4}
+$(ai + b)^4 = - 1$なので$z^4 = -1$なる複素数$z$を求める問題とほとんど同じ. これは$z= \cos{\theta} + i\sin{\theta}$ ($\theta = \dfrac{k}{4}\pi $; $k=1,3,5,7$) だから, 単位円に頂点をもつ正方形で辺が軸に並行なものの頂点の複素数を挙げればOK. それは$\dfrac{\pm 1 \pm i}{\sqrt{2}}$なので
+\[(a,b) = (\pm\dfrac{1}{\sqrt{2}},\pm\dfrac{1}{\sqrt{2}})\quad (複合任意)\]

@@ -1,0 +1,432 @@
+% EMhairetu.sty by tDB (emath@nifty.com)
+%
+\NeedsTeXFormat{LaTeX2e}%
+\ProvidesPackage{EMhairetu}[2015/10/23 v0.05]%
+%
+\define@key{EMhairetu}{transposed}[1]{\edef\trans@posed{#1}}%
+\define@key{EMhairetu}{dimen}{%
+  \setcounter{tempcnta}{#1}\edef\hairetu@dimen{\thetempcnta}}%
+\define@key{EMhairetu}{syokiti}[1]{\edef\hairetu@syokiti{#1}}%
+%
+\def\strtohairetu#1#2{%
+%
+% #1: 文字列
+% #2: 配列名
+%
+  \edef\mkstrbufi@{0}%
+  \expandafter\@tfor\expandafter\stoh@c\expandafter:\expandafter=#1\do{%
+    \Incr\mkstrbufi@
+    \edefhairetu{#2}{\mkstrbufi@}{\stoh@c}%
+  }%
+  \expandafter\edef\csname #2N\endcsname{\mkstrbufi@}%
+}%
+%
+% 配列
+%
+\def\EMromannumeral#1{%
+  \ifnum #1=\z@ o\else\expandafter\romannumeral#1\fi}% 0 --> o
+%
+\def\hairetu@baseN{0}%
+\def\hairetubaseN#1{%
+  \ifnum #1=0
+    \def\hairetu@baseN{-1}%
+  \else
+    \def\hairetu@baseN{0}%
+  \fi
+}%
+%
+\def\edefHairetu#1(#2)#3{%
+  \edef\H@tmp{}%
+  \expandafter\@for\expandafter\H@c\expandafter:\expandafter=#2\do{%
+    \ifx\empty\H@tmp
+      \edef\H@tmp{#1\romannumeral\H@c}%
+    \else
+      \edefappend\H@tmp{y\romannumeral\H@c}%
+    \fi
+  }%
+  \expandafter\EMedef\csname\H@tmp\endcsname{#3}%
+}%
+\def\Hairetu{\@ifstar{\Hairetu@}{\@Hairetu}}%
+\def\Hairetu@#1(#2){%
+  \edef\H@tmp{}%
+  \expandafter\@for\expandafter\H@c\expandafter:\expandafter=#2\do{%
+    \ifx\empty\H@tmp
+      \edef\H@tmp{#1\romannumeral\H@c}%
+    \else
+      \edefappend\H@tmp{y\romannumeral\H@c}%
+    \fi
+  }%
+  \csname\H@tmp\endcsname
+}%
+\def\@Hairetu#1(#2)#3{%
+  \edef\H@tmp{}%
+  \expandafter\@for\expandafter\H@c\expandafter:\expandafter=#2\do{%
+    \ifx\empty\H@tmp
+      \edef\H@tmp{#1\romannumeral\H@c}%
+    \else
+      \edefappend\H@tmp{y\romannumeral\H@c}%
+    \fi
+  }%
+  \EMedef#3{\csname\H@tmp\endcsname}%
+}%
+\def\Hairetusyokika#1(#2){%
+  \edef\H@nn{0}%
+  \expandafter\@for\expandafter\H@c\expandafter:\expandafter=#2\do{%
+    \Incr\H@nn
+    \expandafter\edef\csname #1N\romannumeral\H@nn\endcsname{\H@c}%
+  }%
+  \expandafter\edef\csname #1NN\endcsname{\H@nn}%
+}%
+%
+\def\edefhairetu#1#2{%
+  \expandafter\EMedef\csname #1\EMromannumeral{#2}\endcsname}%
+\def\edefiihairetu#1#2#3{\expandafter\EMedef\csname #1\EMromannumeral{#2}y\EMromannumeral{#3}\endcsname}%
+\def\xdefiihairetu#1#2#3{\expandafter\EMxdef\csname #1\EMromannumeral{#2}y\EMromannumeral{#3}\endcsname}%
+%
+\def\gyouretuiihairetu{%
+  \@ifnextchar[{\@gyouretuiihairetu}{\@gyouretuiihairetu[,]}}%
+\def\@gyouretuiihairetu[#1]{\@ifnextchar[{\@@gyouretuiihairetu[#1]}{%
+  \@@gyouretuiihairetu[#1][;]}}%
+%
+\def\@@gyouretuiihairetu[#1][#2]#3#4{%
+  \edef\i@num{0}%
+  \exfor[#2]\dh@a:=#4\do{%
+    \trim\dh@a\to\dh@a
+    \ifx\empty\dh@a\else
+      \Incr\i@num
+      \expandafter\EMedef\csname dhl\i@num\endcsname{\dh@a}%
+    \fi
+  }%
+  \expandafter\edef\csname #3Ni\endcsname{\i@num}%
+  \Ifor*\i@num{1}{\@nameuse{#3Ni}}\Do{%
+    \edef\j@num{\hairetu@baseN}%
+    \EMedef\dh@i{\csname dhl\i@num\endcsname}%
+    \exfor[#1]\dh@a:=\dh@i\do{%
+      \Incr\j@num
+      \IAdd\i@num\hairetu@baseN\i@num@
+      \expandafter\EMedef\csname #3\EMromannumeral{\i@num@}%
+        y\EMromannumeral{\j@num}\endcsname{\dh@a}%
+    }%
+    \ISub\j@num\hairetu@baseN\j@num@
+    \ifnum\i@num=\@ne
+      \expandafter\edef\csname #3Nj\endcsname{\j@num@}%
+    \else
+      \ifnum\j@num@=\@nameuse{#3Nj}\else
+       \errmessage{defiihairetu:illegal format:jnum=\j@num,Nj=\@nameuse{#3Nj}}%
+      \fi
+    \fi
+  }%
+}%
+%
+\iffalse
+\def\defiihairetu#1{%
+  \edef\defary@name{#1}%
+  \bgroup
+  \immediate\openout\em@whndl=\EM@workfiledir defary.tmp\relax
+    \@bsphack\let\do\@makeother\dospecials
+    \catcode`\^^M\active
+    \def\verbatim@processline{%
+        \immediate\write\em@whndl{\the\verbatim@line}}%
+    \verbatim@start
+}%
+\def\enddefiihairetu{%
+  \@esphack\immediate\closeout\em@whndl\egroup
+%
+\def\defary@sub{%
+    \read\h@ndle to\tmp@iln@
+    \ifeof\h@ndle
+      \relax
+    \else
+\ifthenelse{\equal\tmp@iln@\par}{}{%
+      \trim\tmp@iln@\to\tmp@iln
+      \Incr\defary@i
+      \edef\defary@j{0}%
+%     \exfor[;]\rs@c:=\tmp@iln\do{%
+      \exfor[&]\rs@c:=\tmp@iln\do{%
+        \Incr\defary@j
+        \xdefiihairetu{\defary@name}{\defary@i}{\defary@j}{\rs@c}%
+      }%
+      \ifnum\defary@i=\@ne
+        \expandafter\xdef\csname\defary@name Nj\endcsname{\defary@j}%
+      \else
+        \ifnum\defary@j=\@nameuse{\defary@name Nj}\else\errmessage{%
+          defary:i=\defary@i,j=\defary@j,Nj=\@nameuse{\defary@name Nj}}
+        \fi
+      \fi
+      \defary@sub
+}%
+    \fi
+}%
+%
+  \edef\defary@i{0}%
+  \openin\h@ndle=\EM@workfiledir defary.tmp\relax
+  \defary@sub
+  \expandafter\xdef\csname\defary@name Ni\endcsname{\defary@i}%
+  \immediate\closein\h@ndle
+  \ignorespaces
+}%
+\fi
+%
+\def\xdefhairetu#1#2{\expandafter\EMxdef\csname #1\EMromannumeral{#2}\endcsname}%
+\def\hairetu#1#2{\csname #1\EMromannumeral{#2}\endcsname}%
+%
+\DeclareRobustCommand\gethairetu[3]{%
+  \setcounter{tempcnta}{#2}%
+  \EMedef#3{\csname #1\EMromannumeral{\thetempcnta}\endcsname}}%
+%
+\def\iihairetu#1#2#3{%
+  \csname #1\EMromannumeral{#2}y\EMromannumeral{#3}\endcsname
+}%
+%
+\def\modhairetu#1#2#3{%
+  \edef\hrt@N{\csname #1N\endcsname}%
+  \setcounter{tempcnta}{#2}
+  \edef\hrt@i{\arabic{tempcnta}}%
+  \ifnum \hrt@i>\hrt@N
+    \Decr\hrt@i
+    \IMod\hrt@i\hrt@N\hrt@i
+    \Incr\hrt@i
+  \fi
+  \edef#3{\csname #1\EMromannumeral{\hrt@i}\endcsname}%
+}%
+%
+\def\hairetusyokika{\@ifnextchar<{\@hairetusyokika}{\@hairetusyokika<\empty>}}%
+\def\@hairetusyokika<#1>#2{%
+  \edef\hairetu@dimen{\hairetu@baseN}%
+  \edef\hairetu@syokiti{\empty}%
+  \ifx\empty#1\else\setkeys{EMhairetu}{#1}\fi
+  \expandafter\edef\csname #2N\endcsname{\hairetu@dimen}%
+  \ifx\empty\hairetu@syokiti\else
+    \Ifor*\@i{1}\hairetu@dimen\Do{%
+      \edefhairetu{#2}{\@i}{\hairetu@syokiti}%
+    }%
+  \fi
+  \ignorespaces
+}%
+\def\iihairetusyokika#1{%
+  \expandafter\edef\csname #1Ni\endcsname{0}%
+  \expandafter\edef\csname #1Nj\endcsname{0}%
+  \ignorespaces
+}%
+\def\hairetutuika{\@ifstar{\hairetutuika@}{\@hairetutuika}}%
+\def\hairetutuika@#1#2{%
+  \edef\HT@n{\csname #1N\endcsname}\Incr\HT@n
+  \edefhairetu{#1}{\HT@n}{#2}%
+  \expandafter\edef\csname #1N\endcsname{\HT@n}%
+  \ignorespaces
+}%
+\def\@hairetutuika#1#2{%
+  \edef\HT@n{\csname #1N\endcsname}%
+  \ifnum\hairetu@baseN=\z@
+    \Incr\HT@n
+    \xdefhairetu{#1}{\HT@n}{#2}%
+  \else
+    \xdefhairetu{#1}{\HT@n}{#2}%
+    \Incr\HT@n
+  \fi
+  \expandafter\xdef\csname #1N\endcsname{\HT@n}%
+  \ignorespaces
+}%
+\def\hairetukakunin#1#2#3{%
+% #1:リスト配列名
+% #2:項目
+% #3:戻り値を受け取る制御綴
+%      既出リストに存在しなかった場合は 0
+%      存在した場合は，項目番号
+  \@ifundefined{#1N}{%
+    \errmessage{undefined hairetu:#1}%
+  }{}%
+  \edef#3{\hairetu@baseN}%
+  \edef\HK@N{\csname #1N\endcsname}%
+  \Cfor{\edef\HK@i{0}}{\HK@i<\HK@N}\do{%
+    \Incr\HK@i
+    \ifthenelse{\equal{#2}{\hairetu{#1}{\HK@i}}}{%
+      \edef#3{\HK@i}\edef\HK@i{\HK@N}%
+    }{}%
+  }%
+%  \ifnum #3>\z@\else
+  \ifnum #3>\hairetu@baseN\else
+    \hairetutuika{#1}{#2}%
+  \fi
+}%
+\def\prhairetu#1{%
+  \edef\HT@N{\csname #1N\endcsname}%
+  \noindent
+  \IAdd\HT@N\hairetu@baseN\HT@NN
+    \Cfor{\edef\HT@n{\hairetu@baseN}}{\HT@n<\HT@NN}{}\do{%
+      \Incr\HT@n
+      \HT@n : \hairetu{#1}\HT@n
+      \ifnum\HT@n<\HT@NN \\ \fi
+    }%
+  \ignorespaces
+}%
+%
+\def\typeouthairetu#1{%
+  \edef\HT@N{\csname #1N\endcsname}%
+  \IAdd\HT@N\hairetu@baseN\HT@NN
+	\typeout{hairetu name:#1}%
+    \Cfor{\edef\HT@n{\hairetu@baseN}}{\HT@n<\HT@NN}{}\do{%
+      \Incr\HT@n
+			\typeout{\HT@n : \hairetu{#1}\HT@n}
+      \EMedef\th@tmp{\hairetu{#1}\HT@n}%
+%\typeout{\HT@n : \meaning\th@tmp}%
+%\typeout{\HT@n : \th@tmp}%
+      \ifnum\HT@n<\HT@NN \\ \fi
+    }%
+  \ignorespaces
+}%
+%
+%\def\csvhairetu#1#2#3{%
+%\def\csvhairetu*#1#2{%
+% #1 : csv
+% #2 : 配列名
+% #3 : 配列のサイズを受け取る制御綴
+%
+\def\csvhairetu{\@ifstar{\csvhairetu@}{\@csvhairetu}}%
+\def\csvhairetu@{\@ifnextchar[{\csvhairetu@@}{\csvhairetu@@[,]}}%
+\def\csvhairetu@@[#1]{\EMedef\csvh@term{#1}\csvhairetu@@@}%
+\def\csvhairetu@@@#1#2{%
+  \@@@csvhairetu{#1}{#2}\csvhairetu@dmy
+}%
+\def\@csvhairetu{\@ifnextchar[{\@@csvhairetu}{\@@csvhairetu[,]}}%
+\def\@@csvhairetu[#1]{\edef\csvh@term{#1}\@@@csvhairetu}%
+\def\@@@csvhairetu#1#2#3{%
+%\typeout{@@@csvhairetu:arg1=#1, term=\csvh@term, arg2=#2}%
+  \edef#3{\hairetu@baseN}%
+\ifx\empty #1\else
+  \if ,\csvh@term
+    \expandafter\@for\expandafter\csvH@@c\expandafter:\expandafter=#1\do{%
+      \Incr#3\relax
+      \trim\csvH@@c\to\csvH@@c@
+      \edefhairetu{#2}{#3}{\csvH@@c@}%
+    }%
+  \else
+    \EMedef\csv@t@tmp{#1}%
+    \expandafter\exfor\expandafter[\csvh@term]\csvH@@c:=\csv@t@tmp\do{%
+      \Incr#3\relax
+      \trim\csvH@@c\to\csvH@@c
+      \edefhairetu{#2}{#3}{\csvH@@c}%
+    }%
+  \fi
+\fi
+%  \ifnum\hairetu@baseN=\z@\else\Incr #3\fi
+  \ISubself #3\hairetu@baseN
+  \expandafter\edef\csname #2N\endcsname{#3}%
+  \ignorespaces
+}%
+%
+\def\hairetucsv#1#2{%
+% #1 : 配列名
+% #2 : csv を受け取る制御綴
+%
+  \edef\hd@N{\csname #1N\endcsname}%
+  \ifnum\hd@N=\z@
+    \edef#2{\empty}%
+  \else
+    \edef\hc@ret{\hairetu{#1}{1}}%
+    \Cfor{\edef\hd@i{1}}{\hd@i<\hd@N}{}\do{%
+      \Incr\hd@i
+      \EMedefappend\hc@ret{,\hairetu{#1}{\hd@i}}%
+    }%
+    \edef#2{\hc@ret}%
+  \fi
+  \ignorespaces
+}%
+%
+\def\srchhairetu#1#2#3{%
+% #1 : 配列名
+% #2 : サーチする値
+% #3 : 見つかった添え字
+  \edef#3{\hairetu@baseN}%
+  \Cfor{\edef\sh@i{0}\edef\sh@found{0}}{\sh@found=0 \and \sh@i<\csname #1N\endcsname}{}\do{%
+    \Incr\sh@i
+    \ifthenelse{\equal{\hairetu{#1}{\sh@i}}{#2}}{%
+      \edef\sh@found{1}\edef#3{\sh@i}%
+    }{}%
+  }%
+% \ifnum\sh@found=\z@\edef#3{0}\fi
+}%
+%
+%
+%
+\DeclareRobustCommand\EMinputcsvfile{%
+  \@ifnextchar[{\@EMinputcsvfile}{\@EMinputcsvfile[,]}}%
+\def\@EMinputcsvfile[#1]#2#3{%
+%
+% #2: ファイル名
+% #3: 配列名
+%
+  \def\EMinputcsvfile@sub{%
+    \read\fileophndl to \read@ln
+    \ifeof\fileophndl
+    \else
+      \trim\read@ln\to\inp@ln \relax
+      \hairetutuika{#3}{\inp@ln}%
+      \EMinputcsvfile@sub
+    \fi
+  }%
+%
+  \IfFileExists{#2}{%
+    \hairetusyokika{#3}%
+    \openin\fileophndl=#2\relax
+    \EMinputcsvfile@sub
+    \immediate\closein\fileophndl
+  }{%
+    \errmessage{#2: not found}
+  }%
+}%
+\edef\column@term{,}%
+\edef\row@term{;}%
+\def\convcsv{\@ifnextchar<{\@convcsv}{\@convcsv<\empty>}}%
+\def\@convcsv<#1>#2#3{%
+  \edef\trans@posed{0}%
+  \ifx\empty #1\else\setkeys{EMhairetu}{#1}\fi
+\ifnum\trans@posed=\z@
+  \reversecsv{#2}#3
+\else
+  \csvhairetu*[\row@term]{#2}{cc@row}%
+  \Ifor*\i@val{1}{\cc@rowN}\Do{%
+    \csvhairetu*[\column@term]{\csname cc@row\romannumeral\i@val\endcsname}{%
+      cc@\romannumeral\i@val @}%
+    \edef\cc@columnN{\csname cc@\romannumeral\i@val @N\endcsname}%
+  }%
+%  \ifnum\trans@posed>\z@
+    \edef#3{}%
+    \Ifor*\i@val{1}{\cc@columnN}\Do{%
+      \ifnum\i@val>\@ne\edefappend #3{\row@term}\fi
+      \Ifor*\j@val{1}{\cc@rowN}\Do{%
+        \ifnum\j@val>\@ne\edefappend #3{\column@term}\fi
+        \edefappend #3{\hairetu{cc@\romannumeral \j@val @}{\i@val}}%
+      }%
+    }%
+%  \fi
+\fi
+}%
+%
+% 格子行列
+%
+\DeclareRobustCommand\kousigyouretu{%
+  \@ifnextchar<{\@kousigyouretu}{\@kousigyouretu<\empty>}}%
+\def\@kousigyouretu<#1>#2{{%
+  \ifnum\EMps@mode=\@ne\gsave\fi
+  \gyouretuiihairetu{kg@array}{#2}%
+  \kousi<#1>{\kg@arrayNj}{\kg@arrayNi}%
+  \Ifor*\i@val{1}{\kg@arrayNi}\Do{%
+    \ISub\kg@arrayNi\i@val\y@val
+    \Incr\y@val
+    \Ifor*\j@val{1}{\kg@arrayNj}\Do{%
+      \emathPut{(\j@val,\y@val)}(-.5,-.5)[c]{%
+        \iihairetu{kg@array}{\i@val}{\j@val}}%
+    }%
+  }%
+  \ifnum\EMps@mode=\@ne\grestore\fi
+}}%
+%
+\endinput
+%
+v 0.00 2012/01/14 emathC.sty から移す。
+v 0.01 2012/01/16 \kousigyouretu
+v 0.02 2012/04/16 \hairetusyokika: dimen=.. syokiti=..
+v 0.03 2012/09/28 \typeouthairetu
+v 0.04 2014/03/17 \csvhairetu: 引数が空の場合にも対応
+v 0.05 2015/10/23 \hairetusyokika:   \ignorespaces を追加 (BBS #12826)

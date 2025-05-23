@@ -1,0 +1,275 @@
+\documentclass[dvipdfmx]{jbook}
+\usepackage{plextarray}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{bm,braket,ascmac,extarrows}
+\usepackage{amsmath,amssymb,amsthm,mathrsfs,makeidx}
+\usepackage{amsfonts,graphics,fancyhdr,ulem,stmaryrd,pxrubrica,multicol,enumitem,framed,tcolorbox}
+
+%%enumitem・・・A, a, I, i, 1 が \Alph*, \alph*, \Roman*, \roman*, \arabic* を表す列挙型の構文を使用できる．
+
+
+\usepackage[all]{xy}
+\usepackage[%
+top    = 15truemm,%
+bottom = 15truemm,%
+left   = 6truemm,%
+right  = 6truemm]{geometry}
+
+
+\usepackage{tikz}
+\usetikzlibrary{shadows}
+\usetikzlibrary{patterns}
+
+\columnseprule=.4pt
+
+\pagestyle{plain}
+\lhead{\rightmark}
+% Theorem 環境 
+
+\theoremstyle{definition}
+
+
+\newtheorem{theo}{定理}[section]
+\newcommand{\theocount}[2]{\setcounter{subsection}{#1}\setcounter{theo}{#2}}
+\newtheorem{lem}[theo]{補題}
+\newtheorem{prop}[theo]{命題}
+\newtheorem{prob}{問題}[section]
+\newtheorem{ans}{解答}[section]
+\newtheorem{cor}[theo]{系}
+\newtheorem{defn}[theo]{定義}
+\newtheorem{egprob}{例題}
+\newtheorem{egans}{解答}
+\newtheorem{quiz}{Quiz}[theo]
+\newtheorem{eg}{例}[theo]  %本にはこのカウンタは無いらしい？
+\newtheorem{rem}{注意}[theo]
+\newtheorem{rev}{復習}[theo] %review
+\newtheorem{que}{疑問}[theo] 
+\newtheorem{recall}{Recall}[theo]
+\newtheorem{task}{課題}[theo] 
+\newtheorem{fact}{Fact}[theo]
+\newtheorem{hint}{Hint}[prob]
+
+\newtheorem{eg*}{例}
+\newtheorem{rem*}{注意}
+\newtheorem{theo*}{定理}
+\newtheorem{prop*}{命題}
+\newtheorem{claim}{Claim}
+\newtheorem{lem*}{補題}
+\newtheorem*{defn*}{定義}
+\newtheorem{cor*}{系}
+\newtheorem*{ans*}{解答}
+\newtheorem*{prob*}{問題}
+
+
+%Enumerate 環境
+\def\theenumi{\arabic{enumi}}
+\def\labelenumi{(\theenumi)}
+
+% (Re)New commands
+
+\definecolor{shadecolor}{gray}{0.80}
+
+\newcommand{\bbox}{\quad\rule{2.2mm}{3mm}}
+\newcommand{\aran}{\leftarrow}
+\newcommand{\nyoro}{\mbox{{\Huge $\rightsquigarrow$ }}} %%%波矢印
+\newcommand{\step}[2]{\textbf{Step #1.} (#2)\quad} 
+\newcommand{\dothom}[1]{ \underset{#1}{\overset{\cdot}{\simeq}}  }
+
+\newcommand{\spec}[1]{\mr{Spec}\parena{#1}}
+\newcommand{\prf}{\noindent{\large
+(\textbf{Proof.})\quad}} 
+\newcommand{\ten}{$\bullet\quad$} %黒丸
+\newcommand{\vin}{\rotatebox{90}{$\in$}}
+\newcommand{\thm}{\begin{itembox}[l]}
+\newcommand{\enthm}{\end{itembox}\\}
+\newcommand{\disp}{\displaystyle}
+\newcommand{\dou}{\Leftrightarrow}
+\newcommand{\ben}{\begin{enumerate}}
+\newcommand{\een}{\end{enumerate}}
+\newcommand{\bcas}{\begin{cases}}
+\newcommand{\ecas}{\end{cases}}
+\newcommand{\ord}[2]{\mr{ord}_{#1}{#2}}
+%%%フォント
+\newcommand{\mb}{\mathbb} %%白抜き
+\newcommand{\mr}{\mathrm} %%%ローマン
+\newcommand{\maf}{\mathfrak} %%%フラクトゥール(素イデアルなど)
+\newcommand{\hana}{\mathscr} %%%花文字(圏のやつ)
+\newcommand{\mac}{\mathcal} %%%関手のやつ
+\newcommand{\besha}{\begin{shadebox}}
+\newcommand{\ensha}{\end{shadebox}}
+
+\newcommand{\chat}{\widehat{\mathbb{C}}} %リーマン球面
+\newcommand{\khat}{\widehat{K}}
+\newcommand{\nea}{\nearrow}
+\newcommand{\bolm}[1]{{\mbox{\boldmath $#1$}}}
+\newcommand{\exer}{{\bf 演習}\arabic{chapter}.\arabic{section}.}
+\newcommand{\sea}{\searrow}
+\newcommand{\tf}{\textbf}
+
+
+
+\renewcommand{\leq}{\leqq}
+\renewcommand{\geq}{\geqq}
+\renewcommand\thefootnote{*\arabic{footnote}}
+\newcommand{\kuro}[1]{\mr{\textbf{#1}}}  %%複体の文字とか
+
+%%%代数学
+\newcommand{\tens}{\mathbin{\otimes}} %%%テンソル
+\newcommand{\colim}[1]{\mathop{\varinjlim}\limits_{#1}}
+\DeclareMathOperator{\coker}{Coker}
+
+%%%逆極限
+\newcommand{\ilim}[1]{\mathop{\varprojlim}\limits_{#1}} %%%順極限
+
+\newcommand{\rank}[1]{\mr{rank}\, #1}
+\newcommand{\tor}[2]{\mr{Tor}_{#1}^{#2}}  %%Tor{i番目}{環}
+\newcommand{\ext}[2]{\mr{Ext}^{#1}_{#2} }
+\renewcommand{\hom}{\mr{Hom}}
+\newcommand{\norgr}{\rotatebox{90}{$\triangle$}}  %%正規部分群
+\newcommand{\bep}{\begin{pmatrix}}
+\newcommand{\enp}{\end{pmatrix}}
+\newcommand{\tr}[1]{\mr{Tr}\parena{#1}}
+
+%%%幾何学
+\newcommand{\supp}[1]{\mr{Supp}(#1)}
+\newcommand{\sub}[1]{\overset{\mr{#1}}{\subset}}
+
+
+%%%解析学
+\newcommand{\inpr}[2]{\lan #1, #2 \ran} %%%内積
+\newcommand{\del}{\partial} %%%偏微分, 境界
+\newcommand{\abs}[1]{ \left| #1 \right| }
+\newcommand{\norm}[1]{\left\| #1 \right\| }
+\newcommand{\fou}[1]{\mac{F}\parenc{#1}}
+\newcommand{\llfou}[1]{\mac{F}_{L^2}\parenc{#1}}
+\newcommand{\uof}[1]{\mac{F}^{-1}\parenc{#1}}
+\newcommand{\lluof}[1]{\mac{F}^{-1}_{L^2}\parenc{#1}}
+\newcommand{\conv}[1]{\mr{Conv}\, (#1)}
+\newcommand{\res}[2]{\underset{#1}{\mr{Res}}#2}
+\newcommand{\slim}{\mr{s-}\disp\lim}
+\newcommand{\wlim}{\mr{w-}\disp\lim}
+%%%その他数式用
+\newcommand{\witi}{\widetilde} %%%ワイドチルダ
+\newcommand{\wiha}{\widehat} %%%ワイドはっと(フーリエ係数)
+\newcommand{\symdiff}{\bigtriangleup}  %%%対称差
+\newcommand{\ovl}{\overline}
+\newcommand{\lan}{\langle}
+\newcommand{\ran}{\rangle}
+\newcommand*{\ve}{\overrightarrow} %%%%%ベクトル
+\newcommand{\parena}[1]{\left( #1 \right)}
+\newcommand{\parenb}[1]{\left\{ #1 \right\}}
+\newcommand{\parenc}[1]{\left[ #1 \right]}
+\newcommand{\bea}[2]{\begin{array}{#1} #2 \end{array}}
+
+\newcommand{\proj}[1]{\mr{Proj}\parena{#1}}
+\newcommand{\op}[1]{{#1}^{\mr{op}}}
+
+%2021
+\newcommand{\tbox}[2]{\begin{tcolorbox}[#2] #1 \end{tcolorbox}}
+\newcommand{\ao}[1]{\textcolor{blue}{#1}}
+\newenvironment{sumipmatrix}{\left ( \begin{smallmatrix}} {\end{smallmatrix}\right )}
+\newenvironment{sumibmatrix}{\left [ \begin{smallmatrix}} {\end{smallmatrix}\right ]}
+\newenvironment{sumivmatrix}{\left \{ \begin{smallmatrix}} {\end{smallmatrix}\right \}}
+\newcommand{\eqn}[1]{\begin{eqnarray*}#1\end{eqnarray*}}
+\newcommand{\sumib}[1]{\left[\begin{smallmatrix}#1\end{smallmatrix}\right]}
+\newcommand{\beal}[1]{\begin{align} #1 \end{align}}
+\newcommand{\bealn}[1]{\begin{align*} #1 \end{align*}}
+\newcommand{\aka}[1]{\textcolor{red}{#1}}
+\newcommand{\enu}[2]{\begin{enumerate}[#2]#1\end{enumerate}}
+
+%DeclareMathOperators
+\DeclareMathOperator{\re}{Re}
+\DeclareMathOperator{\im}{Im}
+\DeclareMathOperator{\gal}{Gal}
+
+%DS
+\newcommand{\forhint}{(ヒントが巻末にある.) }
+\DeclareMathOperator{\Log}{Log}
+\newcommand{\bmat}[1]{\begin{bmatrix} #1 \end{bmatrix}}
+\DeclareMathOperator{\aut}{Aut}
+\newcommand{\cyc}[1]{\mathbb{Z}/#1\mathbb{Z}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\SL}{\mathrm{SL}_2(\mathbb{Z})}
+\DeclareMathOperator{\Div}{Div}
+\newcommand{\fl}[1]{\left\lfloor #1 \right\rfloor}
+\newcommand{\circdot}{{\scriptsize \textcircled{$\bullet$}}} %3.7節
+\newcommand{\ang}[1]{\langle #1\rangle}
+
+
+%%%左赤線環境
+\makeatletter
+
+\renewenvironment{leftbar}{%
+%  \def\FrameCommand{\vrule width 3pt \hspace{10pt}}%  デフォルトの線の太さは3pt
+  \def\FrameCommand{\vrule width 1pt \hspace{10pt}}% 
+  \MakeFramed {\advance\hsize-\width \FrameRestore}}%
+ {\endMakeFramed}
+\newcommand{\lefba}[1]{\begin{leftbar} #1 \end{leftbar}}
+
+
+
+\makeatletter
+
+\def\mapstofill@{%
+   \arrowfill@{\mapstochar\relbar}\relbar\rightarrow}
+\newcommand*\xmapsto[2][]{%
+   \ext@arrow 0395\mapstofill@{#1}{#2}}
+\newcommand{\xequal}[2][]{\ext@arrow 0055{\equalfill@}{#1}{#2}}
+\def\equalfill@{\arrowfill@\Relbar\Relbar\Relbar}
+
+
+\makeatother
+\begin{document}
+\twocolumn
+
+
+
+\section{Q.049}
+
+$n\geq 1$とする.  $Y_{n+1} = X_{n+1} + \dfrac{1}{Y_n}$がその不等式を満たすために\ao{$X_{n+1}$がどう出るべきか}, ということについて考えたい. それを考えるためには$Y_n$の大きさに関する場合分けが必要である. \par 
+まず$Y_n$は帰納的に有理数であるため, 不等式の等号は実現することがない. そこで, $\dfrac{1+\sqrt{3}}{2} < Y_n < 1+\sqrt{3}$を満たす確率を$p_n$, 事象を$P_n$ ($n\geq 1$) とおく. $n+1$回目でこの不等式が成り立っていたとしよう. すると, $\dfrac{1}{\sqrt{3} \pm 1} = \dfrac{\sqrt{3}\mp 1}{2}$により
+\begin{align*}
+&\dfrac{1+\sqrt{3}}{2} < Y_{n+1} < 1 + \sqrt{3}\\
+\iff& \dfrac{\sqrt{3}-1}{2} < \dfrac{1}{Y_{n+1}} < \sqrt{3} - 1 \\
+\iff& \dfrac{\sqrt{3}-1}{2} - \dfrac{1}{Y_n} < X_{n+1} < \sqrt{3} - 1 - \dfrac{1}{Y_n}
+\end{align*}
+よって, 最後の不等号の両側の数がどうであるかによって$X_n$がどうあるべきかが以下のように分かる: 
+\begin{enumerate}[label=(\roman*)]
+\item $2\leq \sqrt{3} + 1 - \dfrac{1}{Y_n}$かつ$\dfrac{1+\sqrt{3}}{2} - \dfrac{1}{Y_n} > 1$; すなわち$Y_n > \sqrt{3}+1$であるとき, 事象$P_{n+1}$が起こるのは $X_n = 2$ のときである. 
+\item $2\leq \sqrt{3} + 1 - \dfrac{1}{Y_n}$かつ$\dfrac{1+\sqrt{3}}{2} - \dfrac{1}{Y_n} \leq 1$; すなわち$Y_n > \sqrt{3}+1$であるとき, 事象$P_{n+1}$が起こるのは $X_{n+1} = 1,2$ のときである. 
+\item $2> \sqrt{3} + 1 - \dfrac{1}{Y_n}$かつ$\dfrac{1+\sqrt{3}}{2} - \dfrac{1}{Y_n} < 1$; すなわち$Y_n < \dfrac{\sqrt{3}+1}{2}$であるとき, 事象$P_{n+1}$が起こるのは $X_{n+1} = 1$ のときである. 
+\end{enumerate}
+そこで, $Y_n > \sqrt{3}+1$を満たす確率を$q_n$, 事象を$Q_n$とおき, $Y_n < \dfrac{\sqrt{3}+1}{2}$を満たす確率を$r_n$, 事象を$R_n$とおく. このとき$P_n \cup Q_n \cup R_n$は全事象であるから$p_n + q_n + r_n = 1$. そして, 上の考察により$P_{n+1}$であるのは「$P_n$と$X_{n+1} = 1,2$が起こるとき」と「$Q_{n}$と$X_{n+1}=2$が起こるとき」と「$R_n$と$X_{n+1} = 1$が起こるとき」である. これらは排反であるから, 
+\[p_{n+1} = \dfrac{2}{6}p_n + \dfrac{1}{6}q_n + \dfrac{1}{6}r_n = \dfrac{2}{6}p_n + \dfrac{1}{6
+}(1-p_n) = \dfrac{1}{6}p_n+ \dfrac{1}{6}\]
+となる. $Y_1 = X_1$が不等式を満たすのは$X_1 = 2$のときであるから $p_1 = \dfrac{1}{6}$. よって漸化式を解く事で$p_{n+1}$ ($n\geq 1$)が求まる: 
+\begin{align*}
+p_{n+1} - \dfrac{1}{5} &= \dfrac{1}{6} \left( p_n - \dfrac{1}{5}\right) \\
+&= \dfrac{1}{6^n} \left(p_1 - \dfrac{1}{5} \right) \\
+&= -\dfrac{1}{5\cdot 6^{n+1}} \\
+\therefore \quad p_{n+1} &= \dfrac{1}{5} \left( 1 - \dfrac{1}{6^{n+1} } \right) \quad (n\geq 1)
+\end{align*}
+これは$n=0$でも正しいので
+\[\bolm{p_n = \dfrac{1}{5} \left( 1 - \dfrac{1}{6^n} \right) }\]
+
+
+
+\section{Q.264}
+(1): 鳩ノ巣原理より$a^{m_1},a^{m_2}$の$n$で割った余りが同じであるような異なる自然数$m_1<m_2$がある. すなわち$k=m_2-m_1$として, $a^{m_2} - a^{m_1} = a^{m_1}(a^k - 1)$は$n$の倍数. $a^{m_1}$は$n$と互いに素だから$a^k - 1$は$n$の倍数. よって$a^k \equiv 1\pmod{n}$より示せた.\qed \\
+(2): $a^k\equiv 1\pmod{n}$なる自然数$k$を任意に取る. $k$を$d$で割って$k=dq + r$とおく($0\leq r<d$). このとき$a^{k} = a^{dq}\cdot a^r = (a^{d})^q \cdot a^r \equiv 1^q\cdot a^r = a^r$だから$a^r \equiv 1\pmod{n}$となる. $0\leq r<d$と自然数$d$の最小性より$r>0$では矛盾. よって$r=0$. つまり$k=dq$は$d$の倍数. 
+
+
+
+\clearpage 
+
+
+
+
+
+
+
+
+
+
+\end{document}

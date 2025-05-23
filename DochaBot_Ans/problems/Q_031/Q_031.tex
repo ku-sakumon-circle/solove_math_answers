@@ -1,0 +1,33 @@
+\begin{thm}{031}{\hosi 4}{阪大理系 (2005)}
+ 空間内の4点$\mr{A, B, C, D}$が、$\mr{AB}=1$, $\mr{AC}=2$, $\mr{AD}=3$, $\angle\mr{BAC}=\angle\mr{CAD}=60^\circ$, $\angle\mr{DAB}=90^\circ$を満たしている。この4点から等距離にある点を$\mr{E}$とする。線分$\mr{AE}$の長さを求めよ。
+\end{thm}
+
+\syoumon{座標を設定して}
+3点$\mr{A, B, D}$の座標をそれぞれ、$\mr{A}(0, 0, 0)$, $\mr{B}(1, 0, 0)$, $\mr{D}(0, 3, 0)$とおく。直角三角形$\mr{ABD}$の外接円の中心は、辺$\mr{BD}$の中点であり、これを$\mr{M}$とおく。$\mr{M}\left(\dfrac{1}{2}, \dfrac{3}{2}, 0\right)$である。$\mr{M}$を通り$xy$平面に垂直な直線上に(任意の)点$\mr{P}\left(\dfrac{1}{2}, \dfrac{3}{2}, p\right)$~(ただし$p$は実数) をとると、$\triangle\mr{AMP}$, $\triangle
+\mr{BMP}$, $\triangle\mr{DMP}$は全て合同であるから、$\mr{PA}=\mr{PB}=\mr{PD}$が成り立つ。
+
+$\triangle\mr{ABC}$について、$\mr{AB}=1$, $\mr{AC}=2$, $\angle\mr{BAC}=60^\circ$なので、$\angle\mr{CBA}=90^\circ$である。したがって、点$\mr{C}$は平面$x=1$上に存在するから、$x$座標は1。$\triangle\mr{ACD}$において、点$\mr{C}$から辺$\mr{AD}$に垂線を下ろせば、その足は$(0, 1, 0)$である。したがって、点$\mr{C}$は平面$y=1$上に存在するから、$y$座標は1。よって$\mr{C}(1, 1, c)$とおく。$\mr{AC}=2$より、$c=\pm\sqrt{2}$。
+
+$\mr{PA}=\mr{PB}=\mr{PD}=t$, $\mr{PC}=u$とおく。
+\begin{align*}
+ t^2&=p^2+\frac{5}{2} \\
+ u^2&=(p\mp\sqrt{2})^2+\frac{1}{2}
+\end{align*}
+この$t$, $u$が等しくなるような$p$が、点$\mr{E}$の座標を与える。$t^2=u^2$として$p$について解くと、
+\[ p^2+\frac{5}{2}=(p\mp\sqrt{2})^2+\frac{1}{2} \quad\dou\quad p=0 \]
+したがって、$\mr{E}\left(\dfrac{1}{2}, \dfrac{3}{2}, 0\right)$であって、$\mr{AE}=\dfrac{\sqrt{10}}{2}$
+
+\syoumon{余弦定理で}
+$\triangle\mr{ABC}$と$\triangle\mr{ACD}$において余弦定理を用いて、
+\begin{align*}
+ \mr{BC}^2&=1^2+2^2-2\cdot 1\cdot 2\cos 60^\circ=3 \\
+ \mr{CD}^2&=2^3+3^2-2\cdot 2\cdot 3\cos 60^\circ=7
+\end{align*}
+続いて$\triangle\mr{ABD}$において三平方の定理を用いて、
+\[ \mr{BD}^2=1^2+3^2=10 \]
+これらより、$\mr{BC}^2+\mr{CD}^2=\mr{BD}^2$が成り立つので、三平方の定理の逆より$\angle\mr{BCD}=90^\circ$である。
+
+点$\mr{E}$を通り、平面$\mr{BCD}$に垂直な直線を引き、その足を$\mr{H_1}$とする。このとき$\mr{BE}=\mr{CE}=\mr{DE}$と三平方の定理より、点$\mr{H_1}$が$\triangle\mr{BCD}$の外心であることがわかる。$\mr{BCD}=90^\circ$より、点$\mr{H_1}$は線分$\mr{BD}$の中点$\mr{M}$に等しい。したがって、点$\mr{M}$を通り平面$\mr{BCD}$に垂直な直線$l_1$上に点$\mr{E}$があることがわかる。点$\mr{E}$と平面$\mr{ABD}$について、$\angle\mr{BAD}=90^\circ$を用いて同様のことを考えることで、線分$\mr{BD}$の中点$\mr{M}$を通り平面$\mr{ABD}$に垂直な直線$l_2$上に点$\mr{E}$があることがわかる。
+
+これらのことから、点$\mr{E}$は直線$l_1$と$l_2$の交点であり、また$l_1$と$l_2$は明らかに点$\mr{M}$で交わるから、$\mr{E}=\mr{M}$である。よって、
+\[ \mr{AE}=\mr{BE}=\mr{BM}=\frac{1}{2}\mr{BD}=\frac{\sqrt{10}}{2} \]

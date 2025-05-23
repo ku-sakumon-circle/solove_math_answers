@@ -1,0 +1,53 @@
+%%% Eratosthenes.sty by tDB(emath@nifty.com)
+% 日本語
+\ProvidesPackage{Eratosthenes}[2013/01/14 v0.00]%
+%
+%\RequirePackage{emath}%
+\@ifpackageloaded{emath}{}{\RequirePackage{emath}}%
+%
+%
+% エラトステネスの篩により
+%     #1 以下の素数 csv列を #2の制御綴に取得する
+%
+\define@key{Eratosthenes}{soinsuu}[soinsuu]{\edef\p@hairetu{#1}}
+\def\Eratosthenes{\edef\p@hairetu{tbl@}%
+  \@ifnextchar<{\@Eratosthenes}{\@@Eratosthenes}}%
+\def\@Eratosthenes<#1>{\setkeys{Eratosthenes}{#1}\@@Eratosthenes}%
+\def\@@Eratosthenes#1#2{%
+  \def\u@lim{#1}%
+  \ifnum\u@lim<6000\relax
+    \Heihoukon\u@lim\U@lim
+  \else
+    \calcval{sqrt{\u@lim}}\U@lim
+  \fi
+  \Seisuububun\U@lim\Iu@lim
+  \hairetusyokika{\p@hairetu}
+  \Ifor*\i@val{1}{\u@lim}\Do{%
+    \edefhairetu{\p@hairetu}{\i@val}{1}%
+  }%
+  \edefhairetu{\p@hairetu}{1}{-1}
+  \Ifor*\i@val{4}{\u@lim}[2]\Do{\edefhairetu{\p@hairetu}{\i@val}{2}}%
+  \Ifor*\i@val{3}{\Iu@lim}[2]\Do{%
+    \gethairetu{\p@hairetu}\i@val\k@val
+    \ifnum\k@val=1\relax
+      \IMul\i@val\i@val\ii@val
+      \IMul\i@val{2}\i@val@
+      \Ifor*\j@val{\ii@val}{\u@lim}[\i@val@]\Do{%
+        \gethairetu{\p@hairetu}\j@val\k@val@
+        \ifnum\k@val@=\@ne
+          \edefhairetu{\p@hairetu}{\j@val}{\i@val}
+        \fi
+      }%
+    \fi
+  }%
+  \expandafter\edef\csname\p@hairetu N\endcsname{\u@lim}%
+  \edef\kekka@{}%
+  \Ifor\i@val{2}{\u@lim}\Do{%
+    \gethairetu{\p@hairetu}\i@val\j@val
+    \ifnum\j@val=\@ne\relax
+      \edefappend[,]\kekka@{\i@val}%
+    \fi
+  }%
+  \edef#2{\kekka@}%
+}%
+\endinput

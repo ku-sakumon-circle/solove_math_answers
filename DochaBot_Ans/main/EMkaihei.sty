@@ -1,0 +1,189 @@
+% EMkaihei.sty by tDB(emath@nifty.ne.jp)
+%
+\ProvidesPackage{EMkaihei}[2013/03/31 v0.02a]%
+%
+%\RequirePackage{emathT}
+\RequirePackage{emathPxy}
+\RequirePackage{emathPl}
+%
+  \edef\kaihei@cw{1em}%
+  \def\kaiheicolumnwidth#1{\edef\kaihei@cw{#1}}%
+%
+\def\EMkaihei{\@ifnextchar[{\@EMkaihei}{\@EMkaihei[0]}}%
+\def\@EMkaihei[#1]#2{%
+% ---------------------------------------------------
+    \def\kaihei@sub{\edef\sikiri@sen{0}\@ifstar{%
+      \edef\sikiri@sen{1}\@kaihei@sub}{\@kaihei@sub}}%
+    \def\@kaihei@sub{\@ifnextchar[{\@@kaihei@sub}{\@@kaihei@sub[0]}}%
+    \def\@@kaihei@sub[##1]##2##3{%
+      \strtohairetu{##2}{KHsub@}%
+%      \ifx\empty ##3\edef\x@max{\KHsub@N}\else\edef\x@max{##3}\fi
+      \ifthenelse{\equal{##3}\empty}{\edef\x@max{\KHsub@N}}{\edef\x@max{##3}}%
+      \begin{zahyou*}[ul=\kaihei@cw,yscale=\tbl@H](0,\x@max)(0,1)
+        \edef\j@val{##1}%
+        \Ifor*{\i@val}{1}{\KHsub@N}\Do{%
+          \Incr\j@val
+          \Put{(\j@val,0)}(-.5,.5)[c]{\hairetu{KHsub@}{\i@val}}%
+        }
+        \ifnum\sikiri@sen>\z@
+          \IAdd\KH@aN\KH@I@N\L@len
+          \IAddself\L@len\KH@S@N
+          \Drawline{(0,1)(\L@len,1)}%
+        \fi
+      \end{zahyou*}
+    }%
+% ---------------------------------------------------
+  \calcval[s]{sqrt(#2)}\KH@ans
+  \Strsep{#2}{.}\KH@i\KH@s
+  \ifx\empty\KH@i\edef\KH@i{0}\fi
+  \strlen\KH@i\KH@tmp
+  \ifthenelse{\isodd{\KH@tmp}}{\edef\KH@i{0\KH@i}}{}%
+  \strlen\KH@s\KH@tmp
+  \ifthenelse{\isodd{\KH@tmp}}{\edef\KH@s{\KH@s0}}{}%
+\ifnum #1>\z@
+  \strlen\KH@s\io@val
+  \Incr\io@val
+  \IAdd{#1}{#1}\ie@val
+  \Ifor*\i@val\io@val\ie@val\Do{%
+    \edefappend\KH@s{0}%
+  }%
+\fi
+  \Strsep{\KH@ans}{.}\KH@ai\KH@as
+  \edef\KH@ais{\KH@ai\KH@as}%
+  \strtohairetu\KH@i{KH@I@}%
+  \strtohairetu\KH@s{KH@S@}%
+  \strtohairetu\KH@ai{KH@aI@}%
+  \strtohairetu\KH@as{KH@aS@}%
+  \strtohairetu\KH@ais{KH@aIS@}%
+\Cfor{\edef\skip@c{0}\edef\i@val{1}}{\hairetu{KH@aIS@}{\i@val}=\z@}{%
+        \Incr\i@val}\do{\Incr\skip@c}%
+  \IDiv\KH@S@N{2}\KH@aS@N
+  \IAdd\KH@aI@N\KH@aS@N\KH@aN
+  \IAddself\KH@aN{2}%
+  \kansan{\baselineskip}{\kaihei@cw}\tbl@H
+%
+    \edef\KH@II@N{0}%
+    \Ifor\i@val{1}\KH@I@N[2]\Do{%
+      \Incr\KH@II@N
+      \IAdd\i@val{1}\j@val
+      \edefhairetu{KH@II@}{\KH@II@N}{%
+        \hairetu{KH@I@}{\i@val}\hairetu{KH@I@}{\j@val}}%
+    }%
+    \Ifor\i@val{1}\KH@S@N[2]\Do{%
+      \Incr\KH@II@N
+      \IAdd\i@val{1}\j@val
+      \edefhairetu{KH@II@}{\KH@II@N}{%
+        \hairetu{KH@S@}{\i@val}\hairetu{KH@S@}{\j@val}}%
+    }%
+% 
+    \noindent
+\IAdd\skip@c{1}\skip@c@
+    \edef\b@val{\hairetu{KH@aIS@}{\skip@c@}}%
+    \ifnum\b@val<5\relax\edef\b@l{2}\else\edef\b@l{1}\fi
+    \begin{zahyou*}[ul=\kaihei@cw,yscale=\tbl@H](0,\KH@aN)(0,1)
+    \end{zahyou*}%
+    \begin{zahyou*}[ul=\kaihei@cw,yscale=\tbl@H](0,\KH@I@N)(0,1)
+      \Ifor*{\i@val}{1}{\KH@aI@N}\Do{%
+        \IMul\i@val{2}\j@val
+        \Put{(\j@val,0)}(-.5,.5)[c]{\hairetu{KH@aI@}{\i@val}}%
+      }
+    \end{zahyou*}%
+    \ifnum\KH@aS@N>\z@
+      \hbox to \z@{\hss\lower-.25\baselineskip\hbox{.}\hss}%
+      \begin{zahyou*}[ul=\kaihei@cw,yscale=\tbl@H](0,\KH@aS@N)(0,1)
+        \Ifor*{\i@val}{1}{\KH@aS@N}\Do{%
+          \IMul\i@val{2}\j@val
+          \Put{(\j@val,0)}(-.5,.5)[c]{\hairetu{KH@aS@}{\i@val}}%
+        }
+      \end{zahyou*}
+    \fi
+    \\[-.25em]
+% 
+    \begin{zahyou*}[ul=\kaihei@cw,yscale=\tbl@H](0,\KH@aN)(0,1)
+      \Put{(2,0)}(-.5,.5)[c]{\b@val}
+    \end{zahyou*}%
+%
+    \begin{zahyou*}[ul=\kaihei@cw,yscale=\tbl@H](0,\KH@I@N)(0,1)
+      \edef\KH@tmp{\hairetu{KH@I@}{1}}%
+      \ifnum\KH@tmp=\z@\else
+        \Put{(1,0)}(-.5,.5)[c]{\KH@tmp}%
+      \fi
+      \Ifor*{\i@val}{2}{\KH@I@N}\Do{%
+        \Put{(\i@val,0)}(-.5,.5)[c]{\hairetu{KH@I@}{\i@val}}%
+      }
+      \Drawline{(-.5,0)(-.5,1)(\KH@I@N,1)}%
+    \end{zahyou*}%
+    \ifnum\KH@aS@N>\z@
+      \hbox to \z@{\hss\lower-.25\baselineskip\hbox{.}\hss}%
+      \begin{zahyou*}[ul=\kaihei@cw,yscale=\tbl@H](0,\KH@S@N)(0,1)
+        \Ifor*{\i@val}{1}{\KH@S@N}\Do{%
+          \Put{(\i@val,0)}(-.5,.5)[c]{\hairetu{KH@S@}{\i@val}}%
+        }
+        \Drawline{(-.5,1)(\KH@S@N,1)}%
+      \end{zahyou*}
+    \fi
+    \\
+% 
+%    \edef\r@val{\hairetu{KH@II@}{1}}%
+%    \edef\j@L{\hairetu{KH@aI@}{1}}%
+\edef\r@val{\hairetu{KH@II@}{\skip@c@}}%
+\edef\j@L{\hairetu{KH@aIS@}{\skip@c@}}%
+    \ifnum\j@L<5\edef\j@L{1}\else\edef\j@L{0}\fi
+    \edef\ii@val{0}%
+    \edef\ii@val{\skip@c}%
+\IMul\skip@c{2}\ii@val
+%
+% loop
+%
+\edef\j@val@{1}%
+%    \Ifor*{\i@val}{1}{\KH@II@N}\Do{%
+    \Ifor*{\i@val}{\skip@c@}{\KH@II@N}\Do{%a
+      \IAdd\i@val{1}\j@val
+%\ISub\j@val{\skip@c}\j@val@
+\Incr\j@val@
+      \edef\a@val{\hairetu{KH@aIS@}{\i@val}}%
+      \IMul\b@val\a@val\KH@tmp
+      \ifnum\a@val>\z@
+        \begin{zahyou*}[ul=\kaihei@cw,yscale=\tbl@H](0,\KH@aN)(0,1)%
+          \Put{(\j@val@,0)}(-.5,.5)[c]{\a@val}%
+        \end{zahyou*}%
+        \ifnum\KH@tmp<10\relax
+          \IAdd\ii@val{1}\iii@val
+          \kaihei@sub[\iii@val]{\KH@tmp}{}%
+        \else
+          \strlen\r@val\old@
+          \strlen\KH@tmp\new@
+          \ISub\old@\new@\sa@
+          \IAdd\ii@val\sa@\iii@val
+          \kaihei@sub[\iii@val]{\KH@tmp}{}%
+        \fi
+        \\
+      \fi
+      \IAdd\b@val\a@val\b@val
+      \strlen\r@val\old@
+      \ISub\r@val\KH@tmp\r@val
+      \strlen\r@val\new@
+      \ISub\old@\new@\sa@
+      \IAddself\ii@val{\sa@}%
+      \ifnum\j@val>\KH@II@N\else
+        \edef\r@val{\r@val\hairetu{KH@II@}{\j@val}}%
+        \edef\b@val{\b@val\hairetu{KH@aIS@}{\j@val}}%
+      \fi
+      \ifnum\i@val=\KH@II@N
+        \kaihei@sub*[\j@L]{\b@val}{\KH@aN}%
+        \kaihei@sub[\ii@val]{\r@val}{}%
+        \\
+      \else\ifnum\r@val>\b@val
+        \kaihei@sub*[\j@L]{\b@val}{\KH@aN}%
+        \kaihei@sub[\ii@val]{\r@val}{}%
+        \\
+      \fi\fi
+    }%
+}%
+\AtBeginDocument{%
+  \@ifundefined{kaihei}{\let\kaihei\EMkaihei}{}%
+}%
+\endinput
+% 0.00 2013/03/22
+% 0.01 2013/03/23 小数部指定オプション
+% 0.02 2013/03/31 #2: 小数を許容

@@ -1,0 +1,533 @@
+%%% Ytenretu.sty by tDB(emath@nifty.com)
+% 日本語
+\ProvidesPackage{Ytenretu}[2013/06/25 v0.04alpha]%
+%
+\def\Ytenretu{\def\show@label{1}%
+  \@ifstar{\def\show@label{0}\@Ytenretu}{\@Ytenretu}}%
+\def\@Ytenretu{\@ifnextchar<{\@@Ytenretu}{\@@Ytenretu<\empty>}}%
+\def\@@Ytenretu<#1>#2#3{%
+% #1: \tenretu(*) に引き継ぐオプション
+% #2: 関数 y=f(x)
+% #3: 「[名札]点名(x)配置オプション」を ; で区切った列
+%
+  \Strchr{#2}{X}\@tmp
+  \ifnum\@tmp=\z@
+    \Strchr{#2}{T}\@tmp
+    \ifnum\@tmp=\z@
+      \@latex@warning{you must give the function for Ytenretu-command}
+    \fi
+  \fi
+  \edef\save@hairetu@baseN{\hairetu@baseN}%
+  \hairetubaseN{1}%
+  \hairetusyokika{P@name}%
+  \hairetusyokika{P@houi}%
+  \edef\P@x{\empty}%
+  \t@perl{#2}\funcval@siki
+  \exfor[;]\yt@c@:=#3\do{%
+    \trim\yt@c@\to\yt@c
+    \ifthenelse{\equal\yt@c\empty}{}{%
+      \Headchar\yt@c\yt@h\yt@r
+      \if [\yt@h
+        \Strsep\yt@r{]}\yt@tmp\yt@c
+        \EMedef\yt@a{[\yt@tmp]}%
+      \else
+        \edef\yt@a{}%
+      \fi
+      \Strsep\yt@c{(}\yt@a@\yt@tmp
+\ifx\empty\yt@tmp
+  \errmessage{Ytenretu cannot finds `('}%
+\fi
+      \EMedefappend\yt@a{\yt@a@}%
+      \edef\yt@kakko{1}%
+      \edef\yt@b{}%
+      \Cfor{\Headchar\yt@tmp\yt@a@\yt@b@}{\yt@kakko>\z@}{}\do{%
+        \if (\yt@a@
+          \Incr\yt@kakko
+        \else\if )\yt@a@
+          \Decr\yt@kakko
+        \fi\fi
+        \ifnum\yt@kakko>\z@
+          \EMedefappend\yt@b{\yt@a@}%
+          \Headchar\yt@b@\yt@a@\yt@b@
+        \fi
+      }%
+%\typeout{a=\yt@a,b=\yt@b@}%
+      \hairetutuika{P@name}{\yt@a}%
+      \hairetutuika{P@houi}{\yt@b@}%
+      \ifx\empty\P@x
+        \EMedefappend\P@x{\yt@b}%
+      \else
+        \EMedefappend\P@x{,\yt@b}%
+      \fi
+    }%
+  }%
+  \CalcVal{%
+    my @Px=(\P@x);
+    my $i=0;
+    foreach $sx (@Px) {
+      $x=$sx;
+      $y=\funcval@siki;
+      if (abs($y)<\emLlim){$y=0;}
+      if ($i==0)
+          {printf FHNDL "(\@percent s,\@percent s)",$x,$y;}
+      else
+          {printf FHNDL ";(\@percent s,\@percent s)",$x,$y;}
+      ++$i;
+    }
+  }\Y@Pseq
+  \edef\i@val{0}%
+  \exfor[;]\yt@c:=\Y@Pseq\do{%
+    \Incr\i@val
+    \ifnum\i@val=\@ne
+      \EMedef\Y@retu{\hairetu{P@name}{\i@val}\yt@c\hairetu{P@houi}{\i@val}}%
+    \else
+      \EMedefappend\Y@retu{%
+        ;\hairetu{P@name}{\i@val}\yt@c\hairetu{P@houi}{\i@val}}%
+    \fi
+  }%
+  \ifnum\show@label>\z@
+    \EMedef\Y@retu{<#1>{\Y@retu}}%
+    \expandafter\tenretu\Y@retu%
+  \else
+    \EMedef\Y@retu{*<#1>{\Y@retu}}%
+    \expandafter\tenretu\Y@retu%
+  \fi
+}%
+%
+\def\Xtenretu{\def\show@label{1}%
+  \@ifstar{\def\show@label{0}\@Xtenretu}{\@Xtenretu}}%
+\def\@Xtenretu{\@ifnextchar<{\@@Xtenretu}{\@@Xtenretu<\empty>}}%
+\def\@@Xtenretu<#1>#2#3{%
+% #1: \tenretu(*) に引き継ぐオプション
+% #2: 関数 x=f(y)
+% #3: 「[名札]点名(x)配置オプション」を ; で区切った列
+%
+  \edef\save@hairetu@baseN{\hairetu@baseN}%
+  \hairetubaseN{1}%
+  \hairetusyokika{P@name}%
+  \hairetusyokika{P@houi}%
+  \edef\P@x{\empty}%
+  \t@perl{#2}\funcval@siki
+  \exfor[;]\yt@c@:=#3\do{%
+    \trim\yt@c@\to\yt@c
+    \ifthenelse{\equal\yt@c\empty}{}{%
+      \Strsep\yt@c{(}\yt@a\yt@tmp
+      \edef\yt@kakko{1}%
+      \edef\yt@b{}%
+      \Cfor{\Headchar\yt@tmp\yt@a@\yt@b@}{\yt@kakko>\z@}{}\do{%
+        \if (\yt@a@
+          \Incr\yt@kakko
+        \else\if )\yt@a@
+          \Decr\yt@kakko
+        \fi\fi
+        \ifnum\yt@kakko>\z@
+          \EMedefappend\yt@b{\yt@a@}%
+          \Headchar\yt@b@\yt@a@\yt@b@
+        \fi
+      }%
+      \hairetutuika{P@name}{\yt@a}%
+      \hairetutuika{P@houi}{\yt@b@}%
+      \ifx\empty\P@x
+        \EMedefappend\P@x{\yt@b}%
+      \else
+        \EMedefappend\P@x{,\yt@b}%
+      \fi
+    }%
+  }%
+  \CalcVal{%
+    my @Px=(\P@x);
+    my $i=0;
+    foreach $sx (@Px) {
+      $x=$sx;
+      $y=\funcval@siki;
+      if (abs($y)<\emLlim){$y=0;}
+      if ($i==0)
+          {printf FHNDL "(\@percent s,\@percent s)",$y,$x;}
+      else
+          {printf FHNDL ";(\@percent s,\@percent s)",$y,$x;}
+      ++$i;
+    }
+  }\Y@Pseq
+  \edef\i@val{0}%
+  \exfor[;]\yt@c:=\Y@Pseq\do{%
+    \Incr\i@val
+    \ifnum\i@val=\@ne
+      \EMedef\Y@retu{\hairetu{P@name}{\i@val}\yt@c\hairetu{P@houi}{\i@val}}%
+    \else
+      \EMedefappend\Y@retu{%
+        ;\hairetu{P@name}{\i@val}\yt@c\hairetu{P@houi}{\i@val}}%
+    \fi
+  }%
+  \ifnum\show@label>\z@
+    \EMedef\Y@retu{<#1>{\Y@retu}}%
+    \expandafter\tenretu\Y@retu%
+  \else
+    \EMedef\Y@retu{*<#1>{\Y@retu}}%
+    \expandafter\tenretu\Y@retu%
+  \fi
+}%
+%
+%
+%
+\def\Entenreturadian{\edef\Rdef@rad{1}\Entenretu@}%
+\def\Entenretu{\edef\Rdef@rad{0}\Entenretu@}%
+\def\Entenretu@{\def\show@label{1}%
+  \@ifstar{\def\show@label{0}\@Entenretu}{\@Entenretu}}%
+\def\@Entenretu{\@ifnextchar<{\@@Entenretu}{\@@Entenretu<\empty>}}%
+\def\@@Entenretu<#1>#2#3#4{%
+% #1: \tenretu(*) に引き継ぐオプション
+% #2: 中心
+% #3: 半径
+% #4: 「[名札]点名(x)配置オプション」を ; で区切った列
+%
+%  \Strchr{#2}{X}\@tmp
+%  \ifnum\@tmp=\z@
+%    \Strchr{#2}{T}\@tmp
+%    \ifnum\@tmp=\z@
+%      \@latex@warning{you must give the function for Entenretu-command}
+%    \fi
+%  \fi
+  \vecXY{#2}\Ent@x\Ent@y
+  \edef\save@hairetu@baseN{\hairetu@baseN}%
+  \hairetubaseN{1}%
+  \hairetusyokika{P@name}%
+  \hairetusyokika{P@houi}%
+  \edef\P@x{\empty}%
+  \exfor[;]\yt@c@:=#4\do{%
+    \trim\yt@c@\to\yt@c
+    \ifthenelse{\equal\yt@c\empty}{}{%
+      \Headchar\yt@c\yt@h\yt@r
+      \if [\yt@h
+        \Strsep\yt@r{]}\yt@tmp\yt@c
+        \EMedef\yt@a{[\yt@tmp]}%
+      \else
+        \edef\yt@a{}%
+      \fi
+      \Strsep\yt@c{(}\yt@a@\yt@tmp
+\ifx\empty\yt@tmp
+  \errmessage{Entenretu cannot finds `('}%
+\fi
+      \EMedefappend\yt@a{\yt@a@}%
+      \edef\yt@kakko{1}%
+      \edef\yt@b{}%
+      \Cfor{\Headchar\yt@tmp\yt@a@\yt@b@}{\yt@kakko>\z@}{}\do{%
+        \if (\yt@a@
+          \Incr\yt@kakko
+        \else\if )\yt@a@
+          \Decr\yt@kakko
+        \fi\fi
+        \ifnum\yt@kakko>\z@
+          \EMedefappend\yt@b{\yt@a@}%
+          \Headchar\yt@b@\yt@a@\yt@b@
+        \fi
+      }%
+%\typeout{a=\yt@a,b=\yt@b@}%
+      \hairetutuika{P@name}{\yt@a}%
+      \hairetutuika{P@houi}{\yt@b@}%
+      \ifx\empty\P@x
+        \EMedefappend\P@x{\yt@b}%
+      \else
+        \EMedefappend\P@x{,\yt@b}%
+      \fi
+    }%
+  }%
+\ifnum\Rdef@rad=\z@
+  \CalcVal{%
+    my @Px=(\P@x);
+    my $i=0;
+    foreach $sx (@Px) {
+      $x=\Ent@x+(#3)*Degcos($sx);
+      $y=\Ent@y+(#3)*Degsin($sx);
+      if (abs($x)<\emLlim){$x=0;}
+      if (abs($y)<\emLlim){$y=0;}
+      if ($i==0)
+          {printf FHNDL "(\@percent s,\@percent s)",$x,$y;}
+      else
+          {printf FHNDL ";(\@percent s,\@percent s)",$x,$y;}
+      ++$i;
+    }
+  }\Y@Pseq
+\else
+  \CalcVal{%
+    my @Px=(\P@x);
+    my $i=0;
+    foreach $sx (@Px) {
+      $x=\Ent@x+(#3)*cos($sx);
+      $y=\Ent@y+(#3)*sin($sx);
+      if (abs($x)<\emLlim){$x=0;}
+      if (abs($y)<\emLlim){$y=0;}
+      if ($i==0)
+          {printf FHNDL "(\@percent s,\@percent s)",$x,$y;}
+      else
+          {printf FHNDL ";(\@percent s,\@percent s)",$x,$y;}
+      ++$i;
+    }
+  }\Y@Pseq
+\fi
+  \edef\i@val{0}%
+  \exfor[;]\yt@c:=\Y@Pseq\do{%
+    \Incr\i@val
+    \ifnum\i@val=\@ne
+      \EMedef\Y@retu{\hairetu{P@name}{\i@val}\yt@c\hairetu{P@houi}{\i@val}}%
+    \else
+      \EMedefappend\Y@retu{%
+        ;\hairetu{P@name}{\i@val}\yt@c\hairetu{P@houi}{\i@val}}%
+    \fi
+  }%
+  \ifnum\show@label>\z@
+    \EMedef\Y@retu{<#1>{\Y@retu}}%
+    \expandafter\tenretu\Y@retu%
+  \else
+    \EMedef\Y@retu{*<#1>{\Y@retu}}%
+    \expandafter\tenretu\Y@retu%
+  \fi
+}%
+%
+\def\abctenretu{\def\show@label{1}%
+  \@ifstar{\def\show@label{0}\@abctenretu}{\@abctenretu}}%
+\def\@abctenretu{\@ifnextchar<{\@@abctenretu}{\@@abctenretu<\empty>}}%
+\def\@@abctenretu<#1>#2#3{%
+% #1: \tenretu(*) に引き継ぐオプション
+% #2: a,b,c
+% #3: 「[名札]点名(x)配置オプション」を ; で区切った列
+%
+  \vecXYZ{(#2)}\a@val\b@val\c@val
+  \defcsvfunc\abcF@x{-(\a@val)/(\b@val),-(\c@val)/(\b@val)}%
+  \Ytenretu<#1>\abcF@x{#3}}%
+%
+\def\Daentenretu{\edef\Rdef@rad{0}\Daentenretu@}%
+\def\Daentenretu@{\def\show@label{1}%
+  \@ifstar{\def\show@label{0}\@Daentenretu}{\@Daentenretu}}%
+\def\@Daentenretu{\@ifnextchar<{\@@Daentenretu}{\@@Daentenretu<\empty>}}%
+\def\@@Daentenretu<#1>#2#3#4#5{%
+% #1: \tenretu(*) に引き継ぐオプション
+% #2: 中心
+% #3: 横半径
+% #4: 縦半径
+% #5: 「[名札]点名(x)配置オプション」を ; で区切った列
+%
+%  \Strchr{#2}{X}\@tmp
+%  \ifnum\@tmp=\z@
+%    \Strchr{#2}{T}\@tmp
+%    \ifnum\@tmp=\z@
+%      \@latex@warning{you must give the function for Daentenretu-command}
+%    \fi
+%  \fi
+  \vecXY{#2}\Ent@x\Ent@y
+  \edef\save@hairetu@baseN{\hairetu@baseN}%
+  \hairetubaseN{1}%
+  \hairetusyokika{P@name}%
+  \hairetusyokika{P@houi}%
+  \edef\P@x{\empty}%
+  \exfor[;]\yt@c@:=#5\do{%
+    \trim\yt@c@\to\yt@c
+    \ifthenelse{\equal\yt@c\empty}{}{%
+      \Headchar\yt@c\yt@h\yt@r
+      \if [\yt@h
+        \Strsep\yt@r{]}\yt@tmp\yt@c
+        \EMedef\yt@a{[\yt@tmp]}%
+      \else
+        \edef\yt@a{}%
+      \fi
+      \Strsep\yt@c{(}\yt@a@\yt@tmp
+\ifx\empty\yt@tmp
+  \errmessage{Daentenretu cannot finds `('}%
+\fi
+      \EMedefappend\yt@a{\yt@a@}%
+      \edef\yt@kakko{1}%
+      \edef\yt@b{}%
+      \Cfor{\Headchar\yt@tmp\yt@a@\yt@b@}{\yt@kakko>\z@}{}\do{%
+        \if (\yt@a@
+          \Incr\yt@kakko
+        \else\if )\yt@a@
+          \Decr\yt@kakko
+        \fi\fi
+        \ifnum\yt@kakko>\z@
+          \EMedefappend\yt@b{\yt@a@}%
+          \Headchar\yt@b@\yt@a@\yt@b@
+        \fi
+      }%
+%\typeout{a=\yt@a,b=\yt@b@}%
+      \hairetutuika{P@name}{\yt@a}%
+      \hairetutuika{P@houi}{\yt@b@}%
+      \ifx\empty\P@x
+        \EMedefappend\P@x{\yt@b}%
+      \else
+        \EMedefappend\P@x{,\yt@b}%
+      \fi
+    }%
+  }%
+\ifnum\Rdef@rad=\z@
+  \CalcVal{%
+    my @Px=(\P@x);
+    my $i=0;
+    foreach $sx (@Px) {
+      $x=\Ent@x+(#3)*Degcos($sx);
+      $y=\Ent@y+(#4)*Degsin($sx);
+      if (abs($x)<\emLlim){$x=0;}
+      if (abs($y)<\emLlim){$y=0;}
+      if ($i==0)
+          {printf FHNDL "(\@percent s,\@percent s)",$x,$y;}
+      else
+          {printf FHNDL ";(\@percent s,\@percent s)",$x,$y;}
+      ++$i;
+    }
+  }\Y@Pseq
+\else
+  \CalcVal{%
+    my @Px=(\P@x);
+    my $i=0;
+    foreach $sx (@Px) {
+      $x=\Ent@x+(#3)*cos($sx);
+      $y=\Ent@y+(#4)*sin($sx);
+      if (abs($x)<\emLlim){$x=0;}
+      if (abs($y)<\emLlim){$y=0;}
+      if ($i==0)
+          {printf FHNDL "(\@percent s,\@percent s)",$x,$y;}
+      else
+          {printf FHNDL ";(\@percent s,\@percent s)",$x,$y;}
+      ++$i;
+    }
+  }\Y@Pseq
+\fi
+  \edef\i@val{0}%
+  \exfor[;]\yt@c:=\Y@Pseq\do{%
+    \Incr\i@val
+    \ifnum\i@val=\@ne
+      \EMedef\Y@retu{\hairetu{P@name}{\i@val}\yt@c\hairetu{P@houi}{\i@val}}%
+    \else
+      \EMedefappend\Y@retu{%
+        ;\hairetu{P@name}{\i@val}\yt@c\hairetu{P@houi}{\i@val}}%
+    \fi
+  }%
+  \ifnum\show@label>\z@
+    \EMedef\Y@retu{<#1>{\Y@retu}}%
+    \expandafter\tenretu\Y@retu%
+  \else
+    \EMedef\Y@retu{*<#1>{\Y@retu}}%
+    \expandafter\tenretu\Y@retu%
+  \fi
+}%
+%
+\def\Soukyokusentenretu{\edef\Rdef@rad{0}\Soukyokusentenretu@}%
+\def\Soukyokusentenretu@{\def\show@label{1}%
+  \@ifstar{\def\show@label{0}\@Soukyokusentenretu}{\@Soukyokusentenretu}}%
+\def\@Soukyokusentenretu{\@ifnextchar<{\@@Soukyokusentenretu}{%
+  \@@Soukyokusentenretu<\empty>}}%
+\def\@@Soukyokusentenretu<#1>#2#3#4#5{%
+% #1: \tenretu(*) に引き継ぐオプション
+% #2: 中心
+% #3: 横半径
+% #4: 縦半径
+% #5: 「[名札]点名(x)配置オプション」を ; で区切った列
+%
+%  \Strchr{#2}{X}\@tmp
+%  \ifnum\@tmp=\z@
+%    \Strchr{#2}{T}\@tmp
+%    \ifnum\@tmp=\z@
+%      \@latex@warning{you must give the function for Soukyokusentenretu-command}
+%    \fi
+%  \fi
+  \vecXY{#2}\Ent@x\Ent@y
+  \edef\save@hairetu@baseN{\hairetu@baseN}%
+  \hairetubaseN{1}%
+  \hairetusyokika{P@name}%
+  \hairetusyokika{P@houi}%
+  \edef\P@x{\empty}%
+  \exfor[;]\yt@c@:=#5\do{%
+    \trim\yt@c@\to\yt@c
+    \ifthenelse{\equal\yt@c\empty}{}{%
+      \Headchar\yt@c\yt@h\yt@r
+      \if [\yt@h
+        \Strsep\yt@r{]}\yt@tmp\yt@c
+        \EMedef\yt@a{[\yt@tmp]}%
+      \else
+        \edef\yt@a{}%
+      \fi
+      \Strsep\yt@c{(}\yt@a@\yt@tmp
+\ifx\empty\yt@tmp
+  \errmessage{Soukyokusentenretu cannot finds `('}%
+\fi
+      \EMedefappend\yt@a{\yt@a@}%
+      \edef\yt@kakko{1}%
+      \edef\yt@b{}%
+      \Cfor{\Headchar\yt@tmp\yt@a@\yt@b@}{\yt@kakko>\z@}{}\do{%
+        \if (\yt@a@
+          \Incr\yt@kakko
+        \else\if )\yt@a@
+          \Decr\yt@kakko
+        \fi\fi
+        \ifnum\yt@kakko>\z@
+          \EMedefappend\yt@b{\yt@a@}%
+          \Headchar\yt@b@\yt@a@\yt@b@
+        \fi
+      }%
+%\typeout{a=\yt@a,b=\yt@b@}%
+      \hairetutuika{P@name}{\yt@a}%
+      \hairetutuika{P@houi}{\yt@b@}%
+      \ifx\empty\P@x
+        \EMedefappend\P@x{\yt@b}%
+      \else
+        \EMedefappend\P@x{,\yt@b}%
+      \fi
+    }%
+  }%
+\ifnum\Rdef@rad=\z@
+  \CalcVal{%
+    my @Px=(\P@x);
+    my $i=0;
+    foreach $sx (@Px) {
+      $x=\Ent@x+(#3)/Degcos($sx);
+      $y=\Ent@y+(#4)*Degtan($sx);
+      if (abs($x)<\emLlim){$x=0;}
+      if (abs($y)<\emLlim){$y=0;}
+      if ($i==0)
+          {printf FHNDL "(\@percent s,\@percent s)",$x,$y;}
+      else
+          {printf FHNDL ";(\@percent s,\@percent s)",$x,$y;}
+      ++$i;
+    }
+  }\Y@Pseq
+\else
+  \CalcVal{%
+    my @Px=(\P@x);
+    my $i=0;
+    foreach $sx (@Px) {
+      $x=\Ent@x+(#3)/cos($sx);
+      $y=\Ent@y+(#4)*tan($sx);
+      if (abs($x)<\emLlim){$x=0;}
+      if (abs($y)<\emLlim){$y=0;}
+      if ($i==0)
+          {printf FHNDL "(\@percent s,\@percent s)",$x,$y;}
+      else
+          {printf FHNDL ";(\@percent s,\@percent s)",$x,$y;}
+      ++$i;
+    }
+  }\Y@Pseq
+\fi
+  \edef\i@val{0}%
+  \exfor[;]\yt@c:=\Y@Pseq\do{%
+    \Incr\i@val
+    \ifnum\i@val=\@ne
+      \EMedef\Y@retu{\hairetu{P@name}{\i@val}\yt@c\hairetu{P@houi}{\i@val}}%
+    \else
+      \EMedefappend\Y@retu{%
+        ;\hairetu{P@name}{\i@val}\yt@c\hairetu{P@houi}{\i@val}}%
+    \fi
+  }%
+  \ifnum\show@label>\z@
+    \EMedef\Y@retu{<#1>{\Y@retu}}%
+    \expandafter\tenretu\Y@retu%
+  \else
+    \EMedef\Y@retu{*<#1>{\Y@retu}}%
+    \expandafter\tenretu\Y@retu%
+  \fi
+}%
+%
+\endinput
+%
+v 0.00 2012/07/28
+v 0.01 2012/11/10 \iiiPtenretu
+v 0.02 2012/12/15 \iiiPtenretu: 引数の解釈補強 (BBS #11342)
+v 0.03 2013/05/19 \abctenretu
+v 0.04 2013/06/09 \Daentenretu

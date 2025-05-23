@@ -1,0 +1,69 @@
+% emathOtf.sty by tDB(emath@nifty.com)
+%
+  \NeedsTeXFormat{LaTeX2e}
+  \ProvidesPackage{emathOtf}[2017/12/12 v 0.15]%
+%
+%  \RequirePackage{emath}%
+\@ifpackageloaded{emath}{}{\RequirePackage{emath}}%
+%
+\edef\otf@opt{}%
+\DeclareOption{nomacro}{\ifx\empty\otf@opt\EMedef\otf@opt{nomacro}\else
+  \EMedefappend\otf@opt{,nomacros}\fi}
+\DeclareOption{nomacros}{\ifx\empty\otf@opt\EMedef\otf@opt{nomacro}\else
+  \EMedefappend\otf@opt{,nomacros}\fi}
+\DeclareOption{noreplace}{\ifx\empty\otf@opt\EMedef\otf@opt{noreplace}\else
+  \EMedefappend\otf@opt{,noreplace}\fi}
+\DeclareOption{bold}{\ifx\empty\otf@opt\EMedef\otf@opt{bold}\else
+  \EMedefappend\otf@opt{,bold}\fi}
+\DeclareOption{expert}{\ifx\empty\otf@opt\EMedef\otf@opt{expert}\else
+  \EMedefappend\otf@opt{,expert}\fi}
+\DeclareOption{deluxe}{\ifx\empty\otf@opt\EMedef\otf@opt{deluxe}\else
+  \EMedefappend\otf@opt{,deluxe}\fi}
+\DeclareOption{multi}{\ifx\empty\otf@opt\EMedef\otf@opt{multi}\else
+  \EMedefappend\otf@opt{,multi}\fi}
+\DeclareOption{uplatex}{\ifx\empty\otf@opt\EMedef\otf@opt{uplatex}\else
+  \EMedefappend\otf@opt{,uplatex}\fi}
+\DeclareOption{jis2004}{\ifx\empty\otf@opt\EMedef\otf@opt{jis2004}\else
+  \EMedefappend\otf@opt{,jis2004}\fi}
+\DeclareOption{ref}{\def\ref@flg{}}%
+\ProcessOptions\relax
+%
+\@ifundefined{forcecjktoken}{%
+  \ifx\empty\otf@opt
+    \RequirePackage{otf}%
+  \else
+    \RequirePackage[\otf@opt]{otf}%
+  \fi
+}{%
+  \ifx\empty\otf@opt
+    \RequirePackage[uplatex]{otf}%
+  \else
+    \RequirePackage[uplatex,\otf@opt]{otf}%
+  \fi
+}%
+\RequirePackage{emathC}%
+\RequirePackage{EMajmacros}%
+%
+%\IfFileExists{myfonts.sty}{\RequirePackage{myfonts}}{}%
+\endinput
+
+v 0.00 2005/09/10
+v 0.01 2006/02/15 \ajMaru : textmode
+                  \ajMaruAlph{A..Z}, \ajMaruAlphnum{1..26}
+v 0.02 2006/08/11 \ajMarualph, \ajMarualphnum
+v 0.03 2006/08/17 \ajMaruAlph{1..26}
+v 0.04 2007/09/14 \ajSessi, \ajKasi
+v 0.05 2008/09/15 \ajMaru: hyperref 対策 (saloon #668)
+v 0.06 2008/10/15 つづき
+v 0.07 2010/03/05 emathC.sty をロードする
+                  \ajKuroKaku: \DeclareRobustCommand
+v 0.08 2011/01/08 \ajKakkoroman, \ajKakkoRoman, \ajRoman, \ajroman: 
+                      \DeclareRobustCommand
+v 0.09 2011/01/25 \ajMaruKaku: 数式モード中の場合
+v 0.10 2011/09/10 \ajarabic, \ajKakko: 数式モード中の場合
+v 0.11 2011/12/04 EMajmacos を分離
+v 0.12 2012/12/04 \if と \fi の対応
+v 0.13 2013/03/17 ロードオプション jis2004
+v 0.14 2014/08/06 uplatex 対応
+v 0.15 2017/12/12 ロードオプション ref
+								（platex の \@setref 変更に対する対応）

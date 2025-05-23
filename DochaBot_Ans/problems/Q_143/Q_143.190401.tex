@@ -1,0 +1,66 @@
+\begin{thm}{143}{}{漸化式}
+ 漸化式で定義されたそれぞれの数列について (なるべく推測をせずに) 一般項を$n$を用いて表せ。
+ \begin{enumerate}
+  \item $A_1=1$, $A_{n+1}=A_n+2^n$
+  \item $B_1=-1$, $B_{n+1}=1+B_1+2B_2+3B_3+\cdots+nB_n$
+  \item $C_1=1$, $C_{n+1}=3C_n+2n-1$
+  \item $D_1=1$, $D_{n+1}D_n=2\sqrt{D_n}$
+  \item $E_1=1$, $E_{n+1}=\dfrac{E_n}{4E_n+3}$
+  \item $F_1=1$, $F_2=1$, $F_{n+2}=F{n+1}+F_n$
+  \item $G_1=\dfrac{1}{2}$, $(n+2)G_{n+1}=nG_n$
+  \item $H_1=H_2=3$, $H_{n+2}+H_{n+1}+H_n=2$
+  \item $I_0=\dfrac{\pi}{2}$, $I_1=1$, $I_{n+1}=\dfrac{n}{n+1}I_{n-1}$
+  \item $J_1=\dfrac{1234}{2017}$, 
+	$\disp J_{n+1}=\left\{
+	\begin{aligned}
+	 &\frac{1}{J_n}-\left\lfloor\frac{1}{J_n}\right\rfloor & &\text{(If $J_n\neq 0$)} \\
+	 &J_n & &\text{(If $J_n=0$)}
+	\end{aligned}
+	 \right.$
+  \item $K_1=4$, $K_{n+1}=\dfrac{4K_n-9}{K_n-2}$
+  \item $L_1=1$, $L_{n+1}=n(L_1+L_2+\cdots+L_n)$
+  \item $M_1=1$, $M_2=2$, $M_{n+2}=(n+1)(M_{n+1}-M_n)$
+  \item $N_1=\dfrac{1}{2}$, $3N_{n+1}+\dfrac{N_n}{2}=1+\dfrac{1}{2^n}$
+  \item $O_1=\dfrac{1}{2}$, $O_{n+1}=\sqrt{\dfrac{1+O_n}{2}}$
+  \item $P_1=2$, $P_{n+1}=\dfrac{2P_n}{1-P_n^2}$
+  \item $Q_1=4$, $Q_{n+1}=Q_n^2-2$
+  \item $R_1=-1$, $R_{n+1}=2R_n(1-R_n)$
+  \item $S_1=0$, $S_{n+1}=S_n+2\sqrt{S_n+n}$
+  \item $T_1=2$, $U_1=3$,\\
+	$\left\{
+	\begin{aligned}
+	 T_{n+1}&=2T_n+4U_n \\
+	 U_{n+1}&=4T_n+2U_n
+	\end{aligned}
+	\right.$
+  \item $V_1=W_1=1$, \\
+	$\left\{
+	\begin{aligned}
+	 V_{n+1}&=\frac{2V_n}{W_n}-V_n^2 \\
+	 W_{n+1}&=\frac{W_n^2}{2V_n^2W_n^2+1}
+	\end{aligned}
+	\right.$
+  \item $X_1=\dfrac{1}{6}$, $Y_1=\dfrac{1}{3}$, $Z_1=\dfrac{1}{2}$, \\
+	$\left\{
+	\begin{aligned}
+	 X_{n+1}&=\frac{Y_n+Z_n}{2} \\
+	 Y_{n+1}&=\frac{Z_n+X_n}{2} \\
+	 Z_{n+1}&=\frac{X_n+Y_n}{2}
+	\end{aligned}
+	\right.$
+ \end{enumerate}
+ 出典等: (1) \hosi1, (2) \hosi 1, (3) \hosi 1 北海学園大, (4) \hosi 1 赤チャート, (5) \hosi 2 赤チャート, (6) \hosi 2 フィボナッチ数列, (7) \hosi 1 広島大, (8) \hosi 3 suiso\_728660 様, (9) \hosi 1 $\sin^n x$の積分, (10) \hosi 2 元ネタは東大, (11) \hosi 3 赤チャート, (12) \hosi 2 suiso\_728660 様, (13) \hosi 3 撹乱順列, (14) \hosi 3 元ネタは京大, (15) \hosi ?, (16) \hosi ?, (17) \hosi ?[難], (18) \hosi ?[難] 信州大 改題 誘導抜き, (19) \hosi 3 東大レベル模試(?), (20) \hosi 2, (21) \hosi 4 東進数学コンクール, (22) \hosi 2
+ \begin{itemize}
+  \setlength{\itemindent}{20pt}
+  \item[hint17:] $a_1 := c+\dfrac{1}{c}$
+  \item[hint18:] $1-2a_{n+1}=?$ 
+ \end{itemize}
+\end{thm}
+
+未完。
+ここに解答を記述。
+
+\syoumon{17}
+$Q_n=q_n+\dfrac{1}{q_n}$ となる実数$q_n$が存在することを示す。$n=1$のときは $q_1=2+\sqrt{3}$でよい。$Q_{n+1}=Q_n^2-2= q_n^2+\dfrac{1}{q_n^2}$ より, $q_{n+1}=q_n^2$ とすればよいので 帰納的に $Q_n=q_n+\dfrac{1}{q_n}$ と置くことができ, 構成の仕方から $q_n=q_1^{2^{n-1}}=(2+\sqrt{3})^{2^{n-1}}$ とすればよい。よって
+\[Q_n= (2+\sqrt{3})^{2^{n-1}}+ (2-\sqrt{3})^{2^{n-1}}\]
+

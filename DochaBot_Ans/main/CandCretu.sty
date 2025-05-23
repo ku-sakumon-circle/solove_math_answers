@@ -1,0 +1,60 @@
+%%% CandCretu.sty by tDB(emath@nifty.com)
+% 日本語
+\ProvidesPackage{CandCretu}[2013/08/31 v0.04]%
+%
+% CandCretu
+%
+\def\CandCretu{\let\CC@cmd\CandC\CandCretu@}%
+\def\CandLretu{\let\CC@cmd\CandL\CandCretu@}%
+\def\Candlretu{\let\CC@cmd\Candl\CandCretu@}%
+\def\Candkretu{\let\CC@cmd\Candk\CandCretu@}%
+\def\Candgretu{\let\CC@cmd\Candg\CandCretu@}%
+\def\CandCretu@{%
+% -------------------------------------------------------------------
+  \def\CC@sub{\edef\CC@prnm{\empty}%
+    \@ifnextchar[{\CC@@sub@}{\CC@sub@}}%
+  \def\CC@@sub@[##1]{\EMedef\CC@prnm{##1}\@CC@sub}%
+  \def\CC@sub@{\@ifnextchar({\CC@sub@@}{\@CC@sub}}%
+  \def\CC@sub@@(##1){\@CC@sub{(##1)}}%
+  \def\@CC@sub##1##2##3##4##5##6{%
+%===================================================================    
+  \def\@CC@sub@sub{\let\CC@prnm\undefined%
+    \@ifnextchar[{\@CC@sub@sub@}{\@@CC@sub@sub}}%
+  \def\@CC@sub@sub@[####1]{\EMedef\CC@prnm{####1}\@@CC@sub@sub}%
+  \def\@@CC@sub@sub####1####2\@nil{%
+    \strip@cmd{####1}\CC@name
+    \edef####1{\csname CC@P\romannumeral\CC@i\endcsname}%
+    \@ifundefined{CC@prnm}{%
+      \EMedefappend[;]\CC@str{\CC@name####1####2}%
+    }{%
+      \EMedefappend[;]\CC@str{[\CC@prnm]\CC@name####1####2}%
+    }%
+  }%
+%===================================================================    
+    \CC@cmd{##1}{##2}{##3}{##4}\CC@Pi\CC@Pii
+    \edef\CC@i{1}%
+    \ifx\empty##5\else\@CC@sub@sub##5\@nil\fi
+    \Incr\CC@i
+    \ifx\empty##6\else\@CC@sub@sub##6\@nil\fi
+  }%
+% -------------------------------------------------------------------
+  \def\show@label{1}%
+  \@ifstar{\def\show@label{0}\@CandCretu}{\@CandCretu}}%
+\def\@CandCretu{\@ifnextchar<{\@@@CandCretu}{\@@@CandCretu<\empty>}}%
+\def\@@@CandCretu<#1>#2{%
+  \edef\CC@str{\empty}%
+  \exfor[;]\CC@c:=#2\do{%
+    \expandafter\CC@sub\CC@c
+  }%
+  \ifnum\show@label>\z@
+    \EMedef\CC@retu{<#1>{\CC@str}}%
+    \expandafter\tenretu\CC@retu
+  \else
+    \EMedef\CC@retu{*<#1>{\CC@str}}%
+    \expandafter\tenretu\CC@retu
+  \fi
+}%
+%
+\endinput
+%
+v 0.00 2013/09/30

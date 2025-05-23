@@ -1,0 +1,34 @@
+\begin{thm}{204}{\hosi ?}{}
+ \begin{enumerate}
+  \item 平面ベクトル$\vvv{a}$は$|\vvv{a}|=1$を満たし、ベクトル$\vvv{p}$は$\vvv{p}\cdot(\vvv{p}-\vvv{a})=1$ を満たす。$|\vvv{p}|$の取り得る値の範囲と、$|\vvv{p}-\vvv{a}| |\vvv{p}+\vvv{a}|$ の最大値を求めよ。 (明治大 政経 1998)
+  \item 実数$p, q$ $(q>0)$ に対して$|\vvv{BC}|=q$, $\vvv{AB}\cdot\vvv{AC}=p$ を満たす三角形$ABC$が存在するための必要十分条件を求めよ。
+ \end{enumerate}
+\end{thm}
+
+\syoumon{1}
+$\vvv{a}=(1,0)$, $\vvv{p}=(s, t)$と座標平面上の位置ベクトルで表したとき、
+\[ \vvv{p}\cdot(\vvv{p}-\vvv{a})=s(s-1)+t^2=1 \]
+より、$|\vvv{p}|=\sqrt{s^2+t^2}=\sqrt{1+s}$となる。また、
+\[ s(s-1)+t^2=1 \,\dou\, \left(s-\frac{1}{2}\right)^2+t^2=\left(\frac{\sqrt{5}}{2}\right)^2 \]
+なので、$s$のとり得る範囲は$\dfrac{1-\sqrt{5}}{2}\le s\le \dfrac{1+\sqrt{5}}{2}$とわかるので、
+\begin{align*}
+ \sqrt{\frac{3-\sqrt{5}}{2}} \le &\sqrt{1+s} \le\sqrt{\frac{3+\sqrt{5}}{2}} \\
+\qquad\dou \frac{1-\sqrt{5}}{2}\le &|\vvv{p}| \le \frac{1+\sqrt{5}}{2} 
+\end{align*}
+続いて、$|\vvv{p}\pm\vvv{a}|=\sqrt{(s\pm1)^2+t^2}=\sqrt{1+s\pm 2s}$であるから、
+\begin{align*}
+ &|\vvv{p}-\vvv{a}| |\vvv{p}+\vvv{a}| = \sqrt{(2+s)^2-4s^2} = \sqrt{-3s^2+4s+4} \\
+ =& \sqrt{-3\left(s-\frac{2}{3}\right)^2+\frac{16}{3}}
+\end{align*}
+が得られた。$s$は$\dfrac{2}{3}$とできるので、このとき最大となる。求める値は$\sqrt{\dfrac{16}{3}}=\dfrac{4}{3}\sqrt{3}$。
+
+\syoumon{2}
+座標平面上で、B$(0,0)$, C$(q,0)$とおき、A$(s, t)$とする。$\vvv{\mr{AB}}=(-s,-t)$, $\vvv{\mr{AC}}=(q-s -t)$より、
+\[ \vvv{\mr{AB}}\cdot\vvv{\mr{AC}}=s(s-q)+t^2=\left(s-\frac{q}{2}\right)^2+t^2-\frac{q^2}{4} \]
+であって、これが$p$に等しいから、
+\[ \left(s-\frac{q}{2}\right)^2+t^2=p+\frac{q^2}{4} \]
+が得られた。$p+\dfrac{q^2}{4}>0$のとき、これを満たす$s, t$であって、$t\neq 0$であるものが存在する。このときの点A$(s, t)$は、直線BC上にないから、3点A, B, Cは三角形をなす。
+
+$p+\dfrac{q^2}{4}=0$のとき、$s=\dfrac{q}{2}$, $t=0$となるが、これは3点A, B, Cが1直線上に存在するから不適。$p+\dfrac{q^2}{4}<0$のときには$s, t$が存在せず不適。
+
+以上より、$p+\dfrac{q^2}{4}$~$(q>0)$ が必要十分条件。

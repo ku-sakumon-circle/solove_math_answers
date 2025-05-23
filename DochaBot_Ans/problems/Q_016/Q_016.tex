@@ -1,0 +1,156 @@
+\begin{thm}{016}{}{mod 計算編}
+ $n,m\in\mathbb{N}$、$p$は素数として次の値を求めよ。$\pmod k$の場合、$0$から$k-1$までの整数値で答えよ。
+ \begin{enumerate}
+  \item $11^{11} \pmod {100}$
+  \item $3^{2^n} \pmod {2^{n+2}}$
+  \item $4444^{4444} \pmod 9$
+  \item $9\times99\times999\times\cdots\times\underbrace{99\cdots99}_{999} \pmod {1000}$
+  \item $6^{2017} \pmod {100}$
+  \item $10^{10^m} \pmod {13}$
+  \item $2017! \pmod 5^{503}$
+  \item $\combi{p-1}{\frac{p-1}{2}} \pmod{p}$ (ただし $p\ge 3$)
+  \item $114514^{1919} \pmod {810}$
+  \item $\disp 4^{4^{4^{4^{4^{4^m}}}}} \pmod {47}$
+ \end{enumerate}
+ {\small 出典: (4) AIME、 (5) 東大実戦文系、(6,7) 学コン、(8) suiso\_728660様、(10) 自作}
+\end{thm}
+
+\syoumon{1}
+二項定理を用いる。
+\begin{align*}
+ (10+1)^{11}=\sum_{k=0}^{11}10^k \combi{11}{k}\equiv 10\cdot\combi{11}{1}+1\equiv 11 \pmod{100}
+\end{align*}
+
+\syoumon{2}
+次の因数分解を利用する。
+\begin{align*}
+ &3^{2^n}-1 \\
+=&\left(3^{2^{n-1}}+1\right)\left(3^{2^{n-2}}+1\right)\dots\left(3^{2^1}+1\right)\left(3^{2^0}+1\right)\left(3^{2^0}-1\right)
+\end{align*}
+ここで、$3^{2^k}+1$ ($k=1, 2, \dots , n-1$) は、$3^{2^k}+1\equiv 2 \pmod{4}$ より、2で1回しか割れない。また、$3^{2^0}+1=4$, $3^{2^0}-1=2$ に注意すると、上の式から$3^{2^n}-1$は2で$n+2$回割れる。よって、
+\[ 3^{2^n}-1\equiv 0 \pmod{2^{n+2}} \quad\dou\quad 3^{2^n}\equiv 1 \pmod{2^{n+2}} \]
+
+\syoumon{3}
+$4444\equiv -2 \pmod{9}$ により、$(-2)^{4444} \pmod{9}$を見ればよい。$(-2)^6=64\equiv 1 \pmod{9}$ なので、
+\begin{align*}
+ 4444^{4444}\equiv (-2)^{4444}=(-2)^{6\times 740+4}\!\equiv (-2)^4\equiv 7 \pmod{9}
+\end{align*}
+
+\syoumon{4}
+問題の数は$\disp \prod_{k=1}^{999} (10^k-1)$ である。よって、
+\begin{align*}
+ &\prod_{k-1}^{999}(10^k-1)=9\times 99\times \prod_{k=1}^{997}(10^{k+2}-1) \\
+ \equiv \, 891&\prod_{k=1}^{997}(-1)=891(-1)^{997}\equiv 109 \pmod{1000}
+\end{align*}
+
+\syoumon{5}
+まず、$6^{2017}\equiv 0 \pmod{4}$である。よって$6^{2017}=4k_1$ ($k_1\in \mathbb{Z}$)と書ける。一方で、二項定理より、
+\begin{align*}
+ 6^{2017}=(5+1)^{2017}\equiv \combi{2017}{1}\cdot 5 + 1 \equiv 11 \pmod{25}
+\end{align*}
+となるので、$6^{2017}=25k_2+11$ ($k_2\in \mathbb{Z}$)と書ける。いま、$4k_1=25k_2+11$が成り立っているが、$\pmod{4}$を取ると、$k_2\equiv 1 \pmod{4}$が従う。よって、$k_2=4k_3+1$ ($k_3\in \mathbb{Z}$)と書ける。したがって、
+\begin{align*}
+ 6^{2017}=25k_2+11=25(4k_3+1)+11=100k_3+36
+\end{align*}
+となるので、$6^{2017}\equiv 36 \pmod{100}$ となる\footnote{本問の解法の背景には中国剰余定理がある。}。
+
+\syoumon{6}
+10の $\pmod{13}$ における位数を考える。つまり、$10^d\equiv 1 \pmod{13}$となるような最小の自然数$d$を求める。一般に、剰余類の数$a$とmodを取る数$b$が互いに素ならば、そのような位数は$\phi (b)$\footnote{オイラーの$\phi$関数}の約数の中に存在する。この場合では$\phi(13)=12$であるから、12の約数から探す。実際、
+\begin{align*}
+ 10^6\equiv (-3)^6\equiv (-27)^2\equiv (-1)^2\equiv 1 \pmod{13}
+\end{align*}
+である。ここで$10^m=6k+r$ ($k\in\mathbb{Z}$, $0\le r < 6$) と表したとき、
+\begin{align*}
+ 10^{10^m}=10^{6k}\cdot 10^r\equiv (10^6)^k\cdot 10^r\equiv 10^r \pmod{13}
+\end{align*}
+となる。そこで $r$、つまり$10^m \pmod{6}$を求めればよいことになる。調べればわかるように\footnote{編者註:~$10^m=(6+4)^m$として二項定理から考えればよい}、$10^m\equiv 4 \pmod{4}$が全ての自然数$m$で成り立つので、$r=4$とできる。よって、
+\begin{align*}
+ 10^{10^m}\equiv 10^4 \equiv (-3)^4\equiv 81\equiv 3 \pmod{13}
+\end{align*}
+
+\syoumon{7}
+階乗のある素因数の指数を決定する方法はルジャンドルの定理による。この場合、$2014!$に5が何回かけられているかは、
+\begin{align*}
+ \left\lfloor\frac{2014}{5}\right\rfloor=402 \,,\,\, \left\lfloor\frac{2014}{25}\right\rfloor=80 \,,\,\, \left\lfloor\frac{2014}{125}\right\rfloor=16 \,,\,\, \\
+ \left\lfloor\frac{2014}{625}\right\rfloor=3 \,,\,\, \left\lfloor\frac{2014}{5^k}\right\rfloor=0 \,\,(\text{for}\,k\ge 5)
+\end{align*}
+のすべて足し合わせればよい。つまり$402+80+16+3=501$ であり、$2014!=5^{501}m$ のように書ける。$m=25k+r$ ($0\le r < 25$) と書いたとき、
+\[ 2014!=5^{503}k+5^{501}r \]
+となるので、$r$が分かると$2014! \pmod{5^{503}}$ もわかる。$r$は$\dfrac{2014!}{5^{501}}$ を$25$で割った余りとして求まるので、$\dfrac{2014!}{5^{501}}$を調べる。
+
+$f(n)=(5n+1)(5n+2)(5n+3)(5n+4)$ とする。すべての$n$に対して、
+\[ f(n)\equiv -1 \pmod{25} \]
+であることに注意する\footnote{これは展開すればすぐにわかる。}。続いて、1から2014のうち、「$5^i$の倍数だが$5^{i+1}$の倍数ではないもの」の総積を$P_i$とする。これを$f(n)$を用いて表すと、次のようになる。
+\begin{align*}
+ P_0&=f(n)f(1)\dots f(402) \\
+ P_1&=\bigl(5^4f(0)\bigr)\bigl(5^4f(1)\bigr)\dots\bigl(5^4f(79)\bigr)\times 2005\times 2010 \\
+ P_2&=\bigl(25^4f(0)\bigr)\bigl(25^4f(1)\bigr)\dots\bigl(25^4f(15)\bigr) \\
+ P_3&=\bigl(125^4f(0)\bigr)\bigl(125^4f(1)\bigr)\bigl(125^4f(2)\bigr)\times 2000 \\
+ P_4&=625^3(1\times 2\times 3)
+\end{align*}
+これらによって、$2014!=P_0P_1P_2P_3P_4$ である。きりの悪い部分を集めて、
+\[ C=2005\times 2010\times 2000\times P_4=5^{17}D \]
+とおく。ここで$D$は5で割れない整数である。いま、
+\begin{align*}
+ 2014!=C\prod_{k=0}^{402}f(k)\prod_{l=0}^{79}5^4f(l)\prod_{m=0}^{15}25^4f(m)\prod_{n=0}^{2}125^4f(n)
+\end{align*}
+であるから、両辺$5^{501}$で割ると、
+\begin{align*}
+ \frac{2014!}{5^{501}}&=D\prod_{k=0}^{402}f(k)\prod_{l=0}^{79}f(l)\prod_{m=0}^{15}f(m)\prod_{n=0}^{2}f(n) \\
+ &\equiv D(-1)^{403}(-1)^{80}(-1)^{16}(-1)^{3} \\
+ &\equiv D \pmod{25}
+\end{align*}
+となる。$D=401\times 402\times 16\times 1\times 2\times 3\times$ であったから、
+\[ D\equiv 1\times 2\times 16\times 1\times 2\times 3\equiv 17 \pmod{25} \]
+より、$r=17$ と求まった。よって、
+\[ 2014!\equiv 17\cdot 5^{501} \pmod{5^{503}} \]
+
+\syoumon{8}
+本問ではすべて$\pmod{p}$とする。$\combi{p-1}{\frac{p-1}{2}}=k$ とおく。左辺分母の階乗を払うことで、
+\[ (p-1)!\equiv k\left(\frac{p-1}{2}!\right)^2 \]
+となる。ここで、右辺の$\disp \left(\frac{p-1}{2}!\right)^2$は、片方の$\dfrac{p-1}{2}!$について
+\[ \frac{p-1}{2}!\equiv \left(-\frac{p+1}{2}\right)\left(-\frac{p+3}{2}\right)\dots\bigl[-(p-1)\bigr] \]
+とすることで、$\disp\left(\frac{p-1}{2}!\right)^2\equiv (-1)^{\frac{p-1}{2}}(p-1)!$ であることがわかる。よって、
+\[ (p-1)!\equiv k(p-1)!(-1)^{\frac{p-1}{2}} \quad\dou\quad k\equiv (-1)^{\frac{p-1}{2}} \]
+を得る。したがって、
+\begin{align*}
+ k\equiv \left\{
+ \begin{aligned}
+  &1 & (p&\equiv 1 \pmod{4}) \\
+  &p-1 & (p&\equiv 3 \pmod{4})
+ \end{aligned} 
+ \right. \pmod{p}
+\end{align*}
+
+\syoumon{9}
+$n=114514^{1919}$とおく。$810=2\times 5\times 81$ とみて、これらのmodを考える。まず、$n\equiv 0\pmod{2}$。続いて
+\[ n\equiv (-1)^{1919}\equiv 4 \pmod{5} \]
+である。$114514\equiv 61 \pmod{81}$ であるから、$61^{1919}$ を考えればよい。$\phi(81)=54$ なので、オイラーの定理によって$61^{54}\equiv 1\pmod{81}$ である。$1919\equiv 29 \pmod{54}$ なので、$61^{1919}\equiv 61^{29} \pmod{81}$ である。さらに、
+\[ 61^{54}-1=(61^{27}-1)(61^{27}+1) \equiv 0 \pmod{81} \]
+であって、$61^{27}+1$が3の倍数でないことに注意すると、$61^{27}-1\equiv 0\pmod{81}$ が成り立つ。よって、
+\[ 61^{29} \equiv 61^2\equiv (-20)^2\equiv 400 \equiv 76 \pmod{81} \]
+である。これまでのことは、整数$k_i$を用いて、
+\[ n=81k_1+76=2k_2=5k_3+4 \]
+とまとめられる。$2k_2=5k_3+4$より$k_3$は偶数なので、$k_3=2k_4$とかける。続いて$81k_1+76=10k_4+4$ について両辺の$\pmod{10}$を考えると$k_1\equiv 8 \pmod{10}$がわかるから、$k_1=10k_6+8$ とすると、
+\begin{align*}
+ n&=81k_1+76=81(10k_6+8)+76=810k_6+724 \\
+ \dou\quad n&\equiv 724 \pmod{810}
+\end{align*}
+
+\syoumon{10}
+まず、次のように文字をおく。
+\begin{align*}
+ a&=4^{4^{4^{4^{4^{4^m}}}}} \,,\,\,& b&=4^{4^{4^{4^{4^m}}}} \,,\,\,& c&=4^{4^{4^{4^m}}} \,,\,\,  \\
+ d&=4^{4^{4^m}} \,,\,\,& e&=4^{4^m} \,,\,\,& f&=4^m
+\end{align*}
+すなわち、
+\[ a=2^{2b} \,,\,\, b=2^{2c} \,,\,\, c=2^{2d} \,,\,\, d=2^{2e} \,,\,\, e=2^{2f} \]
+まず47は素数であるから、Fermat の小定理より$2^n \pmod{47}$ は少なくとも周期46になっている。そこで、$2^{2b} \pmod{47}$ を求めるには、$2b\pmod{46}$、つまり$b\pmod{23}$がわかるとよい。$2^{2c}\pmod{23}$ を知るには同様にして$c\pmod{11}$ を調べればよく、$2^{2d}\pmod{11}$は$d\pmod{5}$を調べればよい。$e$は明らかに偶数なので、
+\[ d=4^e\equiv (-1)^e\equiv 1\pmod{5} \]
+である。$d=5k_1+1$ と書く。以下Fermat の小定理が使えることに注意して計算を進める。まず$c$について、
+\[ c=2^{2(5k_1+1)}=2^{10k_1+1}\equiv 2^2\equiv 4 \pmod{11} \]
+よって$c=11k_2+4$ と書ける。続いて$b$について、
+\[ b=2^{2(11k_2+4)}=2^{22k_2+8}\equiv 2^8\equiv 3 \pmod{23} \]
+よって$b=23k_3+3$ と書ける。最後に$a$について、
+\[ a=2^{2(23k_3+3)}=2^{46k_3+6}\equiv 2^6\equiv 17 \pmod{47} \]
+と求まった。なおこの結果は$m$によらない\footnote{$e$が偶数だとわかった後は気にしなくてよかったのである。例えば$f$の部分を$m$をおいても結果は変わらない。}。

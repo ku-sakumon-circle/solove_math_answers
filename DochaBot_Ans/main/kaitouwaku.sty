@@ -1,0 +1,402 @@
+%%% template.sty by tDB(emath@nifty.com)
+% 日本語
+\ProvidesPackage{kaitouwaku}[2013/01/08 v0.02alpha]%
+%
+\RequirePackage{emathT}%
+%
+\define@key{kaitouwaku}{syoumonsuu}{%
+  \ifnum#1>\z@
+    \edef\syoumon@suu{1}%
+    \Ifor\i@val{1}{#1}\Do{%
+      \edefappend\syoumon@suu{:1}%
+    }%
+  \else
+    \edef\syoumon@suu{0}%
+  \fi
+  \@syoumonsuu{\syoumon@suu}%
+}%
+\define@key{kaitouwaku}{edamonsuu}{\csvhairetu*[;]{#1}{edamon@suu@}%
+  \Ifor*\i@val{1}{\edamon@suu@N}\Do{%
+    \edef\sm@tmp{1}%
+    \Ifor\j@val{1}{\hairetu{edamon@suu@}{\i@val}}\Do{%
+      \edefappend\sm@tmp{:1}%
+    }
+    \expandafter\edef\csname Ebunkatu@\romannumeral\i@val\endcsname{\sm@tmp}%
+  }%
+  \edef\Ebunkatu@N{\edamon@suu@N}%
+%\typeouthairetu{Ebunkatu@}%\xxx
+}%
+\define@key{Skaitouwaku}{takasa}{\ukansan{#1}\edamon@h}%
+\define@key{kaitouwaku}{takasa}{\ukansan{#1}\syoumon@h}%
+\define@key{kaitouwaku}{Sbunkatu}{\@syoumonsuu{#1}}
+\define@key{kaitouwaku}{Ebunkatu}{\csvhairetu*[;]{#1}{Ebunkatu@}}%
+\define@key{kaitouwaku}{topskip}{\edef\top@skip{#1}}%
+\define@key{kaitouwaku}{bottomskip}{\edef\bottom@skip{#1}}%
+\define@key{kaitouwaku}{framethickness}{\edef\KW@frame@linewidth{#1}}%
+%
+\def\wakuH#1{\def\waku@i@h{#1}}%
+\def\KWframethickness#1{\edef\KW@frame@linewidth{#1}}%
+%
+\def\edamon@migikei{\Drawline}%
+\def\edamonmigikei#1{\def\edamon@migikei{#1}}%
+%
+\def\KWsyokika{%
+  \def\labelenumT{\Large\emKaku{\arabic{enumT}}}%
+  \def\labelenumTi{問\arabic{enumTi}}%
+  \def\labelenumTii{(\arabic{enumTii})}%
+  \resetcounter{enumTi}[enumT]\relax
+  \resetcounter{enumTii}[enumTi]\relax
+%
+  \edef\waku@i@h{3em}%
+  \edef\syoumon@haba{2.5em}%
+%
+  \edef\KW@frame@linewidth{\p@}%
+%
+\let\KWparbox\parbox
+\DeclareRobustCommand\parbox{\KWparbox}%
+\let\KWitem\item
+\DeclareRobustCommand\item{\KWitem}%
+}%
+%
+\def\@edamonsuu{%
+  \@ifnextchar[{\@@edamonsuu}{\@@edamonsuu[\empty]}}%
+\def\@@edamonsuu[#1]#2\@nil{%
+%\typeout{@@edamonsuu:arg1=[#1], arg2=\meaning#2}%
+  \edef\edamon@h{\syoumon@h}%
+  \ifx\empty #1\else\setkeys{Skaitouwaku}{#1}\fi
+  \@@@edamonsuu{#2}}%
+\def\@@@edamonsuu#1{%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \def\edamon@sub##1\@nil{%
+    \Strsep{##1}{`}\ssub@a\ssub@b
+    \ifx\empty\ssub@b
+      \edef\arg@iii{\empty}%
+    \else
+      \Strsep\ssub@b{'}\arg@iii\ssub@b
+    \fi
+    \Strsep\ssub@a{[}\ssub@a\ssub@b
+    \ifx\empty\ssub@b
+      \edef\arg@ii{item}%
+    \else
+      \Strsep\ssub@b{]}\arg@ii\ssub@b
+    \fi
+    \EMedef\arg@i{\ssub@a}%
+  }%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\typeout{@@@edamonsuu:arg=\meaning #1}%
+  \csvhairetu*[:]{#1}{edamon@}%
+  \tenretu*{A@(\syoumon@w@,\y@min);B@(\waku@l@,\y@min)}%
+%\typeout{A@=\A@, B@=\B@/\syoumon@w}%
+  \edef\sm@bunbo{0}%
+  \Ifor*\j@val{1}{\edamon@N}\Do{%
+    \EMedef\sub@arg{\hairetu{edamon@}{\j@val}}%
+    \edamon@sub\sub@arg\@nil
+    \edefhairetu{e@item@opt}{\j@val}{\arg@ii}%
+    \Addself\sm@bunbo{\arg@i}%
+  }%
+\Subself\y@min\edamon@h
+%\typeout{bunbo=\sm@bunbo}%\xxx%
+  \edef\sm@bunsi{0}%
+  \Ifor*\j@val{1}{\edamon@N}\Do{%
+    \Sub\sm@bunbo\sm@bunsi\sm@tmp
+    \Bunten\A@\B@\sm@bunsi\sm@tmp\C@
+    \vecXY\C@\lx@\@dmy
+    \edefhairetu{lx@}{\j@val}{\lx@}%
+    \Add\lx@\syoumon@w\rx@
+%    \Put{(\syoumon@w,\y@min)}{%      枝問番号
+    \Put{(0,\y@min)}{%      枝問番号
+      \ifnum\j@val>\@ne
+        \Drawline{(\lx@,0)(\lx@,\edamon@h)}%
+      \fi
+      \Tyuuten{(\lx@,0)}{(\rx@,\edamon@h)}\C@
+%      \Put\C@[c]{\itemTii}%
+\edef\e@item{\hairetu{e@item@opt}{\j@val}}%
+\ifthenelse{\equal\e@item{item}}{%
+      \edamon@migikei{(\rx@,0)(\rx@,\edamon@h)}%
+      \Put\C@[c]{\itemTii}%
+}{%
+  \tailchar{\e@item}\str@a\str@b
+  \ifthenelse{\equal\str@b{|}}{%
+    \edamon@migikei{(\rx@,0)(\rx@,\edamon@h)}%
+    \edef\e@item{\str@a}%
+  }{}%
+  \Put\C@[c]{\e@item}%
+}%
+    }%
+    \EMedef\sub@arg{\hairetu{edamon@}{\j@val}}%
+    \edamon@sub\sub@arg\@nil
+    \Addself\sm@bunsi{\arg@i}%
+    \edefhairetu{rx@}{\j@val}{\rx@}%
+    \ifx\empty\arg@iii\else
+      \bgroup
+      \Sub\sm@bunbo\sm@bunsi\sm@tmp
+      \Bunten\A@\B@\sm@bunsi\sm@tmp\C@
+      \vecXY\C@\lx@@\@dmy
+      \tenretu*{wLBO(\lx@,\y@min);wLB(\rx@,\y@min);wRB(\lx@@,\y@min)}%
+      \Addvec\wLBO{(0,\edamon@h)}\wLTO
+      \Addvec\wLB{(0,\edamon@h)}\wLT
+      \Addvec\wRB{(0,\edamon@h)}\wRT
+      \Tyuuten\wLT\wLB\wL
+      \Tyuuten\wLTO\wLBO\wLO
+      \Tyuuten\wRT\wRB\wR
+      \Tyuuten\wLB\wRB\wB
+      \Tyuuten\wLT\wRT\wT
+      \Tyuuten\wLT\wRB\wM
+      \Sub\lx@@\rx@\w@@
+      \@tempdima=\w@@\unitlength
+%\setlength{\linewidth}{\@tempdima}%
+      \edef\wkwidth{\the\@tempdima}%
+      \arg@iii
+      \egroup
+    \fi
+  }%
+  \edef\lx@N{\edamon@N}%
+  \edef\rx@N{\edamon@N}%
+}%
+%
+\def\@syoumonsuu#1{%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \def\syoumon@sub##1\@nil{%
+%\typeout{now wyoumon@sub:arg=##1}%
+    \Strsep{##1}{`}\ssub@a\ssub@b
+    \ifx\empty\ssub@b
+      \edef\arg@iii{\empty}%
+    \else
+      \Strsep\ssub@b{'}\arg@iii\ssub@b
+    \fi
+    \Strsep\ssub@a{[}\ssub@a\ssub@b
+    \ifx\empty\ssub@b
+      \edef\arg@ii{item}%
+    \else
+      \Strsep\ssub@b{]}\arg@ii\ssub@b
+    \fi
+    \EMedef\arg@i{\ssub@a}%
+%\typeout{@i=\arg@i, ii=\arg@ii, iii=\meaning\arg@iii}%
+  }%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\typeout{@syoumonsuu:arg1=#1}%\dddd%
+  \csvhairetu*[:]{#1}{Sbunkatu@}%
+%\typeouthairetu{Sbunkatu@}%\DDDD%
+  \tenretu*{A@(\syoumon@w,\y@min);B@(\waku@l@,\y@min)}%
+  \edef\D@bunbo{0}%
+  \Ifor*\j@val{1}{\Sbunkatu@N}\Do{%
+    \EMedef\sub@arg{\hairetu{Sbunkatu@}{\j@val}}%
+    \syoumon@sub\sub@arg\@nil
+    \Addself\D@bunbo{\arg@i}%
+    \edefhairetu{item@opt}{\j@val}{\arg@ii}%
+  }%
+%\typeout{bunbo=\D@bunbo}%\bbbb%
+%\Subself\y@min\syoumon@h
+  \edef\D@bunsi{0}%
+  \Ifor*\j@val{1}{\Sbunkatu@N}\Do{%
+%\typeout{jval=\j@val/\Sbunkatu@N}%
+    \ifdim\D@bunbo\p@>\z@
+      \Sub\D@bunbo\D@bunsi\dm@tmp
+      \Bunten\A@\B@\D@bunsi\dm@tmp\C@
+    \else
+      \edef\C@{(0,\y@min)}%
+      \edef\itemTi@done{1}%
+    \fi
+    \vecXY\C@\lx@\@dmy
+%\typeout{C@=\C@}%
+    \edefhairetu{lx@}{\j@val}{\lx@}%
+    \Add\lx@\syoumon@w\rx@
+%\typeout{j=\j@val,lx=\lx@,rx=\rx@}%
+    \EMedef\sub@arg{\hairetu{Sbunkatu@}{\j@val}}%
+%\typeout{goto syoumon@sub: arg=\sub@arg}%\gggg
+    \syoumon@sub\sub@arg\@nil
+%\typeout{arg@i=\arg@i}%
+    \Addself\D@bunsi{\arg@i}%
+    \edefhairetu{rx@}{\j@val}{\rx@}%
+    \ifx\empty\arg@iii\else
+      \bgroup
+      \ifdim\D@bunbo\p@>\z@
+        \Sub\D@bunbo\D@bunsi\dm@tmp
+        \Bunten\A@\B@\D@bunsi\dm@tmp\C@
+      \else
+        \edef\C@{\B@}%
+      \fi
+      \vecXY\C@\lx@@\@dmy
+%      \tenretu*{wLB(\rx@,\y@min);wRB(\lx@@,\y@min)}%
+      \tenretu*{wLTO(\lx@,\y@min);wLT(\rx@,\y@min);wRT(\lx@@,\y@min)}%
+      \Addvec\wLTO{(0,-\syoumon@h)}\wLBO
+      \Addvec\wLT{(0,-\syoumon@h)}\wLB
+      \Addvec\wRT{(0,-\syoumon@h)}\wRB
+      \Tyuuten\wLTO\wLBO\wLO
+      \Tyuuten\wLT\wLB\wL
+      \Tyuuten\wRT\wRB\wR
+      \Tyuuten\wLB\wRB\wB
+      \Tyuuten\wLT\wRT\wT
+      \Tyuuten\wLT\wRB\wM
+      \Sub\lx@@\rx@\w@@
+      \@tempdima=\w@@\unitlength
+      \edef\wkwidth{\the\@tempdima}%
+      \arg@iii
+      \egroup
+    \fi
+  }%
+  \edef\lx@N{\Sbunkatu@N}
+  \edef\rx@N{\Sbunkatu@N}
+}%
+%
+%
+\def\kaitouwaku{\@ifnextchar<{\@kaitouwaku}{\@kaitouwaku<\empty>}}%
+\def\@kaitouwaku<#1>{%
+% 
+%%% syoumon --------------------------------------------------------
+  \def\syoumon{\@ifnextchar<{\@syoumon}{\@syoumon<\empty>}}%
+  \def\@syoumon<##1>{\@ifnextchar\bgroup{\@@syoumon<##1>}{%
+      \@@syoumon<##1>{}}}%
+  \def\@@syoumon<##1>##2{%
+    \def\Sbunkatu@N{1}%
+    \def\Ebunkatu@N{0}%
+    \def\Ebunkatu@@N{0}%
+    \edef\syoumon@suu{1}%
+    \def\lx@i{0}%
+    \def\rx@i{\syoumon@w}%
+    \edef\edamon@suu@N{0}%
+    \edef\syoumon@h{1}%
+    \edef\msg@N{0}%
+    \edef\itemTi@done{0}%
+    \let\wLT\relax
+    \let\wLTO\relax
+    \let\wLB\relax
+    \let\wLBO\relax
+    \let\wL\relax
+    \let\wLO\relax
+    \let\wRT\relax
+    \let\wRB\relax
+    \let\wR\relax
+    \let\wT\relax
+    \let\wB\relax
+    \let\wM\relax
+    \let\wkwidth\relax
+    \ifx\empty ##1\else\setkeys{kaitouwaku}{##1}\fi
+    \ifthenelse{\equal{##2}\empty}{}{%
+      \csvhairetu*[;]{##2}{msg@}%
+%\typeouthairetu{msg@}%
+    }%
+\edef\y@min@org{\y@min}%
+    \Incr\WK@lns
+% 小問区切り線
+    \ifnum\WK@lns>\@ne
+      \Put{(0,\y@min)}{\Drawline{(\syoumon@w,0)(\waku@l@,0)}}%
+    \fi
+%% edamonsuu 指定
+%\typeout{Ebunkatu@N=\Ebunkatu@N}%
+      \ifnum\Ebunkatu@N>\z@
+        \Ifor*\i@val{1}{\Ebunkatu@N}\Do{%
+%         \@edamonsuu{\hairetu{Ebunkatu@}{\i@val}}%
+          \EMedef\wk@tmp{\hairetu{Ebunkatu@}{\i@val}}%
+%\typeout{goto @edamonsuu:arg=\meaning\wk@tmp}%
+          \expandafter\@edamonsuu\wk@tmp\@nil
+%\typeout{ival=\i@val,h=\syoumon@h}%
+          \ifnum\i@val<\Ebunkatu@N
+            \Drawline{(\syoumon@w@,\y@min)(\waku@l@,\y@min)}%  枝問区切り線
+%            \Subself\y@min\edamon@h
+          \fi
+        }%
+\else
+\Subself\y@min\syoumon@h
+      \fi
+% syoumonsuu 指定
+%    \Subself\y@min\syoumon@h
+%    \Tyuuten{(0,\y@min)}{(\syoumon@w,\y@min@org)}\T@
+%    \Addvecself\T@{(\syoumon@w,0)}%
+    \ifnum\itemTi@done=\z@
+      \Add\syoumon@w\syoumon@w\syoumon@w@
+      \Tyuuten{(\syoumon@w,\y@min)}{(\syoumon@w@,\y@min@org)}\T@
+      \Put\T@[c]{\itemTi}%  小問番号
+      \Drawline{(\syoumon@w@,\y@min)(\syoumon@w@,\y@min@org)}%
+    \fi
+%    \Put{(\syoumon@w,\y@min)}{%
+%      \Drawline{(\syoumon@w,0)(\syoumon@w,\syoumon@h)}%
+%    }%
+    \edef\itemTi@done{1}%
+%\typeout{N=\Sbunkatu@N}%
+    \Ifor*\i@val{2}\Sbunkatu@N\Do{%
+      \Tyuuten{(0,0)}{(\syoumon@w,\syoumon@h)}\T@
+%      \Addvecself\T@{(\syoumon@w,0)}%
+      \Put{(\hairetu{lx@}{\i@val},\y@min)}{%
+      \Drawline{(0,0)(0,\syoumon@h)}%
+\edef\s@item{\hairetu{item@opt}{\i@val}}%
+\ifthenelse{\equal\s@item{item}}{%
+        \Put\T@[c]{\itemTi}%
+        \Drawline{(\syoumon@w,0)(\syoumon@w,\syoumon@h)}%
+}{%
+  \tailchar{\s@item}\str@a\str@b
+  \ifthenelse{\equal\str@b{|}}{%
+    \edef\s@item{\str@a}%
+    \Drawline{(\syoumon@w,0)(\syoumon@w,\syoumon@h)}%
+  }{}%
+  \Put\T@[c]{\s@item}%
+}%
+      }%
+    }%
+  }%
+%%% end(syoumon) ----------------------------------------------
+% kaitouwaku はじまり -------------------
+  \@ifundefined{syoumon@haba}{\errmessage{You must do KWsyokika command}}{}%
+  \edef\WK@lns{0}%
+  \edef\y@min{0}%
+  \edef\daimon@y@min{0}%
+  \edef\top@skip{0pt}%
+  \edef\bottom@skip{0pt}%
+%  \edef\syoumon@suu{1}%
+%  \edef\edamon@suu{0}%
+  \ifx\empty #1\else\setkeys{kaitouwaku}{#1}\fi
+  \unitlength\waku@i@h
+%  \ukansan\linewidth\waku@l@
+\@tempdima\linewidth
+\advance\@tempdima-\KW@frame@linewidth
+%\advance\@tempdima-\KW@frame@linewidth
+\ukansan\@tempdima\waku@l@
+  \ukansan\syoumon@haba\syoumon@w
+  \Mul\syoumon@w{2}\syoumon@w@
+  \ifhmode\par\fi
+%\vskip-\ht\strutbox
+  \linethickness{\KW@frame@linewidth}%
+\noindent
+\@tempdima\KW@frame@linewidth
+\hskip.5\@tempdima
+%  \lower\top@skip
+%  \hbox\bgroup
+  \begin{pszahyou*}[getxyrange,borderwidth=\the\@halfwidth,haiti=o]%
+    \linethickness{.3pt}%
+}%
+\def\endkaitouwaku{%
+    \edef\w@ku{(0,0)(\waku@l@,0)(\waku@l@,\daimon@y@min)(0,\daimon@y@min)}%
+    \linethickness{\KW@frame@linewidth}%
+%    \begin{clipTakakkei}\w@ku
+%      \@tempdima=2\@wholewidth
+%      \linethickness{\@tempdima}%
+%      \Takakkei\w@ku%          外枠描画
+      \Takakkei<setxyrange>\w@ku%          外枠描画
+%\setxyrange\w@ku
+%    \end{clipTakakkei}
+  \end{pszahyou*}%
+%\egroup
+%  \vspace{\bottom@skip}%
+%  \par
+}%
+%
+\def\daimon{%
+  \edef\y@min{\daimon@y@min}%
+  \edef\dm@yo{\y@min}%
+}%
+\def\enddaimon{%
+  \Tyuuten{(0,\y@min)}{(\syoumon@w,\dm@yo)}\C@
+  \ifnum\theenumT>\z@
+    \Drawline<linethickness=\KW@frame@linewidth>{(0,\dm@yo)(\waku@l@,\dm@yo)}%
+  \fi
+  \Put\C@[c]{\itemT}
+  \Drawline{(\syoumon@w,\y@min)(\syoumon@w,\dm@yo)}%
+  \xdef\daimon@y@min{\y@min}%
+}
+%
+\endinput
+%
+v 0.00alpha 2012/10/29
+v 0.01alpha 2013/01/07 小問のない大問 (BBS #11432)
+v 0.02alpha 2013/01/08 小問・枝問番号に代えて文字列を出力 (BBS #11434)
+                       枠罫線の太さ変更 (BBS #11436)

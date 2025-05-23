@@ -1,0 +1,34 @@
+%%% emaligned.sty by tDB(emath@nifty.com)
+% 日本語
+\ProvidesPackage{emaligned}[2014/02/09 v0.00alpha]%
+%
+% emaligned
+%
+\define@key{emequation}{L}{\def\emal@L{#1}}%
+\define@key{emequation}{W}{\edef\emal@W{#1}}%
+\def\emaligned{\@ifnextchar[{\@emaligned}{\@emaligned[t]}}%
+\def\@emaligned[#1]{\@ifnextchar<{\@@emaligned[#1]}{\@@emaligned[#1]<\empty>}}%
+\def\@@emaligned[#1]<#2>{%
+  \edef\emal@L{y}%
+  \edef\emal@W{0pt}%
+  \ifx\empty #2\else\setkeys{emequation}{#2}\fi
+  \ifdim\emal@W=\z@
+    \setbox0=\hbox{$\displaystyle \emal@L={}$}%
+    \setlength{\@tempdima}{\linewidth-\wd0}%
+    \houteisikiWidth{\the\@tempdima}%
+  \else\ifdim\emal@W<\z@
+    \@tempdimb=\emal@W
+    \setbox0=\hbox{$\displaystyle \emal@L={}$}%
+    \setlength{\@tempdima}{\linewidth-\wd0+\@tempdimb}%
+    \houteisikiWidth{\the\@tempdima}%
+  \else
+    \@tempdima=\emal@W
+    \houteisikiWidth{\the\@tempdima}%
+  \fi\fi
+  \begin{aligned}[#1]\relax
+}%
+\def\endemaligned{\end{aligned}}%
+%
+\endinput
+
+v 0.00 2014/02/09

@@ -1,0 +1,956 @@
+\documentclass[twocolumn]{jsarticle}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{bm,braket,ascmac}
+\usepackage{amsmath,amssymb,amsfonts,amsthm,fancyhdr}
+
+\usepackage{ ascmac,fancyhdr}
+\usepackage[%
+top    = 25truemm,%
+bottom = 25truemm,%
+left   = 7truemm,%
+right  = 7truemm]{geometry}
+\pagestyle{fancy}
+\lhead{\rightmark}
+% Enumerate 環境
+\def\theenumi{\arabic{enumi}}
+\def\labelenumi{(\theenumi)}
+
+% (Re)New commands
+\newcommand{\thm}{\begin{itembox}[l]}
+\newcommand*{\vvv}{\overrightarrow}
+\newcommand{\disp}{\displaystyle}
+\newcommand{\enthm}{\end{itembox}\\}
+\newcommand{\dou}{\Leftrightarrow}  %%同値
+\newcommand{\naraba}{\Rightarrow}
+\newcommand{\irr}{\mbox{Irr}}
+\newcommand{\jap}{\mbox}
+\renewcommand{\leq}{\leqq}
+\renewcommand{\geq}{\geqq}
+\newcommand{\nea}{\nearrow}
+\newcommand{\hosi}{$\bigstar$}
+\newcommand{\sea}{\searrow}
+\newcommand{\mb}{\mathbb}
+\newcommand{\bracket}[1]{%
+\[
+ \left(
+ \begin{tabular}{p{0.9\hsize}}
+  #1
+ \end{tabular}
+ \right)
+\]}
+\renewcommand{\labelenumi}{\fbox{\arabic{enumi}}}
+\renewcommand{\labelenumii}{(\arabic{enumii})}
+\renewcommand{\labelenumiii}{(\roman{enumiii})}
+\usepackage{amsmath,amssymb,ascmac,bm,geometry,amsfonts}
+
+\parindent=0pt
+
+\begin{document}
+\fontsize{9pt}{7pt}\selectfont
+\bf
+{\Large どちゃ楽数学bot（solove\_ math）の解答をtexで全部仕上げて一冊にまとめてみんかプロジェクト}\\
+\\
+\\
+もう作って4年になったこのbot、中の人が準備を怠りすぎていまだに解答がそろえられてない。めんどくせえんだものねえ　DM
+で解答くださいって来てるやつ大分ほったらかしたりしてる（カスか？）\\
+だんだんtexも真剣に扱うようになってきたしこのさいこんな感じで一気にまとめてみようかと。できたら死ぬほど分厚い一冊にして記念にしちゃおう。（著作権の問題あるし販売は無理）　さて何年かかるかしら。.
+\\
+\\
+
+解答は大抵中の人が自分で編み出してきたやつなので最速とは限りません。このpdf
+における進捗は次のようになっています。
+\\
+\\
+完成（とりあえず議論一通りかいた）\\
+5　7\\
+18\\
+28\\
+33　35　39\\
+63\\
+98\\
+121　124　127\\
+151　157\\
+170　175\\
+177　178　180\\
+189\\
+198\\
+211\\
+225　226\\
+\\
+\\
+途中（途中放りだしてたり小問の一部のみだったり）\\
+2\\
+60\\
+138\\
+143\\
+161\\
+207\\
+\\
+\\
+特にこの問題の解答が欲しいとかいわれたら書くかもしれん　（協力者募集中）
+
+\newpage
+\section*{\markright{Q.1～Q.20}}
+\thm{Q.2}
+(2) 実は$P(n)=P(m)$ならば $n=m$ である。このことを証明せよ。
+\enthm
+\begin{enumerate}
+\item[(2)] $a,b\in\mathbb{N}$に対して, $b$ が $a$ で割り切れるということ,すなわち $a$ が $b$ の正の約数であることを "$a\mid b$" と表す。\\
+これを用いて,$n$のすべての正の約数の総積$P(n)$を $\displaystyle\prod_{d\mid n}d$ と表す。 また, $d\mid n$ならば $\dfrac{n}{d}\mid n$であるから, $P(n)=\displaystyle\prod_{d\mid n}\dfrac{n}{d}$ とも表せる。これより, $D_n$で$n$の正の約数の個数を表すとすると,
+\begin{eqnarray*}
+P(n)^2 = \left(\displaystyle\prod_{d\mid n}d\right)\left(\displaystyle\prod_{d\mid n}\dfrac{n}{d}\right) = \displaystyle\prod_{d\mid n}d\cdot \dfrac{n}{d} = \displaystyle\prod_{d\mid n}n = n^{D_n}
+\end{eqnarray*}
+となる。したがって,$P(n)>0, n^{\frac{D_n}{2}}>0$ であることから $P(n)=n^{\frac{D_n}{2}}$ と表される。\\
+\\
+よって, $n^{\frac{D_n}{2}}=m^{\frac{D_m}{2}}$ ならば $n=m$ であることを示せばよい。ただし, 負の値になることがないので, $n^{D_n}=m^{D_m}$ で考えればよい。\\
+ある素数$p$に対して $p\mid n\Leftrightarrow p\mid m$ なので, $n$と$m$の素因数の種類は一致する。次に, $n$が素数$p$で割ることができる最大の回数を$M_p(n)$ と置く。このとき, $n^{D_n}=m^{D_m}$ であることは, $n$ (または $m$)を割り切る任意の素数$p$ に対して (左辺と右辺をそれぞれ何回割ることができるかを考えて) $D_nM_p(n)=D_mM_p(m)$ が成り立つことと同値である。\\
+\\
+対称性より, $D_m\le D_n$ とする。このとき,
+\begin{eqnarray*} 
+D_nM_p(n)=D_mM_p(m)\le D_nM_p(m) \Rightarrow M_p(n)\le M_p(m)
+\end{eqnarray*}
+が成立する。 よって, 任意の$n$を割り切る素数$p$ に関して, $m$ のほうが, $n$ と同じ回数, あるいは$n$ より多い回数だけ$p$ で割ることができる。よって, $\dfrac{m}{n}$ は整数であり, すなわち$n\mid m$ である。\\
+$m$ が $n$ の倍数ならば,  $D_n\le D_m$ であり, $D_m\le D_n\le D_m$ だから, $D_n=D_m$ となる。よって, $n^{D_n}=m^{D_m}=m^{D_n}$ であり, $n,m\in\mathbb{N}$ だから $n=m$ が示された。　　$\Box$
+\end{enumerate}
+
+
+\thm{Q.5 }
+(1) $x>0$のとき, $\left(x+\dfrac{1}{x}\right)\left(x+\dfrac{4}{x}\right)$ の最小値を求めよ。(1997千葉工大)\\
+(2) $x>0$のとき, $x^2+\dfrac{1}{x^3}$の最小値を求めよ。\\
+(3) 実数$a,b$が $a+b=17$を満たすとき, $2^a+4^b$の最小値を求めよ。(JMO予選2005)
+\end{itembox}
+\begin{enumerate}
+\item[(1)] $\left(x+\dfrac{1}{x}\right)\left(x+\dfrac{4}{x}\right)=x^2+\dfrac{4}{x^2}+5$ で, $x^2,\dfrac{4}{x^2}>0$より相加相乗平均不等式が使えて $x^2+\dfrac{4}{x^2}\geq 2\sqrt{x^2\cdot \dfrac{4}{x^2}}=4$ となる。（等号は$x=\sqrt{2}$のときに起こる）よって最小値は $4+5=9$
+\item[(2)] $x^2>0, x^3>0$なので$x^2+\dfrac{1}{x^3}=\dfrac{x^2}{3}+\dfrac{x^2}{3}+\dfrac{x^2}{3}+\dfrac{1}{2x^3}+\dfrac{1}{2x^3}\geq 5\sqrt[5]{\left(\dfrac{x^2}{3}\right)^3\left(\dfrac{1}{2x^3}\right)^2}=\sqrt[5]{\dfrac{1}{108}}$ 　（等号成立は$x=\sqrt[5]{\dfrac{3}{2}}$のときに起こる）より最小値は$\dfrac{1}{\sqrt[5]{108}}$
+\item[(3)] $2^{a-1}+2^{a-1}+4^b\geq 3\sqrt[3]{2^{a-1}\cdot 2^{a-1}\cdot 4^b}=\sqrt[3]{2^{2a-2+2b}}=\sqrt[3]{2^{32}}$ (等号成立は$a=\dfrac{35}{3}, b=\dfrac{16}{3}$)より最小値は$3072\sqrt[3]{4}$
+\end{enumerate}
+
+\thm{Q.7 \hosi 4 (東工大2017)}
+次の条件 (i), (ii)をともに満たす正の整数$N$を全て求めよ。\\
+(i) $N$の正の約数は12個\\
+(ii) $N$の正の約数を小さい順にならべたとき, 7番目の数は12である。
+\enthm
+$N$の約数を小さい順に$d_1, d_2,\cdots , d_{12}$ とする。このとき,
+\[1=d_1<d_2<\cdots <d_{12}=N\]
+で, $6\leq d_6$であり,
+\[N=\dfrac{N}{d_1}>\dfrac{N}{d_2}>\cdots > \dfrac{N}{d_{12}}=1\]
+である。また, $d$を$N$の約数とすると $\dfrac{N}{d}$も$N$の約数なので, $\dfrac{N}{d_k}$は$k$番目に大きい約数になるから $\dfrac{N}{d_k}=d_{13-k}$である。$k=6$として 
+\[ N=d_6d_7=12d_6<12^2\]
+を得る。$d_6\geq 6$ を使って
+\[N=12d_6\geq 12\times 6\]
+である。$N$は12を約数に持つので $N=12$m とおくと, 
+\[12\times 6\leq 12m<12^2\]
+より $m=6,7,8,9,10,11$が必要である。このうち, $m=10$では$N$が約数を12個以上持つので不適であり, $m=6$では $d_7=9$なので不適。それ以外の $N$ はすべて条件を満たす。よって {\boldmath{$N=84,96,108, 132$}}
+
+
+
+\thm{Q.18 (並び替え数列)}
+数列$1,2,\cdots, n$ のある並び替えを $a_1.a_2,\cdots , a_n$ とする。\\
+(1) $\disp\sum_{k=1}^n (a_k-k)^2 + \disp\sum_{k=1}^n (a_k-n+k-1)^2$ を $n$で表せ。\\
+(2) $\disp\sum_{k=1}^n(a_k-k)^2$ の最大値を求めよ。\\
+(3) $\disp\sum_{k=1}^nka_k$ が最小となるとき, $a_k=n+1-k$ であることを証明せよ。
+\enthm
+\begin{enumerate}
+\item[(1)] 括弧を展開して一つのシグマの中に入れると 
+\begin{eqnarray*}
+&&\disp\sum_{k=1}^n \{2a_k^2-2(n+1)a_k + k^2 + (n+1-k)^2 \}\\
+&&=2\disp\sum_{k=1}^na_k^2 -2(n+1)\disp\sum_{k=1}^na_k + 2\disp\sum_{k=1}^n k^2\\
+&&=4\disp\sum_{k=1}^nk^2 - 2(n+1) \disp\sum_{k=1}^nk\\
+&&=\dfrac{n(n+1)(8n+4)}{6} - \dfrac{n(n+1)(6n+6)}{6}\\
+&&=\dfrac{n(n+1)(n-1)}{3}\\
+&&\dfrac{n^3-n}{3}
+\end{eqnarray*}
+\item[(2)] (1) より
+\[\disp\sum_{k=1}^n(a_k-k)^2 = \dfrac{n^3-n}{3}-\disp\sum_{k=1}^n (a_k-n+k-1)^2\]
+であって, 右辺を最大化したい。 2乗の和なので$\disp\sum_{k=1}^n (a_k-n+k-1)^2\geq 0$が成り立ち, $a_k=n-k+1$ とすることで, $a_1,a_2,\cdots, a_n$は$1,2,\cdots ,n$の並び替えでありながら右辺が最大化されると分かる。よって, 最大値はそのような$a_k$のときに実現される $\dfrac{n^3-n}{3}$ である。
+\item[(3)] (2) より $\disp\sum_{k=1}^n (a_k^2+k^2 -2ka_k)=2\disp\sum_{k=1}^n k^2 -2\disp\sum_{k=1}^n ka_k$ が最大化されるのが $a_k=n+1-k$ のときであるが, これは $\disp\sum_{k=1}^n ka_k$ を最小化させているときとも見れるので明らか。
+\end{enumerate}
+
+
+
+
+\thm{Q.28 \hosi 9 (東大実戦)}
+$n$を0以上の整数とする。$0\leq k\leq n$ を満たすすべての整数 $k$ のうち, $2^k$ の最高位の数字が1のものの個数を $a_n$, 最高位の数字が4のものの個数を $b_n$ とする。$\disp\lim_{n\to \infty} \dfrac{a_n}{b_n}$の値を求めよ。（最高位の数字は10進法で考えるものとする）
+\enthm
+$n\geq 4$ とする。\\
+$2^n$ が $k_n$桁であるとする。（この時, $k_n\geq 2$）　また,  $2^i$が$k_n$桁であるような最大の整数を$M(n)$として,
+\[\disp\lim_{n\to \infty} \dfrac{a_{M(n)}}{b_{M(n)}}\]
+を代わりに考える。$k_n=k_{M(n)}$に注意する。
+\\
+\\
+$2^{j}$と$2^{j+1}$で桁数が異なるとき, ある自然数$s$が存在して$5\cdot 10^{s-1}\leq 2^j< 10^{s}$ となるが, この不等式から
+\[10^{s}\leq 2^{j+1}< 2\cdot 10^{s}\] 
+が言えるため, $2^{j+1}$の最高位の数は1になる。また, このとき $2^{j+2}$は明らかに最高位の数が2,3になる。\\
+\\
+このことから, $s$桁($s=1,\cdots, k_n$)の2の非負整数乗であって, 最高位の数が1であるようなものがただひとつ存在するので,$a_n=k_n$,  $a_{M(n)}=k_{n}$である。\\
+\\
+集合$S_d=\{ 2^{k} | 0\leq k\leq M(n), 2^k\mbox{の最高位の数が$d$}\}$  ($d=1,2,\cdots ,9$) を考える。このとき, $S_1$の各元を2倍すると$M(n)$の取り方から\footnote{$M(n)$で取れば, $S_1$の元を2倍したときに必ず$S_2\cup S_3$に属するようになる。逆に$n=7$等で考えると, $128\in S_1$を2倍しても $256$は大小の問題により　$S_2\cup S_3$には属さなくなる。}
+必ず $S_2\cup S_3$に属し, 逆に $S_2\cup S_3$の各元を2で割ると $S_1$に属する。よって, 集合の元の間に1対1の対応(全単射)が存在し, 集合の元の個数に関して
+\[|S_1|=k_n=|S_2\cup S_3|=|S_2|+|S_3|\]
+が成立する。同様な議論により, $S_2\cup S_3$と $S_4\cup S_5\cup S_6 \cup S_7$ の間に全単射が存在するので
+\[|S_2|+|S_3|=k_n=|S_4|+|S_5|+|S_6|+|S_7|\]
+また同様に $S_4$と $S_8\cup S_9$の間に全単射が存在するので
+\[|S_4|=b_{M(n)}=|S_8|+|S_9|\]
+また, $S_1\cup S_2\cup \cdots \cup S_9$は$\{2^{k}| k=0,1,\cdots , M(n)\}$なので
+\[M(n)+1=\disp\sum_{d=1}^9 |S_d|\]
+であり, 右辺は
+\[|S_1| +(|S_2|+|S_3|)+(|S_4|+\cdots +|S_7|) +(|S_8|+|S_9|)=3k_n+b_{M(n)}\]
+となるから 
+\[b_{M(n)}=M(n)+1-3k_{n}\]
+を得る。これらにより
+\[\dfrac{a_{M(n)}}{b_{M(n)}}=\dfrac{k_n}{M(n)+1-3k_{n}}=\dfrac{1}{\frac{M(n)}{k_n} +\frac{1}{k_n}-3}\]
+となる。\\
+$2^{M(n)}$は$k_n$桁であるから
+\[10^{k_n-1}\leq 2^{M(n)}<10^{k_n}\]
+が成り立つ。底を2とする対数をとり,整理すると
+\[\left(1- \dfrac{1}{k_n}\right)\log_2{10}\leq \dfrac{M(n)}{k_n} < \log_2{10} \]
+となる。明らかに $k_n\to \infty$ なので はさみうちの原理により$\disp\lim_{n\to \infty} \dfrac{M(n)}{k_n}=\log_2{10}$である。よって
+\[\disp\lim_{n\to \infty}\dfrac{a_{M(n)}}{b_{M(n)}}=\dfrac{1}{\log_2{10}-3}=\dfrac{1}{\log_2{5}-2}\]
+を得る。\\
+$b_{M(n)}-b_n$ は, $ n< k\leq M(n)$ なる整数$k$のうち$2^k$の最高位が4であるものの個数であるが, $2^n, 2~{M(n)}$は桁が同じなのでそのような数は高々ひとつである。よって
+\[0\leq b_{M(n)}-b_n\leq 1\]
+から
+\[1\leq \dfrac{b_{M(n)}}{b_{n}}\leq 1+\dfrac{1}{b_n}\]
+$n\to \infty$のとき, $a_{M(n)}=k_n\to \infty$で, $\dfrac{a_{M(n)}}{b_{M(n)}}$は収束するので $b_{M(n)}\to \infty$ が必要である。$b_{M(n)}+1\leq b_n$ だから　$b_n\to \infty$ である。よって
+\[\disp\lim_{n\to \infty} \dfrac{b_{M(n)}}{b_n}=1\]
+である。このことと, $a_n=a_{M(n)}$から
+\[\disp\lim_{n\to \infty}\dfrac{a_n}{b_n}=\disp\lim_{n\to \infty} \left(\dfrac{a_{M(n)}}{b_{M(n)}}\cdot \dfrac{b_{M(n)}}{b_n}\right) = \mbox{{\boldmath $\dfrac{1}{\log_2{5}-2}$}}\]
+\newpage
+
+
+
+
+
+
+
+
+\section*{\markright{Q.21～Q.40}}
+\thm{Q.33 \hosi ?  (2009 琉球大)}
+$a,b$を正の実数とする。すべての自然数	$n$に対して
+\[(1^a+2^a+3^a+\cdots +n^a)^2=1^b+2^b+3^b+\cdots +n^b\]
+が成立するとき, $a,b$をすべて求めよ。
+\enthm
+式を変形すると
+\[n^{2a+2}\left(\dfrac{1}{n}\disp\sum_{k=1}^{n}\left(\dfrac{k}{n}\right)^a\right)^2=n^{b+1}\cdot\dfrac{1}{n}\disp\sum_{k=1}^n\left(\dfrac{k}{n}\right)^b\]
+なので, 両辺を$n^{b+1}$で割って
+\[ n^{2a+1-b}\left(\dfrac{1}{n}\disp\sum_{k=1}^{n}\left(\dfrac{k}{n}\right)^a\right)^2=\dfrac{1}{n}\disp\sum_{k=1}^n\left(\dfrac{k}{n}\right)^b\]
+$2a+1-b=c$として, 両辺の$n\to \infty$の極限が一致するので, 区分求積法により
+\[\disp\lim_{n\to \infty} \left\{n^c\left(\dfrac{1}{n}\disp\sum_{k=1}^{n}\left(\dfrac{k}{n}\right)^a\right)^2\right\}=\disp\int_0^1 x^b dx = \dfrac{1}{b+1}\]
+となるため, 左辺が0でない値に収束することが必要となる。上の式の両辺を, 極限値
+\[\disp\lim_{n\to \infty} \left(\dfrac{1}{n}\disp\sum_{k=1}^n\left(\dfrac{k}{n}\right)^a\right)^{2} = \dfrac{1}{(a+1)^2}\]
+で割ったとき,
+\[\disp\lim_{n\to \infty} n^c = \dfrac{(a+1)^2}{b+1}\neq 0, \infty\]
+となるから, $c>0$では左辺が$\infty$に, $c<0$では左辺が$0$になるから不適。よって$c=0$であって,
+\[1=\dfrac{(a+1)^2}{b+1}\]
+となる。$c=0$はすなわち $b+1=2(a+1)$ ということになるので
+\[1=\dfrac{(a+1)^2}{2(a+1)}=\dfrac{a+1}{2}\]
+より $a=1$となる。このとき$b=3$で, 実際,すべての$n$に対して
+\[\disp\sum_{k=1}^n k^3=\left(\dfrac{n(n+1)}{2}\right)^2=\left(\disp\sum_{k=1}^n k^1\right)^2\]
+なのでよい。従って$(a,b)=(1,3)$ に限る。
+
+
+\thm{Q.35 $\bigstar 8$ (学コン2017-10-5)}
+$n$を自然数, $a,b$を実数の定数として, 関数$f_n(x)$を次のように定める。
+\[f_1(x)=(ax+b)\sin{x}+(bx+a)\cos{x},　f_{n+1}(x)=\dfrac{d}{dx}f_n(x)\]
+$S_n=\disp\sum_{k=1}^n\disp\int_0^{\frac{\pi}{2}}f_k(x)\, dx$ とするとき, $S_{4m}$と$S_{4m+1}$　($m$は自然数)を求めよ。
+\enthm
+計算により次が成り立つ。
+\[ f_1(x)+f_3(x)=2a\cos{x}-2b\sin{x}\]
+\[ f_4(x) +f_2(x)=-(2a\sin{x}+2b\cos{x})\]
+足して, $2(a-b)=p, 2(a+b)=q$とすると
+\[\disp\sum_{k=1}^4f_k(x) = p\cos{x}-q\sin{x}\]
+両辺を$4n$回微分すれば
+\[\disp\sum_{k=1}^4f_{4n+k}(x) = p\cos{x}-q\sin{x}\]
+有限和であるため, $S_n =\disp\int_0^{\frac{\pi}{2}} \disp\sum_{k=1}^nf_k(x)\, dx$ としてよく,
+\[\disp\sum_{k=1}^{4m}f_k(x) = \disp\sum_{k=1}^{m}(p\cos{x}-q\sin{x})=m(p\cos{x}-q\sin{x})\]
+なので, $\disp\int_0^{\frac{\pi}{2}}\sin{x}dx=\disp\int_0^{\frac{\pi}{2}}\cos{x}dx=1$から
+\[S_{4m}=mp-mq=-4mb\]
+$S_{4m+1}=S_{4m}+\disp\int_{0}^{\frac{\pi}{2}}f_{4m+1}(x)dx$であるが,
+\[\disp\int_{0}^{\frac{\pi}{2}}f_{4m+1}(x)dx=\left[ f_{4m}(x)\right]^{\frac{\pi}{2}}_0 = f_{4m}\left(\dfrac{\pi}{2}\right)-f_{4m}(0)\]
+となる。そこで, $a_n=f_{4n}\left( \dfrac{\pi}{2}\right)-f_{4n}(0)$とする。$a_n$についての漸化式をこれから導く。ここで, 
+\[f_0(x)=(bx+2a)\sin{x}-ax\cos{x}\]
+とおくと, $f_1(x)=\dfrac{d}{dx}f_0(x)$ となっている。また, 計算により
+\[f_4(x)=f_0(x)-4a\sin{x}-4b\cos{x}\]
+であって, この式から微分を数回施し
+\[f_{4n+4}(x)=f_{4n}(x) -4a\sin{x}-4b\cos{x}　(n=0,1,2,\cdots )\]
+を導くことができる。この式に$x=0,\dfrac{\pi}{2}$を代入したとき
+\[f_{4n+4}\left(\dfrac{\pi}{2}\right)=f_{4n+4}\left( \dfrac{\pi}{2}\right)-4a\]
+\[f_{4n+4}(0)=f_{4n}(0)-4b\]
+を得るから,上式から下式を引いて
+\[a_{n+1}=a_n+4(b-a)\]
+を得る。これは等差数列の漸化式で, $a_m=a_0+4m(b-a)$になる。
+\[a_0=f_0\left(\dfrac{\pi}{2}\right)-f_0(0)=2a+\dfrac{\pi}{2}b\]
+なので, $m=0,1,\cdots $において
+\[a_m=(2-4m)a+\left(4m+\dfrac{\pi}{2}\right)b\]
+以上から, 
+\[S_{4m+1}=-4mb+a_m=(2-4m)a+\dfrac{\pi}{2}b\]
+
+\thm{Q.39 (2001名大)}
+$e$を自然対数の底とし, 定数$p,q$は $e\leq p<q$を満たす。このとき,以下の不等式を証明せよ。
+\[\log_e{\log_e{q}}-[\log_e{\log_e{p}}<\dfrac{q-p}{e}\]
+\end{itembox}
+\begin{proof}
+$f(x)=\log{\log{x}}$とする。（底は$e$）\\
+$\dfrac{f(q)-f(p)}{q-p}<\dfrac{1}{e}$を示せばよい。$f$は微分可能なので,平均値の定理から$p<c<q$なる実数$c$であって, $f'(c)=\dfrac{f(q)-f(p)}{q-p}$なるものが存在する。ところで,$x\geq e$において $f'(x)=\dfrac{1}{x\log{x}}$であり, 分母は単調に増加するから$f'(x)$は単調減少する。ゆえに $f'(c)<f'(p)<f'(e)=\dfrac{1}{e}$ となるので不等式は示された。
+\end{proof}
+\thm{Q.60 (整数問題素数編)}
+3つの素数$p,q,r$があり, $pq-1, qr-1$は平方数で, $rp-1$は素数の6乗である。$p,q,r$を求めよ。
+\enthm
+\begin{enumerate}
+\item[(2)] $p,q$が奇数だと$r>2$かつ$r$が偶数なので不適。$p=2$または$q=2$である。\\
+\\
+$p=2$のとき　$r=q+2$より, $q+s=2r=2(q+2)$だから整理して $s=q+4$.　よって, $q,q+2,q+4$が素数である。$q$が3の倍数でないとき, $q+2, q+4$のどちらかひとつが3の倍数だが, 明らかに$q+4>q+2>3$なので, 素数かつ3の倍数である3にはなりえないため不適。$q=3$なら $r=5, s=7$でよい。\\
+\\
+$q=2$のとき　$r=p+2$より $p(p+2)-2=s$. $p=3$のとき$r=5, s=13$ なのでよい。$p\equiv 1 　(\mbox{mod} 3)$だと$r>3$かつ$r$が3で割れて不適。$p\equiv 2$のとき$s>3$かつ$s$が3で割れて不適。以上より $(p,q,r,s)=(2,3,5,7), (3,2,5,13)$\\
+\\
+\item[(3)] 
+
+$rp-1=s^6$ としたとき（$s$は素数）
+\[rp=(s^2+1)(s^4-s^2+1)\]
+であって, 各因数は1より大きい。$p,r$は対称性があることに注意すると, $p=s^2+1. s^4-s^2+1=r$としてよい。（$r=s^2+1$の場合も同様）\\
+すると, $s$が奇素数では$p>2$かつ偶数になるので不適。$s=2$であり, $p=5, r=13$である。$5q-1=a^2, 13q-1=b^2$ ($a,b$は自然数)　と置けるとする。
+\[8q=b^2-a^2=(b-a)(b+a)\]
+となる。$q=2$のとき, $a=3, b=5$なのでよい。$q\geq 3$のとき, $2<4<2q<4q$であり, $a\pm b$は偶数でかつ $b-a<b+a$から $(b-a,b+a)=(2, 4q), (4,2q)$の場合に限られる。つまり, $(a,b)=(2q-1, 2q+1), (q-2, q+2)$の場合に限られる。前者のとき,
+\[5q-1=(2q-1)^2 \dou 4q^2-9q+2=0\]
+で, $q\geq 3$なる解はない。後者のとき
+\[5q-1=(q-2)^2 \dou q^2-9q+5=0\]
+で整数解もなく不適。以上より $(p,q,r)=(5,2,13), (13,2,5)$
+\item[(4)] 右辺は正より $p^2-q^2>0$で, そのとき左辺は奇数なので $p>q>2$である。$p^2\equiv q^2$ (mod $8$)なので$p^2-q^2=8k$とすると
+\[2^{8k}-1=(2^k-1)(2^k+1)(4^k+1)(16^k+1)\]
+$k=1$のとき, $(p+q)(p-q)=8$となる$p,q$は存在しないので不適。$k\geq 2$が奇数のとき, 
+\[2^k+1=(2+1)(2^{k-1}-2^{k-2}+\cdots +1)\]
+となり, $2^{8k}-1$は2以上の整数5個以上の積になることから$pqrs$と表されることはない。$k\geq 2$が偶数とする。$k=2m$ として, $m=1$ならば 
+\[(p+q)(p-q)=16\]
+より $p+q=8, p-q=2$ の場合しかない。$p=5, q=3$である。\\
+$m\geq 2$のときは
+\[2^{k}-1=(2^m-1)(2^m+1)\]
+で, $2^{m}-1\geq 3$だから $2^{8k}-1$は2以上の整数5個以上の積になり不適。\\
+$2^{16}-1=65535=5\times 3\times 17\times 257$ より,
+\[(p,q,r,s)=(5,3,17,257), (5,3,257,17)\]
+
+
+
+\end{enumerate}
+
+
+
+
+
+
+\section*{\markright{Q.61～Q.80}}
+\thm{Q.63 $\bigstar 6$ (京大OP)}
+$p$を無理数, $q$を実数とする。数列$\{a_n\}$が
+\[a_{n+1}=pa_n+q　　(n=1,2,3,\cdots)\]
+を満たす。すべての自然数$n$に対して$a_n$が有理数であるとき, $a_n$は$n$によらない定数であることを証明せよ。
+\enthm
+\begin{proof}
+与えられた式から, $n$をひとつ固定したとき
+\[ a_{n+2}-a_{n+1}=p(a_{n+1}-a_n) \]
+が成立する。$a_{n+1}\neq a_n$ であるとすると, 
+\[p=\dfrac{a_{n+2}-a_{n+1}}{a_{n+1}-a_{n}}\]
+であり, 条件より $a_n, a_{n+1}, a_{n+2}$は有理数なのでこの右辺は有理数となる。$p$は無理数であるからこれは矛盾する。従って $a_{n+1}=a_n$でなければならず, これがすべての$n=1,2,\cdots$ に対して成立するから
+\[a_1=a_2=a_3=\cdots =a_n=a_{n+1}=\cdots \]
+となるので,各$n$に対して $a_n=a_1$ という$n$によらない定数になる。
+\end{proof}
+\thm{Q. $\bigstar $ ()}
+\enthm
+\thm{Q. $\bigstar $ ()}
+\enthm
+\thm{Q. $\bigstar $ ()}
+\enthm
+\thm{Q.98 $\bigstar 10$ (by juniormemo様)}
+正の実数$x,y,z$について, 
+\[x^2+xy+y^2=16,　y^2+yz+z^2=25,　z^2+zx+x^2=36\]
+であるとき, $x+y+z$ の値を求めよ。
+\enthm
+\begin{enumerate}
+\item[] $x+y+z=s$とおく。$t=xy+yz+zx$として条件式の総和を取ると, ($x^2+y^2+z^2=s^2-2t$から)
+\[77-2s^2=-3t\]
+を得る。また, 条件式を各辺引いたりすると
+\[(z-x)s=25-16=9\]
+\[(x-y)s=36-25=11\]
+\[(z-y)s=36-16=20\]
+の3式を得る。
+\[(z-x)^2=36-3zx,　(x-y)^2=16-3xy,　(z-y)^2=25-3zy\]
+なので, 先の3式をそれぞれ2乗することで
+\[(36-3zx)s^2=81\]
+\[(16-3xy)s^2=121\]
+\[(25-3zy)s^2=400\]
+を得る。
+\[77s^2-3s^2t=602\]
+となる。ところで, $77-2s^2=-3t$であったから
+\[77s^2+(77-2s^2)s^2=602\]
+となり, 整理すると$s^4-77s^2+301=0$を得るので,$s^2$の二次方程式とみて
+\[s^2=\dfrac{77\pm 15\sqrt{21}}{2}\]
+を得る。このとき, $-3t=77-2s^2=\mp 15\sqrt{21}$ であって, $x,y,z>0\naraba t>0$なので$-3t<0$が必要であるため $s^2=\dfrac{77+15\sqrt{21}}{2}$のほうが適している。$s>0$なので, 
+\[s=\sqrt{\dfrac{77+15\sqrt{21}}{2}}\]
+である。\footnote{これは3辺が4,5,6の三角形の「フェルマー点」からの各頂点の距離の和という幾何的解釈もできるが, 代数的にやるほうがいい気がする。ところで, 一般に三角形の内点$I$で, $I$からの各頂点の距離の和が最小化されるのは$I$がフェルマー点であるときという事実があり, この問題はその最小値を求める問題だったのである。幾何の疑問を代数で考えた一問である。}
+\end{enumerate}
+
+\section*{\markright{Q.121～Q.140}}
+
+
+\thm{Q.121 $\star 7$ 　(東北大AO)}
+$x\geq 0$における関数 $\disp\int_{0}^x \dfrac{(1+x^2+t)^2}{(1+x^2-t)^3} dt$ の最大値を求めよ。
+\enthm
+$s:=1+x^2-t$と置換し, $1+x^2=f$とおいて
+\[\disp\int_{1+x^2}^{1+x^2-x} \dfrac{(2+2x^2-s)^2}{s^3} (-1)ds=\disp\int_{f-x}^{f} \dfrac{(2f-s)^2}{s^3}ds\]
+展開して積分すると
+\[=\disp\int_{f-x}^{f}\left(\dfrac{1}{s} -\dfrac{4f}{s^2}+\dfrac{4f^2}{s^3}\right)ds=\log{\dfrac{f}{f-x}}-4\dfrac{f}{f-x} +2\dfrac{f^2}{(f-x)^2}+2\]
+これは$\dfrac{x}{f}=g$とおくと
+\[\log{\dfrac{1}{1-g}}-4\dfrac{1}{1-g}+2\dfrac{1}{(1-g)^2}+2\]
+となり,さらに$\dfrac{1}{1-g}=h$とおくと,
+\[\log{h}-4h+2h^2+2\]
+である。\\
+$\disp\lim_{x\to\infty}g=0, g>0, x\leq 0$において$1+x^2\geq 2x$から $0<g\leq\dfrac{1}{2}$の範囲を動くので, $h$は$1<h\leq 2$の範囲を動く。$h$で$\log{h}-4h+2h^2+2$を微分すると
+\[\dfrac{1}{h}+4(h-1)\]
+となり, $h$の範囲からこれは正値をとる。よって, $h=2$つまり$x=1$で最大値を取り,その値は
+\[2+\log{2}\]
+である。
+
+
+
+\thm{Q.124 $\bigstar 3$(組み合わせ論の精選)}
+$n$を1より大きな奇数とする。${}_{n}\mbox{C}_1,{}_{n}\mbox{C}_2,\cdots, {}_{n}\mbox{C}_{\frac{n-1}{2}}$の中には奇数が奇数個あることを示せ。
+\end{itembox}
+\begin{proof}
+${}_{n}\mbox{C}_1+{}_{n}\mbox{C}_2+\cdots +{}_{n}\mbox{C}_{\frac{n-1}{2}}=K$とすると, ${}_n\mbox{C}_i={}_n\mbox{C}_{n-i}$から $2K=\displaystyle\sum_{i=1}^{n-1}={}_n\mbox{C}_i =2^n-2$ となる。ゆえに$K=2^{n-1}-1$で, $n>1$のため$K$は奇数である。仮に奇数が偶数個あるなら, その中で偶数個ある奇数のみの総和をとると偶数である。偶数のみの総和は明らかに偶数なので, $K$はそれらをあわせて偶数になる。これは矛盾。よって,奇数が奇数個ある。
+\end{proof}
+
+
+
+\thm{Q.127 \hosi 7 (自作)}
+正の約数の個数が$\sqrt{N}$個であるような正の整数$N$を求めよう。\\
+(1) $N$は奇数であることを示せ。\\
+(2) $\sqrt{N}$以下の$N$の正の約数はいくつあるか。\\
+(3) $N$を全て決定せよ。
+\enthm
+\begin{enumerate}
+\item[(1)] $\sqrt{N}$が個数を表すためには自然数でなければならないので,  自然数$n$を用いて $N=n^2$ とおける。
+\[n=p_1^{e_1}p_2^{e_2}\cdots p_r^{e_r}\]
+と素因数分解できたとする。($p_1, \cdots, p_r$は相異なる素数, $e_i\geq 1$ ($\forall i$)) $n^2$の約数の個数は
+\[(2e_1+1)(2e_2+1)\cdots (2e_r +1)\]
+となり, 奇数の積になるから奇数である。これが$\sqrt{N}=n$に等しいので, $n$は奇数。
+\item[(2)] $N=n^2$の約数$d_1,d_2,\cdots, d_{2k-1}$が
+\[1=d_1<d_2<\cdots d_{2k-2}<d_{2k-1}=N\]
+となるとする。このとき, $i=1,2,\cdots ,k$に対して$d_id_{2k-i}=N$となり, とくに$d_k^2=N$となるから$d_k=n$である。よって, $\sqrt{N}$以下の約数は$d_1,\cdots, d_k$の$k$個であり, $2k-1=\sqrt{N}=n$ だから $\dfrac{n+1}{2}$ 個。
+\item[(3)] $N=1$はよいので $N\geq 9$のときを考える。$1$から$n$までの奇数は$\dfrac{n+1}{2}$個あり,(2)のものと一致するので, $1,3,\cdots, n$がすべて$n$の約数にならなければならない。特に, $n-2$が$n$の約数になるので
+\[\dfrac{n}{n-2}=1+\dfrac{2}{n-2}\]
+が整数になる。そのような$n$は$n=3$のみで$N=9$となる。よって$N=1,9$
+\end{enumerate}
+
+
+
+
+\thm{Q.138　\hosi 7 (1) 京大理系2014　(2) 2017東大実戦理系}
+$\triangle$ABCが条件 $\angle{\mbox{B}}=2\angle{\mbox{A}}$, BC$=1$を満たしているとする。\\
+(1) $\triangle$ABCの面積が最大になるときの$\cos{B}$の値を求めよ。\\
+(2) $\triangle$ABCの内接円半径$r$と外接円半径$R$の比 $r/R$ の取りうる値の範囲を求めよ。
+\enthm
+(2) $\angle{\mbox{A}}=\theta$ とすると, $\angle{\mbox{B}}=2\theta, 　\angle{\mbox{B}}=\pi-3\theta$ であるから, これらが0より大きく$pi$未満になることより $0<\theta<\dfrac{\pi}{3}$の範囲で動かす。内心をIとして, 内接円とABの接点をHとしたとき, 三角形IHBに注目すると, $\angle{\mbox{IBH}}=\theta$なので
+\[\mbox{HB}=\dfrac{r}{\tan{\theta}}\]
+である。同様に考えると
+\[\mbox{HA}=\dfrac{r}{\tan{\frac{\theta}{2}}}\]
+であり, 正弦定理より
+\[AB=2R\sin{ (\pi-3\theta) } =\mbox{HA$+$HB} =r\left( \dfrac{1}{ \tan{\frac{\theta}{2} }}+\dfrac{1}{\tan{\theta}}\right)\]
+を得る。$\sin{\frac{\theta}{2}}=s, \cos{\frac{\theta}{2}}=c$とおいて$\sin{(\pi-3\theta)=\sin{3\theta}}$と倍角の公式から,整理すると
+\begin{eqnarray*}
+\dfrac{R}{r}&=&\dfrac{1}{2}\left( \dfrac{\sin{\theta}\cos{\frac{\theta}{2}}  +\cos{\theta}\sin{ \frac{\theta}{2} }  }{\sin{\frac{\theta}{2}}\sin{\theta}\sin{3\theta}}\right)=\dfrac{1}{2}\left( \dfrac{2sc\cdot c + (2c^2-1)s}{s\cdot \sin{\theta} \sin{3\theta}}\right)\\
+&=&\dfrac{4c^2-1}{2\sin{\theta}\sin{3\theta}} = \dfrac{2\cos{\theta}+1}{2\sin{\theta}\sin{3\theta}}=\dfrac{2\cos{\theta}+1}{2\sin^2{\theta}(4\cos^2{\theta}-1)}\\
+&=&\dfrac{1}{2(1-\cos^2{\theta})(2\cos{\theta}-1)}
+\end{eqnarray*}
+となる。よって, $\cos{\theta}=x$ ($\dfrac{1}{2}<x<1$)とおいて
+\[\dfrac{r}{R}=2(2x-1)(1-x^2)\]
+の取りうる値の範囲を考えればよい。$x$で微分すると $-12x^2+4x+4=-4(3x^2-x-1)$となるから. $x=\dfrac{1\pm \sqrt{13}}{6}$で極値をとる。$\dfrac{1}{2}<\dfrac{1+\sqrt{13}}{6}<1$で, ここで極大値かつ最大値をとる。$\dfrac{r}{R}$に$x=\dfrac{1+\sqrt{13}}{6}$を代入し
+\[2\cdot\dfrac{\sqrt{13}-2}{3}\cdot\dfrac{22-2\sqrt{13}}{36} = \dfrac{1}{54}(26\sqrt{13} -70)=\dfrac{1}{27}(13\sqrt{13}-35)\]
+となる。$x\to 1-0$とすればいくらでも0に近づくので,求める範囲は
+\[0<\dfrac{r}{R}<\leq \dfrac{1}{27}(13\sqrt{13}-35)\]
+
+
+
+\section*{\markright{Q.141～Q.160}}
+\thm{Q.142　(3) \hosi 9)}
+$\dfrac{3^n-1}{2^n-1}$が整数となるような自然数$n$を全て求めよ。
+\enthm
+
+{\bf 解答.}\\
+$n=1$は明らかに解。$n\geq 2$とするとき, $2^n-1$には奇素因数が存在するが,それを任意に一つ選んで$p$とする。$p|2^n-1$かつ, $p|3^n-1$でなければならない。$K=\dfrac{3^n-1}{2^n-1}$が整数のとき, $2^n-1$は3で割れない。よって$n$は奇数である。そのとき, 
+\[3^n-1\equiv 0　(\mbox{mod} p)\dou 3^{n+1}\equiv 3　(\mbox{mod} p)\]
+となり, $n+1$が偶数であるため$3$は法$p$における平方剰余でなければならない。つまり
+\[\left(\dfrac{3}{p}\right)=1\]
+である。一方, 相互法則　から
+\[\left(\dfrac{3}{p}\right)=(-1)^{\frac{p-1}{2}}\left(\dfrac{p}{3}\right)\]
+である。つまり,\\
+・$p|2^n-1$ が $p\equiv 1$ (mod 4)ならば, $p\equiv 1$ (mod 3)\\
+・$p|2^n-1$ が $p\equiv 3$ (mod 4)ならば, $p\equiv 2$ (mod 3)\\
+である。そこで, $2^n-1$を素因数分解したときに現れる$4k+1$型素因数のを$S$, $4k+3$型素因数の個数を$T$とすると,
+\[2^n-1\equiv 1^S\cdot 3^{T}　(\mbox{mod} 4)\]
+である。$n\geq 2$なので $2^n-1\equiv -1$ (mod 4)であり, $T$は奇数となる。\\
+前に述べたことより, $2^n-1$の$3k+1$型素因数の個数も$S$で, $3k+2$型素因数の個数は$T$になるから,
+\[2^n-1\equiv 1^S\cdot 2^T \equiv 2 (\mbox{mod} 3)　(\because T\mbox{は奇数})\]
+すると$2^n\equiv 0$ (mod 3)になり矛盾する。以上より  　$n=1$.
+
+
+
+
+
+
+\thm{Q.143 (漸化式)}
+(17) $Q_1=4$\,\, $Q_{n+1}^2 =Q_n^2-2$
+\enthm
+\begin{enumerate}
+\item[(17)] $Q_n=q_n+\dfrac{1}{q_n}$ となる実数$q_n$が存在することを示す。$n=1$のときは $q_1=2+\sqrt{3}$でよい。$Q_{n+1}=Q_n^2-2= q_n^2+\dfrac{1}{q_n^2}$ より, $q_{n+1}=q_n^2$ とすればよいので 帰納的に $Q_n=q_n+\dfrac{1}{q_n}$ と置くことができ, 構成の仕方から $q_n=q_1^{2^{n-1}}=(2+\sqrt{3})^{2^{n-1}}$ とすればよい。よって
+\[Q_n= (2+\sqrt{3})^{2^{n-1}}+ (2-\sqrt{3})^{2^{n-1}}\]
+\end{enumerate}
+\thm{Q.151 $\bigstar ?$ }
+超越数とは有理数係数多項式の根とならない数である。$\sqrt{2}$は$x^2-2=0$の解なので超越数ではないが, 円周率 $\pi$やネイピア数 $e$ は超越数である。ところで, $e+\pi$と$e\pi$が無理数であるかは現在も未解決の問題ではあるが, この2つの数のうち少なくとも一方は無理数であることは分かる。なぜか。
+\enthm
+\begin{proof}
+$e+\pi=a, e\pi =b$がともに有理数であるとする。 解と係数の関係より
+\[x^2-ax+b=0\]
+の解が$\pi ,e$である。これらはどちらも超越数であるから, 有理数係数方程式の根とならないことから矛盾する。従って $a,b$のうち少なくとも一方は無理数である。
+\end{proof}
+\thm{Q.157 $\bigstar 2$ (JMO予選 2016年1番)}
+次の式の値を計算し, 整数値で答えよ。
+\[\sqrt{\dfrac{11^4+100^4+111^4}{2}}\]
+\enthm
+\\
+\\
+$x=11, y=100$ とする。
+\[\dfrac{x^4+y^4+(x+y)^4}{2}=x^4+2x^3y+3x^2y^2+2xy^3+y^4\]
+となる。これは $(x^2+xy+y^2)^2$ に等しいので
+\[\sqrt{\dfrac{x^4+y^4+(x+y)^4}{2}}=|x^2+xy+y^2|=121+1100+10000=11221\]
+
+
+\newpage
+\section*{\markright{Q.161～Q.180}}
+\thm{Q.161 $\bigstar 3$ (京大理系2016)}
+$n$を2以上の自然数とするとき, 関数
+\[f_n(\theta )= (1+\cos{\theta})\sin^{n-1}{\theta}\]
+の $0\leq \theta\leq \dfrac{\pi}{2}$ における最大値 $M_n$ と, $\disp\lim_{n\to \infty} (M_n)^n$ を求めよ。
+\enthm
+\begin{enumerate}
+\item[]簡単のため$\sin{\theta}=s, \cos{\theta}=c$ と表記する。このとき$f_n$を微分すると
+\begin{eqnarray*}
+f_n'(\theta)&=& -s^n + (n-1)(1+c)s^{n-2}c\\
+&=&s^{n-2}\{-s^2 +(n-1)(1+c)c\}\\
+&=&s^{n-2}\{nc^2 +(n-1)c -1\}\\
+&=&s^{n-2}(c+1)(nc-1)
+\end{eqnarray*}
+となり, $0\leq \theta\leq \dfrac{\pi}{2}$の範囲では $s^{n-2}(c+1)\geq 0$である。$c=\dfrac{1}{n}$となるときの$\theta$ を $\theta_n$とすると, $0\leq \theta\leq \theta_n$ で$f_n'(\theta)\geq 0$, そして$\theta_n\leq \theta\leq \dfrac{\pi}{2} $ で$f_n'(\theta)\leq 0$ となるので, $f_n(\theta)$が極大値かつ最大値となる。よって,
+\[M_n=f_n(\theta)=\left(1+\dfrac{1}{n}\right)\sqrt{1-\dfrac{1}{n^2}}^{n-1}\]
+である。
+\[(M_n)^n=\left(1+\dfrac{1}{n}\right)^n\left(1-\dfrac{1}{n^2}\right)^{\frac{n(n-1)}{2}}\]
+
+\end{enumerate}
+
+
+
+\newpage
+\thm{Q.170 $\bigstar 7$ (2014 AIME I)}
+次の方程式を解け。
+\[\dfrac{3}{x-3}+\dfrac{5}{x-5}+\dfrac{17}{x-17}+\dfrac{19}{x-19}=x^2-11x-4\]
+\enthm
+\begin{enumerate}
+\item[] $x-11=y$ とすると
+\[\dfrac{3}{y+8}+\dfrac{5}{y+6}+\dfrac{17}{y-6}+\dfrac{19}{y-8}=y^2+11y-4\]
+左辺の各項は$\dfrac{11-k}{y+k}$ 　($k=\pm 6, \pm 8$) という形をしている。これに1を足すと $1+\dfrac{11-k}{y+k}=\dfrac{y+11}{y+k}$ となるので, 右辺の定数項である$-4$を移項して4つの1に分け, この$\dfrac{11-k}{y+k}$の項にひとつずつ足せば
+\[\dfrac{y+11}{y+8}+\dfrac{y+11}{y+6}+\dfrac{y+11}{y-6}+\dfrac{y+11}{y-8}=y(y+11)\]
+よって $y=-11 \dou x=0$ でひとつの解となる。$y\neq -11$ として $y+11$で割り, 通分を行うと
+\[\dfrac{2y}{y^2-64}+\dfrac{2y}{y^2-36}=y\]
+$y=0 \dou x=11$ はひとつの解である。$y\neq 0$ として両辺を$y$で割り, $y^2-50=z$ として分母を払ったとき
+\[2(z+14)+2(z-14)=z^2-196\] 
+整理して
+\[z^2-4z-196=0\]
+これを解き $z=2\pm 10\sqrt{2}\dou y=\pm\sqrt{52\pm 10\sqrt{2}}$ だから, 求める実数解は
+\[x=\mbox{{\boldmath $0, 11, 11\pm \sqrt{52\pm 10\sqrt{2}} $}}  　(\mbox{複号任意})\]
+\end{enumerate}
+
+\thm{Q.}
+\enthm
+
+
+
+\thm{Q.175 $\bigstar 11$ (自作問題)}
+$n$を2以上の整数とする。任意の素数$p$に対して $\dfrac{p^n+1}{p+1}$ は$n^2$で割り切れないことを証明せよ。
+\enthm
+\begin{enumerate}
+\item[] 分子が分母で割りきれなければならないので, $p^n+1\equiv 0 \, (\mbox{mod} p+1)$ である。$(-1)^n+1\equiv 0$ (mod  $p+1$)だから $n$は奇数でなければならない。$n$は3以上の奇数なので, 素因数が存在しており, かつそれらはすべて奇素因数である。\\
+そのような奇素因数のうち, 最小のものを$q$とおく。以下で登場する合同式はすべて mod $q$で考えるものとする。$\dfrac{p^n+1}{p+1}$は$n^2$の倍数なら $q^2$の倍数なので $p^n\equiv -1$ . 二乗して　$p^{2n}\equiv 1$  である. $p=q$だとこの式は成り立たないので $p\neq q$であり, $p,q$は互いに素である。ゆえにフェルマーの小定理より $p^{q-1}\equiv 1$ である。\\
+\\
+$p$のmod $q$における位数を$d$とする。つまり, $d$は $p^d\equiv 1$ を満たす最小の正の整数である。このとき, $d$は$p^m\equiv 1$  を満たす整数$m$を常に割り切るので, $d$は$2n$と$q-1$ を割り切る整数になっている。($d$はこの2数の公約数である)　ここで, $q-1$は$q$未満の素数で素因数分解され, $q$は$n$の最小素因数をとったので $n$ と $q-1$には共通した素因数が存在しない。したがって$d$は$2$と$q-1$の公約数でもあり, $1,2$ があり得る。\\
+\\
+$d=1$ の とき, $p\equiv 1$ と $p^n\equiv -1$ から $1\equiv -1$ となり, $q\geq 3$に矛盾する。\\
+$d=2$ の とき, $p^2\equiv 1$ であり,  $p\equiv -1$ となる。($p\equiv 1$では位数の定義に矛盾)\\
+このとき$p+1\equiv 0$だから $p+1$は$q$で割り切れる。よって, $v_{q}(p+1)\geq 1$ で, $p^n+1=p^n-(-1)^n$ に対して LTE lemma を適用することができるので
+\[v_q(p^n+1)=v_q(p+1)+v_q(n)\]
+となる。$\dfrac{p^n+1}{p+1}$が$q$で割り切れる回数は $v_q{(p^n+1)}-v_q(p+1)=v_q(n)$ である。 ここでもし自然数$k$が存在して $\dfrac{p^n+1}{p+1}=kn^2$ となるなら, $v_q(n)>0$に注意して
+\[v_q(kn^2)=2v_q(n)+v_q(k)\geq 2v_q(n)>v_q(n)=v_q\left(\dfrac{p^n+1}{p+1}\right)\]
+となって矛盾するから, $n\geq 3$の奇数において, いかなる素数$p$を取っても $\dfrac{p^n+1}{p+1}$は$n^2$の倍数とならない。よって, 題意は示された。
+\end{enumerate}
+
+\thm{Q.177 $\bigstar 10$ (第4回和田杯 by 灘校数研)}
+$\tan{\theta}$ は整数値であるとする。\\
+$\tan^m{\theta}+\dfrac{\cos{n\theta}}{\cos^n{\theta}}=2016$ を満たす正の整数$m,n$ 及び $\tan{\theta}$ の値をすべて求めよ。
+\enthm
+\begin{enumerate}
+\item[]
+分母に$\cos^n{\theta}$ があるので, $\cos^n{\theta}\neq 0$ である。$\tan{\theta}=T$ とする。$i$を虚数単位として,\\
+$z=\cos{\theta}+i\sin{\theta}$とする。ド・モアブルの定理より $z^n=\cos{n\theta}+i\sin{n\theta}$\\
+一方で, $z=\cos{\theta}\left(1+iT\right)$ と表示すると, $z^n=\cos^n{\theta}\left(1+iT \right)^n $ である。\\
+二項定理を用いて $z^n$ の2つの表示における実部を比較し,
+\[\cos{n\theta}=\cos^n{\theta}\displaystyle\sum_{k=0}^{\lfloor\frac{n}{2}\rfloor} (-T^2)^k{}_nC_{2k}\]
+となり, $\cos^n{\theta}\neq 0$より, $\dfrac{\cos{n\theta}}{\cos^n{\theta}} = \displaystyle\sum_{k=0}^{\left\lfloor\frac{n}{2}\right\rfloor} (-T^2)^k{}_nC_{2k}$ となる。よって, 与式は
+\[T^m+\displaystyle\sum_{k=0}^{\left\lfloor\frac{n}{2}\right\rfloor} (-T^2)^k{}_nC_{2k}=2016\] と, $T$のみの式に表すことができる。次に以下の補題を示す。\\
+\\
+\thm{{\bf 補題.1}}
+ $T$が奇数であり, $n\ge 2$ であるならば, \\
+$\displaystyle\sum_{k=0}^{\left\lfloor\frac{n}{2}\right\rfloor} (-T^2)^k{}_nC_{2k}$ は偶数である。
+\enthm
+\\
+(証明)\\
+便宜上 ${}_{n-1}C_{-1}={}_{n-1}C_{n}=0$ と定義する。\\
+$T$は奇数であるから, $-T^2\equiv 1 (mod 2)$ である。 よって $\displaystyle\sum_{k=0}^{\left\lfloor\frac{n}{2}\right\rfloor} (-T^2)^k{}_nC_{2k}\equiv \displaystyle\sum_{k=0}^{\left\lfloor\frac{n}{2}\right\rfloor} {}_nC_{2k}$.\\
+次に, ${}_nC_{2k} ={}_{n-1}C_{2k}+{}_{n-1}C_{2k-1}$ を用いて, 
+\begin{eqnarray*}
+ \displaystyle\sum_{k=0}^{\left\lfloor\frac{n}{2}\right\rfloor} {}_nC_{2k} =\displaystyle\sum_{k=0}^{\left\lfloor\frac{n}{2}\right\rfloor} ({}_{n-1}C_{2k}+{}_{n-1}C_{2k-1} )= \displaystyle\sum_{k=-1}^{2\left\lfloor\frac{n}{2} \right\rfloor +1} {}_{n-1}C_{k} \\
+= \displaystyle\sum_{k=0}^{n-1} {}_{n-1}C_{k} =2^{n-1} \equiv 0 (mod 2)
+\end{eqnarray*}
+となる。ただし, 途中で ${}_{n-1}C_{-1}={}_{n-1}C_{n}=0$, $n\ge 2$ を用いた。\\
+よって $\displaystyle\sum_{k=0}^{\left\lfloor\frac{n}{2}\right\rfloor} (-T^2)^k{}_nC_{2k}\equiv 0 (mod 2)$ より, 題意は示された。   (証明終)\\
+\\
+シグマの$k=0$ の項のみを右辺に移項して,$T^m+\displaystyle\sum_{k=1}^{\left\lfloor\frac{n}{2}\right\rfloor} (-T^2)^k{}_nC_{2k} =2015$ であり, 左辺が$T$の倍数になる。よって, $T$は2015の約数になるから, {\bf $T$は奇数} である。このとき {\bf 補題.1} により, $n\ge 2$ ならば $\displaystyle\sum_{k=0}^{\left\lfloor\frac{n}{2}\right\rfloor} (-T^2)^k{}_nC_{2k}$ は偶数であり,$T^m=2016-\displaystyle\sum_{k=0}^{\left\lfloor\frac{n}{2}\right\rfloor} (-T^2)^k{}_nC_{2k}$ より, {\bf $T^m$ が偶数}になる。しかしこれは$T$が奇数であることに矛盾する。 よって$n\ge 2$ において解はない。\\
+\\
+$n=1$ として, 与式は $T^m+\dfrac{\cos{1\theta}}{\cos{\theta}}=T^m+1=2016$ だから, $T^m=2015$\\
+$2015=5\cdot 13\cdot 31$ より, 2015は平方数や立法数ではないことから,$m=1, T=2015$ が唯一の解になる。以上より, $(m,n,\tan{\theta})=(1,1,2015)$
+\end{enumerate}
+
+
+
+\thm{Q.178 $\bigstar 6$ (京大OP)}
+初項1, 公差24の等差数列を$\{a_n\}$とする。数列$\{\sqrt{a_n}\}$の項には5以上の素数がすべて現れることを示せ。
+\end{itembox}
+\begin{proof}
+
+$p$を5以上の素数とする。$p^2-1=(p-1)(p+1)$が24の倍数であることを示す。まず, $p$は3で割って1余るか2余るので, $p-1,p+1$のいずれかは3の倍数である。\\
+次に, $p\pm 1$は偶数であって, $p$を
+4で割ったあまりは1か3なので$p-1,p+1$のいずれかは4の倍数である。これにより$(p-1)(p+1)$は8の倍数であるとわかり, $p^2-1$は24の倍数である。よって $p^2-1=24k$  となる自然数$k$が存在し,  $p=\sqrt{24k+1}=\sqrt{a_k}$なので題意は示された。
+
+
+\end{proof}
+
+\thm{Q.180 $\bigstar 9$ (自作問題)}
+正の整数$n$の正の約数の個数, 総和をそれぞれ $d(n), \sigma (n)$ とする。次の極限値を求めよ。
+\[\disp\lim_{n\to \infty}\dfrac{\log{(\sigma(1) +\sigma(2) +\cdots +\sigma (n))}}{\log{(d(1)+d(2)+\cdots +d(n))}}\]
+\enthm
+\begin{enumerate}
+\item[]$D_n=\{d| \mbox{$d$ は $n$ の正の約数}\}$ とする。
+\[\displaystyle\sum_{k=1}^n d(k) = \displaystyle\sum_{k=1}^n|D_k|\] である。ここで, $i\in D_k$ と $k$ が $i$ の倍数であることは同値である。$1,2,\cdots n$ のうち $i$ の倍数は $\left\lfloor\dfrac{n}{i}\right\rfloor$ 個あるから,$i$ が $D_1, D_2, \cdots D_n$ の要素として現れる回数は, $1,2,\cdots, n$の中にある$k$の$i$の倍数の個数なので $\left\lfloor\dfrac{n}{i}\right\rfloor$ である。この回数を $1\le i\le n$ で足し合わせた $\displaystyle\sum_{i=1}^n \left\lfloor\dfrac{n}{i}\right\rfloor$ が $\displaystyle\sum_{k=1}^n |D_k|$ に等しい。 \\
+\\
+$\displaystyle\sum_{k=1}^n \sigma (k)$ も同様, $i$ が $\left\lfloor\dfrac{n}{i}\right\rfloor$ 回 登場することから $\displaystyle\sum_{k=1}^n i\left\lfloor\dfrac{n}{i}\right\rfloor$ に等しい。 \\
+この2つの結果を不等式で評価し, はさみうちの原理で極限値を求めることを考える。\\
+一般に $\lfloor x\rfloor\le x$ が成立し, $n$ が2以上のとき
+\begin{eqnarray*}
+n=\displaystyle\sum_{k=1}^n 1 < &\displaystyle\sum_{i=1}^n \left\lfloor\dfrac{n}{i}\right\rfloor& \le\displaystyle\sum_{i=1}^n \dfrac{n}{i}=nH_n\\
+\dfrac{n^2}{2}<\dfrac{n(n+1)}{2}=
+\displaystyle\sum_{i=1}^n i \le &\displaystyle\sum_{i=1}^n i\left\lfloor\dfrac{n}{i}\right\rfloor & \le \displaystyle\sum_{i=1}^n i\dfrac{n}{i} =n^2
+\end{eqnarray*}
+となる。（ただし $H_n=\displaystyle\sum_{k=1}^n\dfrac{1}{k}$ ）そして,次のように評価が出来る。
+\begin{eqnarray*}
+\dfrac{\log{n^2}-\log{2}}{\log{n}+\log{H_n}} < \dfrac{\log{\sigma(1) +\sigma (2)+\cdots \sigma (n)}}{\log{d(1)+d(2)+\cdots d(n)}} < \dfrac{\log{n^2}}{\log{n}} = 2
+\end{eqnarray*}
+次に十分大きい $n$ で $H_n<2\log{n}$ が成り立つことを示し,\\
+$\displaystyle\lim_{n\to\infty}\dfrac{\log{n^2}-\log{2}}{\log{n}+\log{H_n}}=\displaystyle\lim_{n\to\infty}\dfrac{2-\log_n{2}}{1+\log_n{H_n}}=2$ を示す。\\
+\\
+$2\le k\le n$ なる整数 $k$ で, （曲線 $y=\dfrac{1}{x}$ の $0<x$ における単調減少性と面積評価から) $\dfrac{1}{k}<\displaystyle\int_{k-1}^{k} \dfrac{1}{x} dx$ が成り立つから, 総和を取り $H_n-1<\displaystyle\int_1^{n}\dfrac{1}{x} dx=\log{n} $ \\
+よって $H_n<\log{n}+1<2\log{n}$ である。これを用いて
+\begin{eqnarray*}
+\displaystyle\lim_{n\to\infty}\dfrac{2-\log_n{2}}{1+\log_n{2}+\log_n{\log{n}}}\le\displaystyle\lim_{n\to\infty}\dfrac{2-\log_n{2}}{1+\log_n{H_n}}\\
+\le\displaystyle\lim_{n\to\infty}\dfrac{2-0}{1+0}=2 
+\end{eqnarray*}
+となる。$\log_n{\log{n}}=\dfrac{\log{\log{n}}}{\log{n}}=\dfrac{t}{e^t}$ で(ただし $n= e^{(e^t)}$) $n\rightarrow \infty$ のとき $t\rightarrow \infty$ なので, $\log_n{\log{n}}=\dfrac{t}{e^t}\rightarrow 0$ であるから $\displaystyle\lim_{n\to\infty}\dfrac{2-\log_n{2}}{1+\log_n{2}+\log_n{\log{n}}}=\dfrac{2-0}{1+0+0}=2$\\
+\\
+しかるに(2)とハサミウチの原理から $\displaystyle\lim_{n\to\infty}\dfrac{2-\log_n{2}}{1+\log_n{H_n}}=2$, そして(1)とハサミウチの原理から
+\[\displaystyle\lim_{n\to\infty }\dfrac{\log{\sigma(1) +\sigma (2)+\cdots \sigma (n)}}{\log{d(1)+d(2)+\cdots d(n)}}=2\]
+
+\end{enumerate}
+\thm{Q.189 $\bigstar 3$  (2002 大阪大)}
+実数を係数とする三次方程式　$x^3+ax^2+bx+c=0$ が異なる3つの実数解を持つとする。$a>0, b>0$であるならば, 少なくとも2つの解は負であることを証明せよ。
+\enthm
+\begin{proof}
+3つの実数解を 小さい順に$\alpha, \beta ,\gamma$ とおく。
+\[f(x)=x^3+ax^2;bx+c\]
+とする。平均値の定理より, 
+\[\dfrac{f(\beta) -f(\alpha)}{\beta -\alpha}=0=f'(t) \]
+\[\dfrac{f(\gamma) -f(\beta)}{\beta -\alpha}=0=f'(s) \]
+を満たす実数$t\in [\alpha, \beta]$, $s\in [\beta , \gamma]$ が存在する。\footnote{グラフより・・・とすればたいへん明らかなことだが, このように平均値の定理を用いた方が丁寧かと思う。}
+\end{proof}
+$s,t$は方程式 $3x^2 + 2ax +b=0$の解であるから, 解と係数の関係より
+\[s+t=-\dfrac{2a}{3}<0,　　st=\dfrac{b}{3}>0\]
+である。二式目より$s, t$は符号が同じであるが, $s,t>0$であると1式目に矛盾する。よって $s<0 , t<0$であり, 
+\[\alpha< s< \beta < t<0\]
+より$\alpha,\beta <0$なので題意は示された。\qed
+
+
+\thm{Q.198 \hosi 4 (駿台EXSテスト 改)}
+$P(x)$は定数でない整数係数多項式とする。$P(1)>0$のとき, $P(n+P(1))-P(1)$は$P(1)$の美数であることを示せ。また, 任意の正の整数$n$に対して $P(n)$が素数であるような $P(x)$ は存在しないことを示せ。
+
+\enthm
+$d>0$,  $a_0, a_1, \cdots, a_d$は整数, $a_d\neq 0$として, 
+\[P(x)=\disp\sum_{k=0}^{d}a_kx^k\]
+とおいたとき,
+\[P(n+P(1))=\disp\sum_{k=0}^{d} a_k(n+P(1))^k \equiv \disp\sum_{k=0}^{d} a_k n^k =P(n)　(\jap{mod } P(1))\]
+から前半の主張は明らか。題意を満たす$P(x)$が取れたとしよう。$P(n)$が素数のとき, $P(1)=q$とおくと $q>0$ であって, すべての自然数$n$に対して $P(n+q)-P(n)$ は $q$ の倍数である。特に$n=kq+1$ ($k\geq 0$)　とおいたとき,
+\[P(kq+1)\equiv P((k-1)q+1)\equiv \cdots \equiv P(1)=q\equiv 0　(\jap{mod} q)\]
+だから $P(kq+1)$は$q$で割り切れる素数になる。よって, すべての自然数に対して
+\[P(kq+1)=q\]
+であるが, $0\leq k\leq d$ で考えたときに $P(x)$ は$ x- kq-1$ で割り切れ, すると$d+1$次以上の多項式になってしまい仮定に反する。よって存在しない。\qed
+
+
+\thm{Q.207 $\bigstar ?$ (自作問題)}
+$4^{4^{4^{4^{4^{4^{4^{4^{4^{4^{4^{4^{4^{4^{4^{4^{4^{4^{4\cdots ^{4^{4}}}}}}}}}}}}}}}}}}}}$を47で割った余りを求めよ。
+\enthm
+
+
+
+\thm{Q.210 $\bigstar 7$ (2017 京大理系)}
+ $w$ を0でない複素数, $x,y$ を $w+\dfrac{1}{w}=x+yi$ を満たす実数とする.\footnote{これはジェーコフスキー変換という名がついており,航空学などに応用がされている。}\\
+(1) 実数 $R$ は $R>1$ を満たす定数とする. $w$ が絶対値 $R$ の複素数全体を動く
+\indent とき, $xy$ 平面上の点 $(x,y)$ の軌跡を求めよ.\\
+(2) 実数 $\alpha$ は $0<\alpha<\dfrac{\pi}{2}$ を満たす定数とする. $w$ が偏角 $\alpha$ の複素数全体を動
+\indent くとき, $xy$ 平面上の点 $(x,y)$ の軌跡を求めよ.\\
+\enthm
+
+
+
+
+\thm{Q.211 (1) $\bigstar 4$ 　(2) $\bigstar 10$ (2018 京大理学部特色)}
+自然数 $k$ と $n$ は互いに素で, $k<n$ を満たすとする. $n$項 からなる数列 $a_1,a_2,\cdots,a_n$ が次の3条件 (イ),(ロ),(ハ) を満たすとき,性質 $P(k,n)$ を持つとする.\\
+\\
+\begin{itemize}
+\item[(イ)] $a_1,a_2,\cdots,a_n$ はすべて整数.\\
+\item[(ロ)] $0\le a_1<a_2<\cdots<a_n<2^n-1$\\
+\item[(ハ)] $a_{n+1},\cdots a_{n+k}$ を $a_{n+j}=a_j$ ($1\le j\le k$) で定めたとき, $n$ 以下のすべての自然数 $m$ に対して $2a_m-a_{m+k}$ は $2^n-1$ で割り切れる.
+\end{itemize} 
+\indent 以下の設問に答えよ。
+\\
+\begin{itemize}
+\item[(1)] $k=2$ かつ $n=5$ の場合を考える. 性質 $P(2,5)$ を持つ数列 $a_1,a_2,\cdots,a_5$ をすべて求めよ.\\
+\item[(2)] 数列 $a_1,a_2,\cdots,a_n$ が性質 $P(k,n)$ を持つとする. $a_{k+1}-a_k=1$ であることを示せ.
+\end{itemize} 
+
+\enthm
+\begin{proof}
+正の整数$p,q$に対して, $p\equiv q $(mod $n$) ならば $a_p=a_q$ となるように定めてもよい。$m=1,2,\cdots n-k$ であれば, 条件(ロ)より 不等式
+\[
+-(2^n-1)<0-a_n\le 2a_m-a_n\le 2a_m-a_{m+k}<2a_m-a_m=a_m<2^n-1
+\]
+が成立し, 条件(ハ)より $2^n-1|2a_m-a_{m+k}$ であるため,
+\begin{eqnarray}
+2a_m-a_{m+k}=0 \,\,\,(m=1,2,\cdots n-k)
+\end{eqnarray}
+が成立する。同様に, $m=n-k+1, n-k+2, \cdots n$ であるときは,不等式
+\[
+0\le a_{m+k}=2a_{m+k}-a_{m+k}< 2a_m-a_{m+k}<2a_m<2(2^n-1)
+\]
+及び $2^n-1|2a_m-a_{m+k}$ であるから,
+\begin{eqnarray}
+2a_m-a_{m+k}=2^n-1\,\,\, (m=n-k+1,n-k+2,\cdots n)
+\end{eqnarray}
+が成立する。正の整数$i$に対して, $b_i$を $b_i=a_{i+1}-a_i$ と置く。この際, $p\equiv q $(mod $n$) ならば $b_p=b_q$ であることに注意する。(1),(2)を用いて数列$a_1,a_2,\cdots$ の階差をとるように引くと
+\begin{eqnarray}
+2b_{m}-b_{m+k}=
+\begin{cases}
+0 & (1\le m\le n-k, m\neq n-k)\\
+2^n-1 & (m=n-k)
+\end{cases}
+\end{eqnarray}
+という式を得る。$1\le m\le n-k, m\neq n-k$のとき, $n,k$が互いに素であることから, ある $2\le r\le n-1$ を満たす整数$r$であって, $m\equiv (r-1)k$ (mod $n$)を満たすものがただ一つ存在する。また,$m=n-k$のときは $m\equiv (n-1)k$ (mod $n$) であるから,$r=n$ と定める。このような$r$を用いて(3)は
+\begin{eqnarray}
+2b_{m}-b_{m+k}=2b_{(r-1)k}-b_{rk}=
+\begin{cases}
+0 & (2\le r\le n-1)\\
+2^n-1 & (r=n)
+\end{cases}
+\end{eqnarray}
+と同値である。(4)で$r=2,3,\cdots n-1$ の場合,$b_{rk}=2b_{(r-1)k}$ となり, 右辺に更に式を適用させることで
+\[b_{rk}=2b_{(r-1)k}=4b_{(r-2)k}=\cdots =2^{r-1}b_k\]
+を得る。この結果と$r=n$の場合の式から
+\[b_{nk}=2b_{(n-1)k}-(2^n-1) = 2\times2^{(n-1)-1}b_k -(2^n-1)=2^{n-1}b_k-(2^n-1)\]
+を得る。これらの式を$r=2,3,\cdots, n$ について足せば
+\[\displaystyle\sum_{r=2}^nb_{rk}=\left(\displaystyle\sum_{r=2}^n2^{r-1}\right)b_k -(2^n-1)\]
+となり, 両辺に$b_{1k}=2^{1-1}b_k$ を加えて整理することで
+\[\displaystyle\sum_{r=1}^nb_{rk}=\left(\displaystyle\sum_{r=1}^n2^{r-1}\right)b_k -(2^n-1)=(2^n-1)(b_k-1)\]
+となる。$n,k$は互いに素であることより 数列 $k,2k,\cdots,rk\cdots,(n-1)k,nk$ は 数列 $1,2,3,\cdots i \cdots,n-1,n$ のある置換になっているので
+\[\displaystyle\sum_{r=1}^nb_{rk}=\displaystyle\sum_{i=1}^nb_{i}=\displaystyle\sum_{i=1}^n(a_{i+1}-a_i)=0\]
+以上より $0=(2^n-1)(b_k-1)$ となるから,$b_k=a_{k+1}-a_k=1$ 
+\end{proof}
+
+
+\thm{Q.218 $\bigstar 8$ (2015 名古屋大) (高校範囲か怪しい)}
+$f(x)$は実数全体で定義された連続関数であり, $x>0$ で $0<f(x)<1$ を\\
+満たすものとする。$a_1=1$とし,
+\[\displaystyle\int_0^{a_{m-1}}f(x) dx    \,\,\,\,(m=2,3,\cdots )\]
+により 数列$\{a_m\}$を定める。\\
+1未満の任意の正の数$\epsilon$に対して, $\epsilon>a_m$ を満たす$m$が存在することを示せ。
+\enthm
+
+
+
+
+
+
+\thm{Q.225 (1) \hosi 7　(2) \hosi 11　年賀状問題2019}
+(1) 整数$a,b,c,d$であって,
+\[ac-5bd=2019,　　ad+bc=0\]
+を満たすもののうち, $a\geq 0$ であるものを全て求めよ。\\
+\\
+(2) 整数$a,b,c,d$であって,
+\[ac+5bd=2019,　　ad+bc=0\]
+を満たすものを全て求めよ。
+\enthm
+
+与式は
+\[(a+b\sqrt{-5})(c+d\sqrt{-5})=2019\]
+が成り立つことに同値である。さらに, 次の式とも同値である。
+\[(a-b\sqrt{-5})(c-d\sqrt{-5})=2019\]
+この2式を辺々かけあわせれば
+\[(a^2+5b^2)(c^2+5d^2)=2019^2=3^2\times 673^2\]
+となる。ここから左辺の因数は$2019^2$の約数になることが必要条件である。この約数の候補をさらに限定するために次の補題を用意する。 
+\thm{補題1.1}
+$m=X^2+5Y^2$ ($X,Y\in \mb{Z}$) とあらわされる整数$m$に対して, 次が成立する。\\
+(i) $m\geq 0$\\
+(ii) $m\equiv 0,1,2$ (mod 4)\\
+(iii) $m\equiv 0,1,4$ (mod 5)\\
+(iv) $m$が673で割れるならば, $673^2$でも割れる。
+\enthm
+(i)は自明。(ii), (iii)は平方剰余を列挙すればやさしい。(iv)を証明する。\\
+$X$が673で割れないと仮定する。このとき,$Y$も673で割れないので
+,\[1=\left(\dfrac{X^2}{673}\right)=\left(\dfrac{-5Y^2}{673}\right)=\left(\dfrac{-5}{673}\right)\]
+となる。しかし, 相互法則と第一穂充則により $\left(\dfrac{-5}{673}\right)=(-1)^{336}\left(\dfrac{5}{673}\right)=(-1)^{2\cdot 336}\left(\dfrac{673}{5}\right)=-1$ より矛盾する。（$\because p\equiv 2,3$）\\
+よって, $X$は673で割り切れ, $Y$も673で割り切れるので $X^2-5Y^2$は$673^2$で割り切れる。\qed\\
+　この補題1.1により, $a^2+5b^2=1,3^2,673^2,2019^2$にまで絞られる.\\
+\\
+$c+d\sqrt{5}=\dfrac{2019a}{a^2+5b^2}+\dfrac{2019b}{a^2+5b^2}\sqrt{5}$より, $a,b$を右辺に代入して係数を比較すれば$(c,d)$が求まることに注意する。$a\geq 0$より $c\geq 0$であるとわかる。\\
+$a^2+5b^2=1$のとき, $a\geq 0 $より$(a,b)=(1,0)$のみ。$(c,d)=(2019,0)$を得る。
+\\
+$a^2+5b^2=9$のとき, $(a,b)=(2,\pm 1), (3,0)$で, 前者は $c=\dfrac{1346}{3}$で整数にならないので不適。後者のとき, $(c,d)=(673, 0)$\\
+\\
+$a^2+5b^2=673^2, 2019^2$のときは $c^2+5d^2=9,1$であって, $c\geq 0$が分かっているから上の2つの場合と同様になる。つまり, $(a,b,c,d)=(673,0,3,0), (2019,0,1,0)$\\
+\\
+以上より, 求めるすべての組は, $(a,b,c,d)=$
+\[\mbox{{\boldmath  $(3,0,673,0),(673,0,3,0),(1,0,2019,0),(2019,0,1,0)$} }\]
+
+(2)  $\sqrt{5}$が無理数であることから, 与式は
+\[(a+b\sqrt{5})(c+d\sqrt{5})=2019\]
+が成り立つことに同値である。さらに, 次の式とも同値である。
+\[(a-b\sqrt{5})(c-d\sqrt{5})=2019\]
+この2式を辺々かけあわせれば
+\[(a^2-5b^2)(c^2-5d^2)=2019^2=3^2\times 673^2\]
+となる。ここから左辺の因数は$2019^2$の約数になることが必要条件である。この約数の候補をさらに限定するために次の補題を用意する。 （補題1.1の(iv)とほぼ同様である。）
+
+\thm{補題2.1}
+$X^2-5Y^2$が素数$p$で割り切れる （$p\equiv 2,3$ (mod $5$)） とき, $X,Y$はともに$p$で割り切れ, $X^2-5Y^2$は$p^2$で割り切れる。特に, $p=3,673$で主張が成り立つ。
+\enthm
+\\
+{\bf 証明.}\\
+$X$が$p$で割れないと仮定する。このとき,$Y$も$p$で割れず, Ledgendre記号により
+\[1=\left(\dfrac{X^2}{p}\right)=\left(\dfrac{5Y^2}{p}\right)=\left(\dfrac{5}{p}\right)\]
+となる。しかし, 相互法則により $\left(\dfrac{5}{p}\right)=(-1)^{2\cdot 336}\left(\dfrac{p}{5}\right)=-1$ より矛盾する。（$\because p\equiv 2,3$）\\
+よって, $X$は$p$で割り切れ, $Y$も$p$で割り切れるので $X^2-5Y^2$は$p^2$で割り切れる。\qed
+\\
+
+補題2.1により, $a^2-5b^2=\pm 1, \pm 9, \pm 673^2, \pm 2019^2$ であることが必要になる。$a^2-5b^2=\pm m^2$ ($m=1,9,673,2019$) としたとき, 補題2.1から$a,b$はともに$m$の倍数であることが言えるため, $a=ma'$, $b=mb'$ として $a'^2-5b'^2=\pm 1$ となるので, 特に $a^2-5b^2=\pm 1$ の場合について考えることを目標にする。次の補題2.2を示す。
+
+
+
+\thm{補題2.2 (Pell方程式$X^2-5Y^2=\pm 1,　X+Y\sqrt{5}>0$}
+$S=\{X+Y\sqrt{5}\in\mb{Z}[\sqrt{5}] |  X^2-5Y^2=\pm 1,　X+\sqrt{5}Y>0\}$とする。\\
+\\
+(i) $(2+\sqrt{5})^n=x_n+y_n\sqrt{5}$ とおくと, $(x_n, y_n)\in S$.\\
+(ii) $n$が奇数　$\dou$　$x_n^2-5y_n^2=-1$.\\
+(iii) 任意の整数$n$と任意の$S$の元$s$に対して, $s\times(2+\sqrt{5})^n \in S$\\
+(iv) 任意の$S$の元は, ある$n\in \mb{Z}$によって上の $x_n+y_n\sqrt{5}$の形になる。\\
+\enthm
+{\bf 証明.}
+(i) $f:\mb{Z}[\sqrt{5}]\to \mb{Z}$ を $f(x+y\sqrt{5})=x^2-5y^2$ で定義すると,$x,y,z,w\in \mb{Z}$に対して次が成立することが容易な計算によりわかる。
+\[f(x+y\sqrt{5})f(z+w\sqrt{5})=f((xz+5yw)+(xw+yz)\sqrt{5})\]
+これを用いて, 
+\[f(x_n+y_n\sqrt{5})=x_n^2-5y_n^2=f(2+\sqrt{5})^n=(-1)^n\]
+である。また, $x_n+y_n\sqrt{5}=(2+\sqrt{5})^n>0$である。以上から $(x_n, y_n)\in S$である。\\
+$(-1)^n$の値を見れば(ii)は明らか。\\
+\\
+(iii)$s=X+Y\sqrt{5}\in S$とする。$s>0, 2+\sqrt{5}>0$より $s(2+\sqrt{5})^n>0$であり,
+\[f(s(2+\sqrt{5})^n)=f(s)f(2+\sqrt{5})^n=1\cdot(-1)^n=(-1)^n\]
+より明らか。\\
+\\
+(iv) $u=X+Y\sqrt{5}\in S$ かつ$1<u$とする。このとき,  $|u(X-\sqrt{5}Y)|=1$なので $|X-\sqrt{5}Y|<1$である。すなわち
+\[-1<X-\sqrt{5}Y<1,　　1<X+\sqrt{5}Y\]
+なので, これらから$0<X,  0<Y$を得る。そこで, $1<u\leq 2+\sqrt{5}$ という条件を考えたとき, 不等式の条件から$u=1+\sqrt{5}, 2+\sqrt{5}$ の可能性があるが, $1+\sqrt{5}\notin S$ である。したがって, $u=2+\sqrt{5}$は$S$の1より大きい元のうち最小なものである。\\
+いま, $s\in S$を任意にとるとき, $1<u$で指数関数$u^n$は単調に増加していくことから, $u^n\leq s<u^{n+1}$を満たす$n\in \mb{Z}$がただひとつ存在する。したがって
+\[1\leq su^{-n}<u\]
+であり, (iii)より $su^{-n}\in S$かつ, $S$の1以上の元になっているので, $u$の最小性により $1=su^{-n}$である。よって $s=u^{n}=x_n+y_n\sqrt{5}$\qed
+\\
+\\
+
+
+
+　$S$のすべての元を$-1$倍した集合を $T$とすると,
+\begin{eqnarray*}
+T&=&\{-X-Y\sqrt{5}\in \mb{Z}[\sqrt{5}]| (-X)^2-5(-Y)^2=\pm 1, X+Y\sqrt{5}<0\}\\
+ &=&\{ X+Y\sqrt{5}\in \mb{Z}[\sqrt{5}]| X^2-5Y^2=\pm 1, X+Y\sqrt{5}<0 \}
+\end{eqnarray*}
+だから, $S\cup T=:K$として, $X^2-5Y^2=\pm 1$の解$(X,Y)$から対応する$X+Y\sqrt{5}$全体の集合は, $K$に一致する。そして, 補題2.2(iv)から
+\[K=\{\epsilon(2+\sqrt{5})^n | n\in \mb{Z},　\epsilon =1, -1\}\]
+
+となる。$(2+\sqrt{5})^n=x_n+y_n\sqrt{5}$のとき, $(2-\sqrt{5})^n=x_n-y_n\sqrt{5}$なので
+\[x_n=\dfrac{(2+\sqrt{5})^n+(2-\sqrt{5})^n}{2},　y_n=\dfrac{(2+\sqrt{5})^n-(2-\sqrt{5})^n}{2\sqrt{5}}\]
+だから,$X^2-5Y^2=\pm 1$の解は$(\pm x_n, \pm y_n)$ (複号同順, $n\in \mb{Z}$)。\\
+\\
+補題2.2(ii)より$X^2-5Y^2=1$の解は$(\pm x_{2n}, \pm y_{2n})$ (複号同順, $n\in \mb{Z}$) である。\\
+\\
+$a^2-5b^2=m^2$ ($m=1,3,673,2019$) の場合,上のことから 複号同順で$(a,b)=(\pm mx_{2n}, \pm my_{2n})$ である。$m,n$を固定し, このとき,$(c,d)$が存在するかを見る。最初の式から
+\[m(\pm x_{2n}c \pm 5y_{2n}d)=2019,　　\pm x_{2n}d\pm y_{2n}c=0\]
+で, $c,d$の連立方程式とみてとくと
+\[(c,d)=(\pm\dfrac{2019}{m}x_{2n}, \mp\dfrac{2019}{m}y_{2n})\]
+ となる。$x_{2n}=x_{-2n},　y_{2n}=-y_{-2n}$より,
+\[(a,b,c,d)=\left(\pm mx_{2n}, \pm my_{2n}, \pm\dfrac{2019}{m}x_{-2n}, \pm\dfrac{2019}{m}y_{-2n}\right)\]
+
+$a^2-5b^2=-m^2$ ($m=1,3,673,2019$) の場合も,同様に考えることができて, $x_{2n-1}=-x_{1-2n},　y_{2n-1}=y_{1-2n}$ より
+\[(a,b,c,d)=\left(\pm mx_{2n-1}, \pm my_{2n-1}, \mp\dfrac{2019}{m}x_{1-2n}, \mp\dfrac{2019}{m}y_{1-2n}\right)\]
+以上より, 求める組のすべては, $(a,b,c,d)=$
+\[\mbox{{\boldmath $\left(\pm mx_{n}, \pm my_{n}, \pm (-1)^n\dfrac{2019}{m}x_{-n}, \pm (-1)^n\dfrac{2019}{m}y_{-n}\right)$}}　\]
+ただし,複号同順, $m=1,3,673,2019$, $n\in\mb{Z}$
+\[x_n=\dfrac{(2+\sqrt{5})^n+(2-\sqrt{5})^n}{2},　y_n=\dfrac{(2+\sqrt{5})^n-(2-\sqrt{5})^n}{2\sqrt{5}}\]
+
+
+\thm{Q.226 $\bigstar 2$ (2017慶大 総合政策)}
+B,Hの半径を求めよ。
+\enthm
+B,C,Dの半径を$x$\\
+E,Fの半径を$y$とする。\\
+Eの直径$=$Bの直径+Cの直径より $y=2x$\\
+Hの半径はEの直径+Aの直径なので$2y+2=4x+2$\\
+Hの中心をOとし, B,Cの交点をKとすると\\
+OKの長さは三平方の定理から $\sqrt{x^2+(2x)^2}~\sqrt{5}x$\\
+EとHの円弧との接点をLとすると, KLはEの半径$2x$に等しい。\\
+よって, OL$=(2+\sqrt{5})x$\\
+これはHの半径にも等しいので OL$=4x+2$\\
+この2式から, Bの半径は$x=\dfrac{2}{\sqrt{5}-2}=\dfrac{2}{3}(2+\sqrt{5})$\\
+Hの半径は $(2+\sqrt{5})x=\dfrac{2}{3}(9+4\sqrt{5})$ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
