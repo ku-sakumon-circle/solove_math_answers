@@ -1,0 +1,3690 @@
+% emathPsb.sty by tDB (emath@nifty.com)
+%
+\NeedsTeXFormat{LaTeX2e}%
+\def\Psb@version{0.50b}%
+\ProvidesPackage{emathPsb}[2016/11/29 v \Psb@version ]%
+%
+% rectbox の ps 版 （使用例：sizuoka03.tex）
+%
+%\@ifundefined{pszahyou}{%
+%  \errmessage{emathPsb.sty は emathPs.sty を前提とします。}
+%}{}%
+%
+\@ifpackageloaded{emathPs}{}{\usepackage{emathPs}}%
+%
+\@ifundefined{rectbox@item@box}{\newbox\rectbox@item@box}{}%
+\@ifundefined{rectbox@bitem@box}{\newbox\rectbox@bitem@box}{}%
+\@ifundefined{rectb@x}{\newbox\rectb@x}{}%
+%\newdimen\psfboxW
+%\newdimen\psfboxV
+\@ifundefined{psfboxW}{\newdimen\psfboxW}{}%
+\@ifundefined{psfboxV}{\newdimen\psfboxV}{}%
+  \def\rectbox@nest{0}%
+  \def\EMminipagefootnote{\def\EMminipage@footnote{}}%
+%
+%
+\@ifundefined{ifrectbox@prepar}{%
+\newif\ifrectbox@prepar
+\rectbox@prepartrue
+\def\rectboxprepar#1{\csname rectbox@prepar#1\endcsname}%
+}{}%
+\@ifundefined{ifrectbox@postpar}{%
+\newif\ifrectbox@postpar
+\rectbox@postpartrue
+\def\rectboxpostpar#1{\csname rectbox@postpar#1\endcsname}%
+}{}%
+%
+%
+  \edef\rectbox@preitem@{\empty}%
+  \edef\rectbox@postitem@{\empty}%
+  \edef\rectbox@prebitem@{\empty}%
+  \edef\rectbox@postbitem@{\empty}%
+%
+  \def\rectboxprepostitem#1{%
+    \edef\rectbox@preitem@{#1}\edef\rectbox@postitem@{#1}%
+    \edef\rectbox@prebitem@{#1}\edef\rectbox@postbitem@{#1}}%
+  \def\rectboxlabelsep#1{\rectboxprepostitem{\hskip #1}}%
+  \def\rectboxpreitem#1{\edef\rectbox@preitem@{#1}}%
+  \def\rectboxpostitem#1{\edef\rectbox@postitem@{#1}}%
+  \def\rectboxprebitem#1{\edef\rectbox@prebitem@{#1}}%
+  \def\rectboxpostbitem#1{\edef\rectbox@postbitem@{#1}}%
+%
+\define@key{emPsb}{debug}[]{\def\ps@debug{}}%
+\define@key{emPsb}{remake}[1]{\def\remake@eps{#1}}%
+\define@key{emPsb}{notbreak}[1]{\def\not@break{#1}}%
+\define@key{emPsb}{LRonly}[B]{\def\rectbox@LR{#1}}%
+\define@key{emPsb}{Lonly}[L]{\def\rectbox@LR{#1}}%
+\define@key{emPsb}{Ronly}[R]{\def\rectbox@LR{#1}}%
+\define@key{emPsb}{TBonly}[v]{\def\rectbox@LR{#1}}%
+\define@key{emPsb}{closed}[1]{\def\cl@sed{#1}}%
+\define@key{emPsb}{oval}[10pt]{\ukansan{#1}\rectbox@oval@tmp
+  \edef\rectbox@oval{\rectbox@oval@tmp\unitlength}}%
+\define@key{emPsb}{rectboxoval}[10pt]{\ukansan{#1}\rectbox@oval@tmp
+  \edef\rectbox@oval{\rectbox@oval@tmp\unitlength}}%
+\define@key{emPsb}{rectboxoct}[10pt]{\edef\rectbox@oval{#1}\edef\rectbox@oct{#1}}%
+\define@key{emPsb}{rectboxcorner}[1]{\def\rectbox@corner{#1}}%
+\define@key{emPsb}{tate}{\setlength{\@tempdima}{#1}\edef\rectbox@tate{\the\@tempdima}}%
+\define@key{emPsb}{linewidth}{\edef\default@linewidth{#1}\edef\frame@linewidth{#1}}%
+\define@key{emPsb}{linethickness}{\edef\default@linewidth{#1}\edef\frame@linewidth{#1}}%
+\define@key{emPsb}{framethickness}{\edef\default@linewidth{#1}\edef\frame@linewidth{#1}}%
+\define@key{emPsb}{dash}{\edef\rectbox@dash{#1}}%
+\define@key{emPsb}{hasenLG}{%
+  \edef\hasenLG@{#1}%
+%  \setdash{#1}\let\sensyu\pshasen
+}%
+\define@key{emPsb}{linecap}{\edef\cur@linecap{#1}\setlinecap{#1}}%
+\define@key{emPsb}{borderwidth}{\edef\border@width{#1}}%
+\define@key{emPsb}{item}{\def\rectbox@item{#1}}%
+\define@key{emPsb}{labelsep}{%
+  \EMedef\rectbox@preitem{\hskip #1}%
+  \EMedef\rectbox@postitem{\hskip #1}%
+  \EMedef\rectbox@prebitem{\hskip #1}%
+  \EMedef\rectbox@postbitem{\hskip #1}%
+}%
+\define@key{emPsb}{itemmargin}{\uptkansan{#1}\rectbox@item@margin}%
+\define@key{emPsb}{preitem}{\def\rectbox@preitem{#1}}%
+\define@key{emPsb}{postitem}{\def\rectbox@postitem{#1}}%
+\define@key{emPsb}{bitem}{\def\rectbox@bitem{#1}}%
+\define@key{emPsb}{prebitem}{\def\rectbox@prebitem{#1}}%
+\define@key{emPsb}{postbitem}{\def\rectbox@postbitem{#1}}%
+\define@key{emPsb}{pos}{\def\@pos{#1}}%
+\define@key{emPsb}{itempos}{\def\rectbox@item@pos{#1}}%
+\define@key{emPsb}{bitempos}{\def\rectbox@bitem@pos{#1}}%
+\define@key{emPsb}{rectboxparindent}{\edef\rectbox@parindent{#1}}%
+\define@key{emPsb}{rectboxwidth}[0pt]{\setlength{\@tempdima}{#1}\edef\rectbox@width{\the\@tempdima}}%
+\define@key{emPsb}{rectboxWidth}[0pt]{\setlength{\@tempdima}{#1}\edef\rectbox@Width{\the\@tempdima}}%
+\define@key{emPsb}{Width}[\linewidth]{\setlength{\@tempdima}{#1}\edef\rectbox@Width{\the\@tempdima}}%
+\define@key{emPsb}{AeEnv}{\EMedef\Aeprobname{#1}}%
+\define@key{emPsb}{fboxsep}{\setlength\fboxsep{#1}}%
+\define@key{emPsb}{hsep}{\def\h@sep{#1}}%
+\define@key{emPsb}{lsep}{\def\l@sep{#1}}%
+\define@key{emPsb}{rsep}{\def\r@sep{#1}}%
+\define@key{emPsb}{tsep}{\def\t@sep{#1}}%
+\define@key{emPsb}{bsep}{\def\b@sep{#1}}%
+\define@key{emPsb}{topsep}{\setlength{\topsep}{#1}}%
+\define@key{emPsb}{vsep}{\def\v@sep{#1}\def\t@sep{#1}\def\b@sep{#1}}%
+\define@key{emPsb}{hvsep}{\def\h@sep{#1}\def\v@sep{#1}}%
+\define@key{emPsb}{shade}[5pt]{\def\shade@rule{#1}}%
+\define@key{emPsb}{fboxrule}{\setlength\fboxrule{#1}}%
+\define@key{emPsb}{pszoption}{\def\psz@option{#1}}%
+\define@key{emPsb}{waku}[1]{\def\ps@drawwaku{#1}}%
+\define@key{emPsb}{wakuhutosa}[1]{\def\waku@hutosa{#1}}%
+\def\wakusensyu{\drawline}%
+\define@key{emPsb}{sensyu}{\def\wakusensyu{#1}}%
+\define@key{emPsb}{allinethickness}{\allinethickness{#1}}%
+%\define@key{emPsb}{linethickness}{\linethickness{#1}}%
+%\define@key{emPsb}{framecmd}[1]{\def\frame@cmd{#1}}%
+\define@key{emPsb}{framelinewidth}{\edef\frame@linewidth{#1}}%
+\define@key{emPsb}{framethickness}{\edef\frame@linewidth{#1}}%
+\define@key{emPsb}{framecolor}{\def\frame@color{#1}}%
+\define@key{emPsb}{shadecolor}{\def\shade@color{#1}}%
+\define@key{emPsb}{midasibackgroundcolor}{\def\midasi@background@color{#1}}%
+\define@key{emPsb}{backgroundcolor}{\edef\background@color{#1}}%
+\define@key{emPsb}{bgcolor}{\edef\background@color{#1}}%
+\define@key{emPsb}{liningcolor}{\edef\lining@color{#1}}%
+%
+\define@key{emPsb}{apnzahyou}{\def\apn@zahyou{#1}}%
+%
+\define@key{emPsb}{henvi}{\def\hen@i{#1}}%
+\define@key{emPsb}{Henvi}{\vecXY{#1}\henv@x\henv@y\ukansan\henv@x\henv@x\ukansan\henv@y\henv@y
+                        \edef\hen@i{(\henv@x,\henv@y)}}%
+\define@key{emPsb}{wave}[*{2mm}{.3mm}]{\edef\rectbox@wave{#1}%
+  \Headchar\rectbox@wave\rb@w@a\rb@w@r
+  \ifthenelse{\equal\rb@w@a{*}}{%
+    \expandafter\setwavesize\rb@w@r
+    \def\Draw@rectbox{\Drawwave*}%
+  }{%
+    \expandafter\setwavesize\rectbox@wave
+    \def\Draw@rectbox{\Drawwave}%
+  }%
+}%
+\define@key{emPsb}{XYdilutecolor}{\edef\XY@dilutecolor{#1}}%
+\define@key{emPsb}{Fdilutecolor}{\def\Fdilutecolor{#1}}%
+\define@key{emPsb}{Ndilutecolor}{\edef\N@dilutecolor{#1}}%
+\define@key{emPsb}{Rdilutecolor}{\edef\R@dilutecolor{#1}}%
+%
+\define@key{emPsb}{debeso}[1]{\def\rectbox@debeso{#1}}%
+\define@key{emPsb}{kagi}[3pt]{%
+  \Strsep{#1}{,}\kagi@l\kagi@a
+  \def\rectbox@kagi{\kagi@l}%
+  \ifx\empty\kagi@a
+    \if v\rectbox@LR
+      \edef\kagi@a{90}%
+    \else
+      \edef\kagi@a{0}%
+    \fi
+  \fi
+}%
+%
+\define@key{emPsb}{gradbegin}{\edef\grad@begin{#1}}%
+\define@key{emPsb}{gradend}{\edef\grad@end{#1}}%
+\define@key{emPsb}{gradangle}{\edef\grad@angle{#1}}%
+\define@key{emPsb}{gradN}{\edef\grad@N{#1}}%
+\define@key{emPsb}{gradF}{\edef\grad@F{#1}}%
+\define@key{emPsb}{dLT}{\edef\fb@dLT{#1}}%
+\define@key{emPsb}{dLB}{\edef\fb@dLB{#1}}%
+\define@key{emPsb}{dRT}{\edef\fb@dRT{#1}}%
+\define@key{emPsb}{dRB}{\edef\fb@dRB{#1}}%
+%
+\def\rectboxparindent#1{\edef\rectbox@parindent@{#1}}%
+%
+\def\default@hsep{\the\fboxsep}%
+\def\default@vsep{\the\fboxsep}%
+\def\HVsep#1#2{\edef\default@hsep{#1}\edef\default@vsep{#2}}%
+%
+\define@key{emPsb}{postpar}{\csname rectbox@postpar#1\endcsname}%
+\define@key{emPsb}{prepar}{\csname rectbox@prepar#1\endcsname}%
+%
+  \edef\rectbox@parindent@{0pt}%
+  \edef\rectbox@parindent{0pt}%
+%
+\edef\apn@zahyou{\empty}%
+\edef\shade@rule{0pt}%
+%
+\let\RB@jquotation\jquotation
+\let\endRB@jquotation\endjquotation
+%
+\def\prerectbox{\relax}%
+\def\EMpsrectbox{\def\@pos{c}%
+  \@ifundefined{EMminipage@footnote}{%
+    \ifnum\rectbox@nest=\z@
+%     \let\rectbox@footnote\footnote
+      \let\ltxfootnote\footnote
+      \xdef\RB@footnote@o{\arabic{footnote}}%
+      \xdef\RB@footnote{\arabic{footnote}}%
+      \def\footnote##1{%
+        \footnotemark
+        \xIncr\RB@footnote
+        \EMedef\@currentlabel{\RB@footnote}%
+%        \expandafter\xdef\csname RB@footnotetext@\romannumeral\RB@footnote\endcsname{##1}%
+        \expandafter\gdef\csname RB@footnotetext@\romannumeral\RB@footnote\endcsname{##1}%
+      }%
+    \fi
+  }{}%
+  \@ifundefined{EMWR@zuhaba}{}{%
+    \ifdim\EMWR@zuhaba>\z@%%%%%%%%%%%% add 2005/08/01
+%      \ifnum\EMWR@gyousuu>\@ne
+        \let\RB@jquotation\EMchangeLRskip
+        \let\endRB@jquotation\endEMchangeLRskip
+%      \fi
+    \fi
+  }%
+  \Incr\rectbox@nest
+%
+  \define@key{emPb}{linewidth}{%
+    \setlinewidth{##1}\@Div\cur@linewidth{10}\cur@linewidth@
+    \edef\default@linewidth{\cur@linewidth@\p@}%
+    \edef\frame@linewidth{\cur@linewidth@\p@}%
+  }%
+  \define@key{emPb}{framelinewidth}{%
+    \isnumber{##1}{%
+      \@Div{##1}{10}\frame@linewidth
+      \edefappend\frame@linewidth{ pt}%
+    }{%
+      \edef\frame@linewidth{##1}%
+    }%
+  }%
+  \define@key{emPb}{framethickness}{%
+    \isnumber{##1}{%
+      \@Div{##1}{10}\frame@linewidth
+      \edefappend\frame@linewidth{ pt}%
+    }{%
+      \edef\frame@linewidth{##1}%
+    }%
+  }%
+%
+%
+%
+%
+  \edef\rectbox@item{\empty}\def\rectbox@item@pos{l}%
+  \edef\rectbox@preitem{\rectbox@preitem@}%
+  \edef\rectbox@postitem{\rectbox@postitem@}%
+  \edef\rectbox@bitem{\empty}\def\rectbox@bitem@pos{r}%
+  \edef\rectbox@prebitem{\rectbox@prebitem@}%
+  \edef\rectbox@postbitem{\rectbox@postbitem@}%
+  \def\rectbox@LR{Z}%
+%  \let\linethickness\setlinewidth
+  \setlinewidth{\default@linewidth}%
+  \def\rectbox@oval{0pt}%
+  \def\rectbox@oct{\z@}%
+  \edef\rectbox@width{\empty}%
+  \edef\rectbox@Width{\empty}%
+  \edef\rectbox@dash{\empty}%
+  \edef\rectbox@wave{\empty}%
+  \edef\rectbox@tate{\empty}%
+  \edef\h@sep{\empty}\edef\v@sep{\empty}%
+  \edef\t@sep{\empty}\edef\b@sep{\empty}%
+  \edef\l@sep{\empty}\edef\r@sep{\empty}%
+  \edef\psz@option{\empty}%
+  \def\rectbox@parindent{\rectbox@parindent@}%
+  \edef\frame@color{\empty}%
+  \edef\shade@color{\empty}%
+  \def\frame@linewidth{1pt}%
+  \edef\border@width{0pt}%
+  \edef\background@color{\empty}%
+  \edef\XY@dilutecolor{\empty}%
+  \def\Fdilutecolor{X}%
+  \edef\N@dilutecolor{10}%
+  \edef\grad@angle{90}%
+  \edef\grad@N{10}%
+  \def\rectboxhrule{%\hrule
+    \begin{escapelist}%
+      \setlength{\@tempdima}{-\baselineskip-\parskip-\ht\strutbox}%
+      \vspace*{\@tempdima}%
+      \par
+      \@tempdima=\linewidth
+      \vrule width \@tempdima height .4\p@
+      \setlength{\@tempdima}{-\parskip-\dp\strutbox}%
+      \vspace{\@tempdima}%
+      \par
+    \end{escapelist}%
+  }%
+  \def\Draw@rectbox{\Drawline}%
+%
+  \@ifnextchar[{\EMpsrectbox@}{\@EMpsrectbox}%
+}%
+%
+\def\EMpsrectbox@[#1]{\setkeys{emPsb}{#1}\@EMpsrectbox}%
+\def\@EMpsrectbox{\@ifnextchar<{\@@EMpsrectbox}{\@@EMpsrectbox<\empty>}}%
+\def\@@EMpsrectbox<#1>{%
+\ifdim\shade@rule>\z@
+%  \ifdim\rectbox@oval>\z@
+%    \errmessage{shade オプションと併用できないオプション(rectboxoval or rectboxrect)を用いています}%
+%  \fi
+  \ifx\empty\rectbox@bitem\else
+    \errmessage{shade オプションと併用できないオプション(bitem)を用いています}%
+  \fi
+\fi
+\let\framethickness\frame@linewidth
+  \@tempdima\frame@linewidth
+  \@tempdima=.5\@tempdima
+  \ifdim\border@width<\@tempdima\edef\border@width{\the\@tempdima}\fi
+\ifrectbox@prepar
+    \@ifundefined{in@Rectbox}{\ifhmode\par\noindent\fi}{}%
+    \vskip\@tempdima
+  \fi
+  \def\prerectbox{#1}%
+  \ifthenelse{\equal\h@sep\empty}{%
+    \ifthenelse{\lengthtest{\rectbox@oval<\default@hsep}}{%
+      \edef\h@sep{\default@hsep}}{\edef\h@sep{\rectbox@oval}}}{}%
+  \ifthenelse{\equal\v@sep\empty}{%
+    \ifthenelse{\lengthtest{\rectbox@oval<\default@vsep}}{%
+      \edef\v@sep{\default@vsep}}{\edef\v@sep{\rectbox@oval}}}{}%
+%
+% 2011/07/30 保留 ----------------------------
+%
+%  \@tempdima\v@sep
+%  \advance\@tempdima\frame@linewidth
+%  \edef\v@sep{\the\@tempdima}%
+% --------------------------------------------
+  \ifx\empty\t@sep\edef\t@sep{\v@sep}\fi
+  \ifx\empty\b@sep\edef\b@sep{\v@sep}\fi
+  \ifx\empty\l@sep\edef\l@sep{\h@sep}\fi
+  \ifx\empty\r@sep\edef\r@sep{\h@sep}\fi
+%
+  \ifthenelse{\equal\rectbox@Width\empty}{%
+    \ifthenelse{\equal\rectbox@width\empty}{%
+      \setlength\@tempdima{\linewidth}%
+      \advance\@tempdima-\frame@linewidth
+      \edef\rectbox@width{\the\@tempdima}%
+    }{%
+      \setlength\@tempdima\rectbox@width
+      \advance\@tempdima\l@sep
+      \advance\@tempdima\r@sep
+      \advance\@tempdima\frame@linewidth
+      \edef\rectbox@width{\the\@tempdima}%
+    }%
+  }{%
+    \setlength\@tempdima{\rectbox@Width}%
+    \edef\rectbox@width{\the\@tempdima}%
+  }%
+  \ifthenelse{\equal\rectbox@item\empty}{%
+    \def\item@ht{0pt}\def\item@w{0}\def\item@w@half{0}%
+  }{%
+%    \setbox0=\hbox{{\rectbox@preitem\rectbox@item\rectbox@postitem}}%
+    \setbox\rectbox@item@box=\hbox{{\rectbox@preitem\rectbox@item\rectbox@postitem}}%
+    \edef\item@w{\strip@pt\wd\rectbox@item@box}%
+    \@Div\item@w{2}\item@w@half
+    \@tempdima=\ht\rectbox@item@box\advance\@tempdima\dp\rectbox@item@box\relax
+    \divide\@tempdima\tw@
+%    \vspace\@tempdima
+    \edef\item@ht{\the\@tempdima}%
+  }%
+  \ifthenelse{\equal\rectbox@bitem\empty}{%
+    \def\bitem@ht{0pt}\def\bitem@w{0}\def\bitem@w@half{0}%
+  }{%
+    \setbox0=\hbox{\rectbox@prebitem\rectbox@bitem\rectbox@postbitem}%
+    \setbox\rectbox@bitem@box=\hbox{\rectbox@prebitem\rectbox@bitem\rectbox@postbitem}%
+    \edef\bitem@w{\strip@pt\wd0}%
+    \@Div\bitem@w{2}\bitem@w@half
+    \@tempdima=\ht0\advance\@tempdima\dp0\relax
+    \divide\@tempdima\tw@
+%    \vspace\@tempdima
+    \edef\bitem@ht{\the\@tempdima}%
+  }%
+  \ifthenelse{\equal\@pos{x}}{%
+    \edef\@pos@{b}%
+  }{%
+    \edef\@pos@{\@pos}%
+  }%
+  \setbox\rectb@x=\hbox\bgroup
+\@tempdima\rectbox@width
+\advance\@tempdima-\shade@rule
+\edef\rectbox@width@{\the\@tempdima}%
+  \ifx\empty\rectbox@tate
+    \begin{minipage}[\@pos]{\rectbox@width@}%
+  \else
+      \setlength{\@tempdima}{\rectbox@tate-\t@sep-\b@sep-\frame@linewidth}%
+      \edef\rectbox@tate@{\the\@tempdima}%
+      \begin{minipage}[\@pos][\rectbox@tate@][t]{\rectbox@width@}%
+  \fi
+%  \ifdim\item@ht>\z@\vskip\item@ht\fi
+  \setlength{\parindent}{\rectbox@parindent}%
+  \setlength{\@tempdima}{\l@sep+\border@width}%
+  \edef\l@sep@{\the\@tempdima}%
+  \setlength{\@tempdima}{\r@sep+\border@width}%
+  \edef\r@sep@{\the\@tempdima}%
+  \edef\h@Lsep{\l@sep@}%
+  \edef\h@Rsep{\r@sep@}%
+  \if L\rectbox@LR
+      \edef\h@Rsep{0pt}%
+  \else\if R\rectbox@LR
+      \edef\h@Lsep{0pt}%
+% \else
+%      \edef\h@Lsep{0pt}%
+%      \edef\h@Rsep{0pt}%
+  \fi\fi
+  \RB@jquotation(\h@Lsep)(\h@Rsep)[\z@]\relax
+}%
+%
+%
+\def\endEMpsrectbox{%
+  \endRB@jquotation
+%  \ifdim\bitem@ht>\z@\vspace\bitem@ht\fi
+  \end{minipage}\egroup%\par
+%\typeout{endminipage:H=\the\ht\rectb@x,D=\the\dp\rectb@x}
+%
+  \@ifundefined{in@Rectbox}{}{\hskip\border@width}%
+%
+%  \ifx\empty\t@sep\edef\t@sep{\v@sep}\fi
+%  \ifx\empty\b@sep\edef\b@sep{\v@sep}\fi
+%  \ifx\empty\l@sep\edef\l@sep{\h@sep}\fi
+%  \ifx\empty\r@sep\edef\r@sep{\h@sep}\fi
+  \@tempdima\ht\rectb@x\advance\@tempdima\t@sep%%%%%%%%%%%%%%%%%%%%%%
+  \advance\@tempdima\item@ht
+  \ht\rectb@x=\@tempdima
+  \@tempdima\dp\rectb@x\advance\@tempdima\b@sep%%%%%%%%%%%%%%%%%%%%%%
+  \advance\@tempdima\bitem@ht
+  \dp\rectb@x=\@tempdima
+%
+  \noindent
+  \@tempdima\ht\rectb@x\advance\@tempdima\item@ht
+  \advance\@tempdima\border@width
+%\advance\@tempdima\rectbox@topsep
+  \@tempdimb\dp\rectb@x\advance\@tempdimb\bitem@ht
+  \advance\@tempdimb\border@width
+%\advance\@tempdimb\rectbox@bottomsep
+  \vrule height\@tempdima depth \@tempdimb width \z@
+  \bgroup
+    \@tempdima\ht\rectb@x\edef\hasenbox@h{\strip@pt\@tempdima}%
+    \@tempdimb-\dp\rectb@x
+    \advance\@tempdimb-\shade@rule
+      \edef\hasenbox@d{\strip@pt\@tempdimb}%
+    \@tempdimc\rectbox@oval\edef\hasenbox@l{\strip@pt\@tempdimc}%
+    \setlength{\@tempdimc}{\rectbox@width}%
+    \@ifundefined{EMWR@zuhaba}{}{%
+      \ifdim\EMWR@zuhaba>\z@%%%%%%%%%%%% add 2005/08/01
+        \ifnum\EMWR@gyousuu>\@ne\setlength{\@tempdimc}{\EMWRlinewidth}\fi
+      \fi
+    }%
+    \edef\hasenbox@w{\strip@pt\@tempdimc}%
+    \ifthenelse{\equal\psz@option\empty}{%
+%      \edef\psz@tmp{[ul=0.996264pt,haiti=o,EPSclip=false]}%
+      \edef\psz@tmp{[ul=1pt,haiti=o,EPSclip=false]}%
+    }{%
+%      \edef\psz@tmp{[ul=0.996264pt,haiti=o,\psz@option,EPSclip=false]}%
+      \edef\psz@tmp{[ul=1pt,haiti=o,\psz@option,EPSclip=false]}%
+    }%
+    \mbox{}\hspace{\border@width}%
+    \begin{picture}(0,0)\relax
+      \put(0,0){%
+        \expandafter\pszahyou\psz@tmp(0,\hasenbox@w)(\hasenbox@d,\hasenbox@h)%
+        \drawaxisfalse
+        \ifx\empty\rectbox@dash\else\setdash{\rectbox@dash}\fi
+        \prerectbox
+        \setlinewidth{\frame@linewidth}%
+\ifdim\shade@rule>\z@
+  \@tempdima=\shade@rule
+  \edef\shade@w{\strip@pt\@tempdima}%
+  \Addvecself\trueRT{(-\shade@w,0)}%
+  \Addvecself\trueRB{(-\shade@w,\shade@w)}%
+  \Addvecself\trueLB{(0,\shade@w)}%
+  \ifdim\rectbox@oval=\z@
+    \bgroup\gsave
+    \ifx\empty\shade@color\else\EMpsIrositei{\shade@color}\fi
+    \@tempdima\shade@rule
+    \edef\shade@w{\strip@pt\@tempdima}%
+    \@Div\shade@w{2}\shade@hw
+    \Addvecself\trueRT{(\shade@hw,-\shade@w)}%
+    \Addvecself\trueRB{(\shade@hw,-\shade@hw)}%
+    \Addvecself\trueLB{(\shade@w,-\shade@hw)}%
+    \Drawline<linewidth=\shade@rule>{\trueLB\trueRB\trueRT}%
+    \grestore\egroup
+  \else
+    \bgroup\gsave
+    \ukansan\rectbox@oval\tmp@c
+    \@tempdima\shade@rule
+    \divide\@tempdima\tw@
+    \advance\@tempdima\rectbox@oval
+    \ukansan\@tempdima\tmp@R
+    \Addvec\trueRB{(-\tmp@c,\tmp@c)}\tmp@C
+    \ifx\empty\shade@color\else\EMpsIrositei{\shade@color}\fi
+    \@tempdima\shade@rule
+    \edef\shade@w{\strip@pt\@tempdima}%
+    \@Div\shade@w{2}\shade@hw
+    \ifdim\shade@rule<\rectbox@oval
+      \ukansan\rectbox@oval\tmp@w
+      \Addvecself\trueRT{(\shade@hw,-\tmp@w)}%
+      \Addvecself\trueLB{(\tmp@w,-\shade@hw)}%
+    \else
+      \Addvecself\trueRT{(\shade@hw,-\shade@w)}%
+      \Addvecself\trueLB{(\shade@w,-\shade@hw)}%
+    \fi
+    \psnewpath
+    \linethickness\shade@rule
+    \Addvec\tmp@C{(0,-\tmp@R)}\trueRB@i%
+    \Addvec\tmp@C{(\tmp@R,0)}\trueRB@ii
+    \psmoveto\trueLB
+    \Addvecself\trueRB{(\shade@hw,-\shade@hw)}%
+    \psarcto\trueRB\trueRT\tmp@R
+    \pslineto\trueRT
+    \psstroke
+    \grestore\egroup
+  \fi
+\fi
+% 見出し処理
+        \Tyuuten\trueLT\trueRT\rectbox@C
+        \let\rectbox@CL\rectbox@C
+        \let\rectbox@CR\rectbox@C
+        \Tyuuten\trueLB\trueRB\rectbox@D
+        \let\rectbox@DL\rectbox@D
+        \let\rectbox@DR\rectbox@D
+% 上見出し
+        \ifx\empty\rectbox@item
+        \else
+          \if c\rectbox@item@pos
+            \Addvec\rectbox@C{(\item@w@half,0)}\rectbox@CR
+            \Subvec\rectbox@C{(\item@w@half,0)}\rectbox@CL
+          \else\if l\rectbox@item@pos
+            \Addvec\trueLT{(10,0)}\rectbox@CL
+            \Addvec\rectbox@CL{(\item@w,0)}\rectbox@CR
+            \ifdim\rectbox@oval>\z@
+              \Addvec\rectbox@CL{(\hasenbox@l,0)}\rectbox@CL
+              \Addvec\rectbox@CR{(\hasenbox@l,0)}\rectbox@CR
+            \fi
+          \else\if r\rectbox@item@pos
+            \Addvec\trueRT{(-10,0)}\rectbox@CR
+            \Addvec\rectbox@CR{(-\item@w,0)}\rectbox@CL
+            \ifdim\rectbox@oval>\z@
+              \Addvec\rectbox@CL{(-\hasenbox@l,0)}\rectbox@CL
+              \Addvec\rectbox@CR{(-\hasenbox@l,0)}\rectbox@CR
+            \fi
+          \fi\fi\fi
+          \Tyuuten\rectbox@CL\rectbox@CR\rectbox@C
+        \fi
+% 下見出し
+        \ifx\empty\rectbox@bitem
+        \else
+          \if c\rectbox@bitem@pos
+            \Addvec\rectbox@D{(\bitem@w@half,0)}\rectbox@DR
+            \Subvec\rectbox@D{(\bitem@w@half,0)}\rectbox@DL
+          \else\if l\rectbox@bitem@pos
+            \Addvec\trueLB{(10,0)}\rectbox@DL
+            \Addvec\rectbox@DL{(\bitem@w,0)}\rectbox@DR
+            \ifdim\rectbox@oval>\z@
+              \Addvec\rectbox@DL{(\hasenbox@l,0)}\rectbox@DL
+              \Addvec\rectbox@DR{(\hasenbox@l,0)}\rectbox@DR
+            \fi
+          \else\if r\rectbox@bitem@pos
+            \Addvec\trueRB{(-10,0)}\rectbox@DR
+            \Addvec\rectbox@DR{(-\bitem@w,0)}\rectbox@DL
+            \ifdim\rectbox@oval>\z@
+              \Addvec\rectbox@DL{(-\hasenbox@l,0)}\rectbox@DL
+              \Addvec\rectbox@DR{(-\hasenbox@l,0)}\rectbox@DR
+            \fi
+          \fi\fi\fi
+          \Tyuuten\rectbox@DL\rectbox@DR\rectbox@D
+        \fi
+%
+% 背景色
+%
+        \ifx\empty\background@color
+          \@ifundefined{grad@begin}{%
+          }{%
+            \ifthenelse{\equal\grad@angle{90}}{%
+              \ISub\grad@N{1}\grad@Nmi
+              \Ifor\rb@i{0}{\grad@N}\Do{%
+                \ISub{\grad@N}\rb@i\rb@j
+                \Bunten\trueLT\trueRT\rb@i\rb@j\rb@T
+                \Bunten\trueLB\trueRB\rb@i\rb@j\rb@B
+                \@Div\rb@i\grad@Nmi\rb@tmp
+                \EMmixcolor{\grad@begin}{\grad@end}{*}\rb@tmp{tmp@color}
+                \Nuritubusi<nuriiro=tmp@color>{\rb@T\rb@B\trueRB\trueRT}%
+              }%
+            }{%
+              \ifthenelse{\equal\grad@angle{0}}{%
+                \ISub\grad@N{1}\grad@Nmi
+                \Ifor\rb@i{0}{\grad@N}\Do{%
+                  \ISub{\grad@N}\rb@i\rb@j
+                  \Bunten\trueLB\trueLT\rb@i\rb@j\rb@L
+                  \Bunten\trueRB\trueRT\rb@i\rb@j\rb@R
+                  \@Div\rb@i\grad@Nmi\rb@tmp
+                  \EMmixcolor{\grad@begin}{\grad@end}{*}\rb@tmp{tmp@color}
+                  \Nuritubusi<nuriiro=tmp@color>{\rb@L\rb@R\trueRT\trueLT}%
+                }%
+              }{%
+              }%
+            }%
+          }%
+        \else
+          \gsave
+          \ifdim\rectbox@oct>\z@
+            \Addvec\trueLT{(\hasenbox@l,0)}\hasenbox@A
+            \Addvec\trueLT{(0,-\hasenbox@l)}\hasenbox@B
+            \Addvec\trueLB{(0,\hasenbox@l)}\hasenbox@C
+            \Addvec\trueLB{(\hasenbox@l,0)}\hasenbox@D
+            \Addvec\trueRB{(-\hasenbox@l,0)}\hasenbox@E
+            \Addvec\trueRB{(0,\hasenbox@l)}\hasenbox@F
+            \Addvec\trueRT{(0,-\hasenbox@l)}\hasenbox@G
+            \Addvec\trueRT{(-\hasenbox@l,0)}\hasenbox@H
+            \if L\rectbox@LR
+                \psnewpath
+                \psmoveto\hasenbox@A
+                \pslineto\hasenbox@B
+                \pslineto\hasenbox@C
+                \pslineto\hasenbox@D
+                \pslineto\trueRB
+                \pslineto\trueRT
+                \psclosepath
+                \psclip
+            \else\if R\rectbox@LR
+                \psnewpath
+                \psmoveto\trueLT
+                \pslineto\trueLB
+                \pslineto\hasenbox@E
+                \pslineto\hasenbox@F
+                \pslineto\hasenbox@G
+                \pslineto\hasenbox@H
+                \psclosepath
+                \psclip
+            \else\if B\rectbox@LR
+                \psnewpath
+                \psmoveto\hasenbox@A
+                \pslineto\hasenbox@B
+                \pslineto\hasenbox@C
+                \pslineto\hasenbox@D
+                \pslineto\hasenbox@E
+                \pslineto\hasenbox@F
+                \pslineto\hasenbox@G
+                \pslineto\hasenbox@H
+                \psclosepath
+                \psclip
+            \else
+              \psnewpath
+              \psmoveto\hasenbox@A
+              \pslineto\hasenbox@B
+              \pslineto\hasenbox@C
+              \pslineto\hasenbox@D
+              \pslineto\hasenbox@E
+              \pslineto\hasenbox@F
+              \pslineto\hasenbox@G
+              \pslineto\hasenbox@H
+              \psclosepath
+              \psclip
+            \fi\fi\fi
+          \else\ifdim\rectbox@oval>\z@
+            \Addvec\trueLT{(\hasenbox@l,0)}\hasenbox@A
+            \if L\rectbox@LR
+                \psnewpath
+                \psmoveto\hasenbox@A
+                \psarcto\trueLT\trueLB\hasenbox@l
+                \psarcto\trueLB\trueRB\hasenbox@l
+                \pslineto\trueRB
+                \pslineto\trueRT
+                \psclosepath
+                \psclip
+            \else\if R\rectbox@LR
+                \psnewpath
+                \psmoveto\trueLT
+                \pslineto\trueLB
+                \psarcto\trueRB\trueRT\hasenbox@l
+                \psarcto\trueRT\trueLT\hasenbox@l
+                \psclosepath
+                \psclip
+            \else\if B\rectbox@LR
+                \psnewpath
+                \psmoveto\hasenbox@A
+                \psarcto\trueLT\trueLB\hasenbox@l
+                \psarcto\trueLB\trueRB\hasenbox@l
+                \psarcto\trueRB\trueRT\hasenbox@l
+                \psarcto\trueRT\trueLT\hasenbox@l
+                \psclosepath
+                \psclip
+            \else
+              \psnewpath
+              \psmoveto\hasenbox@A
+              \psarcto\trueLT\trueLB\hasenbox@l
+              \psarcto\trueLB\trueRB\hasenbox@l
+              \psarcto\trueRB\trueRT\hasenbox@l
+              \psarcto\trueRT\trueLT\hasenbox@l
+              \psclosepath
+              \psclip
+            \fi\fi\fi
+          \else
+            \begin{EMpscontinuetrue}%
+              \psnewpath
+              \psmoveto\rectbox@DL
+              \Draw@rectbox{\rectbox@DL\trueLB\trueLT\rectbox@CL\rectbox@CR\trueRT\trueRB\rectbox@DR\rectbox@DL}%
+            \end{EMpscontinuetrue}%
+              \psclosepath
+              \psclip
+          \fi\fi
+%
+          \ifx\empty\XY@dilutecolor
+            \Nuritubusi<nuriiro=\background@color>{\LT\LB\RB\RT}%
+          \else\if x\XY@dilutecolor
+            \Ifor\rb@i{0}{\N@dilutecolor}\Do{%
+              \@Div\rb@i\N@dilutecolor\rb@tmp
+              \dilutecolor*{\background@color}{\rb@tmp}{rb@tmpcolor}%
+              \ISub\N@dilutecolor\rb@i\rb@j
+              \Bunten\trueLT\trueRT\rb@i\rb@j\rb@T
+              \Bunten\trueLB\trueRB\rb@i\rb@j\rb@B
+              \Nuritubusi<nuriiro=rb@tmpcolor>{\rb@T\rb@B\trueRB\trueRT}%
+            }%
+          \else\if y\XY@dilutecolor
+            \Ifor\rb@i{0}{\N@dilutecolor}\Do{%
+              \@Div\rb@i\N@dilutecolor\rb@tmp
+              \dilutecolor*{\background@color}{\rb@tmp}{rb@tmpcolor}%
+              \ISub\N@dilutecolor\rb@i\rb@j
+              \Bunten\trueLB\trueLT\rb@i\rb@j\rb@L
+              \Bunten\trueRB\trueRT\rb@i\rb@j\rb@R
+              \Nuritubusi<nuriiro=rb@tmpcolor>{\rb@L\rb@R\trueRT\trueLT}%
+            }%
+          \fi\fi\fi
+%
+          \grestore
+        \fi
+%        \ifx\empty\apn@zahyou\else
+%          \apn@zahyou
+%        \fi
+        \ifx\empty\apn@zahyou\else
+%\typeout{1:apn@zahyou=\meaning\apn@zahyou}%\xxx
+          {\gsave\apn@zahyou\grestore}%
+        \fi
+%
+% 枠線
+%
+\ifdim\frame@linewidth>\z@
+        \ifdim\rectbox@oct>\z@
+          \if L\rectbox@LR
+              \psnewpath
+              \Addvec\trueLT{(\hasenbox@l,0)}\hasenbox@P
+              \psmoveto\hasenbox@P
+              \Addvec\trueLT{(0,-\hasenbox@l)}\hasenbox@P
+              \pslineto\hasenbox@P
+              \Addvec\trueLB{(0,\hasenbox@l)}\hasenbox@P
+              \pslineto\hasenbox@P
+              \Addvec\trueLB{(\hasenbox@l,0)}\hasenbox@P
+              \pslineto\hasenbox@P
+              \ifx\empty\frame@color
+                \writeEPS{stroke}%
+              \else
+                \begin{EMpscolor}{\frame@color}%
+                  \writeEPS{stroke}%
+                \end{EMpscolor}%
+              \fi
+          \else\if R\rectbox@LR
+              \psnewpath
+              \Addvec\trueRB{(-\hasenbox@l,0)}\hasenbox@P
+              \psmoveto\hasenbox@P
+              \Addvec\trueRB{(0,\hasenbox@l)}\hasenbox@P
+              \pslineto\hasenbox@P
+              \Addvec\trueRT{(0,-\hasenbox@l)}\hasenbox@P
+              \pslineto\hasenbox@P
+              \Addvec\trueRT{(-\hasenbox@l,0)}\hasenbox@P
+              \pslineto\hasenbox@P
+              \ifx\empty\frame@color
+                \writeEPS{stroke}%
+              \else
+               \begin{EMpscolor}{\frame@color}%
+                \writeEPS{stroke}%
+                \end{EMpscolor}%
+              \fi
+          \else\if B\rectbox@LR
+              \psnewpath
+              \Addvec\trueLT{(\hasenbox@l,0)}\hasenbox@P
+              \psmoveto\hasenbox@P
+              \Addvec\trueLT{(0,-\hasenbox@l)}\hasenbox@P
+              \pslineto\hasenbox@P
+              \Addvec\trueLB{(0,\hasenbox@l)}\hasenbox@P
+              \pslineto\hasenbox@P
+              \Addvec\trueLB{(\hasenbox@l,0)}\hasenbox@P
+              \pslineto\hasenbox@P
+              \ifx\empty\frame@color
+                \writeEPS{stroke}%
+              \else
+                \begin{EMpscolor}{\frame@color}%
+                  \writeEPS{stroke}%
+                \end{EMpscolor}%
+              \fi
+              \psnewpath
+              \Addvec\trueRB{(-\hasenbox@l,0)}\hasenbox@P
+              \psmoveto\hasenbox@P
+              \Addvec\trueRB{(0,\hasenbox@l)}\hasenbox@P
+              \pslineto\hasenbox@P
+              \Addvec\trueRT{(0,-\hasenbox@l)}\hasenbox@P
+              \pslineto\hasenbox@P
+              \Addvec\trueRT{(-\hasenbox@l,0)}\hasenbox@P
+              \pslineto\hasenbox@P
+              \ifx\empty\frame@color
+                \writeEPS{stroke}%
+              \else
+               \begin{EMpscolor}{\frame@color}%
+                \writeEPS{stroke}%
+                \end{EMpscolor}%
+              \fi
+          \else\if v\rectbox@LR
+            \psnewpath
+            \psmoveto\rectbox@CL
+            \Addvec\trueLT{(\hasenbox@l,0)}\hasenbox@P
+            \pslineto\hasenbox@P
+            \Addvec\trueLT{(0,-\hasenbox@l)}\hasenbox@P
+            \pslineto\hasenbox@P
+            \Addvec\trueLB{(0,\hasenbox@l)}\hasenbox@P
+            \psmoveto\hasenbox@P
+            \Addvec\trueLB{(\hasenbox@l,0)}\hasenbox@P
+            \pslineto\hasenbox@P
+            \pslineto\rectbox@DL
+            \ifx\empty\frame@color
+              \writeEPS{stroke}%
+            \else
+              \begin{EMpscolor}{\frame@color}%
+                \writeEPS{stroke}%
+              \end{EMpscolor}%
+            \fi
+            \psnewpath
+            \psmoveto\rectbox@DR
+            \Addvec\trueRB{(-\hasenbox@l,0)}\hasenbox@P
+            \pslineto\hasenbox@P
+            \Addvec\trueRB{(0,\hasenbox@l)}\hasenbox@P
+            \pslineto\hasenbox@P
+            \Addvec\trueRT{(0,-\hasenbox@l)}\hasenbox@P
+            \psmoveto\hasenbox@P
+            \Addvec\trueRT{(-\hasenbox@l,0)}\hasenbox@P
+            \pslineto\hasenbox@P
+            \pslineto\rectbox@CR
+            \ifx\empty\frame@color
+              \writeEPS{stroke}%
+            \else
+              \begin{EMpscolor}{\frame@color}%
+                \writeEPS{stroke}%
+              \end{EMpscolor}%
+            \fi
+          \else
+            \psnewpath
+            \psmoveto\rectbox@CL
+            \Addvec\trueLT{(\hasenbox@l,0)}\hasenbox@P
+            \pslineto\hasenbox@P
+            \Addvec\trueLT{(0,-\hasenbox@l)}\hasenbox@P
+            \pslineto\hasenbox@P
+            \Addvec\trueLB{(0,\hasenbox@l)}\hasenbox@P
+            \pslineto\hasenbox@P
+            \Addvec\trueLB{(\hasenbox@l,0)}\hasenbox@P
+            \pslineto\hasenbox@P
+            \pslineto\rectbox@DL
+            \ifx\empty\frame@color
+              \writeEPS{stroke}%
+            \else
+              \begin{EMpscolor}{\frame@color}%
+                \writeEPS{stroke}%
+              \end{EMpscolor}%
+            \fi
+            \psnewpath
+            \psmoveto\rectbox@DR
+            \Addvec\trueRB{(-\hasenbox@l,0)}\hasenbox@P
+            \pslineto\hasenbox@P
+            \Addvec\trueRB{(0,\hasenbox@l)}\hasenbox@P
+            \pslineto\hasenbox@P
+            \Addvec\trueRT{(0,-\hasenbox@l)}\hasenbox@P
+            \pslineto\hasenbox@P
+            \Addvec\trueRT{(-\hasenbox@l,0)}\hasenbox@P
+            \pslineto\hasenbox@P
+            \pslineto\rectbox@CR
+            \ifx\empty\frame@color
+              \writeEPS{stroke}%
+            \else
+              \begin{EMpscolor}{\frame@color}%
+                \writeEPS{stroke}%
+              \end{EMpscolor}%
+            \fi
+          \fi\fi\fi\fi
+        \else\ifdim\rectbox@oval>\z@
+          \if L\rectbox@LR
+              \Tyuuten\trueLT\trueLB\rectbox@tmpP
+\@ifundefined{rectbox@debeso}{%
+              \psnewpath
+              \psmoveto\rectbox@tmpP
+              \psarcto\trueLT\trueRT\hasenbox@l
+              \writeEPS{stroke}%
+              \psnewpath
+              \psmoveto\rectbox@tmpP
+              \psarcto\trueLB\trueRB\hasenbox@l
+              \writeEPS{stroke}%
+}{%
+  \@Div\hasenbox@l{2}\hasenbox@hl
+  \Addvec\rectbox@tmpP{(\hasenbox@hl,0)}\rectbox@tmpQ
+  \edef\rectbox@tmpT{(\hasenbox@hl,\trueymax)}%
+  \edef\rectbox@tmpB{(\hasenbox@hl,\trueymin)}%
+  \psnewpath
+  \psmoveto\rectbox@tmpP
+  \psarcto\rectbox@tmpQ\rectbox@tmpT\hasenbox@hl
+  \psarcto\rectbox@tmpT\trueRT\hasenbox@hl
+  \writeEPS{stroke}
+  \psnewpath
+  \psmoveto\rectbox@tmpP
+  \psarcto\rectbox@tmpQ\rectbox@tmpB\hasenbox@hl
+  \psarcto\rectbox@tmpB\trueRB\hasenbox@hl
+  \writeEPS{stroke}
+}%
+          \else\if R\rectbox@LR
+\@ifundefined{rectbox@debeso}{%
+              \Tyuuten\trueRT\trueRB\rectbox@tmpP
+              \psnewpath
+              \psmoveto\rectbox@tmpP
+              \psarcto\trueRT\trueLT\hasenbox@l
+              \writeEPS{stroke}%
+              \psnewpath
+              \psmoveto\rectbox@tmpP
+              \psarcto\trueRB\trueLB\hasenbox@l
+              \writeEPS{stroke}%
+}{%
+  \@Div\hasenbox@l{2}\hasenbox@hl
+  \Tyuuten\trueRT\trueRB\rectbox@tmpP
+  \Addvec\rectbox@tmpP{(-\hasenbox@hl,0)}\rectbox@tmpQ
+  \Sub\truexmax\hasenbox@hl\hasenbox@tmpx
+  \edef\rectbox@tmpT{(\hasenbox@tmpx,\trueymax)}%
+  \edef\rectbox@tmpB{(\hasenbox@tmpx,\trueymin)}%
+  \psnewpath
+  \psmoveto\rectbox@tmpP
+  \psarcto\rectbox@tmpQ\rectbox@tmpT\hasenbox@hl
+  \psarcto\rectbox@tmpT\trueLT\hasenbox@hl
+  \writeEPS{stroke}%
+  \psnewpath
+  \psmoveto\rectbox@tmpP
+  \psarcto\rectbox@tmpQ\rectbox@tmpB\hasenbox@hl
+  \psarcto\rectbox@tmpB\trueLB\hasenbox@hl
+  \writeEPS{stroke}%
+}%
+          \else\if B\rectbox@LR
+\@ifundefined{rectbox@debeso}{%
+              \Tyuuten\trueLT\trueLB\rectbox@tmpP
+              \psnewpath
+              \psmoveto\rectbox@tmpP
+              \psarcto\trueLT\trueRT\hasenbox@l
+              \writeEPS{stroke}%
+              \psnewpath
+              \psmoveto\rectbox@tmpP
+              \psarcto\trueLB\trueRB\hasenbox@l
+              \writeEPS{stroke}%
+              \Tyuuten\trueRT\trueRB\rectbox@tmpP
+              \psnewpath
+              \psmoveto\rectbox@tmpP
+              \psarcto\trueRT\trueLT\hasenbox@l
+              \writeEPS{stroke}%
+              \psnewpath
+              \psmoveto\rectbox@tmpP
+              \psarcto\trueRB\trueLB\hasenbox@l
+              \writeEPS{stroke}%
+}{%
+  \@Div\hasenbox@l{2}\hasenbox@hl
+  \Tyuuten\trueLT\trueLB\rectbox@tmpP
+  \Addvec\rectbox@tmpP{(\hasenbox@hl,0)}\rectbox@tmpQ
+  \edef\rectbox@tmpT{(\hasenbox@hl,\trueymax)}%
+  \edef\rectbox@tmpB{(\hasenbox@hl,\trueymin)}%
+  \psnewpath
+  \psmoveto\rectbox@tmpP
+  \psarcto\rectbox@tmpQ\rectbox@tmpT\hasenbox@hl
+  \psarcto\rectbox@tmpT\trueRT\hasenbox@hl
+  \writeEPS{stroke}%
+  \psnewpath
+  \psmoveto\rectbox@tmpP
+  \psarcto\rectbox@tmpQ\rectbox@tmpB\hasenbox@hl
+  \psarcto\rectbox@tmpB\trueRB\hasenbox@hl
+  \writeEPS{stroke}%
+%
+  \Tyuuten\trueRT\trueRB\rectbox@tmpP
+  \Addvec\rectbox@tmpP{(-\hasenbox@hl,0)}\rectbox@tmpQ
+  \Sub\truexmax\hasenbox@hl\hasenbox@tmpx
+  \edef\rectbox@tmpT{(\hasenbox@tmpx,\trueymax)}%
+  \edef\rectbox@tmpB{(\hasenbox@tmpx,\trueymin)}%
+  \psnewpath
+  \psmoveto\rectbox@tmpP
+  \psarcto\rectbox@tmpQ\rectbox@tmpT\hasenbox@hl
+  \psarcto\rectbox@tmpT\trueLT\hasenbox@hl
+  \writeEPS{stroke}%
+  \psnewpath
+  \psmoveto\rectbox@tmpP
+  \psarcto\rectbox@tmpQ\rectbox@tmpB\hasenbox@hl
+  \psarcto\rectbox@tmpB\trueLB\hasenbox@hl
+  \writeEPS{stroke}%
+}%
+          \else\if v\rectbox@LR
+            \psnewpath
+            \psmoveto\rectbox@CL
+            \psarcto\trueLT\trueLB\hasenbox@l
+            \ifx\empty\frame@color
+              \writeEPS{stroke}%
+            \else
+              \begin{EMpscolor}{\frame@color}%
+                \writeEPS{stroke}%
+              \end{EMpscolor}%
+            \fi
+            \psnewpath
+            \psmoveto\rectbox@CR
+            \psarcto\trueRT\trueRB\hasenbox@l
+            \ifx\empty\frame@color
+              \writeEPS{stroke}%
+            \else
+              \begin{EMpscolor}{\frame@color}%
+                \writeEPS{stroke}%
+              \end{EMpscolor}%
+            \fi
+            \psnewpath
+            \psmoveto\rectbox@DL
+            \psarcto\trueLB\trueLT\hasenbox@l
+            \ifx\empty\frame@color
+              \writeEPS{stroke}%
+            \else
+              \begin{EMpscolor}{\frame@color}%
+                \writeEPS{stroke}%
+              \end{EMpscolor}%
+            \fi
+            \psnewpath
+            \psmoveto\rectbox@DR
+            \psarcto\trueRB\trueRT\hasenbox@l
+            \ifx\empty\frame@color
+              \writeEPS{stroke}%
+            \else
+              \begin{EMpscolor}{\frame@color}%
+                \writeEPS{stroke}%
+              \end{EMpscolor}%
+            \fi
+          \else
+            \psnewpath
+            \psmoveto\rectbox@CL
+            \psarcto\trueLT\trueLB\hasenbox@l
+            \psarcto\trueLB\trueRB\hasenbox@l
+            \pslineto\rectbox@DL
+            \ifx\empty\frame@color
+              \writeEPS{stroke}%
+            \else
+              \begin{EMpscolor}{\frame@color}%
+                \writeEPS{stroke}%
+              \end{EMpscolor}%
+            \fi
+            \psnewpath
+            \psmoveto\rectbox@DR
+            \psarcto\trueRB\trueRT\hasenbox@l
+            \psarcto\trueRT\trueLT\hasenbox@l
+            \pslineto\rectbox@CR
+            \ifx\empty\frame@color
+              \writeEPS{stroke}%
+            \else
+              \begin{EMpscolor}{\frame@color}%
+                \writeEPS{stroke}%
+              \end{EMpscolor}%
+            \fi
+          \fi\fi\fi\fi
+        \else%%%%%%% rectbox@oval=0
+%\typeout{oval=0}%
+          \@ifundefined{hasenLG@}{%
+            \if Z\rectbox@LR
+%     左
+              \begin{EMpscontinue}%
+                \psnewpath
+                \psmoveto\rectbox@DL
+                \Draw@rectbox{\rectbox@DL\trueLB\trueLT\rectbox@CL}%
+                \ifx\empty\frame@color
+                  \psstroke
+                \else
+                  \begin{EMpscolor}{\frame@color}%
+                    \psstroke
+                  \end{EMpscolor}%
+                \fi
+              \end{EMpscontinue}%
+%     右
+              \begin{EMpscontinue}%
+                \psnewpath
+                \psmoveto\rectbox@CR
+                \Draw@rectbox{\rectbox@CR\trueRT\trueRB\rectbox@DR}%
+                \ifx\empty\frame@color
+                  \psstroke
+                \else
+                  \begin{EMpscolor}{\frame@color}%
+                    \psstroke
+                  \end{EMpscolor}%
+                \fi
+              \end{EMpscontinue}%
+            \else\if v\rectbox@LR
+              \@ifundefined{rectbox@kagi}{}{%
+                \setlength{\@tempdima}{\rectbox@kagi}%
+                \ukansan\@tempdima\kagi@l
+                    \Rdef(\kagi@l,\kagi@a)\kagi@tmp
+                    \vecXY\kagi@tmp\kagi@x\kagi@y
+                    \Addvec\trueLT{(0,-\kagi@y)}\rectbox@LT@
+                    \Addvec\trueLT{(\kagi@x,0)}\rectbox@LT@@
+                    \Addvec\trueLB{(0,\kagi@y)}\rectbox@LB@
+                    \Addvec\trueLB{(\kagi@x,0)}\rectbox@LB@@
+                    \Addvec\trueRT{(0,-\kagi@y)}\rectbox@RT@
+                    \Addvec\trueRT{(-\kagi@x,0)}\rectbox@RT@@
+                    \Addvec\trueRB{(0,\kagi@y)}\rectbox@RB@
+                    \Addvec\trueRB{(-\kagi@x,0)}\rectbox@RB@@
+              }%
+              \ifx\empty\frame@color
+                \@ifundefined{rectbox@kagi}{%
+                  \Drawlines{\trueLT\rectbox@CL;\rectbox@CR\trueRT}%
+                  \Drawlines{\trueLB\rectbox@DL;\rectbox@DR\trueRB}%
+                }{%
+                  \Drawlines{%
+                    \rectbox@LT@\rectbox@LT@@\rectbox@CL;%
+                    \rectbox@LB@\rectbox@LB@@\rectbox@DL;%
+                    \rectbox@RT@\rectbox@RT@@\rectbox@CR;%
+                    \rectbox@RB@\rectbox@RB@@\rectbox@DR
+                  }%
+                }%
+              \else
+                \begin{EMpscolor}{\frame@color}%
+                  \@ifundefined{rectbox@kagi}{%
+                    \Drawlines{\trueLT\rectbox@CL;\rectbox@CR\trueRT}%
+                    \Drawlines{\trueLB\rectbox@DL;\rectbox@DR\trueRB}%
+                  }{%
+                    \Drawlines{%
+                      \rectbox@LT@\rectbox@LT@@\rectbox@CL;%
+                      \rectbox@LB@\rectbox@LB@@\rectbox@DL;%
+                      \rectbox@RT@\rectbox@RT@@\rectbox@CR;%
+                      \rectbox@RB@\rectbox@RB@@\rectbox@DR
+                    }%
+                  }%
+                \end{EMpscolor}%
+              \fi
+            \else
+              \@ifundefined{rectbox@kagi}{}{%
+                \setlength{\@tempdima}{\rectbox@kagi}%
+                \ukansan\@tempdima\kagi@l
+              }%
+              \ifx\empty\frame@color
+                \if L\rectbox@LR
+                  \@ifundefined{rectbox@kagi}{%
+                    \Drawline{\trueLT\trueLB}%
+                  }{%
+                    \Rdef(\kagi@l,\kagi@a)\kagi@tmp
+                    \vecXY\kagi@tmp\kagi@x\kagi@y
+                    \Addvec\trueLT{(0,-\kagi@y)}\rectbox@LT@
+                    \Addvec\trueLT{(\kagi@x,0)}\rectbox@LT@@
+                    \Addvec\trueLB{(0,\kagi@y)}\rectbox@LB@
+                    \Addvec\trueLB{(\kagi@x,0)}\rectbox@LB@@
+                    \Drawline{%
+                      \rectbox@LT@@\rectbox@LT@\rectbox@LB@\rectbox@LB@@}%
+                  }%
+                \else\if R\rectbox@LR
+                  \@ifundefined{rectbox@kagi}{%
+                    \Drawline{\trueRT\trueRB}%
+                  }{%
+                    \Rdef(\kagi@l,\kagi@a)\kagi@tmp
+                    \vecXY\kagi@tmp\kagi@x\kagi@y
+                    \Addvec\trueRT{(0,-\kagi@y)}\rectbox@RT@
+                    \Addvec\trueRT{(-\kagi@x,0)}\rectbox@RT@@
+                    \Addvec\trueRB{(0,\kagi@y)}\rectbox@RB@
+                    \Addvec\trueRB{(-\kagi@x,0)}\rectbox@RB@@
+                    \Drawline{%
+                      \rectbox@RT@@\rectbox@RT@\rectbox@RB@\rectbox@RB@@}%
+                  }%
+                \else\if B\rectbox@LR
+                  \@ifundefined{rectbox@kagi}{%
+                    \Drawline{\trueLT\trueLB}%
+                    \Drawline{\trueRT\trueRB}%
+                  }{%
+                    \Rdef(\kagi@l,\kagi@a)\kagi@tmp
+                    \vecXY\kagi@tmp\kagi@x\kagi@y
+                    \Addvec\trueLT{(0,-\kagi@y)}\rectbox@LT@
+                    \Addvec\trueLT{(\kagi@x,0)}\rectbox@LT@@
+                    \Addvec\trueLB{(0,\kagi@y)}\rectbox@LB@
+                    \Addvec\trueLB{(\kagi@x,0)}\rectbox@LB@@
+                    \Drawline{%
+                      \rectbox@LT@@\rectbox@LT@\rectbox@LB@\rectbox@LB@@}%
+                    \Addvec\trueRT{(0,-\kagi@y)}\rectbox@RT@
+                    \Addvec\trueRT{(-\kagi@x,0)}\rectbox@RT@@
+                    \Addvec\trueRB{(0,\kagi@y)}\rectbox@RB@
+                    \Addvec\trueRB{(-\kagi@x,0)}\rectbox@RB@@
+                    \Drawline{%
+                      \rectbox@RT@@\rectbox@RT@\rectbox@RB@\rectbox@RB@@}%
+                  }%
+                \fi\fi\fi
+              \else
+                \begin{EMpscolor}{\frame@color}%
+                  \if L\rectbox@LR
+                    \@ifundefined{rectbox@kagi}{%
+                      \Drawline{\trueLT\trueLB}%
+                    }{%
+                      \Addvec\trueLT{(\kagi@l,0)}\rectbox@LT@
+                      \Addvec\trueLB{(\kagi@l,0)}\rectbox@LB@
+                      \Drawline{\rectbox@LT@\trueLT\trueLB\rectbox@LB@}%
+                    }%
+                  \else\if R\rectbox@LR
+                    \@ifundefined{rectbox@kagi}{%
+                      \Drawline{\trueRT\trueRB}%
+                    }{%
+                      \Addvec\trueRT{(-\kagi@l,0)}\rectbox@RT@
+                      \Addvec\trueRB{(-\kagi@l,0)}\rectbox@RB@
+                      \Drawline{\rectbox@RT@\trueRT\trueRB\rectbox@RB@}%
+                    }%
+                  \else\if B\rectbox@LR
+                    \@ifundefined{rectbox@kagi}{%
+                      \Drawline{\trueLT\trueLB}%
+                    }{%
+                      \Addvec\trueLT{(\kagi@l,0)}\rectbox@LT@
+                      \Addvec\trueLB{(\kagi@l,0)}\rectbox@LB@
+                      \Drawline{\rectbox@LT@\trueLT\trueLB\rectbox@LB@}%
+                    }%
+                    \@ifundefined{rectbox@kagi}{%
+                      \Drawline{\trueRT\trueRB}%
+                    }{%
+                      \Addvec\trueRT{(-\kagi@l,0)}\rectbox@RT@
+                      \Addvec\trueRB{(-\kagi@l,0)}\rectbox@RB@
+                      \Drawline{\rectbox@RT@\trueRT\trueRB\rectbox@RB@}%
+                    }%
+                  \fi\fi\fi
+                \end{EMpscolor}%
+              \fi%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%??????
+            \fi\fi
+          }{%
+\if v\rectbox@LR
+  \edef\rectbox@tmp{%
+    \trueLT\rectbox@CL;\rectbox@CR\trueRT;%
+    \trueLB\rectbox@DL;\rectbox@DR\trueRB
+  }%
+\else
+            \ifx\empty\rectbox@item
+              \ifx\empty\rectbox@bitem
+                \edef\rectbox@tmp{\trueLB\trueLT\trueRT\trueRB\trueLB}%
+              \else
+                \edef\rectbox@tmp{%
+                  \rectbox@DL\trueLB\trueLT\trueRT\trueRB\rectbox@DR}%
+              \fi
+            \else
+              \ifx\empty\rectbox@bitem
+                \edef\rectbox@tmp{%
+                  \rectbox@CL\trueLT\trueLB\trueRB\trueRT\rectbox@CR}%
+              \else
+                \edef\rectbox@tmp{\rectbox@CL\trueLT\trueLB\rectbox@DL;%
+                  \rectbox@DR\trueRB\trueRT\rectbox@CR}%
+              \fi
+            \fi
+\fi
+            \ifx\empty\frame@color
+              \Drawlines<hasenLG=\hasenLG@>\rectbox@tmp
+            \else
+              \begin{EMpscolor}{\frame@color}%
+                \Drawlines<hasenLG=\hasenLG@>\rectbox@tmp
+              \end{EMpscolor}%
+            \fi
+          }%
+        \fi\fi
+%
+%\ifdim\shade@rule>\z@
+%\ifdim\rectbox@oval=\z@
+%  \@tempdima\shade@rule
+%  \edef\shade@w{\strip@pt\@tempdima}%
+%  \@Div\shade@w{2}\shade@hw
+%  \Addvecself\trueRT{(\shade@hw,-\shade@w)}%
+%  \Addvecself\trueRB{(\shade@hw,-\shade@hw)}%
+%  \Addvecself\trueLB{(\shade@w,-\shade@hw)}%
+%  \Drawline<linewidth=\shade@rule>{\trueLB\trueRB\trueRT}%
+%\fi
+%\fi
+%
+\fi
+% 見出し出力
+        \ifx\empty\rectbox@item
+        \else
+          \cPut\rectbox@C(0,0)[c]{\box\rectbox@item@box}%
+        \fi
+        \ifx\empty\rectbox@bitem
+        \else
+          \cPut\rectbox@D(0,0)[c]{\box\rectbox@bitem@box}%
+        \fi
+%%        \ifx\empty\apn@zahyou\else
+%%          \apn@zahyou
+%%        \fi
+%        \ifx\empty\apn@zahyou\else
+%%\typeout{1:apn@zahyou=\meaning\apn@zahyou}%\xxx
+%          {\gsave\apn@zahyou\grestore}%
+%        \fi
+        \endpszahyou%
+      }%
+    \end{picture}%
+% 枠内テキスト出力
+%    \@tempdima\ht\rectb@x\advance\@tempdima\border@width
+%    \@tempdimb\dp\rectb@x\advance\@tempdimb\border@width
+%    \vrule height \@tempdima depth\@tempdimb width\z@%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \egroup
+% \leavevmode\hfil\box\rectb@x\hfil
+%  \mbox{}\hfill\hbox to \rectbox@width{\box\rectb@x\hfill\mbox{}}%
+%\setlength\@tempdima{\rectbox@width+\frame@linewidth-\border@width}%
+\@tempdima\dp\rectb@x
+\advance\@tempdima\shade@rule
+\@ifundefined{in@Rectbox}{%
+  \ifnum\rectbox@nest=\@ne\advance\@tempdima\frame@linewidth\fi
+}{}%
+\dp\rectb@x=\@tempdima
+\setlength\@tempdima{\rectbox@width+\frame@linewidth-\border@width}%
+\hbox to\@tempdima{\leavevmode\box\rectb@x\hss}%
+%  \ifdim\bitem@ht>\z@\vspace\bitem@ht\fi
+%  \@ifundefined{in@Rectbox}{\break}{}\hskip\border@width%%% 2009/09/08 保留
+  \ignorespaces
+  \@ignoretrue
+  \Decr\rectbox@nest
+  \@ifundefined{EMminipage@footnote}{%
+    \ifnum\rectbox@nest=\z@
+      \Cfor{}{\RB@footnote@o<\RB@footnote}{}\do{%
+        \Incr\RB@footnote@o
+        \footnotetext[\RB@footnote@o]{\csname RB@footnotetext@\romannumeral\RB@footnote@o\endcsname
+        }%
+      }%
+    \fi
+  }{}%
+%  \@ifundefined{in@Rectbox}{\par}{}%
+\hskip\z@
+\ifrectbox@postpar
+  \ifhmode\unskip \par\fi
+\fi
+}%
+%
+\def\EMpsRectbox{\@ifnextchar[{\@EMpsRectbox}{\@EMpsRectbox[\empty]}}%
+\def\@EMpsRectbox[#1]{\@ifnextchar<{\@@EMpsRectbox[#1]}{\@@EMpsRectbox[#1]<\empty>}}%
+\long\def\@@EMpsRectbox[#1]<#2>#3{{%
+  \def\in@Rectbox{}%
+  \edef\rectbox@parindent@{0pt}%
+  \Settowidth{\@tempdima}{#3}%
+  \edef\rectbox@ww{\the\@tempdima}%
+  \ifthenelse{\equal{#1}{\empty}}{%
+    \begin{EMpsrectbox}[rectboxwidth=\rectbox@ww]<#2>%
+      #3\relax
+    \end{EMpsrectbox}%
+  }{%
+    \bgroup
+    \EMedef\rectbox@arg{[#1,rectboxwidth=\rectbox@ww]<#2>\relax}%
+    \expandafter\EMpsrectbox\rectbox@arg
+      #3\relax%
+    \endEMpsrectbox
+    \egroup
+  }%
+}}%
+%
+%
+\def\EMpsitemrectbox{\def\@pos{c}%
+  \edef\rectbox@item{\empty}\def\rectbox@item@pos{l}%
+  \edef\rectbox@bitem{\empty}\def\rectbox@bitem@pos{r}%
+  \def\rectbox@LR{Z}%
+  \def\rectbox@oval{0pt}%
+  \def\rectbox@oct{\z@}%
+  \edef\rectbox@width{\empty}%
+  \edef\rectbox@Width{\empty}%
+  \edef\rectbox@dash{\empty}%
+  \edef\h@sep{\empty}\edef\v@sep{\empty}%
+  \edef\t@sep{\empty}\edef\b@sep{\empty}%
+  \edef\l@sep{\empty}\edef\r@sep{\empty}%
+  \edef\psz@option{\empty}%
+  \def\rectbox@parindent{\rectbox@parindent@}%
+  \edef\frame@color{\empty}%
+  \edef\background@color{\empty}%
+  \def\frame@linewidth{1pt}%
+%
+  \define@key{emPb}{linewidth}{%
+    \setlinewidth{##1}\@Div\cur@linewidth{10}\cur@linewidth@
+    \edef\default@linewidth{\cur@linewidth@\p@}%
+    \edef\frame@linewidth{\cur@linewidth@\p@}}%
+  \define@key{emPb}{framelinewidth}{%
+    \isnumber{##1}{%
+      \@Div{##1}{10}\frame@linewidth
+      \edefappend\frame@linewidth{ pt}%
+    }{%
+      \edef\frame@linewidth{##1}%
+    }%
+  }%
+  \define@key{emPb}{framethickness}{%
+    \isnumber{##1}{%
+      \@Div{##1}{10}\frame@linewidth
+      \edefappend\frame@linewidth{ pt}%
+    }{%
+      \edef\frame@linewidth{##1}%
+    }%
+  }%
+%
+  \@ifnextchar[{\EMpsitemrectbox@}{\@EMpsitemrectbox}}%
+\def\EMpsitemrectbox@[#1]{%
+  \setkeys{emPsb}{#1}\@EMpsitemrectbox}%
+\def\@EMpsitemrectbox{\@ifnextchar<{\@@EMpsitemrectbox}{\@@EMpsitemrectbox<\empty>}}%
+\def\@@EMpsitemrectbox<#1>#2{%
+  \def\rectbox@item{#2}%
+  \setlinewidth{\default@linewidth}%
+  \def\Draw@rectbox{\Drawwave}%
+  \def\prerectbox{#1}%
+%  \vspace{.5\baselineskip}%
+  \ifthenelse{\equal\h@sep\empty}{%
+    \ifthenelse{\lengthtest{\rectbox@oval=\z@}}{%
+      \edef\h@sep{\the\fboxsep}}{\edef\h@sep{\rectbox@oval}}}{}%
+  \ifthenelse{\equal\v@sep\empty}{%
+    \ifthenelse{\lengthtest{\rectbox@oval=\z@}}{%
+      \edef\v@sep{\the\fboxsep}}{\edef\v@sep{\rectbox@oval}}}{}%
+  \ifx\empty\t@sep\edef\t@sep{\v@sep}\fi
+  \ifx\empty\b@sep\edef\b@sep{\v@sep}\fi
+  \ifx\empty\l@sep\edef\l@sep{\h@sep}\fi
+  \ifx\empty\r@sep\edef\r@sep{\h@sep}\fi
+  \ifthenelse{\equal\rectbox@width\empty}{%
+    \@Div\cur@linewidth{10}\EMpsrectbox@tmp
+    \setlength\@tempdima\linewidth
+    \advance\@tempdima-\EMpsrectbox@tmp\p@
+    \advance\@tempdima-\border@width
+    \advance\@tempdima-\border@width
+    \edef\rectbox@width{\the\@tempdima}%
+  }{%
+    \setlength\@tempdima\rectbox@width
+    \advance\@tempdima\l@sep
+    \advance\@tempdima\r@sep
+    \edef\rectbox@width{\the\@tempdima}%
+  }%
+  \ifthenelse{\equal\rectbox@item\empty}{\def\item@ht{0pt}\def\item@w{0}\def\item@w@half{0}}{%
+    \setbox0=\hbox{{\rectbox@item}}%
+    \edef\item@w{\strip@pt\wd0}%
+    \@Div\item@w{2}\item@w@half
+    \@tempdima=\ht0\advance\@tempdima\dp0\relax
+    \divide\@tempdima\tw@
+    \vspace\@tempdima
+    \edef\item@ht{\the\@tempdima}%
+  }%
+  \ifthenelse{\equal\rectbox@bitem\empty}{\def\bitem@ht{0pt}\def\bitem@w{0}\def\bitem@w@half{0}}{%
+    \setbox0=\hbox{\rectbox@bitem}%
+    \edef\bitem@w{\strip@pt\wd0}%
+    \@Div\bitem@w{2}\bitem@w@half
+    \@tempdima=\ht0\advance\@tempdima\dp0\relax
+    \divide\@tempdima\tw@
+    \vspace\@tempdima
+    \edef\bitem@ht{\the\@tempdima}%
+  }%
+  \setbox\rectb@x=\hbox\bgroup\begin{minipage}[\@pos]{\rectbox@width}%
+  \ifdim\item@ht>\z@\vskip\item@ht\fi
+% \vskip\t@sep
+  \setlength{\parindent}{\rectbox@parindent}%
+  \jquotation(\l@sep)(\r@sep)}%
+%
+%
+\let\endEMpsitemrectbox\endEMpsrectbox
+%
+\let\psrectbox\EMpsrectbox
+\let\endpsrectbox\endEMpsrectbox
+%
+%
+%
+\newbox\ps@box
+\newbox\ps@box@
+%\long\def\EMpsfbox{\protect\EM@psfbox}%
+%\long\def\EM@psfbox{%
+\DeclareRobustCommand\EMpsfbox{%
+  \@ifundefined{EMps@filename}{%
+    \@ifstar{\EMpsfbox@}{\@EMpsfbox}%
+  }{%
+    \EMpszfbox
+  }%
+}%
+\long\def\@EMpsfbox{%
+  \@ifnextchar<{\@@EMpsfbox}{\@@EMpsfbox<\empty>}}%
+\long\def\EMpsfbox@{%
+  \@ifnextchar<{\@EMpsfbox@}{\@EMpsfbox@<\empty>}}%
+\long\def\@@EMpsfbox<#1>#2{{\gsave
+%  \@ifundefined{EMps@filename}{}{%
+%    \errmessage{use not psfbox, but pszfbox or psIIefbox in pszahyou}%
+%  }%
+  \setlength{\unitlength}{1pt}%
+  \@ifundefined{xunitlength}{}{\setlength{\xunitlength}{1pt}}%
+  \@ifundefined{yunitlength}{}{\setlength{\yunitlength}{1pt}}%
+  \edef\frame@linewidth{1pt}%
+  \edef\rectbox@oval{0pt}%
+  \edef\rectbox@oct{0pt}%
+  \edef\rectbox@corner{1}%
+  \edef\rectbox@dash{\empty}%
+  \edef\hasenLG@{\empty}%
+  \edef\h@sep{\the\fboxsep}%
+  \edef\v@sep{\the\fboxsep}%
+  \edef\l@sep{\empty}%
+  \edef\r@sep{\empty}%
+  \edef\t@sep{\empty}%
+  \edef\b@sep{\empty}%
+  \edef\shade@rule{0pt}%
+  \edef\rectbox@Width{\empty}%
+  \edef\rectbox@item{\empty}%
+  \edef\rectbox@preitem{\empty}%
+  \edef\rectbox@postitem{\empty}%
+  \def\rectbox@item@pos{l}%
+  \edef\rectbox@bitem{\empty}%
+  \edef\rectbox@prebitem{\empty}%
+  \edef\rectbox@postbitem{\empty}%
+  \def\rectbox@bitem@pos{r}%
+  \edef\psz@option{\empty}%
+  \edef\rectbox@LR{Z}%
+%
+  \setbox\ps@box=\hbox{#2}%
+%\typeout{ht of ps@box=\the\ht\ps@box}%
+%
+\iffalse% 保留 2013/12/28
+  \@ifundefined{not@T}{}{%
+    \@tempdima\ht\ps@box\advance\@tempdima 3\p@
+    \ht\ps@box=\@tempdima
+  }%
+  \@ifundefined{not@B}{}{%
+    \@tempdima\dp\ps@box\advance\@tempdima 3\p@
+    \dp\ps@box=\@tempdima
+  }%
+\fi
+%
+  \edef\rectbox@width{\the\wd\ps@box}%
+  \edef\fb@h{\strip@pt\ht\ps@box}%
+  \edef\fb@d{\strip@pt\dp\ps@box}%
+  \edef\background@color{\empty}%
+  \edef\frame@color{\empty}%
+  \edef\shade@color{\empty}%
+  \resetsensyu
+%
+  \edef\grad@angle{90}%
+  \edef\grad@N{10}%
+  \edef\grad@begin{\empty}%
+  \edef\grad@end{\empty}%
+  \def\grad@borderwidth{0pt}%
+  \edef\fb@dLT{(0,0)}%
+  \edef\fb@dLB{(0,0)}%
+  \edef\fb@dRT{(0,0)}%
+  \edef\fb@dRB{(0,0)}%
+%
+  \ifx\empty #1\else\setkeys{emPsb}{#1}\fi
+  \@tempdima\shade@rule
+  \edef\shade@w{\strip@pt\@tempdima}%
+  \@Div\shade@w{2}\shade@hw
+%
+  \ifx\empty\t@sep\edef\t@sep{\v@sep}\fi
+  \ifx\empty\b@sep\edef\b@sep{\v@sep}\fi
+  \ifx\empty\l@sep\edef\l@sep{\h@sep}\fi
+  \ifx\empty\r@sep\edef\r@sep{\h@sep}\fi
+%  \@ifundefined{rectbox@LR}{}{%
+    \if L\rectbox@LR
+      \edef\r@sep{0pt}%
+    \else\if R\rectbox@LR
+      \edef\l@sep{0pt}%
+    \fi\fi
+%  }{}%
+  \ifx\empty\rectbox@Width\else
+    \@tempdima\rectbox@Width
+    \advance\@tempdima-\frame@linewidth
+    \advance\@tempdima-\frame@linewidth
+    \advance\@tempdima-\l@sep
+    \advance\@tempdima-\rectbox@width
+    \edef\r@sep{\the\@tempdima}%
+  \fi
+%
+  \ifthenelse{\equal\rectbox@item\empty}{\def\item@ht{0pt}}{%
+    \setbox\rectbox@item@box=\hbox{{%
+      \rectbox@preitem\rectbox@item\rectbox@postitem}}%
+    \edef\item@w{\strip@pt\wd\rectbox@item@box}%
+    \@Div\item@w{2}\item@w@half
+    \@tempdima=\ht\rectbox@item@box\advance\@tempdima\dp\rectbox@item@box
+    \divide\@tempdima\tw@
+    \edef\item@ht{\the\@tempdima}%
+  }%
+  \ifthenelse{\equal\rectbox@bitem\empty}{\def\bitem@ht{0pt}}{%
+    \setbox\rectbox@bitem@box=\hbox{%
+      \rectbox@prebitem\rectbox@bitem\rectbox@postbitem}%
+    \edef\bitem@w{\strip@pt\wd\rectbox@bitem@box}%
+    \@Div\bitem@w{2}\bitem@w@half
+    \@tempdima=\ht\rectbox@bitem@box\advance\@tempdima\dp\rectbox@bitem@box
+    \divide\@tempdima\tw@
+    \edef\bitem@ht{\the\@tempdima}%
+  }%
+%
+  \@tempdima=\frame@linewidth
+  \@tempdima=.5\@tempdima
+  \edef\fb@xl{\strip@pt\@tempdima}%
+  \setlength{\@tempdima}{%
+    \rectbox@width+\l@sep+\r@sep+\frame@linewidth+\frame@linewidth}%
+%  \@tempdima0.996264\@tempdima
+  \edef\fb@W{\strip@pt\@tempdima}%
+  \@ifundefined{not@T}{%
+%    \setlength{\@tempdima}{\fb@h\p@+\frame@linewidth+\t@sep+\item@ht}%
+    \setlength{\@tempdima}{\fb@h\p@+\t@sep+\item@ht}%
+  }{%
+%    \setlength{\@tempdima}{\fb@h\p@+\frame@linewidth}%
+    \setlength{\@tempdima}{\fb@h\p@}%
+  }%
+%  \@tempdima0.996264\@tempdima
+  \edef\fb@H{\strip@pt\@tempdima}%
+  \@ifundefined{not@B}{%
+%    \setlength{\@tempdima}{\fb@d\p@+\frame@linewidth+\b@sep+\bitem@ht}%
+    \setlength{\@tempdima}{\fb@d\p@+\b@sep+\bitem@ht}% 保留 BBS #11289
+  }{%
+%    \setlength{\@tempdima}{\fb@d\p@+\frame@linewidth}%
+    \setlength{\@tempdima}{\fb@d\p@}%
+  }%
+%  \@tempdima0.996264\@tempdima
+  \edef\fb@D{\strip@pt\@tempdima}%
+  \setlength{\psfboxW}{\fb@W\p@}%
+  \setlength{\psfboxV}{\fb@H\p@+\fb@D\p@}%
+  \Sub\fb@W\fb@xl\fb@xr
+  \Sub\fb@H\fb@xl\fb@yh
+  \Sub\fb@D\fb@xl\fb@yd
+  \edef\fb@LT{(\fb@xl,\fb@yh)}%
+  \edef\fb@LB{(\fb@xl,-\fb@yd)}%
+  \edef\fb@RT{(\fb@xr,\fb@yh)}%
+  \edef\fb@RB{(\fb@xr,-\fb@yd)}%
+  \Addvec*\fb@LT\fb@dLT\fb@LT@
+  \Addvec*\fb@LB\fb@dLB\fb@LB@
+  \Addvec*\fb@RT\fb@dRT\fb@RT@
+  \Addvec*\fb@RB\fb@dRB\fb@RB@
+  \edef\fb@region{\fb@LT\fb@LB\fb@RB\fb@RT}%
+  \setlength{\@tempdima}{\rectbox@oval+\rectbox@oval}%
+  \ifdim\@tempdima>\psfboxV
+    \setlength{\@tempdima}{.5\psfboxV}%
+    \edef\rectbox@oval{\the\@tempdima}%
+  \fi
+  \ukansan{\rectbox@oval}\r@@
+% 上見出し位置
+  \ifx\empty\rectbox@item
+    \Tyuuten\fb@LT\fb@RT\fb@MT
+    \edef\fb@itemL{\fb@MT}%
+    \edef\fb@itemR{\fb@MT}%
+  \else
+    \if l\rectbox@item@pos
+      \setlength{\@tempdima}{\fb@xl\p@+10pt+\rectbox@oval}%
+      \edef\item@lx{\strip@pt\@tempdima}%
+      \advance\@tempdima\item@w\p@
+      \edef\item@rx{\strip@pt\@tempdima}%
+      \Addvec\fb@LT{(\item@lx,0)}\fb@itemL
+      \Addvec\fb@LT{(\item@rx,0)}\fb@itemR
+    \else\if r\rectbox@item@pos
+      \setlength{\@tempdima}{\fb@xr\p@-10pt-\rectbox@oval}%
+      \edef\item@rx{\strip@pt\@tempdima}%
+      \advance\@tempdima-\item@w\p@
+      \edef\item@lx{\strip@pt\@tempdima}%
+      \Addvec\fb@LT{(\item@lx,0)}\fb@itemL
+      \Addvec\fb@LT{(\item@rx,0)}\fb@itemR
+    \else
+      \Tyuuten\fb@LT\fb@RT\fb@MT
+      \Addvec\fb@MT{(-\item@w@half,0)}\fb@itemL
+      \Addvec\fb@MT{(\item@w@half,0)}\fb@itemR
+    \fi\fi
+  \fi
+  \ifx\empty\rectbox@bitem
+    \Tyuuten\fb@LB\fb@RB\fb@MB
+    \edef\fb@bitemL{\fb@MB}%
+    \edef\fb@bitemR{\fb@MB}%
+  \else
+    \if l\rectbox@bitem@pos
+      \setlength{\@tempdima}{\fb@xl\p@+10pt+\rectbox@oval}%
+      \edef\bitem@lx{\strip@pt\@tempdima}%
+      \advance\@tempdima\bitem@w\p@
+      \edef\bitem@rx{\strip@pt\@tempdima}%
+      \Addvec\fb@LB{(\bitem@lx,0)}\fb@bitemL
+      \Addvec\fb@LB{(\bitem@rx,0)}\fb@bitemR
+    \else\if r\rectbox@bitem@pos
+      \setlength{\@tempdima}{\fb@xr\p@-10pt-\rectbox@oval}%
+      \edef\bitem@rx{\strip@pt\@tempdima}%
+      \advance\@tempdima-\bitem@w\p@
+      \edef\bitem@lx{\strip@pt\@tempdima}%
+      \Addvec\fb@LB{(\bitem@lx,0)}\fb@bitemL
+      \Addvec\fb@LB{(\bitem@rx,0)}\fb@bitemR
+    \else
+      \Tyuuten\fb@LB\fb@RB\fb@MB
+      \Addvec\fb@MB{(-\bitem@w@half,0)}\fb@bitemL
+      \Addvec\fb@MB{(\bitem@w@half,0)}\fb@bitemR
+    \fi\fi
+  \fi
+%
+% 支柱
+%
+  \@tempdima=\fb@H\p@
+  \@ifundefined{not@T}{\advance\@tempdima\item@ht}{}%
+  \edef\fb@H@{\strip@pt\@tempdima}%
+  \@tempdima=\fb@D\p@
+  \@ifundefined{not@B}{\advance\@tempdima\bitem@ht}{}%
+  \edef\fb@D@{\strip@pt\@tempdima}%
+  \vrule height \fb@H@\p@ depth \fb@D@\p@ width \z@
+%
+% 背景色
+%
+  \leavevmode\hbox\bgroup\begin{picture}(0,0)\relax
+    \Add\fb@W\shade@w\fb@W@
+    \Add\fb@D\shade@w\fb@D@
+    \ifthenelse{\equal\psz@option\empty}{%
+      \edef\fb@tmp{[haiti=o](0,\fb@W@)(-(\fb@D@),\fb@H)}%
+    }{%
+      \edef\fb@tmp{[\psz@option,haiti=o](0,\fb@W@)(-(\fb@D@),\fb@H)}%
+    }%
+    \expandafter\pszahyou\fb@tmp
+      \drawaxisfalse
+%
+%
+% shade
+%
+\ifdim\shade@rule>\z@
+\ifdim\rectbox@oval=\z@
+\bgroup\gsave
+      \ifx\empty\shade@color\else\EMpsIrositei{\shade@color}\fi
+        \@ifundefined{not@B}{%
+          \@ifundefined{not@T}{% 上あり，下あり
+            \Addvec\fb@RT{(\shade@hw,-\shade@w)}\fb@RT@
+            \Addvecself\fb@RT@{(\fb@xl,-\fb@xl)}%
+            \Addvec\fb@RB{(\shade@hw,-\shade@hw)}\fb@RB@
+            \Addvecself\fb@RB@{(\fb@xl,-\fb@xl)}%
+            \Addvec\fb@LB{(\shade@w,-\shade@hw)}\fb@LB@
+            \Addvecself\fb@LB@{(\fb@xl,-\fb@xl)}%
+            \Drawline<linethickness=\shade@rule>{\fb@LB@\fb@RB@\fb@RT@}%
+          }{% 上なし，下あり
+            \Addvec\fb@RT{(\shade@hw,0)}\fb@RT@
+            \Addvecself\fb@RT@{(\fb@xl,0)}%
+            \Addvec\fb@RB{(\shade@hw,-\shade@hw)}\fb@RB@
+            \Addvecself\fb@RB@{(\fb@xl,-\fb@xl)}%
+            \Addvec\fb@LB{(\shade@w,-\shade@hw)}\fb@LB@
+            \Addvecself\fb@LB@{(\fb@xl,-\fb@xl)}%
+            \Drawline<linethickness=\shade@rule>{\fb@LB@\fb@RB@\fb@RT@}%
+          }%
+        }{% 
+          \@ifundefined{not@T}{% 上あり，下なし
+            \Addvec\fb@RT{(\shade@hw,-\shade@w)}\fb@RT@
+            \Addvecself\fb@RT@{(\fb@xl,-\fb@xl)}%
+            \Addvec\fb@RB{(\shade@hw,0)}\fb@RB@
+            \Addvecself\fb@RB@{(\fb@xl,0)}%
+            \Drawline<linethickness=\shade@rule>{\fb@RB@\fb@RT@}%
+          }{% 上なし，下なし
+            \Addvec\fb@RT{(\shade@hw,0)}\fb@RT@
+            \Addvecself\fb@RT@{(\fb@xl,0)}%
+            \Addvec\fb@RB{(\shade@hw,0)}\fb@RB@
+            \Addvecself\fb@RB@{(\fb@xl,0)}%
+            \Drawline<linethickness=\shade@rule>{\fb@RB@\fb@RT@}%
+          }%
+        }%
+\grestore\egroup
+  \else
+    \gsave\bgroup
+%            \Addvec\fb@RT{(\shade@hw,-\shade@w)}\fb@RT@
+%            \Addvecself\fb@RT@{(\fb@xl,-\fb@xl)}%
+%            \Addvec\fb@RB{(\shade@hw,-\shade@hw)}\fb@RB@
+%            \Addvecself\fb@RB@{(\fb@xl,-\fb@xl)}%
+%            \Addvec\fb@LB{(\shade@w,-\shade@hw)}\fb@LB@
+%            \Addvecself\fb@LB@{(\fb@xl,-\fb@xl)}%
+%%           \Drawline<linethickness=\shade@rule>{\fb@LB@\fb@RB@\fb@RT@}%
+    \ukansan\rectbox@oval\tmp@c
+    \@tempdima\shade@rule
+    \divide\@tempdima\tw@
+    \advance\@tempdima\rectbox@oval
+    \ukansan\@tempdima\tmp@R
+    \Addvec\fb@RB{(-\tmp@c,\tmp@c)}\tmp@C
+    \ifx\empty\shade@color\else\EMpsIrositei{\shade@color}\fi
+    \@tempdima\shade@rule
+    \edef\shade@w{\strip@pt\@tempdima}%
+    \@Div\shade@w{2}\shade@hw
+    \ifdim\shade@rule<\rectbox@oval
+      \ukansan\rectbox@oval\tmp@w
+      \Addvecself\fb@RT{(\shade@hw,-\tmp@w)}%
+      \Addvecself\fb@LB{(\tmp@w,-\shade@hw)}%
+    \else
+      \Addvecself\fb@RT{(\shade@hw,-\shade@w)}%
+      \Addvecself\fb@LB{(\shade@w,-\shade@hw)}%
+    \fi
+    \psnewpath
+    \linethickness\shade@rule
+    \Addvec\tmp@C{(0,-\tmp@R)}\fb@RB@i%
+    \Addvec\tmp@C{(\tmp@R,0)}\fb@RB@ii
+    \psmoveto\fb@LB
+    \Addvecself\fb@RB{(\shade@hw,-\shade@hw)}%
+    \psarcto\fb@RB\fb@RT\tmp@R
+    \pslineto\fb@RT
+    \psstroke
+    \grestore\egroup
+\fi
+\fi
+%
+%      \setlinewidth{\frame@linewidth}%
+%      \ifx\empty\frame@color\else\EMpsIrositei{\frame@color}\fi
+      \ifdim\rectbox@oval=\z@
+        \psnewpath
+        \psmoveto\fb@LT
+        \pslineto\fb@LB
+        \pslineto\fb@RB
+        \pslineto\fb@RT
+      \else
+        \Tyuuten\fb@LT\fb@RT\fb@M
+        \psnewpath
+        \@ifundefined{not@B}{%
+          \@ifundefined{not@T}{%
+            \psmoveto\fb@itemL
+            \psarcto\fb@LT\fb@LB\r@@
+            \psarcto\fb@LB\fb@RB\r@@
+            \psarcto\fb@RB\fb@RT\r@@
+            \psarcto\fb@RT\fb@LT\r@@
+            \pslineto\fb@itemL
+          }{%
+            \psmoveto\fb@LT
+            \psarcto\fb@LB\fb@RB\r@@
+            \psarcto\fb@RB\fb@RT\r@@
+            \pslineto\fb@RT
+          }%
+        }{%
+          \@ifundefined{not@T}{%
+            \psmoveto\fb@itemL
+            \psarcto\fb@LT\fb@LB\r@@
+            \pslineto\fb@LB
+            \pslineto\fb@RB
+            \psarcto\fb@RT\fb@LT\r@@
+            \pslineto\fb@itemL
+          }{%
+            \psmoveto\fb@LT
+            \pslineto\fb@LB
+            \pslineto\fb@RB
+            \pslineto\fb@RT
+          }%
+        }%
+      \fi
+\gsave
+\psclip
+      \ifx\empty\background@color
+        \ifx\empty\grad@begin
+        \else
+          \ifthenelse{\equal\grad@angle{90}}{%
+            \ISub\grad@N{1}\grad@Nmi
+            \Ifor\rb@i{0}{\grad@N}\Do{%
+              \ISub{\grad@N}\rb@i\rb@j
+              \Bunten\fb@LT@\fb@RT@\rb@i\rb@j\rb@T
+              \Bunten\fb@LB@\fb@RB@\rb@i\rb@j\rb@B
+              \@Div\rb@i\grad@Nmi\rb@tmp
+              \EMmixcolor{\grad@begin}{\grad@end}{*}\rb@tmp{tmp@color}
+              \Nuritubusi<nuriiro=tmp@color>{\rb@T\rb@B\fb@RB@\fb@RT@}%
+            }%
+          }{%
+            \ifthenelse{\equal\grad@angle{0}}{%
+              \ISub\grad@N{1}\grad@Nmi
+              \Ifor\rb@i{0}{\grad@N}\Do{%
+                \ISub{\grad@N}\rb@i\rb@j
+                \Bunten\fb@LB\fb@LT\rb@i\rb@j\rb@L
+                \Bunten\fb@RB\fb@RT\rb@i\rb@j\rb@R
+                \@Div\rb@i\grad@Nmi\rb@tmp
+                \EMmixcolor{\grad@begin}{\grad@end}{*}\rb@tmp{tmp@color}
+                \Nuritubusi<nuriiro=tmp@color>{\rb@L\rb@R\fb@RT\fb@LT}%
+              }%
+            }{%
+            }%
+          }%
+        \fi
+      \else
+          \Nuritubusi<nuriiro=\background@color>\fb@region
+      \fi
+\grestore
+%
+% 枠線
+%
+\gsave
+      \setlinewidth{\frame@linewidth}%
+      \ifx\empty\frame@color\else\EMpsIrositei{\frame@color}\fi
+\ifdim\frame@linewidth>\z@
+	\ifdim\rectbox@oct>\z@
+    \@tempdimc\rectbox@oct\edef\hasenbox@l{\strip@pt\@tempdimc}%
+            \Addvec\fb@LT{(\hasenbox@l,0)}\hasenbox@A
+            \Addvec\fb@LT{(0,-\hasenbox@l)}\hasenbox@B
+            \Addvec\fb@LB{(0,\hasenbox@l)}\hasenbox@C
+            \Addvec\fb@LB{(\hasenbox@l,0)}\hasenbox@D
+            \Addvec\fb@RB{(-\hasenbox@l,0)}\hasenbox@E
+            \Addvec\fb@RB{(0,\hasenbox@l)}\hasenbox@F
+            \Addvec\fb@RT{(0,-\hasenbox@l)}\hasenbox@G
+            \Addvec\fb@RT{(-\hasenbox@l,0)}\hasenbox@H
+	\fi
+  \ifx\empty\hasenLG@
+    \ifx\empty\rectbox@dash\else
+      \setdash{\rectbox@dash}%
+    \fi
+\if Z\rectbox@LR
+        \@ifundefined{not@B}{%
+          \@ifundefined{not@T}{% 上あり，下あり
+\setlinecap{2}%
+            \ifdim\rectbox@oval=\z@
+              \Drawlines{\fb@itemL\fb@LT\fb@LB\fb@bitemL;%
+                \fb@bitemR\fb@RB\fb@RT\fb@itemR}%
+						\else\ifdim\rectbox@oct>\z@
+							\Drawlines{\fb@itemL\hasenbox@A\hasenbox@B\hasenbox@C\hasenbox@D
+								\fb@bitemL;\fb@bitemR\hasenbox@E\hasenbox@F\hasenbox@G
+								\hasenbox@H\fb@itemR}%
+            \else
+              \psnewpath
+              \psmoveto\fb@itemL
+              \psarcto\fb@LT\fb@LB\r@@
+              \psarcto\fb@LB\fb@RB\r@@
+              \pslineto\fb@bitemL
+              \psstroke
+              \psnewpath
+              \psmoveto\fb@bitemR
+              \psarcto\fb@RB\fb@RT\r@@
+              \psarcto\fb@RT\fb@LT\r@@
+              \pslineto\fb@itemR
+              \psstroke
+            \fi\fi
+          }{% 上なし，下あり
+            \ifdim\rectbox@oval=\z@
+              \Drawlines{\fb@LT\fb@LB\fb@bitemL;%
+                \fb@bitemR\fb@RB\fb@RT}%
+						\else\ifdim\rectbox@oct>\z@
+							\Drawlines{\fb@LT\hasenbox@C\hasenbox@D\fb@bitemL;
+								\fb@bitemR\hasenbox@E\hasenbox@F\fb@RT}%
+            \else
+              \psnewpath
+              \psmoveto\fb@LT
+              \psarcto\fb@LB\fb@RB\r@@
+              \pslineto\fb@bitemL
+              \psstroke
+              \psnewpath
+              \psmoveto\fb@RT
+              \psarcto\fb@RB\fb@LB\r@@
+              \pslineto\fb@bitemR
+              \psstroke
+            \fi\fi
+          }%
+        }{% 
+          \@ifundefined{not@T}{% 上あり，下なし
+            \ifdim\rectbox@oval=\z@
+              \Drawlines{\fb@itemL\fb@LT\fb@LB;%
+                \fb@RB\fb@RT\fb@itemR}%
+						\else\ifdim\rectbox@oct>\z@
+							\Drawlines{\fb@itemL\hasenbox@A\hasenbox@B\fb@LB
+								\fb@RB\hasenbox@G\hasenbox@H\fb@itemR}%
+            \else
+              \psnewpath
+              \psmoveto\fb@itemL
+              \psarcto\fb@LT\fb@LB\r@@
+              \pslineto\fb@LB
+              \psmoveto\fb@RB
+              \psarcto\fb@RT\fb@LT\r@@
+              \pslineto\fb@itemR
+              \psstroke
+            \fi\fi
+          }{% 上なし，下なし
+              \Drawlines{\fb@LT\fb@LB;\fb@RT\fb@RB}%
+          }%
+        }%
+\else
+      \if L\rectbox@LR
+        \ifdim\rectbox@oval=\z@
+          \@ifundefined{rectbox@kagi}{%
+						\if p\rectbox@corner
+		    	    \@ifundefined{not@B}{%
+		            \@ifundefined{not@T}{% 上あり，下あり
+									\Put\fb@LT(-3.45pt,0)[lt]{$\mathchar"4330$}%
+									\Put\fb@LB(-3.45pt,0)[lb]{$\mathchar"4340$}%
+									\Addvec\fb@LB{(0,18)}\fb@LB@B
+									\Addvec\fb@LT{(0,-18)}\fb@LT@T
+									\Drawline<linethickness=1.15pt>{\fb@LT@T\fb@LB@B}%
+		            }{% 上なし，下あり
+									\Put\fb@LB(-3.45pt,0)[lb]{$\mathchar"4340$}%
+									\Addvec\fb@LB{(0,18)}\fb@LB@B
+									\Drawline<linethickness=1.15pt>{\fb@LT\fb@LB@B}%
+								}%
+		  	      }{% 
+			          \@ifundefined{not@T}{% 上あり，下なし
+									\Put\fb@LT(-3.45pt,0)[lt]{$\mathchar"4330$}%
+									\Addvec\fb@LT{(0,-18)}\fb@LT@T
+									\Drawline<linethickness=1.15pt>{\fb@LT@T\fb@LB}%
+		            }{% 上なし，下なし
+		              \Drawlines<linethickness=1.15pt>{\fb@LT\fb@LB}%
+		            }%
+							}%
+						\else
+	            \Drawline{\fb@LT\fb@LB}%
+						\fi
+          }{%
+                    \Rdef(\kagi@l,\kagi@a)\kagi@tmp
+                    \vecXY\kagi@tmp\kagi@x\kagi@y
+                    \Addvec\fb@LT{(0,-\kagi@y)}\fb@LT@
+                    \Addvec\fb@LT{(\kagi@x,0)}\fb@LT@@
+                    \Addvec\fb@LB{(0,\kagi@y)}\fb@LB@
+                    \Addvec\fb@LB{(\kagi@x,0)}\fb@LB@@
+                    \@ifundefined{not@B}{%
+                      \@ifundefined{not@T}{% 上あり，下あり
+                        \Drawline{\fb@LT@@\fb@LT@\fb@LB@\fb@LB@@}%
+                      }{% 上なし，下あり
+                        \Drawline{\fb@LT\fb@LB@\fb@LB@@}%
+                      }%
+                    }{%
+                      \@ifundefined{not@T}{% 上あり，下なし
+                        \Drawline{\fb@LT@@\fb@LT@\fb@LB}%
+                      }{% 上なし，下なし
+                        \Drawline{\fb@LT\fb@LB}%
+                      }%
+                    }%
+          }%
+        \else\ifdim\rectbox@oct>\z@
+          \@ifundefined{not@B}{%
+            \@ifundefined{not@T}{% 上あり，下あり
+							\Drawline{\hasenbox@A\hasenbox@B\hasenbox@C\hasenbox@D}
+            }{% 上なし，下あり
+							\Drawline{\fb@LT\hasenbox@C\hasenbox@D}
+            }%
+          }{% 
+            \@ifundefined{not@T}{% 上あり，下なし
+							\Drawline{\hasenbox@A\hasenbox@B\fb@LB}
+            }{% 上なし，下なし
+              \Drawline{\fb@LT\fb@LB}%
+            }%
+          }%
+        \else
+          \Tyuuten\fb@LT\fb@LB\fb@LM
+          \@ifundefined{not@B}{%
+            \@ifundefined{not@T}{% 上あり，下あり
+              \psnewpath
+              \psmoveto\fb@LM
+              \psarcto\fb@LT\fb@RT\r@@
+              \psstroke
+              \psnewpath
+              \psmoveto\fb@LM
+              \psarcto\fb@LB\fb@RB\r@@
+              \psstroke
+            }{% 上なし，下あり
+              \psnewpath
+              \psmoveto\fb@LT
+              \psarcto\fb@LB\fb@RB\r@@
+              \psstroke
+            }%
+          }{% 
+            \@ifundefined{not@T}{% 上あり，下なし
+              \psnewpath
+              \psmoveto\fb@LB
+              \psarcto\fb@LT\fb@RT\r@@
+              \psstroke
+            }{% 上なし，下なし
+              \Drawline{\fb@LT\fb@LB}%
+            }%
+          }%
+        \fi\fi
+      \else\if R\rectbox@LR
+        \ifdim\rectbox@oval=\z@
+          \@ifundefined{rectbox@kagi}{%
+						\if p\rectbox@corner
+		    	    \@ifundefined{not@B}{%
+		            \@ifundefined{not@T}{% 上あり，下あり
+									\Put\fb@RT(-5.3pt,0)[lt]{$\mathchar"4331$}%
+									\Put\fb@RB(-5.3pt,0)[lb]{$\mathchar"4341$}%
+									\Addvec\fb@RT{(0,-18)}\fb@RT@T
+									\Addvec\fb@RB{(0,18)}\fb@RB@B
+									\Drawline<linethickness=1.15pt>{\fb@RT@T\fb@RB@B}%
+		            }{% 上なし，下あり
+									\Put\fb@RB(-5.3pt,0)[lb]{$\mathchar"4341$}%
+									\Addvec\fb@RB{(0,18)}\fb@RB@B
+									\Drawline<linethickness=1.15pt>{\fb@RT\fb@RB@B}%
+								}%
+		  	      }{% 
+			          \@ifundefined{not@T}{% 上あり，下なし
+									\Put\fb@RT(-5.3pt,0)[lt]{$\mathchar"4331$}%
+									\Addvec\fb@RT{(0,-18)}\fb@RT@T
+									\Drawline<linethickness=1.15pt>{\fb@RT@T\fb@RB}%
+		            }{% 上なし，下なし
+		              \Drawline<linethickness=1.15pt>{\fb@RT\fb@RB}%
+		            }%
+							}%
+						\else
+	            \Drawline<linethickness=1.15pt>{\fb@RT\fb@RB}%
+						\fi
+          }{%
+            \Rdef(\kagi@l,\kagi@a)\kagi@tmp
+            \vecXY\kagi@tmp\kagi@x\kagi@y
+            \Addvec\fb@RT{(0,-\kagi@y)}\fb@RT@
+            \Addvec\fb@RT{(-\kagi@x,0)}\fb@RT@@
+            \Addvec\fb@RB{(0,\kagi@y)}\fb@RB@
+            \Addvec\fb@RB{(-\kagi@x,0)}\fb@RB@@
+            \@ifundefined{not@B}{%
+              \@ifundefined{not@T}{% 上あり，下あり
+                \Drawline{\fb@RT@@\fb@RT@\fb@RB@\fb@RB@@}%
+              }{% 上なし，下あり
+                \Drawline{\fb@RT\fb@RB@\fb@RB@@}%
+              }%
+            }{%
+              \@ifundefined{not@T}{% 上あり，下なし
+                \Drawline{\fb@RT@@\fb@RT@\fb@RB}%
+              }{% 上なし，下なし
+                \Drawline{\fb@RT\fb@RB}%
+              }%
+            }%
+          }%
+        \else\ifdim\rectbox@oct>\z@
+          \@ifundefined{not@B}{%
+            \@ifundefined{not@T}{% 上あり，下あり
+							\Drawline{\hasenbox@E\hasenbox@F\hasenbox@G\hasenbox@H}
+            }{% 上なし，下あり
+							\Drawline{\fb@RT\hasenbox@F\hasenbox@E}
+            }%
+          }{% 
+            \@ifundefined{not@T}{% 上あり，下なし
+							\Drawline{\fb@RB\hasenbox@G\hasenbox@H}
+            }{% 上なし，下なし
+              \Drawline{\fb@LT\fb@LB}%
+            }%
+          }%
+        \else
+          \Tyuuten\fb@RT\fb@RB\fb@RM
+          \@ifundefined{not@B}{%
+            \@ifundefined{not@T}{% 上あり，下あり
+              \psnewpath
+              \psmoveto\fb@RM
+              \psarcto\fb@RT\fb@LT\r@@
+              \psstroke
+              \psnewpath
+              \psmoveto\fb@RM
+              \psarcto\fb@RB\fb@LB\r@@
+              \psstroke
+            }{% 上なし，下あり
+              \psnewpath
+              \psmoveto\fb@RT
+              \psarcto\fb@RB\fb@LB\r@@
+              \psstroke
+            }%
+          }{% 
+            \@ifundefined{not@T}{% 上あり，下なし
+              \psnewpath
+              \psmoveto\fb@RB
+              \psarcto\fb@RT\fb@LT\r@@
+              \psstroke
+            }{% 上なし，下なし
+              \Drawline{\fb@RT\fb@RB}%
+            }%
+          }%
+        \fi\fi
+      \else\if B\rectbox@LR
+        \ifdim\rectbox@oval=\z@
+          \@ifundefined{rectbox@kagi}{%
+						\if p\rectbox@corner
+		    	    \@ifundefined{not@B}{%
+		            \@ifundefined{not@T}{% 上あり，下あり
+%									\Put\fb@LT(-3.45pt,0)[lt]{$\mathchar"4330$}%
+%									\Put\fb@LB(-3.45pt,0)[lb]{$\mathchar"4340$}%
+%									\Addvec\fb@LB{(0,18)}\fb@LB@B
+%									\Addvec\fb@LT{(0,-18)}\fb@LT@T
+%									\Drawline<linethickness=1.15pt>{\fb@LT@T\fb@LB@B}%
+%									\Put\fb@RT(-5.3pt,0)[lt]{$\mathchar"4331$}%
+%									\Put\fb@RB(-5.3pt,0)[lb]{$\mathchar"4341$}%
+%									\Addvec\fb@RT{(0,-18)}\fb@RT@T
+%									\Addvec\fb@RB{(0,18)}\fb@RB@B
+%									\Drawline<linethickness=1.15pt>{\fb@RT@T\fb@RB@B}%
+									\vecXY\fb@LT\fb@dmy\fb@yi
+									\vecXY\fb@LB\fb@dmy\fb@yii
+									\@tempdima\fb@yi\p@
+									\advance\@tempdima-\fb@yii\p@
+									\advance\@tempdima6\p@
+									\divide\@tempdima\tw@
+									\edef\fb@hhh{\the\@tempdima}%
+									\ifdim\fb@hhh<32\p@
+										\Put\fb@LB(-3.45pt,0)[lb]{%
+											$\left(\vrule height \fb@hhh width \z@\right.$}%
+										\Put\fb@RB(-5.3pt,0)[lb]{%
+											$\left.\vrule height \fb@hhh width \z@\right)$}%
+									\else
+										\Put\fb@LT(-3.45pt,0)[lt]{$\mathchar"4330$}%
+										\Put\fb@LB(-3.45pt,0)[lb]{$\mathchar"4340$}%
+										\Addvec\fb@LB{(0,18)}\fb@LB@B
+										\Addvec\fb@LT{(0,-18)}\fb@LT@T
+										\Drawline<linethickness=1.15pt>{\fb@LT@T\fb@LB@B}%
+										\Put\fb@RT(-5.3pt,0)[lt]{$\mathchar"4331$}%
+										\Put\fb@RB(-5.3pt,0)[lb]{$\mathchar"4341$}%
+										\Addvec\fb@RT{(0,-18)}\fb@RT@T
+										\Addvec\fb@RB{(0,18)}\fb@RB@B
+										\Drawline<linethickness=1.15pt>{\fb@RT@T\fb@RB@B}%
+  	              \fi
+		            }{% 上なし，下あり
+									\Put\fb@LB(-3.45pt,0)[lb]{$\mathchar"4340$}%
+									\Put\fb@RB(-5.3pt,0)[lb]{$\mathchar"4341$}%
+									\ifdim\fb@H\p@>16\p@
+										\Addvec\fb@LB{(0,18)}\fb@LB@B
+										\Drawline<linethickness=1.15pt>{\fb@LT\fb@LB@B}%
+										\Addvec\fb@RB{(0,18)}\fb@RB@B
+										\Drawline<linethickness=1.15pt>{\fb@RT\fb@RB@B}%
+									\fi
+								}%
+		  	      }{% 
+			          \@ifundefined{not@T}{% 上あり，下なし
+									\Put\fb@LT(-3.45pt,0)[lt]{$\mathchar"4330$}%
+									\Addvec\fb@LT{(0,-18)}\fb@LT@T
+									\Drawline<linethickness=1.15pt>{\fb@LT@T\fb@LB}%
+									\Put\fb@RT(-5.3pt,0)[lt]{$\mathchar"4331$}%
+									\Addvec\fb@RT{(0,-18)}\fb@RT@T
+									\Drawline<linethickness=1.15pt>{\fb@RT@T\fb@RB}%
+		            }{% 上なし，下なし
+		              \Drawlines<linethickness=1.15pt>{\fb@LT\fb@LB;\fb@RT\fb@RB}%
+		            }%
+							}%
+						\else
+	            \Drawlines{\fb@LT\fb@LB;\fb@RT\fb@RB}%
+						\fi
+          }{%
+                    \Rdef(\kagi@l,\kagi@a)\kagi@tmp
+                    \vecXY\kagi@tmp\kagi@x\kagi@y
+                    \Addvec\fb@LT{(0,-\kagi@y)}\fb@LT@
+                    \Addvec\fb@LT{(\kagi@x,0)}\fb@LT@@
+                    \Addvec\fb@LB{(0,\kagi@y)}\fb@LB@
+                    \Addvec\fb@LB{(\kagi@x,0)}\fb@LB@@
+                    \Addvec\fb@RT{(0,-\kagi@y)}\fb@RT@
+                    \Addvec\fb@RT{(-\kagi@x,0)}\fb@RT@@
+                    \Addvec\fb@RB{(0,\kagi@y)}\fb@RB@
+                    \Addvec\fb@RB{(-\kagi@x,0)}\fb@RB@@
+                    \@ifundefined{not@B}{%
+                      \@ifundefined{not@T}{% 上あり，下あり
+                        \Drawline{\fb@RT@@\fb@RT@\fb@RB@\fb@RB@@}%
+                        \Drawline{\fb@LT@@\fb@LT@\fb@LB@\fb@LB@@}%
+                      }{% 上なし，下あり
+                        \Drawline{\fb@RT\fb@RB@\fb@RB@@}%
+                        \Drawline{\fb@LT\fb@LB@\fb@LB@@}%
+                      }%
+                    }{%
+                      \@ifundefined{not@T}{% 上あり，下なし
+                        \Drawline{\fb@RT@@\fb@RT@\fb@RB}%
+                        \Drawline{\fb@LT@@\fb@LT@\fb@LB}%
+                      }{% 上なし，下なし
+                        \Drawlines{\fb@LT\fb@LB;\fb@RT\fb@RB}%
+                      }%
+                    }%
+          }%
+        \else\ifdim\rectbox@oct>\z@
+          \@ifundefined{not@B}{%
+            \@ifundefined{not@T}{% 上あり，下あり
+							\Drawlines{\hasenbox@A\hasenbox@B\hasenbox@C\hasenbox@D;
+								\hasenbox@E\hasenbox@F\hasenbox@G\hasenbox@H}
+            }{% 上なし，下あり
+							\Drawlines{\fb@LT\hasenbox@C\hasenbox@D;
+								\hasenbox@E\hasenbox@F\fb@RT}
+            }%
+          }{% 
+            \@ifundefined{not@T}{% 上あり，下なし
+							\Drawlines{\hasenbox@A\hasenbox@B\fb@LB;
+								\hasenbox@H\hasenbox@G\fb@RB}
+            }{% 上なし，下なし
+              \Drawline{\fb@LT\fb@LB}%
+            }%
+          }%
+        \else
+          \Tyuuten\fb@LT\fb@LB\fb@LM
+          \Tyuuten\fb@RT\fb@RB\fb@RM
+          \@ifundefined{not@B}{%
+            \@ifundefined{not@T}{% 上あり，下あり
+              \psnewpath
+              \psmoveto\fb@LM
+              \psarcto\fb@LT\fb@RT\r@@
+              \psstroke
+              \psnewpath
+              \psmoveto\fb@LM
+              \psarcto\fb@LB\fb@RB\r@@
+              \psstroke
+              \psnewpath
+              \psmoveto\fb@RM
+              \psarcto\fb@RT\fb@LT\r@@
+              \psstroke
+              \psnewpath
+              \psmoveto\fb@RM
+              \psarcto\fb@RB\fb@LB\r@@
+              \psstroke
+            }{% 上なし，下あり
+              \psnewpath
+              \psmoveto\fb@LT
+              \psarcto\fb@LB\fb@RB\r@@
+              \psstroke
+              \psnewpath
+              \psmoveto\fb@RT
+              \psarcto\fb@RB\fb@LB\r@@
+              \psstroke
+            }%
+          }{% 
+            \@ifundefined{not@T}{% 上あり，下なし
+              \psnewpath
+              \psmoveto\fb@LB
+              \psarcto\fb@LT\fb@RT\r@@
+              \psstroke
+              \psnewpath
+              \psmoveto\fb@RB
+              \psarcto\fb@RT\fb@LT\r@@
+              \psstroke
+            }{% 上なし，下なし
+              \Drawlines{\fb@LT\fb@LB;\fb@RT\fb@RB}%
+            }%
+          }%
+        \fi\fi
+      \fi\fi\fi
+\fi
+  \else
+      \ifdim\rectbox@oval>\z@
+        \errmessage{%
+          oval, hasenLG は併用できません。hasenLG ではなく dash を用います}
+      \fi
+      \@ifundefined{not@B}{%
+        \@ifundefined{not@T}{% 上あり，下あり
+          \ifx\empty\rectbox@item
+            \ifx\empty\rectbox@bitem% 見出しなし
+              \Takakkei<hasenLG={\hasenLG@}>{\fb@LT\fb@LB\fb@RB\fb@RT}%
+            \else% 下見出しのみ
+              \Drawline<hasenLG={\hasenLG@}>{%
+                \fb@bitemL\fb@LB\fb@LT\fb@RT\fb@RB\fb@bitemR
+              }%
+            \fi
+          \else
+            \ifx\empty\rectbox@bitem% 上見出しのみ
+              \Drawline<hasenLG={\hasenLG@}>{%
+                \fb@itemL\fb@LT\fb@LB\fb@RB\fb@RT\fb@itemR
+              }%
+            \else% 上下見出し
+              \Drawlines<hasenLG={\hasenLG@}>{\fb@itemL\fb@LT\fb@LB\fb@bitemL;
+                \fb@itemR\fb@RT\fb@RB\fb@bitemR
+              }%
+            \fi
+          \fi
+        }{% 上なし，下あり
+          \ifx\empty\rectbox@bitem
+            \Drawline<hasenLG={\hasenLG@}>{\fb@LT\fb@LB\fb@RB\fb@RT}%
+          \else
+            \Drawlines<hasenLG={\hasenLG@}>{\fb@LT\fb@LB\fb@bitemL;
+              \fb@bitemR\fb@RB\fb@RT
+            }%
+          \fi
+        }%
+      }{%
+        \@ifundefined{not@T}{% 上あり，下なし
+          \ifx\empty\rectbox@item
+            \Drawline<hasenLG={\hasenLG@}>{\fb@LB\fb@LT\fb@RT\fb@RB}%
+          \else
+            \Drawlines<hasenLG={\hasenLG@}>{%
+              \fb@itemL\fb@LT\fb@LB;\fb@RB\fb@RT\fb@itemR}%
+          \fi
+        }{% 上なし，下なし
+          \Drawlines<hasenLG={\hasenLG@}>{\fb@LB\fb@LT;\fb@RT\fb@RB}%
+        }%
+      }%
+  \fi
+\fi
+\grestore
+%
+% 見出し出力
+%
+%\typeout{emathPsb:\copy\rectbox@item@box}\yyy
+      \@ifundefined{not@T}{%
+        \ifx\empty\rectbox@item
+        \else
+          \cPut\fb@itemL(0,0)[l]{\box\rectbox@item@box}%
+        \fi
+      }{}%
+      \@ifundefined{not@B}{%
+        \ifx\empty\rectbox@bitem
+        \else
+          \cPut\fb@bitemL(0,0)[l]{\box\rectbox@bitem@box}%
+        \fi
+      }{}%
+    \ifx\empty\apn@zahyou\else
+      \edef\LT{\fb@LT}%
+      \edef\LB{\fb@LB}%
+      \edef\RT{\fb@RT}%
+      \edef\RB{\fb@RB}%
+%\typeout{2:apn@zahyou=\meaning\apn@zahyou}%\yyy%
+      \apn@zahyou
+    \fi
+    \endpszahyou
+  \end{picture}%
+%
+% テキスト
+%
+  \ifdim\shade@rule>\z@
+    \@tempdima=\wd\ps@box
+    \advance\@tempdima\shade@rule
+    \wd\ps@box\@tempdima
+    \@tempdima\dp\ps@box
+    \advance\@tempdima\shade@rule
+    \@ifundefined{not@B}{\dp\ps@box\@tempdima}{}%
+%    \@ifundefined{not@B}{\vspace{\shade@rule}}{}%
+  \fi
+  \hskip\frame@linewidth\hskip\l@sep
+  \box\ps@box\relax
+  \hskip\frame@linewidth\hskip\r@sep
+\egroup
+\grestore}\ignorespaces}%
+%
+\def\EMpsboxed{\@ifnextchar<{\@EMpsboxed}{\@EMpsboxed<\empty>}}%
+\def\@EMpsboxed<#1>#2{\EMpsfbox<#1>{\m@th$\displaystyle#2$}}%
+\let\psboxed\EMpsboxed
+%
+\long\def\@EMpsfbox@<#1>#2{{\gsave
+%  \setlength{\unitlength}{1pt}%
+%  \@ifundefined{xunitlength}{}{\setlength{\xunitlength}{1pt}}%
+%  \@ifundefined{yunitlength}{}{\setlength{\yunitlength}{1pt}}%
+  \edef\frame@linewidth{1pt}%
+  \edef\rectbox@oval{0pt}%
+  \edef\rectbox@dash{\empty}%
+  \edef\hasenLG@{\empty}%
+  \edef\h@sep{\the\fboxsep}%
+  \edef\v@sep{\the\fboxsep}%
+  \edef\l@sep{\empty}%
+  \edef\r@sep{\empty}%
+  \edef\t@sep{\empty}%
+  \edef\b@sep{\empty}%
+  \edef\rectbox@Width{\empty}%
+  \edef\rectbox@item{\empty}%
+  \edef\rectbox@preitem{\empty}%
+  \edef\rectbox@postitem{\empty}%
+  \def\rectbox@item@pos{l}%
+  \edef\rectbox@bitem{\empty}%
+  \edef\rectbox@prebitem{\empty}%
+  \edef\rectbox@postbitem{\empty}%
+  \def\rectbox@bitem@pos{r}%
+  \edef\psz@option{\empty}%
+%
+  \setbox\ps@box=\hbox{#2}%
+%
+  \@ifundefined{not@T}{}{%
+    \@tempdima\ht\ps@box\advance\@tempdima 3\p@
+    \ht\ps@box=\@tempdima
+  }%
+  \@ifundefined{not@B}{}{%
+    \@tempdima\dp\ps@box\advance\@tempdima 3\p@
+    \dp\ps@box=\@tempdima
+  }%
+%
+  \edef\rectbox@width{\the\wd\ps@box}%
+  \edef\fb@h{\strip@pt\ht\ps@box}%
+  \edef\fb@d{\strip@pt\dp\ps@box}%
+  \edef\background@color{\empty}%
+  \edef\frame@color{\empty}%
+  \edef\shade@color{\empty}%
+%
+  \edef\grad@angle{90}%
+  \edef\grad@N{10}%
+  \edef\grad@begin{\empty}%
+  \edef\grad@end{\empty}%
+  \def\grad@borderwidth{0pt}%
+  \edef\fb@dLT{(0,0)}%
+  \edef\fb@dLB{(0,0)}%
+  \edef\fb@dRT{(0,0)}%
+  \edef\fb@dRB{(0,0)}%
+%
+  \ifx\empty #1\else\setkeys{emPsb}{#1}\fi
+  \@tempdima\shade@rule
+  \edef\shade@w{\strip@pt\@tempdima}%
+  \@Div\shade@w{2}\shade@hw
+%
+  \ifx\empty\t@sep\edef\t@sep{\v@sep}\fi
+  \ifx\empty\b@sep\edef\b@sep{\v@sep}\fi
+  \ifx\empty\l@sep\edef\l@sep{\h@sep}\fi
+  \ifx\empty\r@sep\edef\r@sep{\h@sep}\fi
+%  \@ifundefined{rectbox@LR}{}{%
+    \if L\rectbox@LR
+      \edef\r@sep{0pt}%
+    \else\if R\rectbox@LR
+      \edef\l@sep{0pt}%
+    \fi\fi
+%  }{}%
+  \ifx\empty\rectbox@Width\else
+    \@tempdima\rectbox@Width
+    \advance\@tempdima-\frame@linewidth
+    \advance\@tempdima-\frame@linewidth
+    \advance\@tempdima-\l@sep
+    \advance\@tempdima-\rectbox@width
+    \edef\r@sep{\the\@tempdima}%
+  \fi
+%
+  \ifthenelse{\equal\rectbox@item\empty}{\def\item@ht{0pt}}{%
+    \setbox\rectbox@item@box=\hbox{{%
+      \rectbox@preitem\rectbox@item\rectbox@postitem}}%
+    \edef\item@w{\strip@pt\wd\rectbox@item@box}%
+    \@Div\item@w{2}\item@w@half
+    \@tempdima=\ht\rectbox@item@box\advance\@tempdima\dp\rectbox@item@box
+    \divide\@tempdima\tw@
+    \edef\item@ht{\the\@tempdima}%
+  }%
+  \ifthenelse{\equal\rectbox@bitem\empty}{\def\bitem@ht{0pt}}{%
+    \setbox\rectbox@bitem@box=\hbox{%
+      \rectbox@prebitem\rectbox@bitem\rectbox@postbitem}%
+    \edef\bitem@w{\strip@pt\wd\rectbox@bitem@box}%
+    \@Div\bitem@w{2}\bitem@w@half
+    \@tempdima=\ht\rectbox@bitem@box\advance\@tempdima\dp\rectbox@bitem@box
+    \divide\@tempdima\tw@
+    \edef\bitem@ht{\the\@tempdima}%
+  }%
+%
+  \@tempdima=\frame@linewidth
+  \@tempdima=.5\@tempdima
+  \edef\fb@xl{\strip@pt\@tempdima}%
+  \setlength{\@tempdima}{%
+    \rectbox@width+\l@sep+\r@sep+\frame@linewidth+\frame@linewidth}%
+%  \@tempdima0.996264\@tempdima
+  \edef\fb@W{\strip@pt\@tempdima}%
+  \@ifundefined{not@T}{%
+    \setlength{\@tempdima}{\fb@h\p@+\frame@linewidth+\t@sep+\item@ht}%
+  }{%
+    \setlength{\@tempdima}{\fb@h\p@+\frame@linewidth}%
+  }%
+%  \@tempdima0.996264\@tempdima
+  \edef\fb@H{\strip@pt\@tempdima}%
+  \@ifundefined{not@B}{%
+    \setlength{\@tempdima}{\fb@d\p@+\frame@linewidth+\b@sep+\bitem@ht}%
+  }{%
+    \setlength{\@tempdima}{\fb@d\p@+\frame@linewidth}%
+  }%
+%  \@tempdima0.996264\@tempdima
+  \edef\fb@D{\strip@pt\@tempdima}%
+  \setlength{\psfboxW}{\fb@W\p@}%
+  \setlength{\psfboxV}{\fb@H\p@+\fb@D\p@}%
+  \Sub\fb@W\fb@xl\fb@xr
+  \Sub\fb@H\fb@xl\fb@yh
+  \Sub\fb@D\fb@xl\fb@yd
+  \Add\fb@yh\fb@yd\fb@yhd
+\uxkansan{\fb@xl\p@}\fb@xl
+\uxkansan{\fb@xr\p@}\fb@xr
+\uykansan{\fb@yhd\p@}\fb@yhd
+  \edef\fb@LT{(\fb@xl,\fb@yhd)}%
+  \edef\fb@LB{(\fb@xl,0)}%
+  \edef\fb@RT{(\fb@xr,\fb@yhd)}%
+  \edef\fb@RB{(\fb@xr,0)}%
+  \Addvec*\fb@LT\fb@dLT\fb@LT@
+  \Addvec*\fb@LB\fb@dLB\fb@LB@
+  \Addvec*\fb@RT\fb@dRT\fb@RT@
+  \Addvec*\fb@RB\fb@dRB\fb@RB@
+  \edef\fb@region{\fb@LT\fb@LB\fb@RB\fb@RT}%
+  \setlength{\@tempdima}{\rectbox@oval+\rectbox@oval}%
+  \ifdim\@tempdima>\psfboxV
+    \setlength{\@tempdima}{.5\psfboxV}%
+    \edef\rectbox@oval{\the\@tempdima}%
+  \fi
+  \ukansan{\rectbox@oval}\r@@
+% 上見出し位置
+  \ifx\empty\rectbox@item
+    \Tyuuten\fb@LT\fb@RT\fb@MT
+    \edef\fb@itemL{\fb@MT}%
+    \edef\fb@itemR{\fb@MT}%
+  \else
+    \if l\rectbox@item@pos
+      \setlength{\@tempdima}{\fb@xl\p@+10pt+\rectbox@oval}%
+      \edef\item@lx{\strip@pt\@tempdima}%
+      \advance\@tempdima\item@w\p@
+      \edef\item@rx{\strip@pt\@tempdima}%
+      \Addvec\fb@LT{(\item@lx,0)}\fb@itemL
+      \Addvec\fb@LT{(\item@rx,0)}\fb@itemR
+    \else\if r\rectbox@item@pos
+      \setlength{\@tempdima}{\fb@xr\p@-10pt-\rectbox@oval}%
+      \edef\item@rx{\strip@pt\@tempdima}%
+      \advance\@tempdima-\item@w\p@
+      \edef\item@lx{\strip@pt\@tempdima}%
+      \Addvec\fb@LT{(\item@lx,0)}\fb@itemL
+      \Addvec\fb@LT{(\item@rx,0)}\fb@itemR
+    \else
+      \Tyuuten\fb@LT\fb@RT\fb@MT
+      \Addvec\fb@MT{(-\item@w@half,0)}\fb@itemL
+      \Addvec\fb@MT{(\item@w@half,0)}\fb@itemR
+    \fi\fi
+  \fi
+  \ifx\empty\rectbox@bitem
+    \Tyuuten\fb@LB\fb@RB\fb@MB
+    \edef\fb@bitemL{\fb@MB}%
+    \edef\fb@bitemR{\fb@MB}%
+  \else
+    \if l\rectbox@bitem@pos
+      \setlength{\@tempdima}{\fb@xl\p@+10pt+\rectbox@oval}%
+      \edef\bitem@lx{\strip@pt\@tempdima}%
+      \advance\@tempdima\bitem@w\p@
+      \edef\bitem@rx{\strip@pt\@tempdima}%
+      \Addvec\fb@LB{(\bitem@lx,0)}\fb@bitemL
+      \Addvec\fb@LB{(\bitem@rx,0)}\fb@bitemR
+    \else\if r\rectbox@bitem@pos
+      \setlength{\@tempdima}{\fb@xr\p@-10pt-\rectbox@oval}%
+      \edef\bitem@rx{\strip@pt\@tempdima}%
+      \advance\@tempdima-\bitem@w\p@
+      \edef\bitem@lx{\strip@pt\@tempdima}%
+      \Addvec\fb@LB{(\bitem@lx,0)}\fb@bitemL
+      \Addvec\fb@LB{(\bitem@rx,0)}\fb@bitemR
+    \else
+      \Tyuuten\fb@LB\fb@RB\fb@MB
+      \Addvec\fb@MB{(-\bitem@w@half,0)}\fb@bitemL
+      \Addvec\fb@MB{(\bitem@w@half,0)}\fb@bitemR
+    \fi\fi
+  \fi
+%
+% 支柱
+%
+  \@tempdima=\fb@H\p@
+  \@ifundefined{not@T}{\advance\@tempdima\item@ht}{}%
+  \edef\fb@H@{\strip@pt\@tempdima}%
+  \@tempdima=\fb@D\p@
+  \@ifundefined{not@B}{\advance\@tempdima\bitem@ht}{}%
+  \edef\fb@D@{\strip@pt\@tempdima}%
+  \vrule height \fb@H@\p@ depth \fb@D@\p@ width \z@
+%
+% 背景色
+%
+%  \begin{picture}(0,0)\relax
+    \Add\fb@W\shade@w\fb@W@
+    \Add\fb@D\shade@w\fb@D@
+    \ifthenelse{\equal\psz@option\empty}{%
+      \edef\fb@tmp{[haiti=o](0,\fb@W@)(-\fb@D@,\fb@H)}%
+    }{%
+      \edef\fb@tmp{[\psz@option,haiti=o](0,\fb@W@)(-\fb@D@,\fb@H)}%
+    }%
+%    \expandafter\pszahyou\fb@tmp
+%      \drawaxisfalse
+%
+%
+% shade
+%
+\ifdim\shade@rule>\z@
+\ifdim\rectbox@oval=\z@
+\bgroup\gsave
+      \ifx\empty\shade@color\else\EMpsIrositei{\shade@color}\fi
+        \@ifundefined{not@B}{%
+          \@ifundefined{not@T}{% 上あり，下あり
+            \Addvec\fb@RT{(\shade@hw,-\shade@w)}\fb@RT@
+            \Addvecself\fb@RT@{(\fb@xl,-\fb@xl)}%
+            \Addvec\fb@RB{(\shade@hw,-\shade@hw)}\fb@RB@
+            \Addvecself\fb@RB@{(\fb@xl,-\fb@xl)}%
+            \Addvec\fb@LB{(\shade@w,-\shade@hw)}\fb@LB@
+            \Addvecself\fb@LB@{(\fb@xl,-\fb@xl)}%
+            \Drawline<linethickness=\shade@rule>{\fb@LB@\fb@RB@\fb@RT@}%
+          }{% 上なし，下あり
+            \Addvec\fb@RT{(\shade@hw,0)}\fb@RT@
+            \Addvecself\fb@RT@{(\fb@xl,0)}%
+            \Addvec\fb@RB{(\shade@hw,-\shade@hw)}\fb@RB@
+            \Addvecself\fb@RB@{(\fb@xl,-\fb@xl)}%
+            \Addvec\fb@LB{(\shade@w,-\shade@hw)}\fb@LB@
+            \Addvecself\fb@LB@{(\fb@xl,-\fb@xl)}%
+            \Drawline<linethickness=\shade@rule>{\fb@LB@\fb@RB@\fb@RT@}%
+          }%
+        }{% 
+          \@ifundefined{not@T}{% 上あり，下なし
+            \Addvec\fb@RT{(\shade@hw,-\shade@w)}\fb@RT@
+            \Addvecself\fb@RT@{(\fb@xl,-\fb@xl)}%
+            \Addvec\fb@RB{(\shade@hw,0)}\fb@RB@
+            \Addvecself\fb@RB@{(\fb@xl,0)}%
+            \Drawline<linethickness=\shade@rule>{\fb@RB@\fb@RT@}%
+          }{% 上なし，下なし
+            \Addvec\fb@RT{(\shade@hw,0)}\fb@RT@
+            \Addvecself\fb@RT@{(\fb@xl,0)}%
+            \Addvec\fb@RB{(\shade@hw,0)}\fb@RB@
+            \Addvecself\fb@RB@{(\fb@xl,0)}%
+            \Drawline<linethickness=\shade@rule>{\fb@RB@\fb@RT@}%
+          }%
+        }%
+\grestore\egroup
+\fi
+\fi
+%
+%      \setlinewidth{\frame@linewidth}%
+%      \ifx\empty\frame@color\else\EMpsIrositei{\frame@color}\fi
+      \ifdim\rectbox@oval=\z@
+        \psnewpath
+        \psmoveto\fb@LT
+        \pslineto\fb@LB
+        \pslineto\fb@RB
+        \pslineto\fb@RT
+      \else
+        \Tyuuten\fb@LT\fb@RT\fb@M
+        \psnewpath
+        \@ifundefined{not@B}{%
+          \@ifundefined{not@T}{%
+            \psmoveto\fb@itemL
+            \psarcto\fb@LT\fb@LB\r@@
+            \psarcto\fb@LB\fb@RB\r@@
+            \psarcto\fb@RB\fb@RT\r@@
+            \psarcto\fb@RT\fb@LT\r@@
+            \pslineto\fb@itemL
+          }{%
+            \psmoveto\fb@LT
+            \psarcto\fb@LB\fb@RB\r@@
+            \psarcto\fb@RB\fb@RT\r@@
+            \pslineto\fb@RT
+          }%
+        }{%
+          \@ifundefined{not@T}{%
+            \psmoveto\fb@itemL
+            \psarcto\fb@LT\fb@LB\r@@
+            \pslineto\fb@LB
+            \pslineto\fb@RB
+            \psarcto\fb@RT\fb@LT\r@@
+            \pslineto\fb@itemL
+          }{%
+            \psmoveto\fb@LT
+            \pslineto\fb@LB
+            \pslineto\fb@RB
+            \pslineto\fb@RT
+          }%
+        }%
+      \fi
+\gsave
+\psclip
+      \ifx\empty\background@color
+        \ifx\empty\grad@begin
+        \else
+          \ifthenelse{\equal\grad@angle{90}}{%
+            \ISub\grad@N{1}\grad@Nmi
+            \Ifor\rb@i{0}{\grad@N}\Do{%
+              \ISub{\grad@N}\rb@i\rb@j
+              \Bunten\fb@LT@\fb@RT@\rb@i\rb@j\rb@T
+              \Bunten\fb@LB@\fb@RB@\rb@i\rb@j\rb@B
+              \@Div\rb@i\grad@Nmi\rb@tmp
+              \EMmixcolor{\grad@begin}{\grad@end}{*}\rb@tmp{tmp@color}
+              \Nuritubusi<nuriiro=tmp@color>{\rb@T\rb@B\fb@RB@\fb@RT@}%
+            }%
+          }{%
+            \ifthenelse{\equal\grad@angle{0}}{%
+              \ISub\grad@N{1}\grad@Nmi
+              \Ifor\rb@i{0}{\grad@N}\Do{%
+                \ISub{\grad@N}\rb@i\rb@j
+                \Bunten\fb@LB\fb@LT\rb@i\rb@j\rb@L
+                \Bunten\fb@RB\fb@RT\rb@i\rb@j\rb@R
+                \@Div\rb@i\grad@Nmi\rb@tmp
+                \EMmixcolor{\grad@begin}{\grad@end}{*}\rb@tmp{tmp@color}
+                \Nuritubusi<nuriiro=tmp@color>{\rb@L\rb@R\fb@RT\fb@LT}%
+              }%
+            }{%
+            }%
+          }%
+        \fi
+      \else
+          \Nuritubusi<nuriiro=\background@color>\fb@region
+      \fi
+\grestore
+%
+% 枠線
+%
+\gsave
+      \setlinewidth{\frame@linewidth}%
+      \ifx\empty\frame@color\else\EMpsIrositei{\frame@color}\fi
+\ifdim\frame@linewidth>\z@
+  \ifx\empty\hasenLG@
+    \ifx\empty\rectbox@dash\else
+      \setdash{\rectbox@dash}%
+    \fi
+%    \@ifundefined{rectbox@LR}{%
+\if Z\rectbox@LR
+        \@ifundefined{not@B}{%
+          \@ifundefined{not@T}{% 上あり，下あり
+            \ifdim\rectbox@oval=\z@
+              \Drawlines{\fb@itemL\fb@LT\fb@LB\fb@bitemL;%
+                \fb@bitemR\fb@RB\fb@RT\fb@itemR}%
+            \else
+              \psnewpath
+              \psmoveto\fb@itemL
+              \psarcto\fb@LT\fb@LB\r@@
+              \psarcto\fb@LB\fb@RB\r@@
+              \pslineto\fb@bitemL
+              \psstroke
+              \psnewpath
+              \psmoveto\fb@bitemR
+              \psarcto\fb@RB\fb@RT\r@@
+              \psarcto\fb@RT\fb@LT\r@@
+              \pslineto\fb@itemR
+              \psstroke
+            \fi
+          }{% 上なし，下あり
+            \ifdim\rectbox@oval=\z@
+              \Drawlines{\fb@LT\fb@LB\fb@bitemL;%
+                \fb@bitemR\fb@RB\fb@RT}%
+            \else
+              \psnewpath
+              \psmoveto\fb@LT
+              \psarcto\fb@LB\fb@RB\r@@
+              \pslineto\fb@bitemL
+              \psstroke
+              \psnewpath
+              \psmoveto\fb@RT
+              \psarcto\fb@RB\fb@LB\r@@
+              \pslineto\fb@bitemR
+              \psstroke
+            \fi
+          }%
+        }{% 
+          \@ifundefined{not@T}{% 上あり，下なし
+            \ifdim\rectbox@oval=\z@
+              \Drawlines{\fb@itemL\fb@LT\fb@LB;%
+                \fb@RB\fb@RT\fb@itemR}%
+            \else
+              \psnewpath
+              \psmoveto\fb@itemL
+              \psarcto\fb@LT\fb@LB\r@@
+              \pslineto\fb@LB
+              \psmoveto\fb@RB
+              \psarcto\fb@RT\fb@LT\r@@
+              \pslineto\fb@itemR
+              \psstroke
+            \fi
+          }{% 上なし，下なし
+              \Drawlines{\fb@LT\fb@LB;\fb@RT\fb@RB}%
+          }%
+        }%
+\else
+%    }{%
+      \if L\rectbox@LR
+        \ifdim\rectbox@oval=\z@
+          \@ifundefined{rectbox@kagi}{%
+            \Drawline{\fb@LT\fb@LB}%
+          }{%
+                    \Rdef(\kagi@l,\kagi@a)\kagi@tmp
+                    \vecXY\kagi@tmp\kagi@x\kagi@y
+                    \Addvec\fb@LT{(0,-\kagi@y)}\fb@LT@
+                    \Addvec\fb@LT{(\kagi@x,0)}\fb@LT@@
+                    \Addvec\fb@LB{(0,\kagi@y)}\fb@LB@
+                    \Addvec\fb@LB{(\kagi@x,0)}\fb@LB@@
+                    \Drawline{\fb@LT@@\fb@LT@\fb@LB@\fb@LB@@}%
+          }%
+        \else
+          \Tyuuten\fb@LT\fb@LB\fb@LM
+          \@ifundefined{not@B}{%
+            \@ifundefined{not@T}{% 上あり，下あり
+              \psnewpath
+              \psmoveto\fb@LM
+              \psarcto\fb@LT\fb@RT\r@@
+              \psstroke
+              \psnewpath
+              \psmoveto\fb@LM
+              \psarcto\fb@LB\fb@RB\r@@
+              \psstroke
+            }{% 上なし，下あり
+              \psnewpath
+              \psmoveto\fb@LT
+              \psarcto\fb@LB\fb@RB\r@@
+              \psstroke
+            }%
+          }{% 
+            \@ifundefined{not@T}{% 上あり，下なし
+              \psnewpath
+              \psmoveto\fb@LB
+              \psarcto\fb@LT\fb@RT\r@@
+              \psstroke
+            }{% 上なし，下なし
+              \Drawline{\fb@LT\fb@LB}%
+            }%
+          }%
+        \fi
+      \else\if R\rectbox@LR
+        \ifdim\rectbox@oval=\z@
+          \@ifundefined{rectbox@kagi}{%
+            \Drawline{\fb@RT\fb@RB}%
+          }{%
+                    \Rdef(\kagi@l,\kagi@a)\kagi@tmp
+                    \vecXY\kagi@tmp\kagi@x\kagi@y
+                    \Addvec\fb@RT{(0,-\kagi@y)}\fb@RT@
+                    \Addvec\fb@RT{(-\kagi@x,0)}\fb@RT@@
+                    \Addvec\fb@RB{(0,\kagi@y)}\fb@RB@
+                    \Addvec\fb@RB{(-\kagi@x,0)}\fb@RB@@
+                    \Drawline{\fb@RT@@\fb@RT@\fb@RB@\fb@RB@@}%
+          }%
+        \else
+          \Tyuuten\fb@RT\fb@RB\fb@RM
+          \@ifundefined{not@B}{%
+            \@ifundefined{not@T}{% 上あり，下あり
+              \psnewpath
+              \psmoveto\fb@RM
+              \psarcto\fb@RT\fb@LT\r@@
+              \psstroke
+              \psnewpath
+              \psmoveto\fb@RM
+              \psarcto\fb@RB\fb@LB\r@@
+              \psstroke
+            }{% 上なし，下あり
+              \psnewpath
+              \psmoveto\fb@RT
+              \psarcto\fb@RB\fb@LB\r@@
+              \psstroke
+            }%
+          }{% 
+            \@ifundefined{not@T}{% 上あり，下なし
+              \psnewpath
+              \psmoveto\fb@RB
+              \psarcto\fb@RT\fb@LT\r@@
+              \psstroke
+            }{% 上なし，下なし
+              \Drawline{\fb@RT\fb@RB}%
+            }%
+          }%
+        \fi
+      \else\if B\rectbox@LR
+        \ifdim\rectbox@oval=\z@
+          \@ifundefined{rectbox@kagi}{%
+            \Drawlines{\fb@LT\fb@LB;\fb@RT\fb@RB}%
+          }{%
+                    \Rdef(\kagi@l,\kagi@a)\kagi@tmp
+                    \vecXY\kagi@tmp\kagi@x\kagi@y
+                    \Addvec\fb@LT{(0,-\kagi@y)}\fb@LT@
+                    \Addvec\fb@LT{(\kagi@x,0)}\fb@LT@@
+                    \Addvec\fb@LB{(0,\kagi@y)}\fb@LB@
+                    \Addvec\fb@LB{(\kagi@x,0)}\fb@LB@@
+                    \Drawline{\fb@LT@@\fb@LT@\fb@LB@\fb@LB@@}%
+                    \Addvec\fb@RT{(0,-\kagi@y)}\fb@RT@
+                    \Addvec\fb@RT{(-\kagi@x,0)}\fb@RT@@
+                    \Addvec\fb@RB{(0,\kagi@y)}\fb@RB@
+                    \Addvec\fb@RB{(-\kagi@x,0)}\fb@RB@@
+                    \Drawline{\fb@RT@@\fb@RT@\fb@RB@\fb@RB@@}%
+          }%
+        \else
+          \Tyuuten\fb@LT\fb@LB\fb@LM
+          \Tyuuten\fb@RT\fb@RB\fb@RM
+          \@ifundefined{not@B}{%
+            \@ifundefined{not@T}{% 上あり，下あり
+              \psnewpath
+              \psmoveto\fb@LM
+              \psarcto\fb@LT\fb@RT\r@@
+              \psstroke
+              \psnewpath
+              \psmoveto\fb@LM
+              \psarcto\fb@LB\fb@RB\r@@
+              \psstroke
+              \psnewpath
+              \psmoveto\fb@RM
+              \psarcto\fb@RT\fb@LT\r@@
+              \psstroke
+              \psnewpath
+              \psmoveto\fb@RM
+              \psarcto\fb@RB\fb@LB\r@@
+              \psstroke
+            }{% 上なし，下あり
+              \psnewpath
+              \psmoveto\fb@LT
+              \psarcto\fb@LB\fb@RB\r@@
+              \psstroke
+              \psnewpath
+              \psmoveto\fb@RT
+              \psarcto\fb@RB\fb@LB\r@@
+              \psstroke
+            }%
+          }{% 
+            \@ifundefined{not@T}{% 上あり，下なし
+              \psnewpath
+              \psmoveto\fb@LB
+              \psarcto\fb@LT\fb@RT\r@@
+              \psstroke
+              \psnewpath
+              \psmoveto\fb@RB
+              \psarcto\fb@RT\fb@LT\r@@
+              \psstroke
+            }{% 上なし，下なし
+              \Drawlines{\fb@LT\fb@LB;\fb@RT\fb@RB}%
+            }%
+          }%
+        \fi
+      \fi\fi\fi
+%    }%
+\fi
+  \else
+      \ifdim\rectbox@oval>\z@
+        \errmessage{%
+          oval, hasenLG は併用できません。hasenLG ではなく dash を用います}
+      \fi
+      \@ifundefined{not@B}{%
+        \@ifundefined{not@T}{% 上あり，下あり
+          \ifx\empty\rectbox@item
+            \ifx\empty\rectbox@bitem% 見出しなし
+              \Takakkei<hasenLG={\hasenLG@}>{\fb@LT\fb@LB\fb@RB\fb@RT}%
+            \else% 下見出しのみ
+              \Drawline<hasenLG={\hasenLG@}>{%
+                \fb@bitemL\fb@LB\fb@LT\fb@RT\fb@RB\fb@bitemR
+              }%
+            \fi
+          \else
+            \ifx\empty\rectbox@bitem% 上見出しのみ
+              \Drawline<hasenLG={\hasenLG@}>{%
+                \fb@itemL\fb@LT\fb@LB\fb@RB\fb@RT\fb@itemR
+              }%
+            \else% 上下見出し
+              \Drawlines<hasenLG={\hasenLG@}>{\fb@itemL\fb@LT\fb@LB\fb@bitemL;
+                \fb@itemR\fb@RT\fb@RB\fb@bitemR
+              }%
+            \fi
+          \fi
+        }{% 上なし，下あり
+          \ifx\empty\rectbox@bitem
+            \Drawline<hasenLG={\hasenLG@}>{\fb@LT\fb@LB\fb@RB\fb@RT}%
+          \else
+            \Drawlines<hasenLG={\hasenLG@}>{\fb@LT\fb@LB\fb@bitemL;
+              \fb@bitemR\fb@RB\fb@RT
+            }%
+          \fi
+        }%
+      }{%
+        \@ifundefined{not@T}{% 上あり，下なし
+          \ifx\empty\rectbox@item
+            \Drawline<hasenLG={\hasenLG@}>{\fb@LB\fb@LT\fb@RT\fb@RB}%
+          \else
+            \Drawlines<hasenLG={\hasenLG@}>{%
+              \fb@itemL\fb@LT\fb@LB;\fb@RB\fb@RT\fb@itemR}%
+          \fi
+        }{% 上なし，下なし
+          \Drawlines<hasenLG={\hasenLG@}>{\fb@LB\fb@LT;\fb@RT\fb@RB}%
+        }%
+      }%
+  \fi
+\fi
+\grestore
+%
+% 見出し出力
+%
+      \@ifundefined{not@T}{%
+        \ifx\empty\rectbox@item
+        \else
+          \cPut\fb@itemL(0,0)[l]{\box\rectbox@item@box}%
+        \fi
+      }{}%
+      \@ifundefined{not@B}{%
+        \ifx\empty\rectbox@bitem
+        \else
+          \cPut\fb@bitemL(0,0)[l]{\box\rectbox@bitem@box}%
+        \fi
+      }{}%
+    \ifx\empty\apn@zahyou\else
+      \edef\LT{\fb@LT}%
+      \edef\LB{\fb@LB}%
+      \edef\RT{\fb@RT}%
+      \edef\RB{\fb@RB}%
+      \ifnum\rectbox@nest=\z@
+%\typeout{3:apn@zahyou=\meaning\apn@zahyou}%\xxx
+        \apn@zahyou
+      \fi
+    \fi
+%    \endpszahyou
+%  \end{picture}%
+%
+% テキスト
+%
+  \ifdim\shade@rule>\z@
+    \@tempdima=\wd\ps@box
+    \advance\@tempdima\shade@rule
+    \wd\ps@box\@tempdima
+    \@ifundefined{not@B}{\vspace{\shade@rule}}{}%
+  \fi
+  \hskip\frame@linewidth\hskip\l@sep
+  \box\ps@box\relax
+  \hskip\frame@linewidth\hskip\r@sep
+\grestore}}%
+%
+\def\EMpszfbox{\@ifnextchar<{\@EMpszfbox}{\@EMpszfbox<\empty>}}%
+\def\@EMpszfbox<#1>#2{{%
+%
+  \@ifundefined{EMps@filename}{%
+    \errmessage{pszfbox must be used in pszahyou}%
+  }{}%
+%  \edef\frame@linewidth{1pt}%
+  \@Div\cur@linewidth{10}\pszfbox@tmp
+  \edef\frame@linewidth{\pszfbox@tmp pt}%
+  \edef\rectbox@oval{0pt}%
+  \edef\rectbox@dash{\empty}%
+  \edef\hasenLG@{\empty}%
+  \edef\h@sep{\the\fboxsep}%
+  \edef\v@sep{\the\fboxsep}%
+  \edef\l@sep{\empty}%
+  \edef\r@sep{\empty}%
+  \edef\t@sep{\empty}%
+  \edef\b@sep{\empty}%
+  \edef\rectbox@Width{\empty}%
+  \edef\rectbox@item{\empty}%
+  \edef\rectbox@preitem{\empty}%
+  \edef\rectbox@postitem{\empty}%
+  \def\rectbox@item@pos{l}%
+  \edef\rectbox@bitem{\empty}%
+  \edef\rectbox@prebitem{\empty}%
+  \edef\rectbox@postbitem{\empty}%
+  \def\rectbox@bitem@pos{r}%
+  \edef\psz@option{\empty}%
+  \edef\background@color{\empty}%
+  \edef\frame@color{\empty}%
+  \edef\shade@color{\empty}%
+  \edef\grad@angle{90}%
+  \edef\grad@N{10}%
+  \edef\grad@begin{\empty}%
+  \edef\grad@end{\empty}%
+  \def\grad@borderwidth{0pt}%
+%
+  \gsave
+  \setbox\ps@box=\hbox{#2}%
+  \uxkansan{\the\wd\ps@box}\psz@w
+  \setlength{\@tempdima}{\ht\ps@box+\dp\ps@box}%
+%\dp\ps@box=\z@
+  \uykansan{\the\@tempdima}\psz@hd
+  \resetsensyu
+%
+  \ifx\empty #1\else\setkeys{emPsb}{#1}\fi
+  \@tempdima\shade@rule
+  \edef\shade@w{\strip@pt\@tempdima}%
+  \@Div\shade@w{2}\shade@hw
+%
+  \ifx\empty\t@sep\edef\t@sep{\v@sep}\fi
+  \ifx\empty\b@sep\edef\b@sep{\v@sep}\fi
+  \ifx\empty\l@sep\edef\l@sep{\h@sep}\fi
+  \ifx\empty\r@sep\edef\r@sep{\h@sep}\fi
+  \uxkansan\h@sep\h@sep@
+  \uxkansan\l@sep\l@sep@
+  \uxkansan\r@sep\r@sep@
+  \uykansan\v@sep\v@sep@
+  \uykansan\t@sep\t@sep@
+  \uykansan\b@sep\b@sep@
+  \Addself\psz@w\l@sep@\Addself\psz@w\r@sep@
+  \Addself\psz@hd\t@sep@\Addself\psz@hd\b@sep@
+  \@Div\psz@w{2}\psz@w@
+  \@Div\psz@hd{2}\psz@hd@
+%
+  \ifx\empty\houi@opt\edef\houi@opt{(0,0)[lb]}\fi
+  \teisuuretu{psz@xmin=-\psz@w@;psz@xmax=\psz@w@;%
+    psz@ymin=-\psz@hd@;psz@ymax=\psz@hd@}%
+  \Strsep\houi@opt{[}\houi@opt@a\houi@opt@b
+  \Strchr\houi@opt@b{l}\psz@l
+    \ifnum\psz@l>\z@\teisuuretu{psz@xmin=0;psz@xmax=\psz@w}\fi
+  \Strchr\houi@opt@b{r}\psz@r
+    \ifnum\psz@r>\z@\teisuuretu{psz@xmin=-\psz@w;psz@xmax=0}\fi
+  \Strchr\houi@opt@b{b}\psz@b
+    \ifnum\psz@b>\z@
+      \teisuuretu{psz@ymin=0;psz@ymax=\psz@hd}%
+%      \@tempdima\frame@linewidth
+%      \@tempdima=.5\@tempdima
+%      \advance\@tempdima\b@sep
+\@tempdima\b@sep
+      \advance\@tempdima\dp\ps@box
+      \dp\ps@box=\@tempdima
+    \fi
+  \Strchr\houi@opt@b{t}\psz@t
+    \ifnum\psz@t>\z@
+      \teisuuretu{psz@ymin=-\psz@hd;psz@ymax=0}%
+%      \@tempdima\frame@linewidth
+%      \@tempdima=.5\@tempdima
+%      \advance\@tempdima\t@sep
+\@tempdima\t@sep
+      \advance\@tempdima\ht\ps@box
+      \ht\ps@box=\@tempdima
+    \fi
+  \ifnum\psz@t=\z@
+    \ifnum\psz@b=\z@
+%     \ht\ps@box=\z@
+%     \dp\ps@box=\z@
+    \fi
+  \fi
+  \tenretu*{psz@LT(\psz@xmin,\psz@ymax);psz@RT(\psz@xmax,\psz@ymax);%
+    psz@LB(\psz@xmin,\psz@ymin);psz@RB(\psz@xmax,\psz@ymin)}%
+%  \Addvec*\psz@LT\houi@opt@a\psz@LT
+%  \Addvec*\psz@LB\houi@opt@a\psz@LB
+%  \Addvec*\psz@RT\houi@opt@a\psz@RT
+%  \Addvec*\psz@RB\houi@opt@a\psz@RB
+  \ifx\empty\background@color
+    \ifx\empty\grad@begin\else
+      \gsave
+      \ifdim\rectbox@oval>\z@
+        \@tempdimc\rectbox@oval\ukansan\@tempdimc\hasenbox@l
+              \Tyuuten\psz@LT\psz@RT\hasenbox@A
+              \psnewpath
+              \psmoveto\hasenbox@A
+              \psarcto\psz@LT\psz@LB\hasenbox@l
+              \psarcto\psz@LB\psz@RB\hasenbox@l
+              \psarcto\psz@RB\psz@RT\hasenbox@l
+              \psarcto\psz@RT\psz@LT\hasenbox@l
+              \psclosepath
+              \psclip
+              \psfill
+      \fi
+          \ifthenelse{\equal\grad@angle{90}}{%
+            \ISub\grad@N{1}\grad@Nmi
+            \Ifor\rb@i{0}{\grad@N}\Do{%
+              \ISub{\grad@N}\rb@i\rb@j
+              \Bunten\psz@LT\psz@RT\rb@i\rb@j\rb@T
+              \Bunten\psz@LB\psz@RB\rb@i\rb@j\rb@B
+              \@Div\rb@i\grad@Nmi\rb@tmp
+              \EMmixcolor{\grad@begin}{\grad@end}{*}\rb@tmp{tmp@color}
+              \Nuritubusi<nuriiro=tmp@color>{\rb@T\rb@B\psz@RB\psz@RT}%
+            }%
+          }{%
+            \ifthenelse{\equal\grad@angle{0}}{%
+              \ISub\grad@N{1}\grad@Nmi
+              \Ifor\rb@i{0}{\grad@N}\Do{%
+                \ISub{\grad@N}\rb@i\rb@j
+                \Bunten\psz@LB\psz@LT\rb@i\rb@j\rb@L
+                \Bunten\psz@RB\psz@RT\rb@i\rb@j\rb@R
+                \@Div\rb@i\grad@Nmi\rb@tmp
+                \EMmixcolor{\grad@begin}{\grad@end}{*}\rb@tmp{tmp@color}
+                \Nuritubusi<nuriiro=tmp@color>{\rb@L\rb@R\psz@RT\psz@LT}%
+              }%
+            }{%
+            }%
+          }%
+      \grestore
+    \fi
+  \else
+    \gsave
+    \ifdim\rectbox@oval>\z@
+      \@tempdimc\rectbox@oval\ukansan\@tempdimc\hasenbox@l
+              \Tyuuten\psz@LT\psz@RT\hasenbox@A
+              \psnewpath
+              \psmoveto\hasenbox@A
+              \psarcto\psz@LT\psz@LB\hasenbox@l
+              \psarcto\psz@LB\psz@RB\hasenbox@l
+              \psarcto\psz@RB\psz@RT\hasenbox@l
+              \psarcto\psz@RT\psz@LT\hasenbox@l
+              \psclosepath
+              \psclip
+              \psfill
+    \fi
+    \Nuritubusi<nuriiro=\background@color>{\psz@LT\psz@LB\psz@RB\psz@RT}%
+    \grestore
+  \fi
+  \gsave
+\ifdim\frame@linewidth>\z@
+  \ifx\empty\frame@color\else\EMpsIrositei{\frame@color}\fi
+  \setlinewidth{\frame@linewidth}%
+  \ifx\empty\hasenLG@
+    \ifx\empty\rectbox@dash\else
+      \setdash{\rectbox@dash}%
+    \fi
+  \fi
+  \ifdim\rectbox@oval>\z@
+      \@tempdimc\rectbox@oval\ukansan\@tempdimc\hasenbox@l
+              \Tyuuten\psz@LT\psz@RT\hasenbox@A
+              \psnewpath
+              \psmoveto\hasenbox@A
+              \psarcto\psz@LT\psz@LB\hasenbox@l
+              \psarcto\psz@LB\psz@RB\hasenbox@l
+              \psarcto\psz@RB\psz@RT\hasenbox@l
+              \psarcto\psz@RT\psz@LT\hasenbox@l
+              \psclosepath
+              \psstroke
+  \else
+    \ifx\empty\hasenLG@
+      \Takakkei{\psz@LT\psz@LB\psz@RB\psz@RT}%
+    \else
+      \Takakkei<hasenLG=\hasenLG@>{\psz@LT\psz@LB\psz@RB\psz@RT}%
+    \fi
+  \fi
+\fi
+  \edef\pszfbox@tmp{{\O@@}(0,0)[\houi@opt@b}%
+  \expandafter\Put\pszfbox@tmp{%
+    \hspace{\l@sep}\box\ps@box\hspace{\r@sep}}%
+  \grestore
+  \grestore
+}}%
+%
+\def\EMpszboxed{\@ifnextchar<{\@EMpszboxed}{\@EMpszboxed<\empty>}}%
+\def\@EMpszboxed<#1>#2{\EMpszfbox<#1>{\m@th$\displaystyle#2$}}%
+%
+\let\pszfbox\EMpszfbox
+\let\pszboxed\EMpszboxed
+%
+\def\nuribox{\@ifnextchar<{\@nuribox}{\@nuribox<\empty>}}%
+\def\@nuribox<#1>{\@ifnextchar[{\@@nuribox<#1>}{\@@nuribox<#1>[\empty]}}%
+\def\@@nuribox<#1>[#2]#3#4{\begingroup
+  \edef\frame@linewidth{1pt}%
+  \edef\rectbox@LR{Z}%
+  \ifx\empty #1\else\setkeys{emPsb}{#1}\fi
+  \@tempdima=\frame@linewidth
+  \@tempdima=.5\@tempdima
+  \uxkansan\@tempdima\nb@wx
+  \uykansan\@tempdima\nb@hdy
+%  \setlength{\@tempdima}{#3}\relax
+%  \edef\nb@wpt{\the\@tempdima}%
+  \uxkansan{#3}\tmp@a
+  \setlength{\@tempdima}{\tmp@a\xunitlength}%
+  \edef\nb@wpt{\the\@tempdima}%
+  \@tempdima=.5\@tempdima
+  \edef\nb@@wpt{\the\@tempdima}%
+%  \setlength{\@tempdima}{#4}\relax
+%  \edef\nb@hdpt{\the\@tempdima}%
+  \uykansan{#4}\tmp@a
+  \setlength{\@tempdima}{\tmp@a\yunitlength}%
+  \edef\nb@hdpt{\the\@tempdima}%
+  \@tempdima=.5\@tempdima
+  \edef\nb@@hdpt{\the\@tempdima}%
+  \ifx\empty #1\relax
+    \pszfbox<hvsep=\z@>{%
+      \Put\O@@(\nb@@wpt,\nb@@hdpt)[c]{#2}%
+      \vrule height \nb@hdpt width \z@ depth \z@
+      \hspace{\nb@wpt}%
+    }%
+  \else
+    \pszfbox<hvsep=\z@,#1>{%
+      \Put\O@@(\nb@@wpt,\nb@@hdpt)[c]{#2}%
+      \vrule height \nb@hdpt width \z@ depth \z@
+      \hspace{\nb@wpt}%
+    }%
+  \fi
+\endgroup}%
+%
+\def\itempsrectbox{\@ifnextchar[{\@itempsrectbox}{\@itempsrectbox[\empty]}}%
+\def\@itempsrectbox[#1]#2{%
+  \ifthenelse{\equal{#1}{c}}{%
+    \edef\arg@i{\empty}%
+  }{%
+    \edef\arg@i{#1}%
+  }%
+  \ifx\empty\arg@i
+    \EMedef\nxt@opt{[item=#2]}%
+  \else
+    \EMedef\nxt@opt{[item=#2,\arg@i]}%
+  \fi
+  \noindent
+  \expandafter\psrectbox\nxt@opt
+}%
+\let\enditempsrectbox\endpsrectbox
+%
+% 亀甲括弧で括る
+%
+\def\kikkoukakomi{\@ifnextchar<{\@kikkoukakomi}{\@kikkoukakomi<\empty>}}%
+\def\@kikkoukakomi<#1>#2{{%
+  \leavevmode\kern.1ex\relax
+  \@tempdima=0.4\p@
+  \@ifundefined{@ptsize}{}{%
+    \@Div\f@size{10}\kikkou@tmp
+    \@tempdima\kikkou@tmp\@tempdima
+  }%
+  \ifx\empty #1\relax
+    \edef\kikkou@ption{<LRonly,hsep=.5ex,vsep=.1ex,kagi={.5ex,20},%
+        linethickness=\the\@tempdima>}%
+  \else
+    \edef\kikkou@ption{<LRonly,hsep=.5ex,vsep=.1ex,kagi={.5ex,20},%
+        linethickness=\the\@tempdima,#1>}%
+  \fi
+  \ifmmode
+    \mbox{\expandafter\psfbox\kikkou@ption{$\mathstrut\displaystyle #2$}}%
+  \else
+    \mbox{\expandafter\psfbox\kikkou@ption{\mathstrut #2}}%
+  \fi
+  \kern.1ex\relax
+}}%
+%
+\define@key{emPsb}{putpos}{\edef\box@pos{#1}}%
+%
+\def\EMpsframebox{\@ifnextchar<{\@EMpsframebox}{\@EMpsframebox<\empty>}}%
+\def\@EMpsframebox<#1>#2#3{{\gsave
+  \edef\box@pos{c}%
+  \edef\box@hpos{c}%
+  \edef\box@vpos{c}%
+  \edef\frame@linewidth{\cur@linewidth@\p@}%
+  \def\rectbox@oval{0pt}%
+  \edef\rectbox@dash{\empty}%
+  \edef\hasenLG@{\empty}%
+  \edef\background@color{\empty}%
+  \uxkansan{#2}\box@ra\@Div\box@ra{2}\box@raa%
+  \uxkansan{#3}\box@rb\@Div\box@rb{2}\box@rbb%
+  \ifx\empty #1\else\setkeys{emPsb}{#1}\fi
+  \Strchr\box@pos{l}\box@tmp\ifnum\box@tmp>\z@\edef\box@hpos{l}\fi
+  \Strchr\box@pos{r}\box@tmp\ifnum\box@tmp>\z@\edef\box@hpos{r}\fi
+  \Strchr\box@pos{t}\box@tmp\ifnum\box@tmp>\z@\edef\box@vpos{t}\fi
+  \Strchr\box@pos{b}\box@tmp\ifnum\box@tmp>\z@\edef\box@vpos{b}\fi
+  \if l\box@hpos
+    \edef\box@xi{0}\edef\box@xii{\box@ra}%
+  \else\if r\box@hpos
+    \edef\box@xi{-\box@ra}\edef\box@xii{0}%
+  \else
+    \edef\box@xi{-\box@raa}\edef\box@xii{\box@raa}%
+  \fi\fi
+  \if t\box@vpos
+    \edef\box@yi{-\box@rb}\edef\box@yii{0}%
+  \else\if b\box@vpos
+    \edef\box@yi{0}\edef\box@yii{\box@rb}%
+  \else
+    \edef\box@yi{-\box@rbb}\edef\box@yii{\box@rbb}%
+  \fi\fi
+  \tenretu*{box@LT(\box@xi,\box@yii);box@LB(\box@xi,\box@yi);%
+    box@RT(\box@xii,\box@yii);box@RB(\box@xii,\box@yi)}
+  \setlinewidth{\frame@linewidth}%
+  \ifx\empty\rectbox@dash\else\setdash{\rectbox@dash}\fi
+  \ifdim\rectbox@oval=\z@
+    \ifx\empty\hasenLG@
+      \Takakkei{\box@LT\box@LB\box@RB\box@RT}%
+    \else
+      \Takakkei<hasenLG=\hasenLG@>{\box@LT\box@LB\box@RB\box@RT}%
+    \fi
+  \else
+    \ukansan\rectbox@oval\rectbox@oval@
+    \psnewpath
+    \Tyuuten\box@LT\box@RT\box@LM
+    \psmoveto\box@LM
+    \psarcto\box@LT\box@LB\rectbox@oval@
+    \psarcto\box@LB\box@RB\rectbox@oval@
+    \psarcto\box@RB\box@RT\rectbox@oval@
+    \psarcto\box@RT\box@LT\rectbox@oval@
+    \pslineto\box@LM
+    \ifx\empty\background@color\else
+      \gsave
+      \EMpsIrositei{\background@color}%
+      \immediate\write\EMps@out{fill}%
+      \grestore
+    \fi
+    \psstroke
+  \fi
+  \grestore
+}}%
+%
+% \EMpswavebox
+%
+\def\EMpswavebox{\@ifnextchar<{\@EMpswavebox}{\@EMpswavebox<\empty>}}%
+\def\@EMpswavebox<#1>#2{{\gsave%
+  \def\frame@linewidth{1pt}%
+  \edef\frame@color{\empty}%
+  \edef\background@color{\empty}%
+  \setwavesize{5pt}{.5pt}%
+  \def\Draw@rectbox{\Drawwave*}%
+  \ifx\empty #1\relax
+    \setbox\rectb@x=\hbox{{\EMfbox<bgcolor=\empty,framethickness=\z@>{#2}}}%
+  \else
+    \setkeys{emPsb}{#1}%
+    \define@key{emPb}{wave}{\relax}%
+    \setbox\rectb@x=\hbox{{\EMfbox<#1,bgcolor=\empty,framethickness=\z@>{#2}}}%
+  \fi
+  \edef\wb@w{\strip@pt\wd\rectb@x}%
+  \edef\wb@h{\strip@pt\ht\rectb@x}%
+  \edef\wb@d{\strip@pt\dp\rectb@x}%
+  \tenretu*{wb@LT(0,\wb@h);wb@LB(0,-\wb@d);%
+    wb@RB(\wb@w,-\wb@d);wb@RT(\wb@w,\wb@h)}%
+  \edef\b@w{2em}%
+  \hskip\@wholewidth
+  \hskip\wave@h\p@
+\mbox{%
+  \begin{picture}(0,0)\relax
+  \begin{pszahyou*}[ul=1pt,haiti=o,borderwidth=\b@w](0,\wb@w)(-\wb@d,\wb@h)%
+    \setlinewidth{\frame@linewidth}%
+        \begin{EMpscontinue}
+          \psnewpath
+          \psmoveto\wb@LT
+          \Draw@rectbox{\wb@LT\wb@RT\wb@RB\wb@LB\wb@LT}%
+          \psclosepath
+          \ifx\empty\background@color\else
+            \gsave
+              \psfill<nuriiro=\background@color>
+            \grestore
+          \fi
+          \ifdim\frame@linewidth>\z@
+            \ifx\empty\frame@color\else\EMpsIrositei{\frame@color}\fi
+            \psstroke
+          \fi
+        \end{EMpscontinue}
+    \end{pszahyou*}%
+  \end{picture}%
+  \@tempdima\ht\rectb@x\advance\@tempdima\wave@h\p@\ht\rectb@x=\@tempdima
+  \@tempdima\dp\rectb@x\advance\@tempdima\wave@h\p@\dp\rectb@x=\@tempdima
+  \@tempdima\wb@w\p@
+  \hbox to \@tempdima{\hfill\box\rectb@x\hfill}%
+  \hskip\@wholewidth%
+  \hskip\wave@h\p@
+}%
+\grestore
+}}%
+%
+% 黒板
+%
+\def\kokubanH{10\baselineskip}
+\def\kokubanW{\linewidth}
+\define@key{kokuban}{file}[kokuban]{%
+  \edef\kokubanflnm{\prelabel #1}}%
+\define@key{kokuban}{fileonly}[kokuban]{%
+  \def\file@only{}\edef\kokubanflnm{\prelabel #1}}%
+\define@key{kokuban}{otf}[deluxe]{\def\kokuban@otf{#1}}%
+\define@key{kokuban}{hiragino}[1]{\def\kokuban@hiragino{#1}}%
+\define@key{kokuban}{remake}[1]{\def\remake@kokuban{#1}}%
+\define@key{kokuban}{yoko}{\edef\kokuban@width{#1}}%
+\define@key{kokuban}{tate}{\edef\kokubanH{#1}}%
+\define@key{kokuban}{yoko}{\edef\kokubanW{#1}}%
+\define@key{kokuban}{showdustbox}{\edef\show@dustbox{#1}}%
+\define@key{kokuban}{showcleaner}{\edef\show@cleaner{#1}}%
+\define@key{kokuban}{showchalk}{\edef\show@chalk{#1}}%
+\define@key{kokuban}{backgroundcolor}{\edef\KB@bgcolor{#1}}%
+\define@key{kokuban}{bgcolor}{\edef\KB@bgcolor{#1}}%
+\define@key{kokuban}{framecolor}{\edef\KB@framecolor{#1}}%
+\define@key{kokuban}{framethickness}{\edef\KB@framethickness{#1}}%
+\define@key{kokuban}{dustcolor}{\edef\KB@dustcolor{#1}}%
+\define@key{kokuban}{dustbandcolor}{\edef\KB@dustbandcolor{#1}}%
+%
+\def\show@dustbox{1}%
+\def\show@cleaner{1}%
+\def\show@chalk{1}%
+\def\showdustbox#1{\edef\show@dustbox{#1}}%
+\def\showcleaner#1{\edef\show@cleaner{#1}}%
+\def\showchalk#1{\edef\show@chalk{#1}}%
+%
+\def\kokuban{\@ifnextchar<{\@kokuban}{\@kokuban<\empty>}}%
+\def\@kokuban<#1>{%
+\edef\kokubanflnm{\empty}%
+\edef\kokuban@width{\the\linewidth}%
+\@ifundefined{otf@opt}{%
+  \edef\kokuban@otf{\empty}%
+}{%
+  \edef\kokuban@otf{\otf@opt}%
+}%
+\edef\kokuban@hiragino{\empty}%
+\edef\remake@kokuban{0}%
+\def\EMps@hukamidori{0 0.3046875 0.17578125}%
+\def\EMps@hiwadairo{0.53125 0.30078125 0.26171875}%
+\def\KB@dustcolor{hiwadairo}%
+\def\KB@dustbandcolor{blue}%
+\def\KB@framecolor{silver}%
+\def\KB@bgcolor{hukamidori}%
+\def\KB@framethickness{5pt}%
+\ifx\empty #1\else\setkeys{kokuban}{#1}\fi
+\ifthenelse{\equal\empty\kokubanflnm}{\@@kokuban}{\kokuban@file}%
+}%
+%
+\def\@@kokuban{%
+%\typeout{@@kokuban}%
+\let\endkokuban\end@@kokuban
+\setbox\tempboxa=\hbox{%
+  \begin{pszahyou*}[ul=1.2zw](-1,1)(-.5,.5)%
+    \emPaint<nuriiro=\KB@dustcolor>{\LT\LB\RB\RT}%
+    \Kuromaru[3pt]\O
+  \end{pszahyou*}%
+}%
+\setbox\tempboxb=\hbox{%
+  \begin{pszahyou*}[ul=2.4zw](-.8,.8)(-.2,.2)%
+    \begin{clipTakakkei}{\LT\LB\RB\RT}%
+    \emPaint<nuriiro=\KB@dustcolor>\zenheimen
+    \ParamLC<mint=-$pi/2,maxt=$pi/2>{.01+.4*cos(T)}{.3*sin(T)}\oresen@i
+    \ParamLC<dt=-.02,mint=$pi/2,maxt=-$pi/2>{-.29+.4*cos(T)}{.3*sin(T)}\oresen@ii
+    \emPaint<nuriiro=\KB@dustbandcolor>{\oresen@i\oresen@ii}%
+    \end{clipTakakkei}
+  \end{pszahyou*}%
+}%
+\minipage{\kokubanW}%
+\begin{psrectbox}[oval=6pt,tate=\kokubanH,framecolor=\KB@framecolor,%
+  framethickness=\KB@framethickness,bgcolor=\KB@bgcolor,apnzahyou={%
+    \Tyuuten\LB\RB\B
+% ダストボックス
+\ifnum\show@dustbox>\z@
+    \Put\B(1pt,0pt)[lt]{\copy\tempboxa}%
+    \Put\B(-1pt,0pt)[rt]{\box\tempboxa}%
+\fi
+% 黒板ふき
+\ifnum\show@cleaner>\z@
+    \Put\RB(-5pt,5pt)[rb]{\box\tempboxb}%
+\fi
+% チョーク
+\ifnum\show@chalk>\z@
+    \Put\B(0pt,\the\@halfwidth)[b]{\nuribox<framethickness=0pt,bgcolor=white>{2.6em}{.8em}}
+\fi
+  }]%
+}%
+\def\end@@kokuban{%
+%\typeout{end@@kokuban}%
+  \end{psrectbox}%
+\ifnum\show@dustbox>\z@
+  \vspace{1.2zw}%
+\fi
+  \endminipage
+}%
+\def\kokuban@file{%
+  \ifthenelse{\remake@kokuban>\z@}{%
+    \@kokuban@file
+  }{%
+    \IfFileExists{\kokubanflnm-crop.pdf}{%
+      \@kokuban@file@
+    }{%
+      \@kokuban@file
+    }%
+  }%
+}%
+%
+\def\end@kokuban@file@{%
+  \@esphack%
+  \immediate\closeout\em@whndl\egroup
+  \@ifundefined{file@only}{%
+    \ifhmode\unskip \par\fi
+    \noindent\includegraphics*{\kokubanflnm-crop.pdf}%
+    \ifhmode\unskip \par\fi
+  }{}%
+}%
+\def\@kokuban@file@{%
+  \let\endkokuban\end@kokuban@file@
+      \bgroup\immediate\openout\em@whndl=\EM@workfiledir kokuban.tmp%
+      \@bsphack\let\do\@makeother\dospecials
+      \catcode`\^^M\active
+      \def\verbatim@processline{%
+        \immediate\write\em@whndl{\the\verbatim@line}}%
+      \verbatim@start
+}%
+%
+\def\end@kokuban@file{%
+  \@esphack%
+%\typeout{end@kokuban@file}%
+  \immediate\write\em@whndl{\string\end{kokuban}}
+  \immediate\write\em@whndl{\string\end{minipage}}
+  \immediate\write\em@whndl{\string\end{document}}
+  \immediate\closeout\em@whndl\egroup
+  \EM@system{platex -shell-escape \kokubanflnm.tmp}%
+%  \ifx\empty\kokuban@hiragino
+    \EM@system{dvipdfmx \kokubanflnm}%
+%  \else
+%   \EM@system{dvipdfmx -f hiraembed.map \kokubanflnm}%%
+% \fi
+  \EM@system{rm \kokubanflnm-crop.xbb}%
+  \EM@system{pdfcrop \kokubanflnm}%
+  \EM@system{cp \kokubanflnm-crop.pdf \kokubanflnm.pdf}%
+%  \EM@system{rm \kokubanflnm-crop.*}%
+%  \EM@system{rm \kokubanflnm.tmp}%
+%  \EM@system{rm \kokubanflnm.log}%
+%  \EM@system{rm \kokubanflnm.aux}%
+%  \EM@system{rm \kokubanflnm.dvi}%
+%  \EM@system{rm \kokubanflnm.xbb}%
+  \@ifundefined{file@only}{%
+    \ifhmode\unskip \par\noindent\fi
+    \includegraphics*{\kokubanflnm.pdf}%
+   \ifhmode\unskip \par\fi
+  }{}%
+}%
+\def\@kokuban@file{%
+\def\EMps@hukamidori{0 0.3046875 0.17578125}%
+\def\EMps@hiwadairo{0.53125 0.30078125 0.26171875}%
+\def\KB@dustcolor{hiwadairo}%
+\def\KB@dustbandcolor{blue}%
+\def\KB@framecolor{silver}%
+\def\KB@bgcolor{hukamidori}%
+\def\KB@framethickness{5pt}%
+\setbox\tempboxa=\hbox{%
+  \begin{pszahyou*}[ul=1.2zw](-1,1)(-.5,.5)%
+    \emPaint<nuriiro=\KB@dustcolor>{\LT\LB\RB\RT}%
+    \Kuromaru[3pt]\O
+  \end{pszahyou*}%
+}%
+\setbox\tempboxb=\hbox{%
+  \begin{pszahyou*}[ul=1.2zw](-.8,.8)(-.2,.2)%
+    \begin{clipTakakkei}{\LT\LB\RB\RT}%
+    \emPaint<nuriiro=\KB@dustcolor>\zenheimen
+    \ParamLC<mint=-$pi/2,maxt=$pi/2>{.01+.4*cos(T)}{.3*sin(T)}\oresen@i
+    \ParamLC<dt=-.02,mint=$pi/2,maxt=-$pi/2>{-.29+.4*cos(T)}{.3*sin(T)}\oresen@ii
+    \emPaint<nuriiro=\KB@dustbandcolor>{\oresen@i\oresen@ii}%
+    \end{clipTakakkei}
+  \end{pszahyou*}%
+}%
+  \let\endkokuban\end@kokuban@file
+    \bgroup\immediate\openout\em@whndl=\kokubanflnm.tmp%
+    \immediate\write\em@whndl{\string\documentclass[a4j]{jarticle}}
+    \immediate\write\em@whndl{\string\usepackage[dvipdfmx]{graphicx,color}}
+    \immediate\write\em@whndl{\string\usepackage{emathPs}}
+    \immediate\write\em@whndl{\string\usepackage{emathPsb}}
+    \immediate\write\em@whndl{\string\usepackage{sfmath}}
+    \ifx\empty\kokuban@otf\else
+      \immediate\write\em@whndl{\string\usepackage[\kokuban@otf]{emathOtf}}
+    \fi
+    \immediate\write\em@whndl{\string\usepackage{EMminipages}}
+    \immediate\write\em@whndl{\string\pagestyle{empty}}
+    \immediate\write\em@whndl{\string\begin{document}}
+    \immediate\write\em@whndl{\string\begin{minipage}{\kokuban@width}}
+    \immediate\write\em@whndl{\string\def\string\kokubanH{\kokubanH}}
+    \immediate\write\em@whndl{\string\def\string\kokubanW{\kokubanW}}
+    \immediate\write\em@whndl{\string\showcleaner{\show@cleaner}}
+    \immediate\write\em@whndl{\string\showdustbox{\show@dustbox}}
+    \immediate\write\em@whndl{\string\showchalk{\show@chalk}}
+    \immediate\write\em@whndl{\string\begin{kokuban}}
+    \@bsphack\let\do\@makeother\dospecials
+    \catcode`\^^M\active
+    \def\verbatim@processline{%
+        \immediate\write\em@whndl{\the\verbatim@line}}%
+    \verbatim@start
+}%
+%
+\AtBeginDocument{%
+  \@ifundefined{psfbox}{\let\psfbox\EMpsfbox}{}%
+  \@ifundefined{wavebox}{\let\wavebox\EMpswavebox}{}%
+}%
+\endinput
+%
+v 0.00 2009/05/07 emathPs.sty から独立
+v 0.01 2009/05/10 [gradbegin=..] などグラデーションもどき
+v 0.02 2009/05/28 整備
+v 0.03 2009/05/30
+v 0.04 2009/05/31 \psfbox: 見出しを付加
+v 0.06 2009/06/11 psrectbox: psRectbox から呼ばれるときは改段落をしない
+v 0.07 2009/06/18 pt 単位の違いは pszahyou で吸収
+v 0.08 2010/02/08 \kikkoukakomi
+v 0.09 2010/03/05 apnzahyou=...
+v 0.10 2010/03/05 apn@zahyou 初期化忘れ
+v 0.11 2010/03/07 psfbox: pszoption を有効化
+v 0.12 2010/03/28 \kikkoukakko: \mathstrut を含める
+v 0.13 2010/04/27 \EMminipagefootnote 修正 (BBS #8800)
+v 0.14 2010/05/22 [shade] オプション
+v 0.15 2010/07/31 \HVsep
+v 0.16 2010/08/05 EMpsrectbox: Overfull 退治 (BBS #9042)
+v 0.17 2010/10/03 \rectboxparindent
+v 0.18 2010/11/02 [TBonly] オプション
+                  \nuribox: pszahyou環境内の \psfox
+v 0.19 2010/11/06 EMpsitemrectbox: EMpsrectbox との整合性 (BBS #9440)
+v 0.20 2010/11/07 EMpsrectbox: 上下との間隔調整
+v 0.21 2010/12/11 \pszfbox: pszahyou環境内の \psfox
+v 0.22 2011/02/08 \EMpsframebox
+v 0.23 2011/03/04 \psfbox: pszahyou(*)環境内で使用したときはエラー終了
+v 0.24 2011/03/08 \EMpsfbox: \rectbox@LR の初期化 (BBS #9710)
+v 0.25 2011/04/11 \pszfbox: oval=.. と grad を併用可
+v 0.26 2011/04/30 \endEMpsrectbox: 末尾に\hskip\z@ を付加
+v 0.27 2011/07/09 \rectboxlabelsep#1 など rectbox と同期
+v 0.28 2011/07/30 psrectbox: \v@sep の調整
+v 0.29 2011/12/19 psrectbox: (b)item= の右辺値を box に入れる (BBS #10432)
+v 0.30 2011/12/26 \nuribox 整備
+v 0.31 2012/01/06 mawarikomi環境内の psrectbox (BBS #10494)
+v 0.32 2012/01/17 \nuribox: [#2] ボックス中央に配置する文字列
+v 0.33 2012/01/28 \psfbox: <bitem=..> を有効に (BBS #10527)
+v 0.34 2012/07/23 EMpsrectbox: <Ronly> に対しても debeso を有効に (BBS #10998)
+v 0.35 2012/10/27 [closed]オプション (BBS #11164)
+v 0.36 2012/11/23 \psfbox: 枠と中のテキストを \hbox でひとまとめ
+                  支柱調整 (BBS #11289)
+v 0.37 2012/12/03 kokuban環境
+v 0.38 2012/12/09 kokuban環境：<fileonly> オプション
+v 0.39 2012/12/28 \EMpswavebox
+v 0.40 2013/01/13 \psfbox: 見出しのない場合，\setlinecap2 とする。
+v 0.41 2013/01/17 kokuban環境：各部の色指定
+                  <backgroundcolor,framecolor,framethickness
+                  ,dustcolor,dustbandcolor>
+v 0.42 2013/01/18 kokuban環境：チョーク
+v 0.43 2013/01/19 \showchalk など
+v 0.44 2013/05/03 \ifrectbox@prepar
+v 0.45 2013/12/28 \EMpsfbox: not@T の補正保留
+v 0.46 2015/04/26 \EMpsfbox: gsave と grestore の対応を修正
+v 0.47 2015/10/10            [kagi] オプション修正
+v 0.48 2015/11/29 EMpsrectbox, \EMpsfbox: oval, shade オプションの併用
+v 0.49 2016/06/29 EMpsrectbox 内の \footnote (BBS #13035)
+v 0.50 2016/11/25 EMpsfbox: rectboxcorner=p オプション (BBS #13168)

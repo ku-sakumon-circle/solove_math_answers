@@ -1,0 +1,36 @@
+% rectboxsikiri.sty by tDB(emath@nifty.com)
+%
+  \NeedsTeXFormat{LaTeX2e}%
+  \ProvidesPackage{rectboxsikiri}[2013/12/27 v 0.00]%
+%
+%\long\def\rectboxsikiri{{%
+%  \@tempdima=\linewidth
+%  \advance\@tempdima\h@sep
+%  \advance\@tempdima\h@sep
+%  \edef\lnwd{\the\@tempdima}%
+%  \\[-.5\baselineskip]
+%  \hspace*{-\h@sep}%
+%  \vrule width \lnwd depth 0pt height .4pt\par}}%
+\define@key{emPb}{bsep}{\def\b@sep{#1}}%
+%
+\def\rectboxsikiri{\@ifnextchar<{\@rectboxsikiri}{\@rectboxsikiri<\empty>}}%
+\def\@rectboxsikiri<#1>{{%
+   \par
+  \edef\t@sep{0pt}%
+  \edef\b@sep{0pt}%
+  \ifx\empty #1\else\setkeys{emPb}{#1}\fi
+   %%% 必要があれば，ここに適当な大きさの（縦方向の）空白を入れる．
+   \ifdim\t@sep=\z@\else\vspace{\t@sep}\fi
+   \noindent
+   \raise 1ex \hbox to\linewidth{\hskip-\h@sep\hskip-\@wholewidth \hrulefill
+      \hskip-\h@sep\hskip-\@wholewidth\null}%
+   \ifdim\b@sep=\z@\else\vspace{\b@sep}\fi
+   \par
+   %%% 必要があれば，ここに適当な大きさの（縦方向の）空白を入れる．
+}}%
+%
+\endinput
+%
+http://oku.edu.mie-u.ac.jp/tex/mod/forum/discuss.php?d=1189#p6652
+%
+v 0.00 2013/12/27 新設

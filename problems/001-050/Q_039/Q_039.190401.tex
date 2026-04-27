@@ -1,0 +1,11 @@
+\begin{thm}{039}{\hosi 3}{名大 (2001)}
+ $e$を自然対数の底とし、定数$p,q$は $e\le p<q$ を満たす。このとき以下の不等式を証明せよ。
+ \begin{align*}
+  \log_e\left(\log_e q\right) - \log_e\left(\log_e p\right) < \frac{q-p}{e}
+ \end{align*}
+\end{thm}
+
+\begin{proof}
+$f(x)=\log{\log{x}}$とする。（底は$e$）\\
+$\dfrac{f(q)-f(p)}{q-p}<\dfrac{1}{e}$を示せばよい。$f$は微分可能なので,平均値の定理から$p<c<q$なる実数$c$であって, $f'(c)=\dfrac{f(q)-f(p)}{q-p}$なるものが存在する。ところで,$x\geq e$において $f'(x)=\dfrac{1}{x\log{x}}$であり, 分母は単調に増加するから$f'(x)$は単調減少する。ゆえに $f'(c)<f'(p)<f'(e)=\dfrac{1}{e}$ となるので不等式は示された。
+\end{proof}

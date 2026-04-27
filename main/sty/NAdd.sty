@@ -1,0 +1,392 @@
+% NAdd.sty by tDB (emath@nifty.com)
+
+\def\NAdd{\@ifstar{\NAdd@}{\@NAdd}}%
+\def\@NAdd_#1#2#3#4{%
+  \Ntodec_{#1}{#2}\Nc@a
+  \Ntodec_{#1}{#3}\Nc@b
+  \IAdd\Nc@a\Nc@b\Nc@c
+  \dectoN_{#1}\Nc@c#4
+}%
+\def\NAdd@_#1#2#3#4{%
+  \Ntodec_{#1}{#2}\Nc@a
+  \Ntodec_{#1}{#3}\Nc@b
+  \IAdd\Nc@a\Nc@b\Nc@c
+  \dectoN*_{#1}\Nc@c#4
+}%
+\def\NSub{\@ifstar{\NSub@}{\@NSub}}%
+\def\@NSub_#1#2#3#4{%
+  \Ntodec_{#1}{#2}\Nc@a
+  \Ntodec_{#1}{#3}\Nc@b
+  \ISub\Nc@a\Nc@b\Nc@c
+  \dectoN_{#1}\Nc@c#4
+}%
+\def\NSub@_#1#2#3#4{%
+  \Ntodec_{#1}{#2}\Nc@a
+  \Ntodec_{#1}{#3}\Nc@b
+  \ISub\Nc@a\Nc@b\Nc@c
+  \dectoN*_{#1}\Nc@c#4
+}%
+\def\NMul{\@ifstar{\NMul@}{\@NMul}}%
+\def\@NMul_#1#2#3#4{%
+  \Ntodec_{#1}{#2}\Nc@a
+  \Ntodec_{#1}{#3}\Nc@b
+  \IMul\Nc@a\Nc@b\Nc@c
+  \dectoN_{#1}\Nc@c#4
+}%
+\def\NMul@_#1#2#3#4{%
+  \Ntodec_{#1}{#2}\Nc@a
+  \Ntodec_{#1}{#3}\Nc@b
+  \IMul\Nc@a\Nc@b\Nc@c
+  \dectoN*_{#1}\Nc@c#4
+}%
+\def\NDiv{\@ifstar{\NDiv@}{\@NDiv}}%
+\def\@NDiv_#1#2#3#4{%
+  \Ntodec_{#1}{#2}\Nc@a
+  \Ntodec_{#1}{#3}\Nc@b
+  \IDiv\Nc@a\Nc@b\Nc@c
+  \dectoN_{#1}\Nc@c#4
+}%
+\def\NDiv@_#1#2#3#4{%
+  \Ntodec_{#1}{#2}\Nc@a
+  \Ntodec_{#1}{#3}\Nc@b
+  \IDiv\Nc@a\Nc@b\Nc@c
+  \dectoN*_{#1}\Nc@c#4
+}%
+\def\NMod{\@ifstar{\NMod@}{\@NMod}}%
+\def\@NMod_#1#2#3#4{%
+  \Ntodec_{#1}{#2}\Nc@a
+  \Ntodec_{#1}{#3}\Nc@b
+  \IMod\Nc@a\Nc@b\Nc@c
+  \dectoN_{#1}\Nc@c#4
+}%
+\def\NMod@_#1#2#3#4{%
+  \Ntodec_{#1}{#2}\Nc@a
+  \Ntodec_{#1}{#3}\Nc@b
+  \IMod\Nc@a\Nc@b\Nc@c
+  \dectoN*_{#1}\Nc@c#4
+}%
+\def\NDivMod{\@ifstar{\NDivMod@}{\@NDivMod}}%
+\def\@NDivMod_#1#2#3#4#5{%
+  \Ntodec_{#1}{#2}\Nc@a
+  \Ntodec_{#1}{#3}\Nc@b
+  \IDivMod\Nc@a\Nc@b\Nc@c\Nc@d
+  \dectoN_{#1}\Nc@c#4\relax
+  \dectoN_{#1}\Nc@d#5
+}%
+\def\NDivMod@_#1#2#3#4#5{%
+  \Ntodec_{#1}{#2}\Nc@a
+  \Ntodec_{#1}{#3}\Nc@b
+  \IDivMod\Nc@a\Nc@b\Nc@c\Nc@d
+  \dectoN*_{#1}\Nc@c#4\relax
+  \dectoN*_{#1}\Nc@d#5
+}%
+%
+\def\Ntasizan{%
+  \@ifundefined{Itasizan}{\errmessage{Ntasizan needs emathW.sty}}{}%
+  \@ifnextchar<{\Ntasizan@}{\@Ntasizan<\empty>}}%
+\def\Ntasizan@<#1>_#2#3#4{%
+    \ifx #1A\relax
+      \immediate\openout\em@whndl=zyo.tmp%
+      \immediate\write\em@whndl{#3}%
+      \immediate\write\em@whndl{+}%
+      \immediate\write\em@whndl{#4}%
+      \immediate\write\em@whndl{%
+        $\string\kaitou {\string\Ntasizan_{#2}{#3}{#4}}$ }%
+      \immediate\closeout\em@whndl%
+            \input{zyo.tmp}
+    \else\ifx #1a\relax
+      \immediate\openout\em@whndl=zyo.tmp%
+      \immediate\write\em@whndl{\string\Ntasizan<M>_{#2}{#3}{#4}%
+        $\string\kaitou {\string\Ntasizan_{#2}{#3}{#4}}$}%
+      \immediate\closeout\em@whndl%
+      \input{zyo.tmp}
+    \else\@Ntasizan<#1>_{#2}{#3}{#4}\relax
+    \fi\fi
+}%
+%
+\def\@Ntasizan<#1>_#2#3#4{{%
+  \edef\@hizyosuu{#3}\edef\@zyosuu{#4}\NAdd*_{#2}\@hizyosuu\@zyosuu\@syou
+  \@keisuu@{zyo@a}{\@hizyosuu}\edef\zyo@ca{\the\@tempcnta}\Decr\zyo@ca
+  \@keisuu@{zyo@b}{\@zyosuu}\edef\zyo@cb{\the\@tempcnta}\Decr\zyo@cb
+  \@keisuu@{zyo@q}{\@syou}\edef\zyo@cq{\the\@tempcnta}\Decr\zyo@cq
+  \leavevmode
+  \begin{array}[t]{@{\hskip\hissan@keta@sep}r*{\zyo@cq}{@{\hskip\hissan@keta@sep}r}}
+    \@tempcnta\zyo@cq\advance\@tempcnta-\zyo@ca\advance\@tempcnta\@ne
+    \zyo@tab{\@tempcnta}\@hidari
+    \@seikei@{zyo@a}{\zyo@ca}\EMw@t\\
+    \@tempcnta\zyo@cq\advance\@tempcnta-\zyo@cb
+    \zyo@tab{\@tempcnta}+\hissankakko&\@hidari
+    \@seikei@{zyo@b}{\zyo@cb}\EMw@t\\\hline
+    \ifx #1M\else\@seikei@{zyo@q}{\zyo@cq}&\EMw@t\fi%
+  \end{array}%
+}}%
+%
+\def\Nhikizan{%
+  \@ifundefined{Ihikizan}{\errmessage{Nhikizan needs emathW.sty}}{}%
+  \@ifnextchar<{\Nhikizan@}{\@Nhikizan<\empty>}}%
+\def\Nhikizan@<#1>_#2#3#4{%
+    \ifx #1A\relax
+       \immediate\openout\em@whndl=zyo.tmp%
+      \immediate\write\em@whndl{#3}%
+      \immediate\write\em@whndl{-}%
+      \immediate\write\em@whndl{#4}%
+      \immediate\write\em@whndl{%
+        $\string\kaitou {\string\Nhikizan_{#2}{#3}{#4}}$ }%
+      \immediate\closeout\em@whndl%
+            \input{zyo.tmp}
+    \else\ifx #1a\relax
+      \immediate\openout\em@whndl=zyo.tmp%
+      \immediate\write\em@whndl{\string\Nhikizan<M>_{#2}{#3}{#4}%
+        $\string\kaitou {\string\Nhikizan_{#2}{#3}{#4}}$}%
+      \immediate\closeout\em@whndl%
+      \input{zyo.tmp}
+    \else\@Nhikizan<#1>_{#2}{#3}{#4}%
+    \fi\fi
+}%
+%
+\def\@Nhikizan<#1>_#2#3#4{{%
+  \edef\@hizyosuu{#3}\edef\@zyosuu{#4}\NSub*_{#2}{#3}\@zyosuu\@syou
+  \@keisuu@{zyo@a}{\@hizyosuu}\edef\zyo@ca{\the\@tempcnta}\Decr\zyo@ca
+  \@keisuu@{zyo@b}{\@zyosuu}\edef\zyo@cb{\the\@tempcnta}\Decr\zyo@cb
+  \@keisuu@{zyo@q}{\@syou}\edef\zyo@cq{\the\@tempcnta}\Decr\zyo@cq
+  \leavevmode
+  \begin{array}[t]{@{\hskip\hissan@keta@sep}r*{\zyo@ca}{@{\hskip\hissan@keta@sep}r}}
+    \@seikei@{zyo@a}{\zyo@ca}&\EMw@t\\
+    \@tempcnta\zyo@ca\advance\@tempcnta-\zyo@cb
+    \zyo@tab{\@tempcnta}-\hissankakko&\@hidari
+    \@seikei@{zyo@b}{\zyo@cb}\EMw@t\\\hline
+    \ifx #1M\else
+      \@tempcnta\zyo@ca\advance\@tempcnta-\zyo@cq
+      \zyo@tab{\@tempcnta}\@hidari
+      \@seikei@{zyo@q}{\zyo@cq}&\EMw@t
+    \fi%
+  \end{array}%
+}}%
+%
+\def\Nkakezan{%
+  \@ifundefined{Ikakezan}{\errmessage{Nkakezan needs emathW.sty}}{}%
+  \@ifnextchar<{\Nkakezan@}{\@Nkakezan<\empty>}}%
+\def\Nkakezan@<#1>_#2#3#4{%
+    \ifx #1A\relax
+        \immediate\openout\em@whndl=zyo.tmp%
+      \immediate\write\em@whndl{#3}%
+      \immediate\write\em@whndl{\string\times }%
+      \immediate\write\em@whndl{#4}%
+      \immediate\write\em@whndl{%
+        $\string\kaitou {\string\Nkakezan_{#2}{#3}{#4}}$ }%
+      \immediate\closeout\em@whndl%
+            \input{zyo.tmp}
+    \else\ifx #1a\relax
+      \immediate\openout\em@whndl=zyo.tmp%
+      \immediate\write\em@whndl{\string\Nkakezan<M>_{#2}{#3}{#4}%
+        $\string\kaitou {\string\Nkakezan_{#2}{#3}{#4}}$}%
+      \immediate\closeout\em@whndl%
+      \input{zyo.tmp}
+    \else\ifx #1K\relax
+      \immediate\openout\em@whndl=zyo.tmp%
+      \immediate\write\em@whndl{#3}%
+      \immediate\write\em@whndl{\string\times }%
+      \immediate\write\em@whndl{#4}%
+      \immediate\write\em@whndl{%
+        $\string\kaitou{\string\NMul*_{#2}{#3}{#4}\string\kakeA\string\kakeA}$
+      }%
+      \immediate\closeout\em@whndl%
+      \input{zyo.tmp}
+    \else\ifx #1k\relax
+      \Nkakezan<M>_{#2}{#3}{#4}%
+      \immediate\openout\em@whndl=zyo.tmp%
+      \immediate\write\em@whndl{%
+        $\string\kaitou{\string\IMul*_{#2}{#3}{#4}\string\kakeA\string\kakeA}$
+      }%
+      \immediate\closeout\em@whndl%
+      \input{zyo.tmp}
+    \else\@Nkakezan<#1>_{#2}{#3}{#4}
+    \fi\fi\fi\fi
+}%
+%
+\def\@Nkakezan<#1>_#2#3#4{{%
+  \edef\@hizyosuu{#3}\edef\@zyosuu{#4}\edef\@syou{#3}\NMul*_{#2}\@syou{#4}\@syou
+  \@keisuu@{zyo@a}{\@hizyosuu}\edef\zyo@ca{\the\@tempcnta}\Decr\zyo@ca
+  \@keisuu@{zyo@b}{\@zyosuu}\edef\zyo@cb{\the\@tempcnta}\Decr\zyo@cb
+  \@keisuu@{zyo@q}{\@syou}\edef\zyo@cq{\the\@tempcnta}\Decr\zyo@cq
+  \leavevmode
+  \begin{array}[t]{@{\hskip\hissan@keta@sep}r*{\zyo@cq}{@{\hskip\hissan@keta@sep}r}}
+    \@tempcnta\zyo@cq\advance\@tempcnta-\zyo@ca\advance\@tempcnta\@ne
+    \zyo@tab{\@tempcnta}\@hidari
+    \@seikei@{zyo@a}{\zyo@ca}\EMw@t\\
+    \@tempcnta\zyo@cq\advance\@tempcnta-\zyo@cb
+    \zyo@tab{\@tempcnta}\times\hissankakko&\@hidari
+    \@seikei@{zyo@b}{\zyo@cb}\EMw@t\\\hline
+    \ifx #1M\else
+      \edef\emW@temp{0}%
+      \@whilenum\emW@temp<\zyo@cb\do{%
+        \@tempcntb\zyo@cb\advance\@tempcntb-\emW@temp
+        \xIncr\emW@temp\edef\@n{zyo@b\romannumeral\@tempcntb}%
+        \ifnum\@nameuse{\@n}>\z@
+          \edef\zyo@amari{\@hizyosuu}%
+\edef\zyo@tmp{\@nameuse{\@n}}%
+          \NMul*_{#2}\zyo@amari\zyo@tmp\zyo@amari
+          \@keisuu@{zyo@c}{\zyo@amari}\edef\zyo@cc{\the\@tempcnta}\Decr\zyo@cc
+          \@seikei@{zyo@c}{\zyo@cc}%
+          \@tempcnta\zyo@cq\advance\@tempcnta-\zyo@cc
+          \advance\@tempcnta-\emW@temp
+          \advance\@tempcnta\tw@
+          \zyo@tab{\@tempcnta}\@hidari\EMw@t\\
+          \ifnum\zyo@cb>\@ne
+            \ifnum\emW@temp=\zyo@cb\hline\fi
+          \fi
+        \fi
+      }%
+      \ifthenelse{\zyo@cb>\@ne}{\@seikei@{zyo@q}{\zyo@cq}&\EMw@t}{}%
+    \fi%
+  \end{array}%
+}}%
+%
+\def\Nwarizan{%
+  \@ifundefined{Iwarizan}{\errmessage{Nwarizan needs emathW.sty}}{}%
+  \@ifnextchar<{\Nwarizan@}{\@Nwarizan<\empty>}}%
+\def\Nwarizan@<#1>_#2#3#4{%
+  \ifx #1A\relax
+      \immediate\openout\em@whndl=zyo.tmp%
+      \immediate\write\em@whndl{#3}%
+      \immediate\write\em@whndl{\string\div }%
+      \immediate\write\em@whndl{#4}%
+      \immediate\write\em@whndl{%
+        $\string\kaitou {\string\Nwarizan_{#2}{#3}{#4}}$ }%
+      \immediate\closeout\em@whndl%
+      \input{zyo.tmp}
+  \else\ifx #1D\relax
+      \immediate\openout\em@whndl=zyo.tmp%
+      \immediate\write\em@whndl{#3}%
+      \immediate\write\em@whndl{\string\div }%
+      \immediate\write\em@whndl{#4}%
+      \immediate\write\em@whndl{%
+        $\string\kaitou{\string\edef\string\prQRflg{1}\string
+    \Nwarizan_{#2}{#3}{#4}}$}%
+      \immediate\closeout\em@whndl%
+      \input{zyo.tmp}
+  \else\ifx #1d\relax
+      \Nwarizan<M>_{#2}{#3}{#4}%
+      \immediate\openout\em@whndl=zyo.tmp%
+      \immediate\write\em@whndl{%
+        $\string\kaitou{\string\edef\string\prQRflg{1}\string
+    \Nwarizan_{#2}{#3}{#4}}$}%
+      \immediate\closeout\em@whndl%
+      \input{zyo.tmp}
+  \else\ifx #1a\relax
+      \Nwarizan<M>_{#2}{#3}{#4}%
+      \immediate\openout\em@whndl=zyo.tmp%
+      \immediate\write\em@whndl{$\string\kaitou{\string
+    \Nwarizan_{#2}{#3}{#4}}$}%
+      \immediate\closeout\em@whndl%
+      \input{zyo.tmp}%
+  \else\ifx #1K\relax
+      \immediate\openout\em@whndl=zyo.tmp%
+      \immediate\write\em@whndl{#3}%
+      \immediate\write\em@whndl{\string\div }%
+      \immediate\write\em@whndl{#4}%
+      \immediate\write\em@whndl{%
+        $\string\kaitou{\string\NDivMod*_{#2}{#3}{#4}\string\wariQ\string\wariR
+        \string\makeatletter
+        \string\csname\space QR@format@K\string\endcsname
+        \string\makeatother
+        }$%
+      }%
+      \immediate\closeout\em@whndl%
+      \input{zyo.tmp}
+  \else\ifx #1k\relax
+      \Nwarizan<M>_{#2}{#3}{#4}%
+      \immediate\openout\em@whndl=zyo.tmp%
+      \immediate\write\em@whndl{%
+        $\string\kaitou{\string\NDivMod*_{#2}{#3}{#4}\string\wariQ\string\wariR
+        \string\makeatletter
+        \string\csname\space QR@format@K\string\endcsname
+        \string\makeatother
+        }$%
+      }%
+      \immediate\closeout\em@whndl%
+      \input{zyo.tmp}
+  \else\@Nwarizan<#1>_{#2}{#3}{#4}
+  \fi\fi\fi\fi\fi\fi}%
+%
+\def\@Nwarizan<#1>_#2#3#4{%
+  \ifx M#1\leavevmode\lower-2.62ex\hbox\bgroup\fi%
+%
+  \def\wari@sub{%
+    \xIncr\emW@temp\Incr\hidari@p
+    \edef\@n{zyo@q\romannumeral\emW@temp}
+    \ifnum\@nameuse{\@n}=\z@
+    \else
+      \edef\zyo@tmp{\@nameuse{\@n}}%
+      \edef\zyo@amari{\@zyosuu}%
+      \NMul*_{#2}\zyo@amari\zyo@tmp\zyo@amari
+      \xdef\zyo@amari{\zyo@amari}%
+      \@keisuu@{zyo@c}{\zyo@amari}\edef\zyo@cc{\the\@tempcnta}\Decr\zyo@cc
+      \edef\zyo@beki{\zyo@cq}%
+      \xISub\zyo@beki\emW@temp\zyo@beki
+      \@tempcntb\zyo@retusuu\advance\@tempcntb-\zyo@beki
+      \advance\@tempcntb-\zyo@cc
+      \@tempcnta\z@\def\@hidari{}%
+      \@whilenum\@tempcnta<\@tempcntb
+        \do{\advance\@tempcnta\@ne\edef\@hidari{\@hidari &}}%
+      \@seikei@{zyo@c}{\zyo@cc}\@hidari\EMw@t\\%
+      \cline{\hidari@p-\migi@p}%
+      \@tempcnta\z@\@whilenum\@tempcnta<\zyo@beki\do{\advance\@tempcnta\@ne
+      \NMul*_{#2}\zyo@amari{10}\zyo@amari}%
+      \xdef\zyo@amari{\zyo@amari}%
+      \NSub*_{#2}\@hizyosuu\zyo@amari\@hizyosuu
+      \xdef\@hizyosuu{\@hizyosuu}%
+      \@keisuu@{zyo@a}{\@hizyosuu}\edef\zyo@ca{\the\@tempcnta}\Decr\zyo@ca
+      \@tempcntb\zyo@retusuu\advance\@tempcntb-\zyo@ca
+      \@tempcnta\z@\def\@hidari{}
+      \@whilenum\@tempcnta<\@tempcntb
+        \do{\advance\@tempcnta\@ne\edef\@hidari{\@hidari &}}
+      \@tempcntb\zyo@ca\advance\@tempcntb-\zyo@beki
+      \ifnum\zyo@beki>\z@\advance\@tempcntb\@ne\fi
+      \@tempcnta\zyo@cq\advance\@tempcnta-\zyo@beki\advance\@tempcnta\@ne
+      \@whilenum\@tempcnta<\zyo@cq
+        \do{\edef\n@{zyo@q\romannumeral\@tempcnta}%
+          \ifnum\@nameuse{\n@}=\z@
+            \advance\@tempcntb\@ne\advance\@tempcnta\@ne
+          \else
+            \@tempcnta\zyo@cq
+          \fi
+      }%
+      \@seikei@{zyo@a}{\@tempcntb}\@hidari\EMw@t\\
+    \fi
+    \ifnum\@hizyosuu<\@zyosuu
+      \let\next@w\relax
+    \else
+      \let\next@w\wari@sub
+    \fi\next@w
+  }%
+%
+  \edef\@hizyosuu{#3}\edef\@zyosuu{#4}\edef\@syou{#3}%
+  \NDiv*_{#2}\@syou{#4}\@syou
+  \@keisuu@{zyo@a}{\@hizyosuu}\edef\zyo@ca{\the\@tempcnta}\Decr\zyo@ca
+  \@keisuu@{zyo@b}{\@zyosuu}\edef\zyo@cb{\the\@tempcnta}\Decr\zyo@cb
+  \@keisuu@{zyo@q}{\@syou}\edef\zyo@cq{\the\@tempcnta}\Decr\zyo@cq
+  \global\prcalctrue\def\@mozi{}%
+  \edef\hidari@p{\zyo@cb}\Incr\hidari@p
+  \edef\migi@p{\hidari@p}\IAdd\migi@p\zyo@ca\migi@p
+  \@tempcnta\z@\@tempcntb\zyo@cb\advance\@tempcntb\zyo@ca
+  \advance\@tempcntb-\zyo@cq
+  \def\@hidari{}\@whilenum\@tempcnta<\@tempcntb
+  \do{\advance\@tempcnta\@ne\edef\@hidari{\@hidari &}}%
+  \edef\@hidari{\@hidari &}
+  \edef\zyo@retusuu{\zyo@cb}\IAdd\zyo@retusuu\zyo@ca\zyo@retusuu\Incr\zyo@retusuu
+  \leavevmode
+  \begin{array}[t]{*{\zyo@cb}{@{\hskip\hissan@keta@sep}r}@{}l*{\zyo@ca}{@{\hskip\hissan@keta@sep}r}}%
+    \ifx M#1\else\@seikei@{zyo@q}{\zyo@cq}\@hidari\EMw@t\\\fi%
+    \cline{\hidari@p-\migi@p}%
+    \@seikei@{zyo@b}{\zyo@cb}\EMw@t \kern.25em&\warikakko &%
+    \@seikei@{zyo@a}{\zyo@ca}\EMw@t\\%
+    \ifx M#1\else\edef\emW@temp{0}\xIncr\hidari@p\wari@sub\fi%
+  \end{array}%
+  \ifthenelse{\prQRflg>\z@}{%
+    \NDivMod*_{#2}{#3}{#4}\wariQ\wariR
+    \QR@format
+  }{}%
+  \ifx M#1\egroup\fi
+}%
+%

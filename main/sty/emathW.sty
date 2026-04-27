@@ -1,0 +1,2016 @@
+% emathW.sty by tDB(emath@nifty.com)
+%
+\NeedsTeXFormat{LaTeX2e}%
+\ProvidesPackage{emathW}[2017/01/21 v0.41]%
+%
+\@ifpackageloaded{emath}{}{\RequirePackage{emath}}%
+\RequirePackage{emathQf}
+%
+%(1) 正整数÷正整数
+%   \Iwarizan<M|A>{被除数}{除数}
+%       <M>オプションは，問題のみ
+%       <A>オプションは，emathA.sty を使用するときの
+%       \kaitou コマンドの引数を自動作成する．
+%
+%(2) 正整数×正整数
+%   \Ikakezan<A>{被乗数}{乗数}
+%       <M>オプションは，問題のみ
+%       <A>オプションは，emathA.sty を使用するときの
+%       \kaitou コマンドの引数を自動作成する．
+%
+%(3) 正整数＋正整数
+%   \Itasizan<A>{被乗数}{乗数}
+%       <M>オプションは，問題のみ
+%       <A>オプションは，emathA.sty を使用するときの
+%       \kaitou コマンドの引数を自動作成する．
+%
+%(4) 正整数−正整数
+%   \Ihikizan<A>{被乗数}{乗数}
+%       <M>オプションは，問題のみ
+%       <A>オプションは，emathA.sty を使用するときの
+%       \kaitou コマンドの引数を自動作成する．
+%
+%(5) 整数係数整式の乗法
+%       一変数で
+%       係数は整数の範囲内（分数係数が登場するものはダメ）
+%       引数は，係数を降べき順にコンマ区切りで並べる．
+%   \izyouhou[文字]<A>{被乗数}{乗数}
+%       [文字]オプションは整式の文字を変更する．
+%       <M>オプションは，問題のみ
+%       <A>オプションは，emathA.sty を使用するときの
+%       \kaitou コマンドの引数を自動作成する．
+%
+%(6) 整数係数整式の除法
+%       一変数で
+%       被除数は８次以下，除数は４次以下
+%       係数は整数の範囲内（分数係数が登場するものはダメ）
+%       引数は，係数を降べき順にコンマ区切りで並べる．
+%   \izyohou[文字]<A>{被除数}{除数}
+%       [文字]オプションは整式の文字を変更する．
+%       <M>オプションは，問題のみ
+%       <A>オプションは，emathA.sty を使用するときの
+%       \kaitou コマンドの引数を自動作成する．
+%(7) 整数係数整式の加法
+%       一変数で
+%       係数は整数の範囲内（分数係数が登場するものはダメ）
+%       引数は，係数を降べき順にコンマ区切りで並べる．
+%   \ikahou[文字]<A/M>{式１}{式２}
+%       [文字]オプションは整式の文字を変更する．
+%       <M>オプションは，問題のみ
+%       <A>オプションは，emathA.sty を使用するときの
+%       \kaitou コマンドの引数を自動作成する．
+%(8) 整数係数整式の減法
+%       一変数で
+%       係数は整数の範囲内（分数係数が登場するものはダメ）
+%       引数は，係数を降べき順にコンマ区切りで並べる．
+%   \igenpou[文字]<A/M>{式１}{式２}
+%       [文字]オプションは整式の文字を変更する．
+%       <M>オプションは，問題のみ
+%       <A>オプションは，emathA.sty を使用するときの
+%       \kaitou コマンドの引数を自動作成する．
+%
+%(9) ユークリッドの互除法
+%   \HissanGCM#1
+%   \gozyohou[#1]#2#3
+%     互除法により2つの整数#2, #3の最大公約数を求める計算を
+%     縦書き計算でしめす。答は#1で指定した制御綴に入る。
+%
+%(10) 素因数分解
+%   \soinsuubunkai
+%
+\newif\ifprcalc
+\newif\ifzyo@not@align\zyo@not@alignfalse
+%
+%\@ifundefined{zyo@hndl}{\newwrite\zyo@hndl}{}%
+\@ifundefined{em@whndl}{\newwrite\em@whndl}{}%
+%
+\def\@mozi{x}%
+%\def\hissankakko{\ensuremath{\protect\smash[b]{\big )\,}}}
+\def\hissankakko{\ensuremath{\Big )\,\,}}%
+\def\warikakko{\hissankakko}%
+\def\hissan@keta@sep{0pt}%
+\def\hissanketasep#1{\edef\hissan@keta@sep{#1}}%
+%
+\def\@keisuu#1#2{\@tempcnta\@ne
+  \@for\@c:=#2\do{\ifx\@c\empty\def\@c{0}\fi
+% \edef\@n{#1\romannumeral\@tempcnta}\global\@nameuse{\@n}\@c
+  \expandafter\xdef\csname #1\romannumeral\@tempcnta\endcsname{\@c}%
+  \advance\@tempcnta\@ne
+}}%
+%
+\def\@keisuu@#1#2{\@tempcnta\@ne
+  \expandafter\@tfor\expandafter\@c\expandafter:\expandafter=#2\do{%
+    \expandafter\edef\csname #1\romannumeral\@tempcnta\endcsname{\@c}%
+    \advance\@tempcnta\@ne
+  }%
+}%
+%
+\def\@seikei{\@ifnextchar<{\@@seikei}{\@@seikei<\zyo@ca>}}%
+\def\@@seikei<#1>{\@ifnextchar[{\@@@seikei<#1>}{\@@@seikei<#1>[0]}}%
+\def\@@@seikei<#1>[#2]#3#4{{%
+%
+    \def\necheck{%
+     \ifnum\zyo@amari=\zyo@ca\let\next@ch\relax
+     \else\edef\@n{#3\romannumeral\zyo@amari}%
+     \ifnum\@nameuse{\@n}=0\relax
+       \xIncr\@kaisuu\xDecr\zyo@beki
+       \xdef\@hidari{\@hidari &}
+       \xIncr\hidari@p
+       \xIncr\emW@temp
+       \xIncr\zyo@amari
+       \let\next@ch\necheck
+     \else\let\next@ch\relax
+     \fi\fi\next@ch}%
+%
+  \xdef\not@zero{0}%
+  \xdef\zyo@amari{#2}\xIncr\zyo@amari
+  \necheck
+  \@tempcnta\z@
+  \def\EMw@t{}\@whilenum\@tempcnta<#4\relax
+  \do{\advance\@tempcnta\@ne
+    \@tempcntb\zyo@amari
+%    \ifthenelse{\@tempcntb>\zyo@ca}{}{%
+    \ifthenelse{\@tempcntb>#1}{}{%
+      \ifzyo@not@align\else\ifnum\@tempcnta>\@ne\xdef\EMw@t{\EMw@t &}\fi\fi
+      \xdef\@n{#3\romannumeral\@tempcntb}%
+      \def\zyo@abs{\@nameuse{\@n}}%
+      \ifnum\zyo@abs<\z@
+        \IMul{-1}{\zyo@abs}\zyo@abs
+      \fi
+      \ifnum\@nameuse{\@n}=\z@\else\xdef\not@zero{1}\fi
+      \xdef\EMw@t{\EMw@t
+      \ifnum\@tempcnta>\@ne
+        \ifnum\@nameuse{\@n}>\z@
+          \ifx\@mozi\empty\else{}+{}\fi
+        \else\ifnum\@nameuse{\@n}<\z@
+          \ifx\@mozi\empty\else{}-{}\fi
+        \fi\fi
+      \else\ifnum\@nameuse{\@n}<\z@
+          \ifx\@mozi\empty\else-\fi
+      \fi\fi
+      \ifnum\zyo@beki>\z@ 
+        \ifx\@mozi\empty\@nameuse{\@n}\else
+          \ifnum\zyo@abs=\z@\else
+            \ifnum\zyo@abs=\@ne\else
+              \zyo@abs
+            \fi
+            \@mozi\ifnum\zyo@beki>\@ne^{\zyo@beki}\fi
+          \fi
+        \fi
+      \else
+        \ifnum\@nameuse{\@n}=\z@
+          \ifnum\not@zero=\z@0\fi
+        \else\zyo@abs
+        \fi
+      \fi}%
+      \Decr\zyo@beki
+    }%
+    \Incr\zyo@amari
+  }%
+}}%
+%
+\def\@calc{%
+  \edef\zyo@beki{\zyo@ca}
+  \ISub\zyo@beki\@kaisuu\zyo@beki\Decr\zyo@beki
+  \@tempcntb\@kaisuu\advance\@tempcntb\@ne
+  \edef\@q{zyo@q\romannumeral\@tempcntb}
+  \edef\@a{zyo@a\romannumeral\@tempcntb}%
+  \expandafter\edef\csname zyo@q\romannumeral\@tempcntb\endcsname{%
+    \csname zyo@a\romannumeral\@tempcntb\endcsname}%
+  {%
+    \IDiv{\@nameuse{\@q}}\zyo@bi\@calc@tmp
+    \expandafter\xdef\csname zyo@q\romannumeral\@tempcntb\endcsname{%
+      \@calc@tmp}%
+    \edef\@calc@tmp{\@nameuse{\@q}}%
+    \IMul\@calc@tmp\zyo@bi\@calc@tmp
+    \ifnum\@calc@tmp=\@nameuse{\@a}\else
+      \errmessage{この除法は整数係数の範囲ではできません．}\fi
+  }%
+  \def\EMw@t{}%
+  \@tempcnta\z@
+  \@whilenum\@tempcnta<\zyo@cb\do{\advance\@tempcnta\@ne
+  \edef\@b{zyo@b\romannumeral\@tempcnta}
+  \edef\@a{zyo@a\romannumeral\@tempcntb}
+  \edef\@c{zyo@c\romannumeral\@tempcntb}
+  \expandafter\edef\csname zyo@c\romannumeral\@tempcntb\endcsname{%
+    \@nameuse{\@b}}%
+  \IMul{\@nameuse{\@c}}{\@nameuse{\@q}}\@calc@tmp
+  \expandafter\edef\csname zyo@c\romannumeral\@tempcntb\endcsname{%
+    \@calc@tmp}%
+  \ISub{\@nameuse{\@a}}{\@nameuse{\@c}}\@calc@tmp
+  \expandafter\xdef\csname zyo@a\romannumeral\@tempcntb\endcsname{%
+    \@calc@tmp}%
+  \advance\@tempcntb\@ne}%
+  \ifprcalc
+      \@seikei[\@kaisuu]{zyo@c}{\zyo@cb}\@hidari\EMw@t\\
+      \cline{\hidari@p-\migi@p}
+      \edef\emW@tempb{\@kaisuu}\Incr[2]\emW@tempb
+      \edef\@n{zyo@a\romannumeral\emW@tempb}%
+      \xIncr\hidari@p
+      \xdef\@hidari{\@hidari &}
+      \edef\zyo@beki{\zyo@ca}\ISub\zyo@beki\@kaisuu\zyo@beki
+      \Incr[-2]\zyo@beki
+      \xIncr\@kaisuu
+      \@seikei[\@kaisuu]{zyo@a}{\zyo@cb}%
+      \@hidari\EMw@t\izyo@strut\\
+  \else
+      \Incr\@kaisuu
+  \fi
+}%
+%
+\def\izyouhou{\edef\M@flg{0}%
+  \@ifnextchar[{\@izyouhou}{\@izyouhou[x]}%
+}%
+%
+\def\@izyouhou[#1]{\@ifnextchar<{\@izyouhou@[#1]}{\@@izyouhou[#1]}}%
+\def\@izyouhou@[#1]<#2>#3#4{%
+  \ifx #2M\relax\def\M@flg{1}\@@izyouhou[#1]{#3}{#4}%
+  \else\ifx #2A\relax%\gdef\@mozi{#1}%
+    \ensuremath{(\prPolynomial{#3})(\prPolynomial{#4})}%
+    \immediate\openout\em@whndl=zyo.tmp%
+    \immediate\write\em@whndl{%
+        $\string\kaitou {\string\izyouhou[#1]{#3}{#4}}$ }%
+    \immediate\closeout\em@whndl%
+    \input{zyo.tmp}%
+  \else
+    \@@izyouhou[#1]{#3}{#4}%
+  \fi\fi
+}%
+%
+\def\@@izyouhou[#1]#2#3{\gdef\@mozi{#1}\edef\@kaisuu{0}%
+  \@keisuu{zyo@a}{#2}\edef\zyo@ca{\the\@tempcnta}\Decr\zyo@ca
+  \@keisuu{zyo@b}{#3}\edef\zyo@cb{\the\@tempcnta}\Decr\zyo@cb
+  \IAdd\zyo@ca\zyo@cb\zyo@cq\Decr\zyo@cq
+  \@tempcnta\z@
+  \@whilenum\@tempcnta<\zyo@cq\do{%
+    \advance\@tempcnta\@ne
+    \expandafter\edef\csname zyo@q\romannumeral\@tempcnta\endcsname{0}%
+  }%
+  \leavevmode\edef\save@lnskip{\the\baselineskip}%
+  \begin{array}[t]{l*{\zyo@cq}{@{\hskip\hissan@keta@sep}r}}
+    \edef\zyo@beki{\zyo@ca}\Decr\zyo@beki
+    \@seikei{zyo@a}{\zyo@ca}&\EMw@t\\
+    \edef\zyo@beki{\zyo@cb}\Decr\zyo@beki
+    \@seikei<\zyo@cb>{zyo@b}{\zyo@cb}\times\hissankakko&\EMw@t\\\hline
+    \ifnum\M@flg=\z@
+      \edef\emW@temp{0}%
+      \@whilenum\emW@temp<\zyo@cb\do{%
+%\edef\EMw@t{\empty}%
+        \xIncr\emW@temp
+        \edef\zyo@beki{\zyo@ca}\IAdd\zyo@beki\zyo@cb\zyo@beki
+        \Decr\zyo@beki\ISub\zyo@beki\emW@temp\zyo@beki
+        \@tempcnta\z@
+        \edef\@b{zyo@b\romannumeral\emW@temp}%
+        \@tempcntb\@nameuse{\@b}\relax
+        \ifnum\@tempcntb=\z@\else
+          \@whilenum\@tempcnta<\zyo@ca\do{%
+            \edef\emW@tempb{\the\@tempcnta}\IAdd\emW@tempb\emW@temp\emW@tempb
+            \advance\@tempcnta\@ne
+            \edef\@a{zyo@a\romannumeral\@tempcnta}%
+            \edef\@c{zyo@c\romannumeral\@tempcnta}%
+            \edef\@q{zyo@q\romannumeral\emW@tempb}%
+            \expandafter\edef\csname zyo@c\romannumeral\@tempcnta\endcsname{%
+              \@nameuse{\@a}}%
+            \IMul{\@nameuse{\@c}}{\the\@tempcntb}\izyouhou@tmp
+            \expandafter\edef\csname zyo@c\romannumeral\@tempcnta\endcsname{%
+              \izyouhou@tmp}%
+            \IAdd{\@nameuse{\@q}}{\@nameuse{\@c}}\izyouhou@tmp
+            \expandafter\xdef\csname zyo@q\romannumeral\emW@tempb\endcsname{%
+              \izyouhou@tmp}%
+          }%
+          \zyo@tab\emW@temp
+          \@seikei{zyo@c}{\zyo@ca}%
+          \@hidari\EMw@t
+          \\
+%         \ifnum\emW@temp=\zyo@cb\hline\def\hline@done\fi
+        \fi
+      }%
+\\\noalign{\vskip-\save@lnskip}\hline
+      \edef\zyo@ca{\zyo@cq}
+      \edef\zyo@beki{\zyo@cq}\Decr\zyo@beki
+      \@seikei{zyo@q}{\zyo@cq}&\EMw@t
+    \fi
+  \end{array}
+}
+%
+\def\izyohou{\edef\M@flg{0}%
+  \@ifnextchar[{\@izyohou}{\@izyohou[x]}}%
+
+\def\@izyohou[#1]{\@ifnextchar<{\@izyohou@[#1]}{\@@izyohou[#1]}}%
+\def\@izyohou@[#1]<#2>#3#4{%
+  \ifx #2M\relax\def\M@flg{1}\@@izyohou[#1]{#3}{#4}%
+  \else\ifx #2A\relax\gdef\@mozi{#1}
+    \@keisuu{zyo@a}{#3}\edef\zyo@ca{\the\@tempcnta}\Decr\zyo@ca
+    \@keisuu{zyo@b}{#4}\edef\zyo@cb{\the\@tempcnta}\Decr\zyo@cb
+      \immediate\openout\em@whndl=zyo.tmp%
+      \edef\zyo@beki{\zyo@ca}\Decr\zyo@beki
+      {\zyo@not@aligntrue\@seikei{zyo@a}{\zyo@ca}}
+      \immediate\write\em@whndl{(\EMw@t)}%
+      \immediate\write\em@whndl{\string\div }%
+      \edef\zyo@beki{\zyo@cb}\Decr\zyo@beki
+      {\zyo@not@aligntrue\@seikei{zyo@b}{\zyo@cb}}
+      \immediate\write\em@whndl{(\EMw@t)}%
+      \immediate\write\em@whndl{%
+        $\string\kaitou {\string\izyohou[#1]{#3}{#4}}$ }%
+      \immediate\closeout\em@whndl%
+      \input{zyo.tmp}
+  \else\@@izyohou[#1]{#3}{#4}
+  \fi\fi
+}%
+%
+\def\@@izyohou[#1]#2#3{%
+  \prcalcfalse\gdef\@mozi{#1}\edef\@kaisuu{0}%
+  \@keisuu{zyo@a}{#2}\edef\zyo@ca{\the\@tempcnta}\Decr\zyo@ca
+  \@keisuu{zyo@b}{#3}\edef\zyo@cb{\the\@tempcnta}\Decr\zyo@cb
+  \edef\zyo@cq{\zyo@ca}\ISub\zyo@cq\zyo@cb\zyo@cq\Incr\zyo@cq
+  \edef\hidari@p{\zyo@cb}\Incr\hidari@p
+  \edef\migi@p{\hidari@p}\IAdd\migi@p\zyo@ca\migi@p
+  \@tempcnta\z@\def\@hidari{}\@whilenum\@tempcnta<\zyo@cb
+  \do{\advance\@tempcnta\@ne\edef\@hidari{\@hidari &}}
+  \edef\@hidari{\@hidari &}
+  \settoheight\@tempdima{$x^2$}%
+  \advance\@tempdima\tw@\p@
+  \EMedef\izyo@strut{\vrule\@width\z@\@height\the\@tempdima\@depth\z@}%
+  \leavevmode
+  \begin{array}[t]{*{\zyo@cb}{@{\hskip\hissan@keta@sep}r}@{\,}l*{\zyo@ca}{@{\hskip\hissan@keta@sep}r}}%
+    \xdef\emW@temp{0}%
+    \@whilenum\emW@temp<\zyo@cq\do{\@calc
+      \xIncr\emW@temp
+    }%
+    \edef\zyo@beki{\zyo@cq}\Decr\zyo@beki
+    \ifnum\M@flg=\z@
+      \@seikei{zyo@q}{\zyo@cq}\@hidari\EMw@t
+    \fi
+    \\\cline{\hidari@p-\migi@p}%
+    \edef\zyo@beki{\zyo@cb}\Decr\zyo@beki
+    \@seikei{zyo@b}{\zyo@cb}\EMw@t & \hissankakko & 
+    \edef\zyo@beki{\zyo@ca}\Decr\zyo@beki
+    \@keisuu{zyo@a}{#2}
+    \@seikei{zyo@a}{\zyo@ca}\EMw@t\\
+    \xIncr\hidari@p
+    \global\prcalctrue
+    \edef\@kaisuu{0}%
+    \xdef\emW@temp{0}%
+    \ifnum\M@flg=\z@
+      \@whilenum\emW@temp<\zyo@cq\do{\@calc
+        \xIncr\emW@temp
+      }%
+    \fi
+  \end{array}%
+}%
+%
+\xdef\@hidari{}
+\def\ikahou{\edef\M@flg{0}%
+  \@ifnextchar[{\@ikahou}{\@ikahou[x]}%
+}%
+\def\@ikahou[#1]{\@ifnextchar<{\@ikahou@[#1]}{\@@ikahou[#1]}}
+\def\@ikahou@[#1]<#2>#3#4{%
+  \ifx #2M\relax\def\M@flg{1}\@@ikahou[#1]{#3}{#4}%
+  \else\ifx #2A\relax
+    \ensuremath{(\prPolynomial{#3})+(\prPolynomial{#4})}%
+    \immediate\openout\em@whndl=zyo.tmp%
+    \immediate\write\em@whndl{%
+      $\string\kaitou {\string\ikahou[#1]{#3}{#4}}$ }%
+    \immediate\closeout\em@whndl%
+    \input{zyo.tmp}
+  \else\@@ikahou[#1]{#3}{#4}%
+  \fi\fi
+}%
+%
+\def\@@ikahou[#1]#2#3{\gdef\@mozi{#1}\edef\@kaisuu{0}%
+  \@keisuu{zyo@a}{#2}\edef\zyo@ca{\the\@tempcnta}\Decr\zyo@ca
+  \@keisuu{zyo@b}{#3}\edef\zyo@cb{\the\@tempcnta}\Decr\zyo@cb
+  \IMax{\zyo@ca,\zyo@cb}\kousuu@
+  \edef\kousuu@i{0}%
+  \expandafter\@for\expandafter\mozi@c\expandafter:\expandafter=#1\do{%
+    \Incr\kousuu@i
+    \expandafter\edef\csname @mozi@\romannumeral\kousuu@i\endcsname{\mozi@c}%
+  }%
+  \ifnum\kousuu@i=\@ne
+    \ISub\kousuu@\kousuu@i\kou@beki
+    \@whilenum\kou@beki>\@ne\do{%
+      \expandafter\edef\csname @mozi@\romannumeral\kousuu@i\endcsname{\@mozi^\kou@beki}%
+      \Incr\kousuu@i
+      \Decr\kou@beki
+    }%
+    \expandafter\edef\csname @mozi@\romannumeral\kousuu@i\endcsname{\@mozi}%
+    \Incr\kousuu@i
+    \expandafter\edef\csname @mozi@\romannumeral\kousuu@i\endcsname{\empty}%
+  \fi
+  \ifthenelse{\equal{\csname @mozi@\romannumeral\kousuu@i\endcsname}{\empty}}{%
+    \def\@mozi@teisuu{1}%
+  }{%
+    \def\@mozi@teisuu{0}%
+  }%
+%\typeout{mozi:[\@mozi@i],[\@mozi@ii],[\@mozi@iii],@mozi@teisuu=\@mozi@teisuu}%
+  \ifnum\zyo@ca>\zyo@cb
+    \edef\zyo@cq{\zyo@ca}%
+    \Cfor{\edef\@i{\zyo@ca}\edef\@j{\zyo@cb}}{\@i>0\and\@j>0}{%
+      \Decr\@i\Decr\@j}\do{%
+        \expandafter\edef\csname zyo@q\romannumeral\@i\endcsname{%
+          \csname zyo@a\romannumeral\@i\endcsname}%
+        \IAdd{\csname zyo@b\romannumeral\@j\endcsname}{%
+          \csname zyo@q\romannumeral\@i\endcsname}\ikahou@tmp
+        \expandafter\edef\csname zyo@q\romannumeral\@i\endcsname{\ikahou@tmp}%
+      }%
+    \Cfor{}{\@i>0}{\Decr\@i}\do{%
+      \expandafter\edef\csname zyo@q\romannumeral\@i\endcsname{%
+        \csname zyo@a\romannumeral\@i\endcsname}%
+    }%
+    \leavevmode
+    \IMul{2}\zyo@cq\zyo@@cq
+    \begin{array}[t]{@{\hskip\hissan@keta@sep}r*{\zyo@@cq}{@{\hskip\hissan@keta@sep}r}}
+      \edef\zyo@beki{\zyo@ca}\Decr\zyo@beki
+      \@seikei@kagen{zyo@a}{\zyo@ca}%
+      &\EMw@t\\
+      \@tempcntb\zyo@ca\advance\@tempcntb-\zyo@cb
+      \@tempcnta\z@\def\@hidari{&}
+      \advance\@tempcnta\@ne
+      \@whilenum\@tempcnta<\@tempcntb
+        \do{\advance\@tempcnta\@ne\edef\@hidari{\@hidari &&}}%
+      \edef\zyo@beki{\zyo@cb}\Decr\zyo@beki
+      \@seikei@kagen{zyo@b}{\zyo@cb}%
+      +\hissankakko \@hidari&\EMw@t\\\hline
+      \ifnum\M@flg=\z@
+\EMvphantom[2pt]{x^3}%
+        \edef\zyo@beki{\zyo@cq}\Decr\zyo@beki
+        \@seikei@kagen{zyo@q}{\zyo@cq}&\EMw@t
+      \fi
+    \end{array}%
+  \else
+    \edef\zyo@cq{\zyo@cb}%
+    \Cfor{\edef\@i{\zyo@cb}\edef\@j{\zyo@ca}}{\@i>0\and\@j>0}{%
+      \Decr\@i\Decr\@j}\do{%
+        \expandafter\edef\csname zyo@q\romannumeral\@i\endcsname{%
+          \csname zyo@b\romannumeral\@i\endcsname}%
+        \IAdd{\csname zyo@a\romannumeral\@j\endcsname}{%
+          \csname zyo@q\romannumeral\@i\endcsname}\ikahou@tmp
+        \expandafter\edef\csname zyo@q\romannumeral\@i\endcsname{\ikahou@tmp}%
+    }%
+    \Cfor{}{\@i>0}{\Decr\@i}\do{%
+      \expandafter\edef\csname zyo@q\romannumeral\@i\endcsname{%
+        \csname zyo@b\romannumeral\@i\endcsname}%
+    }%
+    \leavevmode
+    \IMul{2}\zyo@cq\zyo@@cq
+    \begin{array}[t]{@{\hskip\hissan@keta@sep}r*{\zyo@@cq}{@{\hskip\hissan@keta@sep}r}}
+      \@tempcntb\zyo@cb\advance\@tempcntb-\zyo@ca
+      \ifnum\zyo@ca<\zyo@cb
+        \@tempcnta\z@\def\@hidari{&}
+        \advance\@tempcnta\@ne
+        \@whilenum\@tempcnta<\@tempcntb
+          \do{\advance\@tempcnta\@ne\edef\@hidari{\@hidari &&}}
+      \else
+        \def\@hidari{}%
+      \fi
+      \edef\zyo@beki{\zyo@ca}\Decr\zyo@beki
+      \@seikei@kagen{zyo@a}{\zyo@ca}
+      \@hidari &\EMw@t\\
+      \edef\zyo@ca{\zyo@cb}%
+      \edef\zyo@beki{\zyo@cb}\Decr\zyo@beki
+      \@seikei@kagen{zyo@b}{\zyo@cb}%
+      +\hissankakko&\EMw@t\\\hline
+      \ifnum\M@flg=\z@
+\EMvphantom[2pt]{x^3}%
+        \edef\zyo@ca{\zyo@cb}%
+        \edef\zyo@beki{\zyo@cq}\Decr\zyo@beki
+        \@seikei@kagen{zyo@q}{\zyo@cq}
+        &\EMw@t%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+      \fi
+    \end{array}%
+  \fi
+}%
+
+\def\igenpou{\edef\M@flg{0}%
+  \@ifnextchar[{\@igenpou}{\@igenpou[x]}}
+%
+\def\@igenpou[#1]{\@ifnextchar<{\@igenpou@[#1]}{\@@igenpou[#1]}}
+\def\@igenpou@[#1]<#2>#3#4{%
+  \ifx #2M\relax\def\M@flg{1}\@@igenpou[#1]{#3}{#4}%
+  \else\ifx #2A\relax%\gdef\@mozi{#1}
+    \ensuremath{(\prPolynomial{#3})-(\prPolynomial{#4})}%
+    \immediate\openout\em@whndl=zyo.tmp%
+    \immediate\write\em@whndl{%
+      $\string\kaitou {\string\igenpou[#1]{#3}{#4}}$ }%
+    \immediate\closeout\em@whndl%
+    \input{zyo.tmp}
+  \else\@@igenpou[#1]{#3}{#4}
+  \fi\fi
+}%
+%
+\def\@@igenpou[#1]#2#3{\gdef\@mozi{#1}\edef\@kaisuu{0}%
+  \@keisuu{zyo@a}{#2}\edef\zyo@ca{\the\@tempcnta}\Decr\zyo@ca
+  \@keisuu{zyo@b}{#3}\edef\zyo@cb{\the\@tempcnta}\Decr\zyo@cb
+  \IMax{\zyo@ca,\zyo@cb}\kousuu@
+  \edef\kousuu@i{0}%
+  \expandafter\@for\expandafter\mozi@c\expandafter:\expandafter=#1\do{%
+    \Incr\kousuu@i
+    \expandafter\edef\csname @mozi@\romannumeral\kousuu@i\endcsname{\mozi@c}%
+  }%
+  \ifnum\kousuu@i=\@ne
+    \ISub\kousuu@\kousuu@i\kou@beki
+    \@whilenum\kou@beki>\@ne\do{%
+      \expandafter\edef\csname @mozi@\romannumeral\kousuu@i\endcsname{\@mozi^\kou@beki}%
+      \Incr\kousuu@i
+      \Decr\kou@beki
+    }%
+    \expandafter\edef\csname @mozi@\romannumeral\kousuu@i\endcsname{\@mozi}%
+    \Incr\kousuu@i
+    \expandafter\edef\csname @mozi@\romannumeral\kousuu@i\endcsname{\empty}%
+  \fi
+  \ifthenelse{\equal{\csname @mozi@\romannumeral\kousuu@i\endcsname}{\empty}}{%
+    \def\@mozi@teisuu{1}%
+  }{%
+    \def\@mozi@teisuu{0}%
+  }%
+%\typeout{mozi:\@mozi@i,\@mozi@ii,\@mozi@iii}%
+  \ifnum\zyo@ca>\zyo@cb
+    \edef\zyo@cq{\zyo@ca}%
+    \Cfor{\edef\@i{\zyo@ca}\edef\@j{\zyo@cb}}{\@i>0\and\@j>0}{%
+      \Decr\@i\Decr\@j}\do{%
+        \expandafter\edef\csname zyo@q\romannumeral\@i\endcsname{%
+          \csname zyo@a\romannumeral\@i\endcsname}%
+        \ISub{\csname zyo@q\romannumeral\@i\endcsname}{%
+          \csname zyo@b\romannumeral\@j\endcsname}\igenpou@tmp
+        \expandafter\edef\csname zyo@q\romannumeral\@i\endcsname{\igenpou@tmp}}%
+    \Cfor{}{\@i>0}{\Decr\@i}\do{%
+      \expandafter\edef\csname zyo@q\romannumeral\@i\endcsname{%
+        \csname zyo@a\romannumeral\@i\endcsname}%
+    }%
+    \leavevmode
+    \IMul{2}\zyo@cq\zyo@@cq
+    \begin{array}[t]{@{\hskip\hissan@keta@sep}r*{\zyo@@cq}{@{\hskip\hissan@keta@sep}r}}
+      \edef\zyo@beki{\zyo@ca}\Decr\zyo@beki
+      \@seikei@kagen{zyo@a}{\zyo@ca}&\EMw@t\\
+      \@tempcntb\zyo@ca\advance\@tempcntb-\zyo@cb
+      \@tempcnta\z@\def\@hidari{&}
+      \advance\@tempcnta\@ne
+      \@whilenum\@tempcnta<\@tempcntb
+        \do{\advance\@tempcnta\@ne\edef\@hidari{\@hidari &&}}
+      \edef\zyo@beki{\zyo@cb}\Decr\zyo@beki
+      \@seikei@kagen{zyo@b}{\zyo@cb}-\hissankakko\@hidari&\EMw@t\\\hline
+      \ifnum\M@flg=\z@
+        \edef\zyo@beki{\zyo@cq}\Decr\zyo@beki
+        \@seikei@kagen{zyo@q}{\zyo@cq}&\EMw@t
+      \fi
+    \end{array}%
+  \else
+    \edef\zyo@cq{\zyo@cb}%
+    \Cfor{\edef\@i{\zyo@cb}\edef\@j{\zyo@ca}}{\@i>0\and\@j>0}{%
+      \Decr\@i\Decr\@j}\do{%
+        \expandafter\edef\csname zyo@q\romannumeral\@i\endcsname{%
+          \csname zyo@a\romannumeral\@j\endcsname}%
+        \ISub{\csname zyo@q\romannumeral\@i\endcsname}{%
+          \csname zyo@b\romannumeral\@i\endcsname}\igenpou@tmp
+        \expandafter\edef\csname zyo@q\romannumeral\@i\endcsname{\igenpou@tmp}%
+    }%
+    \Cfor{}{\@i>0}{\Decr\@i}\do{%
+      \ISub{0}{\csname zyo@b\romannumeral\@i\endcsname}\igenpou@tmp
+      \expandafter\edef\csname zyo@q\romannumeral\@i\endcsname{\igenpou@tmp}%
+    }%
+    \leavevmode
+    \IMul{2}\zyo@cq\zyo@@cq
+    \begin{array}[t]{@{\hskip\hissan@keta@sep}r*{\zyo@@cq}{@{\hskip\hissan@keta@sep}r}}
+      \@tempcntb\zyo@cb\advance\@tempcntb-\zyo@ca
+      \ifnum\zyo@ca<\zyo@cb
+        \@tempcnta\z@\def\@hidari{&}
+        \advance\@tempcnta\@ne
+        \@whilenum\@tempcnta<\@tempcntb
+          \do{\advance\@tempcnta\@ne\edef\@hidari{\@hidari &&}}
+      \else
+        \def\@hidari{}%
+      \fi
+      \edef\zyo@beki{\zyo@ca}\Decr\zyo@beki
+      \@seikei@kagen{zyo@a}{\zyo@ca}\@hidari&\EMw@t\\
+      \edef\zyo@ca{\zyo@cb}
+      \edef\zyo@beki{\zyo@cb}\Decr\zyo@beki
+      \@seikei@kagen{zyo@b}{\zyo@cb}%
+      -\hissankakko&\EMw@t\\\hline
+      \ifnum\M@flg=\z@
+        \edef\zyo@ca{\zyo@cb}%
+        \edef\zyo@beki{\zyo@cq}\Decr\zyo@beki
+        \@seikei@kagen{zyo@q}{\zyo@cq}%
+%\typeout{@t=\EMw@t}%
+        &\EMw@t
+      \fi
+    \end{array}%
+  \fi
+}%
+%
+\def\@seikei@#1#2{{%
+    \@tempcnta\z@\def\EMw@t{}%
+    \@whilenum\@tempcnta<#2\do{%
+      \advance\@tempcnta\@ne\edef\n@{#1\romannumeral\@tempcnta}%
+\EMedef\@seikei@tmp{\@nameuse{\n@}}%
+\if -\@seikei@tmp\EMedef\@seikei@tmp{\hbox to \z@{\hss $-$}}\fi
+      \ifnum\@tempcnta=\@ne
+%        \EMxdef\EMw@t{\@nameuse{\n@}}%
+        \EMxdef\EMw@t{\@seikei@tmp}%
+      \else
+%        \EMxdef\EMw@t{\EMw@t&\@nameuse{\n@}}%
+        \EMxdef\EMw@t{\EMw@t&\@seikei@tmp}%
+      \fi
+    }%
+}}%
+%
+%
+%
+\edef\prQRflg{0}%
+\def\QR@format{%
+  \\[-.75\baselineskip]%
+  \hspace*{1ex}\ensuremath{\wariQ\,\cdots\,\wariR}%
+}%
+\def\QR@format@K{\wariQ~...~\wariR}%
+%\def\wariQ{\Iw@q}%
+%\def\wariR{\Iw@r}%
+\def\QRformat#1{\def\QR@format{#1}}
+\def\QRformatK#1{\def\QR@format@K{#1}}
+\def\Iwarizan{\@ifnextchar<{\Iwarizan@}{\@Iwarizan<\empty>}}%
+\def\Iwarizan@<#1>#2#3{%
+  \ifx #1A\relax
+      \immediate\openout\em@whndl=zyo.tmp%
+      \immediate\write\em@whndl{#2}%
+      \immediate\write\em@whndl{\string\div }%
+      \immediate\write\em@whndl{#3}%
+      \immediate\write\em@whndl{%
+        $\string\kaitou {\string\Iwarizan {#2}{#3}}$ }%
+      \immediate\closeout\em@whndl%
+      \input{zyo.tmp}
+  \else\ifx #1D\relax
+      \immediate\openout\em@whndl=zyo.tmp%
+      \immediate\write\em@whndl{#2}%
+      \immediate\write\em@whndl{\string\div }%
+      \immediate\write\em@whndl{#3}%
+      \immediate\write\em@whndl{%
+        $\string\kaitou{\string\edef\string\prQRflg{1}\string\Iwarizan {#2}{#3}
+        }$}%
+      \immediate\closeout\em@whndl%
+      \input{zyo.tmp}
+  \else\ifx #1d\relax
+      \Iwarizan<M>{#2}{#3}%
+      \immediate\openout\em@whndl=zyo.tmp%
+      \immediate\write\em@whndl{%
+        $\string\kaitou{\string\edef\string\prQRflg{1}\string\Iwarizan {#2}{#3}
+        }$}%
+      \immediate\closeout\em@whndl%
+      \input{zyo.tmp}
+  \else\ifx #1a\relax
+      \Iwarizan<M>{#2}{#3}%
+      \immediate\openout\em@whndl=zyo.tmp%
+      \immediate\write\em@whndl{$\string\kaitou{\string\Iwarizan {#2}{#3}}$}%
+      \immediate\closeout\em@whndl%
+      \input{zyo.tmp}%
+  \else\ifx #1K\relax
+      \immediate\openout\em@whndl=zyo.tmp%
+      \immediate\write\em@whndl{#2}%
+      \immediate\write\em@whndl{\string\div }%
+      \immediate\write\em@whndl{#3}%
+      \immediate\write\em@whndl{%
+        $\string\kaitou{\string\IDivMod{#2}{#3}\string\wariQ\string\wariR
+        \string\makeatletter
+        \string\csname\space QR@format@K\string\endcsname
+        \string\makeatother
+        }$%
+      }%
+      \immediate\closeout\em@whndl%
+      \input{zyo.tmp}
+  \else\ifx #1k\relax
+      \Iwarizan<M>{#2}{#3}%
+      \immediate\openout\em@whndl=zyo.tmp%
+      \immediate\write\em@whndl{%
+        $\string\kaitou{\string\IDivMod{#2}{#3}\string\wariQ\string\wariR
+        \string\makeatletter
+        \string\csname\space QR@format@K\string\endcsname
+        \string\makeatother
+        }$%
+      }%
+      \immediate\closeout\em@whndl%
+      \input{zyo.tmp}
+  \else\@Iwarizan<#1>{#2}{#3}
+  \fi\fi\fi\fi\fi\fi}%
+%
+\def\@Iwarizan<#1>#2#3{%
+  \ifx M#1\leavevmode\lower-2.62ex\hbox\bgroup\fi%
+%
+  \def\wari@sub{%
+    \xIncr\emW@temp\Incr\hidari@p
+    \edef\@n{zyo@q\romannumeral\emW@temp}
+    \ifnum\@nameuse{\@n}=\z@
+    \else
+      \edef\zyo@amari{\@zyosuu}\xIMul\zyo@amari{\@nameuse{\@n}}\zyo@amari
+      \@keisuu@{zyo@c}{\zyo@amari}\edef\zyo@cc{\the\@tempcnta}\Decr\zyo@cc
+      \edef\zyo@beki{\zyo@cq}\xISub\zyo@beki\emW@temp\zyo@beki
+      \@tempcntb\zyo@retusuu\advance\@tempcntb-\zyo@beki
+      \advance\@tempcntb-\zyo@cc
+      \@tempcnta\z@\def\@hidari{}%
+      \@whilenum\@tempcnta<\@tempcntb
+        \do{\advance\@tempcnta\@ne\edef\@hidari{\@hidari &}}%
+      \@seikei@{zyo@c}{\zyo@cc}\@hidari\EMw@t\\%
+      \cline{\hidari@p-\migi@p}%
+      \@tempcnta\z@\@whilenum\@tempcnta<\zyo@beki\do{\advance\@tempcnta\@ne
+      \xIMul\zyo@amari{10}\zyo@amari}\xISub\@hizyosuu\zyo@amari\@hizyosuu
+      \@keisuu@{zyo@a}{\@hizyosuu}\edef\zyo@ca{\the\@tempcnta}\Decr\zyo@ca
+      \@tempcntb\zyo@retusuu\advance\@tempcntb-\zyo@ca
+      \@tempcnta\z@\def\@hidari{}
+      \@whilenum\@tempcnta<\@tempcntb
+        \do{\advance\@tempcnta\@ne\edef\@hidari{\@hidari &}}
+      \@tempcntb\zyo@ca\advance\@tempcntb-\zyo@beki
+      \ifnum\zyo@beki>\z@\advance\@tempcntb\@ne\fi
+      \@tempcnta\zyo@cq\advance\@tempcnta-\zyo@beki\advance\@tempcnta\@ne
+      \@whilenum\@tempcnta<\zyo@cq
+        \do{\edef\n@{zyo@q\romannumeral\@tempcnta}%
+          \ifnum\@nameuse{\n@}=\z@
+            \advance\@tempcntb\@ne\advance\@tempcnta\@ne
+          \else
+            \@tempcnta\zyo@cq
+          \fi
+      }%
+      \@seikei@{zyo@a}{\@tempcntb}\@hidari\EMw@t\\
+    \fi
+    \ifnum\@hizyosuu<\@zyosuu
+      \let\next@w\relax
+    \else
+      \let\next@w\wari@sub
+    \fi\next@w
+  }%
+%
+  \edef\@hizyosuu{#2}\edef\@zyosuu{#3}\edef\@syou{#2}%
+  \IDiv\@syou{#3}\@syou
+  \@keisuu@{zyo@a}{\@hizyosuu}\edef\zyo@ca{\the\@tempcnta}\Decr\zyo@ca
+  \@keisuu@{zyo@b}{\@zyosuu}\edef\zyo@cb{\the\@tempcnta}\Decr\zyo@cb
+  \@keisuu@{zyo@q}{\@syou}\edef\zyo@cq{\the\@tempcnta}\Decr\zyo@cq
+  \global\prcalctrue\def\@mozi{}%
+  \edef\hidari@p{\zyo@cb}\Incr\hidari@p
+  \edef\migi@p{\hidari@p}\IAdd\migi@p\zyo@ca\migi@p
+  \@tempcnta\z@\@tempcntb\zyo@cb\advance\@tempcntb\zyo@ca
+  \advance\@tempcntb-\zyo@cq
+  \def\@hidari{}\@whilenum\@tempcnta<\@tempcntb
+  \do{\advance\@tempcnta\@ne\edef\@hidari{\@hidari &}}%
+  \edef\@hidari{\@hidari &}
+  \edef\zyo@retusuu{\zyo@cb}\IAdd\zyo@retusuu\zyo@ca\zyo@retusuu\Incr\zyo@retusuu
+  \leavevmode
+  \begin{array}[t]{*{\zyo@cb}{@{\hskip\hissan@keta@sep}r}@{}l*{\zyo@ca}{@{\hskip\hissan@keta@sep}r}}%
+    \ifx M#1\else\@seikei@{zyo@q}{\zyo@cq}\@hidari\EMw@t\\\fi%
+    \cline{\hidari@p-\migi@p}%
+    \@seikei@{zyo@b}{\zyo@cb}\EMw@t \kern.25em&\warikakko &%
+    \@seikei@{zyo@a}{\zyo@ca}\EMw@t\\%
+    \ifx M#1\else\edef\emW@temp{0}\xIncr\hidari@p\wari@sub\fi%
+  \end{array}%
+  \ifthenelse{\prQRflg>\z@}{%
+    \IDivMod{#2}{#3}\wariQ\wariR
+    \QR@format
+  }{}%
+  \ifx M#1\egroup\fi
+}%
+%
+\def\zyo@tab#1{{%
+  \@tempcnta#1\relax\gdef\@hidari{}%
+  \@whilenum\@tempcnta>\z@\do{\xdef\@hidari{\@hidari &}%
+  \advance\@tempcnta\m@ne}%
+}}%
+%
+\def\Ikakezan{\@ifnextchar<{\Ikakezan@}{\@Ikakezan<\empty>}}%
+\def\Ikakezan@<#1>#2#3{%
+    \ifx #1A\relax
+        \immediate\openout\em@whndl=zyo.tmp%
+      \immediate\write\em@whndl{#2}%
+      \immediate\write\em@whndl{\string\times }%
+      \immediate\write\em@whndl{#3}%
+      \immediate\write\em@whndl{%
+        $\string\kaitou {\string\Ikakezan {#2}{#3}}$ }%
+      \immediate\closeout\em@whndl%
+            \input{zyo.tmp}
+    \else\ifx #1a\relax
+      \immediate\openout\em@whndl=zyo.tmp%
+      \immediate\write\em@whndl{\string\Ikakezan<M>{#2}{#3}%
+        $\string\kaitou {\string\Ikakezan {#2}{#3}}$}%
+      \immediate\closeout\em@whndl%
+      \input{zyo.tmp}
+    \else\ifx #1K\relax
+      \immediate\openout\em@whndl=zyo.tmp%
+      \immediate\write\em@whndl{#2}%
+      \immediate\write\em@whndl{\string\times }%
+      \immediate\write\em@whndl{#3}%
+      \immediate\write\em@whndl{%
+        $\string\kaitou{\string\IMul{#2}{#3}\string\kakeA\string\kakeA}$
+      }%
+      \immediate\closeout\em@whndl%
+      \input{zyo.tmp}
+    \else\ifx #1k\relax
+      \Ikakezan<M>{#2}{#3}%
+      \immediate\openout\em@whndl=zyo.tmp%
+      \immediate\write\em@whndl{%
+        $\string\kaitou{\string\IMul{#2}{#3}\string\kakeA\string\kakeA}$
+      }%
+      \immediate\closeout\em@whndl%
+      \input{zyo.tmp}
+    \else\@Ikakezan<#1>{#2}{#3}
+    \fi\fi\fi\fi
+}%
+%
+\def\@Ikakezan<#1>#2#3{{%
+  \edef\@hizyosuu{#2}\edef\@zyosuu{#3}\edef\@syou{#2}\IMul\@syou{#3}\@syou
+  \@keisuu@{zyo@a}{\@hizyosuu}\edef\zyo@ca{\the\@tempcnta}\Decr\zyo@ca
+  \@keisuu@{zyo@b}{\@zyosuu}\edef\zyo@cb{\the\@tempcnta}\Decr\zyo@cb
+  \@keisuu@{zyo@q}{\@syou}\edef\zyo@cq{\the\@tempcnta}\Decr\zyo@cq
+  \leavevmode
+  \begin{array}[t]{@{\hskip\hissan@keta@sep}r*{\zyo@cq}{@{\hskip\hissan@keta@sep}r}}
+    \@tempcnta\zyo@cq\advance\@tempcnta-\zyo@ca\advance\@tempcnta\@ne
+    \zyo@tab{\@tempcnta}\@hidari
+    \@seikei@{zyo@a}{\zyo@ca}\EMw@t\\
+    \@tempcnta\zyo@cq\advance\@tempcnta-\zyo@cb
+    \zyo@tab{\@tempcnta}\times\hissankakko&\@hidari
+    \@seikei@{zyo@b}{\zyo@cb}\EMw@t\\\hline
+    \ifx #1M\else
+      \edef\emW@temp{0}%
+      \@whilenum\emW@temp<\zyo@cb\do{%
+        \@tempcntb\zyo@cb\advance\@tempcntb-\emW@temp
+        \xIncr\emW@temp\edef\@n{zyo@b\romannumeral\@tempcntb}%
+        \ifnum\@nameuse{\@n}>\z@
+          \edef\zyo@amari{\@hizyosuu}\IMul\zyo@amari{\@nameuse{\@n}}\zyo@amari
+          \@keisuu@{zyo@c}{\zyo@amari}\edef\zyo@cc{\the\@tempcnta}\Decr\zyo@cc
+          \@seikei@{zyo@c}{\zyo@cc}%
+          \@tempcnta\zyo@cq\advance\@tempcnta-\zyo@cc
+          \advance\@tempcnta-\emW@temp
+          \advance\@tempcnta\tw@
+          \zyo@tab{\@tempcnta}\@hidari\EMw@t\\
+          \ifnum\zyo@cb>\@ne
+            \ifnum\emW@temp=\zyo@cb\hline\fi
+          \fi
+        \fi
+      }%
+      \ifthenelse{\zyo@cb>\@ne}{\@seikei@{zyo@q}{\zyo@cq}&\EMw@t}{}%
+    \fi%
+  \end{array}%
+}}%
+%
+\def\Ik@trim@zero#1#2#3{%
+  \strtohairetu{#1}{trimz@H}
+  \Cfor{\edef\i@val{\trimz@HN}\edef\trimz@N{0}\edef\trimz@found{0}}%
+      {\trimz@found=0}{\Decr\i@val}\do{%
+        \ifnum \hairetu{trimz@H}{\i@val}=0\relax
+          \Incr\trimz@N
+        \else
+          \edef\trimz@found{1}%
+        \fi
+  }%
+  \edef#3{\trimz@N}%
+  \Cfor{\edef#2{}\edef\j@val{0}}{\j@val<\i@val}{}\do{%
+    \Incr\j@val
+    \edefappend#2{\hairetu{trimz@H}{\j@val}}%
+  }%
+  \Incr\j@val
+  \edefappend#2{\hairetu{trimz@H}{\j@val}}%
+}%
+%
+\def\Ikakezanz{\@ifnextchar<{\Ikakezanz@}{\@Ikakezanz<\empty>}}%
+\def\Ikakezanz@<#1>#2#3{%
+    \ifx #1A\relax
+        \immediate\openout\em@whndl=zyo.tmp%
+      \immediate\write\em@whndl{#2}%
+      \immediate\write\em@whndl{\string\times }%
+      \immediate\write\em@whndl{#3}%
+      \immediate\write\em@whndl{%
+        $\string\kaitou {\string\Ikakezanz {#2}{#3}}$ }%
+      \immediate\closeout\em@whndl%
+            \input{zyo.tmp}
+    \else\ifx #1a\relax
+      \immediate\openout\em@whndl=zyo.tmp%
+      \immediate\write\em@whndl{\string\Ikakezanz<M>{#2}{#3}%
+        $\string\kaitou {\string\Ikakezanz {#2}{#3}}$}%
+      \immediate\closeout\em@whndl%
+      \input{zyo.tmp}
+    \else\@Ikakezanz<#1>{#2}{#3}
+    \fi\fi
+}%
+%
+\def\@Ikakezanz<#1>#2#3{{%
+%  \edef\@hizyosuu{#2}\edef\@zyosuu{#3}%
+  \Ik@trim@zero{#2}\@hizyosuu\zn@hizyosuu
+  \Ik@trim@zero{#3}\@zyosuu\zn@zyosuu
+% \edef\@syou{#2}\IMul\@syou{#3}\@syou
+  \edef\@syou{\@hizyosuu}\IMul\@syou\@zyosuu\@syou
+  \@keisuu@{zyo@a}{\@hizyosuu}\edef\zyo@ca{\the\@tempcnta}\Decr\zyo@ca
+  \@keisuu@{zyo@b}{\@zyosuu}\edef\zyo@cb{\the\@tempcnta}\Decr\zyo@cb
+  \@keisuu@{zyo@q}{\@syou}\edef\zyo@cq{\the\@tempcnta}\Decr\zyo@cq
+  \leavevmode
+  \begin{array}[t]{@{}r*{\zyo@cq}{@{\hskip\hissan@keta@sep}r}@{}l@{}}
+    \@tempcnta\zyo@cq\advance\@tempcnta-\zyo@ca\advance\@tempcnta\@ne
+    \zyo@tab{\@tempcnta}\@hidari
+    \@seikei@{zyo@a}{\zyo@ca}\EMw@t&\repeatstr{0}\zn@hizyosuu\\
+    \@tempcnta\zyo@cq\advance\@tempcnta-\zyo@cb
+    \zyo@tab{\@tempcnta}\times\hissankakko&\@hidari
+    \@seikei@{zyo@b}{\zyo@cb}\EMw@t&\repeatstr{0}\zn@zyosuu\\\hline
+    \ifx #1M\else
+      \edef\emW@temp{0}%
+      \@whilenum\emW@temp<\zyo@cb\do{%
+        \@tempcntb\zyo@cb\advance\@tempcntb-\emW@temp
+        \xIncr\emW@temp\edef\@n{zyo@b\romannumeral\@tempcntb}%
+        \ifnum\@nameuse{\@n}>\z@
+          \edef\zyo@amari{\@hizyosuu}\IMul\zyo@amari{\@nameuse{\@n}}\zyo@amari
+          \@keisuu@{zyo@c}{\zyo@amari}\edef\zyo@cc{\the\@tempcnta}\Decr\zyo@cc
+          \@seikei@{zyo@c}{\zyo@cc}%
+          \@tempcnta\zyo@cq\advance\@tempcnta-\zyo@cc
+          \advance\@tempcnta-\emW@temp
+          \advance\@tempcnta\tw@
+          \zyo@tab{\@tempcnta}\@hidari\EMw@t
+          \ifthenelse{\zyo@cb>\@ne}{%
+            \\\ifnum\emW@temp=\zyo@cb\hline\fi
+          }{%
+            &\repeatstr{0}\zn@hizyosuu\repeatstr{0}\zn@zyosuu\\%
+          }%
+        \fi
+      }%
+      \ifthenelse{\zyo@cb>\@ne}{\@seikei@{zyo@q}{\zyo@cq}&\EMw@t
+        &\repeatstr{0}\zn@hizyosuu\repeatstr{0}\zn@zyosuu}{}%
+    \fi%
+  \end{array}%
+}}%
+%
+\def\keta@agari{1}%
+\def\ketaagari#1{\def\keta@agari{#1}}%
+\def\Itasizan{\@ifnextchar<{\Itasizan@}{\@Itasizan<\empty>}}%
+\def\Itasizan@<#1>#2#3{%
+    \ifx #1A\relax
+      \immediate\openout\em@whndl=zyo.tmp%
+      \immediate\write\em@whndl{#2}%
+      \immediate\write\em@whndl{+}%
+      \immediate\write\em@whndl{#3}%
+      \immediate\write\em@whndl{%
+        $\string\kaitou {\string\Itasizan {#2}{#3}}$ }%
+      \immediate\closeout\em@whndl%
+            \input{zyo.tmp}
+    \else\ifx #1a\relax
+      \immediate\openout\em@whndl=zyo.tmp%
+      \immediate\write\em@whndl{\string\Itasizan<M>{#2}{#3}%
+        $\string\kaitou {\string\Itasizan {#2}{#3}}$}%
+      \immediate\closeout\em@whndl%
+      \input{zyo.tmp}
+    \else\@Itasizan<#1>{#2}{#3}
+    \fi\fi
+}%
+%
+\def\@Itasizan<#1>#2#3{{%
+  \edef\@hizyosuu{#2}\edef\@zyosuu{#3}\IAdd\@hizyosuu\@zyosuu\@syou
+  \@keisuu@{zyo@a}{\@hizyosuu}\edef\zyo@ca{\the\@tempcnta}\Decr\zyo@ca
+  \@keisuu@{zyo@b}{\@zyosuu}\edef\zyo@cb{\the\@tempcnta}\Decr\zyo@cb
+  \@keisuu@{zyo@q}{\@syou}\edef\zyo@cq{\the\@tempcnta}\Decr\zyo@cq
+\IMax{\zyo@ca,\zyo@cb}\zyo@cab
+\ifnum\keta@agari=\z@\edef\zyo@cqq{\zyo@cab}\else\edef\zyo@cqq{\zyo@cq}\fi
+  \leavevmode
+  \begin{array}[t]{@{\hskip\hissan@keta@sep}r*{\zyo@cqq}{@{\hskip\hissan@keta@sep}r}}
+    \@tempcnta\zyo@cqq\advance\@tempcnta-\zyo@ca\advance\@tempcnta\@ne
+    \zyo@tab{\@tempcnta}\@hidari
+    \@seikei@{zyo@a}{\zyo@ca}\EMw@t\\
+    \@tempcnta\zyo@cqq\advance\@tempcnta-\zyo@cb
+    \zyo@tab{\@tempcnta}+\hissankakko&\@hidari
+    \@seikei@{zyo@b}{\zyo@cb}\EMw@t\\\hline
+    \ifx #1M\else
+	    \ifthenelse{\keta@agari=\z@}{%
+	    	\ifthenelse{\zyo@cq>\zyo@cab}{%
+  	  		\headchar\@syou\@syou@h\@syou@r
+    			\xdef\@syou@h{\@syou@h}%
+				  \@keisuu@{zyo@q}{\@syou@r}\edef\zyo@cq{\the\@tempcnta}\Decr\zyo@cq
+	    		\@seikei@{zyo@q}{\zyo@cq}&\hbox to\z@{\hss\@syou@h
+	    			\hskip\hissan@keta@sep\null}\EMw@t
+	    	}{%
+		    	\@seikei@{zyo@q}{\zyo@cq}&\EMw@t
+  			}%
+  		}{%
+				\@seikei@{zyo@q}{\zyo@cq}&\EMw@t
+  		}%
+    \fi
+  \end{array}%
+}}%
+%
+\def\Ihikizan{\@ifnextchar<{\Ihikizan@}{\@Ihikizan<\empty>}}%
+\def\Ihikizan@<#1>#2#3{%
+    \ifx #1A\relax
+       \immediate\openout\em@whndl=zyo.tmp%
+      \immediate\write\em@whndl{#2}%
+      \immediate\write\em@whndl{-}%
+      \immediate\write\em@whndl{#3}%
+      \immediate\write\em@whndl{%
+        $\string\kaitou {\string\Ihikizan {#2}{#3}}$ }%
+      \immediate\closeout\em@whndl%
+            \input{zyo.tmp}
+    \else\ifx #1a\relax
+      \immediate\openout\em@whndl=zyo.tmp%
+      \immediate\write\em@whndl{\string\Ihikizan<M>{#2}{#3}%
+        $\string\kaitou {\string\Ihikizan {#2}{#3}}$}%
+      \immediate\closeout\em@whndl%
+      \input{zyo.tmp}
+    \else\@Ihikizan<#1>{#2}{#3}
+    \fi\fi
+}%
+%
+\def\@Ihikizan<#1>#2#3{{%
+  \edef\@hizyosuu{#2}\edef\@zyosuu{#3}\ISub{#2}\@zyosuu\@syou
+  \@keisuu@{zyo@a}{\@hizyosuu}\edef\zyo@ca{\the\@tempcnta}\Decr\zyo@ca
+  \@keisuu@{zyo@b}{\@zyosuu}\edef\zyo@cb{\the\@tempcnta}\Decr\zyo@cb
+  \@keisuu@{zyo@q}{\@syou}\edef\zyo@cq{\the\@tempcnta}\Decr\zyo@cq
+\edef\tbl@c{\zyo@ca}%
+\ifnum\zyo@cb>\tbl@c\edef\tbl@c{\zyo@cb}\fi
+  \leavevmode
+  \begin{array}[t]{@{\hskip\hissan@keta@sep}r*{\tbl@c}{@{\hskip\hissan@keta@sep}r}}%
+    \@tempcnta\tbl@c\advance\@tempcnta-\zyo@ca%\advance\@tempcnta\@ne
+    \zyo@tab{\@tempcnta}\@hidari
+    \@seikei@{zyo@a}{\zyo@ca}&\EMw@t\\
+    \@tempcnta\tbl@c\advance\@tempcnta-\zyo@cb
+    \zyo@tab{\@tempcnta}-\hissankakko&\@hidari
+    \@seikei@{zyo@b}{\zyo@cb}\EMw@t\\\hline
+    \ifx #1M\else
+      \@tempcnta\tbl@c\advance\@tempcnta-\zyo@cq
+      \zyo@tab{\@tempcnta}\@hidari
+      \@seikei@{zyo@q}{\zyo@cq}&\EMw@t
+    \fi%
+  \end{array}%
+}}%
+%
+% 素因数分解
+\def\soinsuubunkai#1{\ensuremath{{\EMc@hizyosuu#1\relax%
+    \begin{array}[t]{r@{}l@{\ }r}%
+        \syou@amari{\EMc@hizyosuu}{2}%
+        \@tempcnta\EMc@syou\advance\@tempcnta\@ne%
+        \ifnum\@tempcnta>\tw@%
+        \@whilenum\EMc@zyo@amari=\z@\do{%
+            \EMedef\n@{2 & \hissankakko& \the\EMc@hizyosuu}%
+            \global\EMc@hizyosuu\EMc@syou%
+            \n@\\\cline{2-3}%
+            \syou@amari{\EMc@hizyosuu}{2}%
+            \ifnum\EMc@syou<\tw@%
+                \EMc@zyo@amari=\@ne\fi%
+            }%
+        \fi%
+        \global\@tempcntb=3\relax%
+        \global\loop%
+        \syou@amari{\EMc@hizyosuu}{\@tempcntb}%
+        \@tempcnta\EMc@syou\advance\@tempcnta\@ne%
+        \ifnum\@tempcnta>\@tempcntb%
+        \@whilenum\EMc@zyo@amari=\z@\do{%
+            \EMedef\n@{\the\@tempcntb & \hissankakko & \the\EMc@hizyosuu}%
+            \global\EMc@hizyosuu\EMc@syou%
+            \n@\\\cline{2-3}%
+            \syou@amari{\EMc@hizyosuu}{\@tempcntb}%
+            \ifnum\EMc@syou<\@tempcntb%
+                \EMc@zyo@amari=\@ne\fi%
+            }%
+        \global\advance\@tempcntb\tw@
+        \syou@amari{\EMc@hizyosuu}{\@tempcntb}%
+        \repeat%
+        && \the\EMc@hizyosuu%
+    \end{array}}%
+}}%
+%
+% \HissanGCM
+%
+\define@key{emW}{gcmbox}[<\empty>]{\edef\gcm@box{#1}}%
+\define@key{emW}{lcmbox}[<\empty>]{\edef\lcm@box{#1}}%
+\define@key{emW}{drawbox}{\def\draw@box{#1}}%
+%
+\def\draw@box{\Takakkei}%
+%
+\def\HissanGCM{\@ifnextchar<{\@HissanGCM}{\@HissanGCM<\empty>}}%
+\def\@HissanGCM<#1>#2{{%
+  \ifx\empty #1\else\setkeys{emW}{#1}\fi
+  \csvhairetu*{#2}{hslcm@dt}%
+  \edef\HGCM@max{0}%
+  \Ifor*\i@val{1}{\hslcm@dtN}\Do{%
+    \edef\hslcm@tmp{\hairetu{hslcm@dt}{\i@val}}%
+    \ifnum\hslcm@tmp>\HGCM@max\edef\HGCM@max{\hslcm@tmp}\fi
+  }%
+  \settowidth\@tempdima{\HGCM@max}%
+  \edef\HGCM@wd@{\the\@tempdima}%
+  \IAdd\hslcm@dtN{3}\hslcm@cmax
+  \IGCMs{#2}\hs@gcm
+  \soinsi\hs@gcm{hs@S}%
+  \edef\gcm@lns{0}%
+  \edef\hsgcm@buf{\noexpand\HGCM@box}%
+% GCM を求める部分
+    \Ifor*\i@val{1}{\hs@SN}\Do{%
+      \Ifor*\j@val{1}{\hairetu{hs@Sb}{\i@val}}\Do{%
+        \EMedefappend\hsgcm@buf{&\hairetu{hs@S}{\i@val}\noexpand\mkern6mu
+          &\noexpand\warikakko}%
+        \Ifor*\k@val{1}{\hslcm@dtN}\Do{%
+          \edef\hslcm@tmp{\hairetu{hslcm@dt}{\k@val}}%
+          \EMedefappend\hsgcm@buf{&\hslcm@tmp}%
+          \IDivself\hslcm@tmp{\hairetu{hs@S}{\i@val}}%
+          \expandafter\edef\csname hslcm@dt\romannumeral\k@val\endcsname{%
+            \hslcm@tmp}%
+        }%
+        \EMedefappend\hsgcm@buf{\noexpand\\ 
+          \noexpand\cline{3-\noexpand\hslcm@cmax}}
+        \Incr\gcm@lns
+      }%
+    }%
+% gcmbox
+    \def\HGCM@box{\emTsya[o]<%
+      \@ifundefined{gcm@box}{}{%
+        \edef\LT@{\LT}%
+        \@tempdima=\HGCM@wd@
+        \advance\@tempdima\arraycolsep
+        \advance\@tempdima-\@ne\p@
+        \Addvec\LT@{(\strip@pt\@tempdima,0)}\RT@
+        \@tempdima=-\gcm@lns\rowtotalheight
+        \Addvec\LT@{(0,\strip@pt\@tempdima)}\LT@@
+        \Addvec\RT@{(0,\strip@pt\@tempdima)}\RT@@
+        \expandafter\draw@box\gcm@box{\LT@\LT@@\RT@@\RT@}%
+      }%
+      \@ifundefined{lcm@box}{}{%
+        \ifnum\hslcm@dtN>\tw@\errmessage{cannot use lcmbox option}\fi
+        \@tempdima=\gcm@lns\rowtotalheight
+        \advance\@tempdima\gcm@lns\arrayrulewidth
+        \@tempdimb=\HGCM@wd@
+        \advance\@tempdimb 2\arraycolsep
+        \edef\hs@v{(\strip@pt\@tempdimb,-\strip@pt\@tempdima)}%
+        \Addvec\LT\hs@v\LT@
+        \Addvec\LB\hs@v\LB@
+        \@tempdima=\HGCM@wd@
+        \advance\@tempdima -\p@
+        \advance\@tempdima \hslcm@dtN\@tempdima
+        \advance\@tempdima \hslcm@dtN\arraycolsep
+        \advance\@tempdima \hslcm@dtN\arraycolsep
+        \Addvecself\LT@{(0,-1)}%
+        \Addvecself\LB@{(0,2)}%
+        \Addvec\LT@{(\strip@pt\@tempdima,0)}\RT@
+        \Addvec\LB@{(\strip@pt\@tempdima,0)}\RB@
+        \expandafter\draw@box\lcm@box{\LT@\LB@\RB@\RT@}%
+      }%
+    >}%
+%最終行表示
+    \EMedefappend\hsgcm@buf{&&}%
+    \Ifor*\k@val{1}{\hslcm@dtN}\Do{%
+      \edef\hslcm@tmp{\hairetu{hslcm@dt}{\k@val}}%
+      \EMedefappend\hsgcm@buf{&\hslcm@tmp}%
+    }%
+\ensuremath{%
+    \begin{array}'gyoudaka=\vphantom{\warikakko}'[t]{%
+        @{}L{-2\arraycolsep}R{\HGCM@wd@}@{}l*{\hslcm@dtN}{R{\HGCM@wd@}}}%
+      \hsgcm@buf
+    \end{array}%
+}%
+}}%
+%
+\let\sudarezan\HissanGCM
+\let\sudareGCM\HissanGCM
+%
+% \HissanLCM
+%
+\def\HissanLCM{\@ifnextchar<{\@HissanLCM}{\@HissanLCM<\empty>}}%
+\def\@HissanLCM<#1>#2{{%
+  \@ifundefined{getrowHD}{%
+    \errmessage{HissanLCM needs emathT}%
+  }{}%
+  \ifx\empty #1\else\setkeys{emW}{#1}\fi
+  \csvhairetu*{#2}{hslcm@dt}%
+  \edef\HLCM@max{0}%
+  \Ifor*\i@val{1}{\hslcm@dtN}\Do{%
+    \edef\hslcm@tmp{\hairetu{hslcm@dt}{\i@val}}%
+    \ifnum\hslcm@tmp>\HLCM@max\edef\HLCM@max{\hslcm@tmp}\fi
+  }%
+  \settowidth\@tempdima{\HLCM@max}%
+  \edef\HLCM@wd@{\the\@tempdima}%
+  \IAdd\hslcm@dtN{3}\hslcm@cmax
+  \IGCMs{#2}\hs@gcm
+  \soinsi\hs@gcm{hs@S}%
+  \edef\gcm@lns{0}%
+  \edef\hslcm@buf{\noexpand\HLCM@box}%
+% GCM を求める部分
+    \Ifor*\i@val{1}{\hs@SN}\Do{%
+      \Ifor*\j@val{1}{\hairetu{hs@Sb}{\i@val}}\Do{%
+        \EMedefappend\hslcm@buf{&\hairetu{hs@S}{\i@val}\noexpand\mkern6mu
+          &\noexpand\warikakko}%
+        \Ifor*\k@val{1}{\hslcm@dtN}\Do{%
+          \edef\hslcm@tmp{\hairetu{hslcm@dt}{\k@val}}%
+          \EMedefappend\hslcm@buf{&\hslcm@tmp}%
+          \IDivself\hslcm@tmp{\hairetu{hs@S}{\i@val}}%
+          \expandafter\edef\csname hslcm@dt\romannumeral\k@val\endcsname{%
+            \hslcm@tmp}%
+        }%
+        \EMedefappend\hslcm@buf{\noexpand\\ 
+          \noexpand\cline{3-\noexpand\hslcm@cmax}}
+        \Incr\gcm@lns
+      }%
+    }%
+    \edef\lcm@lns{0}%
+%
+  \ILCMs{#2}\hs@lcm
+  \IDiv\hs@lcm\hs@gcm\hs@tmp
+  \soinsi\hs@tmp{hs@S}%
+% 部分的に公約数がある場合
+\Ifor*\j@val{1}{\hs@SN}\Do{%
+    \edef\hslcm@insi{\hairetu{hs@S}{\j@val}}%
+      \edef\hslcm@kurikaesi{1}%
+      \Cfor{}{\hslcm@kurikaesi>\z@}{}\do{%
+        \edef\hslcm@found{0}%
+        \Cfor{\edef\i@val{0}}{\i@val<\hslcm@dtN}{}\do{%
+          \Incr\i@val
+          \IMod{\hairetu{hslcm@dt}{\i@val}}{\hslcm@insi}\hslcm@tmp
+          \ifnum\hslcm@tmp=\z@\Incr\hslcm@found\fi
+        }%
+        \ifnum\hslcm@found>\@ne
+          \EMedefappend\hslcm@buf{&\hslcm@insi\noexpand\mkern6mu&
+            \noexpand\warikakko}%
+          \Ifor*\i@val{1}{\hslcm@dtN}\Do{%
+              \edef\hslcm@tmp{\hairetu{hslcm@dt}{\i@val}}%
+              \IDivMod{\hslcm@tmp}{\hslcm@insi}\hslcm@q\hslcm@r
+              \EMedefappend\hslcm@buf{&\hslcm@tmp}%
+              \ifnum\hslcm@r=\z@
+                \expandafter\edef\csname hslcm@dt\romannumeral\i@val\endcsname{%  
+                  \hslcm@q}%
+              \fi
+          }%
+          \Incr\lcm@lns
+          \EMedefappend\hslcm@buf{\noexpand\\ 
+              \noexpand\cline{3-\noexpand\hslcm@cmax}}
+        \else
+          \edef\hslcm@kurikaesi{0}%
+        \fi
+    }%
+}%
+% lcmbox
+    \def\HLCM@box{\emTsya[o]<%
+      \edef\LT@{\LT}%
+      \@tempdima=\HLCM@wd@
+      \advance\@tempdima\arraycolsep
+      \advance\@tempdima-\@ne\p@
+      \Addvec\LT@{(\strip@pt\@tempdima,0)}\RT@
+      \@tempdima=-\gcm@lns\rowtotalheight
+      \Addvec\LT@{(0,\strip@pt\@tempdima)}\LT@@
+      \Addvec\RT@{(0,\strip@pt\@tempdima)}\RT@@
+      \@ifundefined{gcm@box}{}{%
+        \expandafter\draw@box\gcm@box{\LT@\LT@@\RT@@\RT@}%
+      }%
+      \@ifundefined{lcm@box}{}{%
+        \ifnum\lcm@lns>\z@
+          \Addvec\LT@@{(0,-2)}\LT@
+          \Addvec\RT@@{(0,-2)}\RT@
+          \@tempdima=-\lcm@lns\rowtotalheight
+          \Addvecself\LT@@{(0,\strip@pt\@tempdima)}%
+          \Addvecself\RT@@{(0,\strip@pt\@tempdima)}%
+          \expandafter\draw@box\lcm@box{\LT@\LT@@\RT@@\RT@}%
+        \fi
+        \@tempdima=\gcm@lns\rowtotalheight
+        \advance\@tempdima\lcm@lns\rowtotalheight
+        \advance\@tempdima\lcm@lns\arrayrulewidth
+        \advance\@tempdima\gcm@lns\arrayrulewidth
+        \@tempdimb=\HLCM@wd@
+        \advance\@tempdimb 2\arraycolsep
+        \edef\hs@v{(\strip@pt\@tempdimb,-\strip@pt\@tempdima)}%
+        \Addvec\LT\hs@v\LT@
+        \Addvec\LB\hs@v\LB@
+        \@tempdima=\HLCM@wd@
+        \advance\@tempdima -\p@
+        \advance\@tempdima \hslcm@dtN\@tempdima
+        \advance\@tempdima \hslcm@dtN\arraycolsep
+        \advance\@tempdima \hslcm@dtN\arraycolsep
+        \Addvecself\LT@{(0,-1)}%
+        \Addvecself\LB@{(0,2)}%
+        \Addvec\LT@{(\strip@pt\@tempdima,0)}\RT@
+        \Addvec\LB@{(\strip@pt\@tempdima,0)}\RB@
+        \expandafter\draw@box\lcm@box{\LT@\LB@\RB@\RT@}%
+      }%
+    >}%
+%最終行表示
+    \EMedefappend\hslcm@buf{&&}%
+    \Ifor*\k@val{1}{\hslcm@dtN}\Do{%
+      \edef\hslcm@tmp{\hairetu{hslcm@dt}{\k@val}}%
+      \EMedefappend\hslcm@buf{&\hslcm@tmp}%
+    }%
+    \begin{array}'gyoudaka=\vphantom{\warikakko}'[t]{%
+        @{}L{-2\arraycolsep}R{\HLCM@wd@}@{}l*{\hslcm@dtN}{R{\HLCM@wd@}}}%
+      \hslcm@buf
+    \end{array}
+}}%
+%
+\let\sudareLCM\HissanLCM
+%
+% \gozyohou
+%
+\def\gozyohou{\@ifnextchar[{\@gozyohou}{\@gozyohou[\gozyohou@kekka]}}
+\def\@gozyohou[#1]#2#3{%
+  \ifnum#2>#3\relax
+    \xdef\gozyo@a{#2}\xdef\gozyo@b{#3}%
+  \else
+    \xdef\gozyo@a{#3}\xdef\gozyo@b{#2}%
+  \fi
+  \xdef\gozyo@owari{0}%
+  \ensuremath{\begin{array}{r|r|r|r}
+    \Cfor{}{\gozyo@owari=\z@}{%
+      \xdef\gozyo@a{\gozyo@r}\xdef\gozyo@b{\gozyo@rr}\\\hline}\do{%
+      \xIDivMod\gozyo@a\gozyo@b\gozyo@q\gozyo@r
+      \ifnum\gozyo@r=\z@\xdef\gozyo@owari{1}\xdef#1{\gozyo@b}\xdef\gozyo@rr{0}%
+      \else\xIDivMod\gozyo@b\gozyo@r\gozyo@qq\gozyo@rr
+        \ifnum\gozyo@rr=\z@\xdef\gozyo@owari{1}\xdef#1{\gozyo@r}\fi
+      \fi
+      \gozyo@q & \gozyo@a 
+        & \ifnum\gozyo@r=\z@\bm{\gozyo@b}\else\gozyo@b\fi
+        & \ifnum\gozyo@r=\z@\else\gozyo@qq\fi\\
+      & \IMul\gozyo@b\gozyo@q\gozyo@tmp\gozyo@tmp
+        & \ifnum\gozyo@r=\z@
+          \else\IMul\gozyo@r\gozyo@qq\gozyo@tmp\gozyo@tmp\fi
+        &
+    }%
+    & \ifnum\gozyo@r=\z@\gozyo@r\else\bm{\gozyo@r}\fi
+      & \ifnum\gozyo@r=\z@\else\gozyo@rr\fi 
+  \end{array}}}
+%
+\def\Gozyohou{\@ifnextchar[{\@Gozyohou}{\@Gozyohou[\gozyohou@kekka]}}
+\def\@Gozyohou[#1]#2#3{%
+  \ifnum #2<#3 \edef\Gz@ai{#3}\edef\Gz@aii{#2}\else\edef\Gz@ai{#2}\edef\Gz@aii{#3}\fi
+  \edef\Gz@i{2}%
+  \IDivMod\Gz@ai\Gz@aii\Gz@q\Gz@r
+  \@whilenum\Gz@r>\z@\do{%
+    \IAdd\Gz@i{1}\Gz@ii
+    \expandafter\edef\csname Gz@a\romannumeral \Gz@ii\endcsname{\Gz@r}%
+    \IDivMod{%
+      \csname Gz@a\romannumeral\Gz@i\endcsname}{\csname Gz@a\romannumeral\Gz@ii\endcsname}\Gz@q\Gz@r
+    \edef\Gz@i{\Gz@ii}%
+  }%
+  \ISub\Gz@i{1}\Gz@mi
+  \EMedef\Gz@iln{}%
+  \EMedef\Gz@iiln{\csname Gz@a\romannumeral\Gz@i\endcsname}%
+  \EMedef\Gz@iiiln{}%
+  \EMedef\Gz@ivln{}%
+  \Ifor*\Gz@j{\Gz@mi}{1}[-1]\Do{%
+    \IAdd\Gz@j{1}\Gz@jj
+    \IDivMod{%
+      \csname Gz@a\romannumeral\Gz@j\endcsname}{\csname Gz@a\romannumeral\Gz@jj\endcsname}\Gz@q\Gz@r
+    \EMedefappend\Gz@iln{& \Gz@q}%
+    \EMedefappend\Gz@ivln{& \Gz@r}%
+    \IMul\Gz@q{\csname Gz@a\romannumeral\Gz@jj\endcsname}\Gz@tmp
+    \EMedefappend\Gz@iiiln{& \Gz@tmp}%
+    \EMedefappend\Gz@iiln{&\smash[b]{\warikakko}\ \csname Gz@a\romannumeral \Gz@j\endcsname}}%
+  \ensuremath{%
+    \arraycolsep=\z@
+    \begin{array}[t]{r@{}*{\Gz@mi}{r@{\ }}}
+      \Gz@iln\\\cline{2-\Gz@i}
+      \Gz@iiln\\
+      \Gz@iiiln\\\cline{2-\Gz@i}
+      \Gz@ivln
+    \end{array}
+  }%
+  \edef#1{\csname Gz@a\romannumeral\Gz@i\endcsname}%
+}
+%
+%
+\def\@seikei@kagen{\@ifnextchar[{\@@seikei@kagen}{\@@seikei@kagen[0]}}%
+\def\@@seikei@kagen[#1]#2#3{{%
+  \xdef\seikei@prflg{0}%
+  \xdef\not@zero{0}%
+  \xdef\zyo@amari{#1}\xIncr\zyo@amari
+  \@tempcnta\kousuu@\advance\@tempcnta-#3\relax
+  \def\EMw@t{}\@whilenum\@tempcnta<\kousuu@\relax
+  \do{%
+    \advance\@tempcnta\@ne
+    \@tempcntb\zyo@amari
+    \ifthenelse{\@tempcntb>\zyo@ca}{}{%
+      \ifzyo@not@align\else\ifnum\@tempcnta>\@ne\xdef\EMw@t{\EMw@t &}\fi\fi
+      \xdef\@n{#2\romannumeral\@tempcntb}%
+      \edef\seikei@nnn{\@nameuse{\@n}}%
+      \def\zyo@abs{\seikei@nnn}%
+      \ifnum\zyo@abs<\z@
+        \IMul{-1}{\zyo@abs}\zyo@abs
+      \fi
+      \xdef\zyo@abs{\zyo@abs}%
+      \ifnum\seikei@nnn=\z@\else\xdef\not@zero{1}\fi
+      \EMxdef\EMw@t{\EMw@t
+        \ifnum\@tempcnta>\@ne
+          \ifnum\seikei@nnn>\z@
+            \ifx\@mozi\empty\else\ifnum\seikei@prflg>\z@{}+{}\fi\fi
+          \else\ifnum\seikei@nnn<\z@
+            \ifx\@mozi\empty\else{}-{}\fi
+          \fi\fi
+        \else\ifnum\seikei@nnn<\z@
+            \ifx\@mozi\empty\else-\fi
+        \fi\fi%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 060928
+        &
+        \ifnum\zyo@beki>\z@
+          \ifx\@mozi\empty\seikei@nnn\else
+            \ifnum\zyo@abs=\z@\else
+              \ifnum\zyo@abs=\@ne\else
+                \zyo@abs
+              \fi
+              \csname @mozi@\romannumeral\@tempcnta\endcsname
+            \fi
+          \fi
+        \else
+          \ifx\empty\csname @mozi@\romannumeral\@tempcnta\endcsname
+            \ifnum\seikei@nnn=\z@
+              \ifnum\not@zero=\z@0\fi
+            \else
+              \zyo@abs
+            \fi
+          \else
+            \ifnum\zyo@abs=\z@
+              \relax
+            \else
+              \ifnum\zyo@abs=\@ne
+                \ifnum\@mozi@teisuu=\z@\else\zyo@abs\fi
+              \else
+                \zyo@abs
+              \fi
+              \csname @mozi@\romannumeral\@tempcnta\endcsname
+            \fi
+          \fi
+        \fi
+      }%%%%%%% 060928
+      \ifnum\zyo@abs=\z@\else\xdef\seikei@prflg{1}\fi
+      \xDecr\zyo@beki
+    }%
+    \Incr\zyo@amari
+  }%
+}}%
+%
+% 整式の縦書き割算
+% \zyohou{被除数}{除数}{商}{被除数の下の計算式}
+%   引数はすべて項毎に , で区切る．
+%
+\def\zyohou@strut{\strut}%
+\def\zyohoustrut#1{\def\zyohou@strut{#1}}%
+\def\zyohou#1#2#3#4{%
+  \@ifundefined{getrowHD}{%
+    \errmessage{zyohou needs emathT}%
+  }{}%
+%
+  \def\bunkai##1{\global\wari@@cnt\z@\def\t@{}\wari@prfalse
+       \@for\@c:=##1\do{\ifx\empty\@c\else\wari@prtrue\fi
+        \ifnum\wari@@cnt=\z@
+          \EMxdefappend\t@{\@c}%
+        \else
+          \EMxdefappend\t@{&{}\@c}%
+        \fi
+        \global\advance\wari@@cnt\@ne
+        \ifnum\wari@@cnt=\wari@@cmax
+        \ifodd\gyou@@c
+            \EMxdef\wari@@hidari{&\wari@@hidari}
+            \ifwari@pr\wari@@hidari\t@\\\fi
+        \else
+            \global\advance\hidari@@p\@ne
+            \ifwari@pr\wari@@hidari\t@\\\cline{\the\hidari@@p-\the\migi@@p}\fi
+        \fi
+        \global\advance\gyou@@c\@ne\def\t@{}\wari@@cnt\z@\fi
+        }}%
+%
+    \gyou@@c\z@\hizyo@@c\z@
+    \@for\@c:=#1\do{\advance\hizyo@@c\@ne}%
+    \zyo@@c\z@
+    \@for\@c:=#2\do{\advance\zyo@@c\@ne}%
+    \hidari@@p\zyo@@c\advance\hidari@@p\@ne
+    \migi@@p\hidari@@p\advance\migi@@p\hizyo@@c
+    \def\wari@@hidari{}\wari@@cnt\m@ne
+    \@whilenum\wari@@cnt<\zyo@@c\do{\EMedef\wari@@hidari{&\wari@@hidari}%
+        \advance\wari@@cnt\@ne}%
+    \wari@@cmax=100\relax
+\begin{array}[t]{*{\the\zyo@@c}{@{\,}r}@{\,\,}>{\zyohou@strut}l*{\the\hizyo@@c}{@{\,}r}}
+    \wari@@hidari\bunkai{#3}\t@\\\cline{\the\hidari@@p-\the\migi@@p}
+    \bunkai{#2}\t@&
+    \@ifundefined{varheartsuit}{% cm fonts
+      \warikakko% cm-fonts
+    }{% txfonts
+      \if@jsclasses% js*.cls
+        \warikakko%
+      \else%         j*.cls
+        \warikakko%
+      \fi
+    }%
+    &\bunkai{#1}\t@
+        \\
+    \global\wari@@cmax\zyo@@c\bunkai{#4}
+    \wari@@hidari&\t@
+\end{array}}%
+%
+\@ifpackageloaded{emathWs}{}{%
+\let\warizan\Iwarizan
+\let\kakezan\Ikakezan
+\let\hikizan\Ihikizan
+\let\tasizan\Itasizan
+}%
+%
+%
+% 組み立て除法(synthetic division)
+%   分数係数は \Fsyndiv ---> emathB.sty
+%
+\def\syndiv#1#2{%
+  \def\sd@sub##1{%
+    \xdef\b@i{}\xdef\c@i{\a@i}%
+    \Cfor{\edef\i{1}}{\i<\sd@kousuu}{}\do{%
+      \edef\ii{\i}\Incr\i
+      \IMul{##1}{\csname c@\romannumeral\ii\endcsname}\sd@tmp
+      \expandafter\xdef\csname b@\romannumeral\i\endcsname{\sd@tmp}%
+      \IAdd{\csname a@\romannumeral\i\endcsname}{%
+        \csname b@\romannumeral\i\endcsname}\sd@tmp
+      \expandafter\xdef\csname c@\romannumeral\i\endcsname{\sd@tmp}%
+    }%
+  }%
+  \edef\sd@kousuu{0}%
+  \expandafter\@for\expandafter\@@c\expandafter:\expandafter=#1\do{%
+    \Incr\sd@kousuu
+    \expandafter\edef\csname a@\romannumeral\sd@kousuu\endcsname{\@@c}}%
+  \edef\sd@dansuu{0}%
+  \expandafter\@for\expandafter\@@c\expandafter:\expandafter=#2\do{%
+    \Incr\sd@dansuu
+    \expandafter\edef\csname d@\romannumeral\sd@dansuu\endcsname{\@@c}}%
+\ensuremath{%
+  \begin{array}{l*\sd@kousuu{r}}
+    \Cfor{\xdef\j{0}}{\j<\sd@dansuu}{\xDecr\sd@kousuu}\do{%
+      \xIncr\j\csname d@\romannumeral\j\endcsname%
+      \sd@sub{\csname d@\romannumeral\j\endcsname}%
+      \Cfor{\xdef\i{0}}{\i<\sd@kousuu}{}\do{%
+        \xIncr\i
+        \ifthenelse{\i=\@ne}{%
+         & \multicolumn{1}{|r}{\csname a@\romannumeral\i\endcsname}}{%
+         & \csname a@\romannumeral\i\endcsname}}%
+      \ifthenelse{\j>\@ne}{\xIncr\i%
+        &\multicolumn{1}{|r}{\csname c@\romannumeral\i\endcsname}\xIncr\i
+        \\\cline{1-1}\cline{\i-\i}}{\\\cline{1-1}}%
+      \Cfor{\xdef\i{0}}{\i<\sd@kousuu}{}\do{%
+        \xIncr\i & \csname b@\romannumeral\i\endcsname}%
+      \xIncr\i\\\cline{1-\i}
+      \Cfor{\edef\i{0}}{\i<\sd@kousuu}{}\do{\Incr\i
+        \expandafter\xdef\csname a@\romannumeral\i\endcsname{%
+          \csname c@\romannumeral\i\endcsname}}}%
+    \Cfor{\xdef\i{0}}{\i<\sd@kousuu}{}\do{\xIncr\i &
+      \csname c@\romannumeral\i\endcsname}\xIncr\i%
+    &\multicolumn{1}{|r}{\csname c@\romannumeral\i\endcsname}\xIncr\i
+      \\\cline{\i-\i}
+  \end{array}}}
+%
+\def\csyndiv{\def\aval@{1}%
+  \@ifnextchar<{\@csyndiv}{\@csyndiv<\empty>}}%
+\def\@csyndiv<#1>#2#3{%
+  \ifx\empty #1\else\setkeys{emath}{#1}\fi
+%  \argsep{#2}{;}{csyndiv@gyou}\csyndiv@gyousuu
+  \csvhairetu[;]{#2}{csyndiv@gyou}\csyndiv@gyousuu
+  \ifthenelse{\equal\aval@{1}}{%
+    \edef\kizyun@gyousuu{3}%
+  }{%
+    \edef\kizyun@gyousuu{4}%
+  }%
+  \ifnum\csyndiv@gyousuu=\kizyun@gyousuu\else
+    \errmessage{csyndiv:illegal argument. \csyndiv@gyousuu/\kizyun@gyousuu}%
+  \fi
+%  \argsep{\hairetu{csyndiv@gyou}{1}}{,}{csyndiv@a}\csyndiv@retusuu
+  \edef\tmp@{\hairetu{csyndiv@gyou}{1}}%
+  \csvhairetu{\tmp@}{csyndiv@a}\csyndiv@retusuu
+%  \argsep{\hairetu{csyndiv@gyou}{2}}{,}{csyndiv@b}\csyndiv@n
+  \edef\tmp@{\hairetu{csyndiv@gyou}{2}}%
+  \csvhairetu{\tmp@}{csyndiv@b}\csyndiv@n
+  \ifnum\csyndiv@retusuu=\csyndiv@n\else\errmessage{csyndiv:illegal argument (the second line)}\fi
+%  \argsep{\hairetu{csyndiv@gyou}{3}}{,}{csyndiv@c}\csyndiv@n
+  \edef\tmp@{\hairetu{csyndiv@gyou}{3}}%
+  \csvhairetu{\tmp@}{csyndiv@c}\csyndiv@n
+  \ifnum\csyndiv@retusuu=\csyndiv@n\else\errmessage{csyndiv:illegal argument (the third line)}\fi
+  \ifthenelse{\equal{\aval@}{1}}{}{%
+%    \argsep{\hairetu{csyndiv@gyou}{4}}{,}{csyndiv@d}\csyndiv@n
+    \edef\tmp@{\hairetu{csyndiv@gyou}{4}}%
+    \csvhairetu{\tmp@}{csyndiv@d}\csyndiv@n
+    \ifnum\csyndiv@retusuu=\csyndiv@n\else\errmessage{csyndiv:illegal argument (the fourth line)}\fi
+  }%
+  \def\csyndiv@gyoui{\multicolumn{1}{c|}{#3}}%
+  \Cfor{\edef\csyndiv@i{0}}{\csyndiv@i<\csyndiv@retusuu}{}\do{%
+    \Incr\csyndiv@i
+    \EMedefappend\csyndiv@gyoui{&\hairetu{csyndiv@a}{\csyndiv@i}}}%
+  \def\csyndiv@gyouii{}%
+  \Cfor{\edef\csyndiv@i{0}}{\csyndiv@i<\csyndiv@retusuu}{}\do{%
+    \Incr\csyndiv@i
+    \EMedefappend\csyndiv@gyouii{&\hairetu{csyndiv@b}{\csyndiv@i}}}%
+  \ifthenelse{\equal\aval@{1}}{%
+    \def\csyndiv@gyouiii{}%
+  }{%
+    \def\csyndiv@gyouiii{\aval@\ \hbox to \z@{\hspace{.25em}$\Bigl)$}}%
+  }%
+  \Cfor{\edef\csyndiv@i{0}}{\csyndiv@i<\csyndiv@retusuu}{}\do{%
+    \Incr\csyndiv@i
+    \ifthenelse{\csyndiv@i<\csyndiv@retusuu}{%
+      \EMedefappend\csyndiv@gyouiii{&\hairetu{csyndiv@c}{\csyndiv@i}}%
+    }{%%
+      \EMedef\csyndiv@lastc{\hairetu{csyndiv@c}{\csyndiv@i}}%
+    }%
+  }%
+  \ifthenelse{\equal\aval@{1}}{}{%
+    \def\csyndiv@gyouiv{}%
+    \Cfor{\edef\csyndiv@i{0}}{\csyndiv@i<\csyndiv@retusuu}{}\do{%
+      \Incr\csyndiv@i
+      \EMedefappend\csyndiv@gyouiv{&\hairetu{csyndiv@d}{\csyndiv@i}}}%
+  }%
+  \Incr\csyndiv@retusuu
+  \ifthenelse{\equal\aval@{1}}{%
+    \begin{array}{*{\csyndiv@retusuu}r}
+      \csyndiv@gyoui \\ \cline{1-1}
+      \csyndiv@gyouii \\ \hline
+      \csyndiv@gyouiii & \multicolumn{1}{|r}{\csyndiv@lastc} 
+        \\ \cline{\csyndiv@retusuu-\csyndiv@retusuu}
+    \end{array}%
+  }{%
+    \ISub\csyndiv@retusuu{2}\tmp@
+    \begin{array}{r>{\kern1em}r*{\tmp@}{r}}
+      \csyndiv@gyoui \\ \cline{1-1}
+      \csyndiv@gyouii \\ \hline
+      \csyndiv@gyouiii & \multicolumn{1}{|r}{\csyndiv@lastc} 
+        \\ \cline{2-\csyndiv@retusuu}
+      \csyndiv@gyouiv
+    \end{array}%
+  }%
+}
+%
+%\def\csyndiv#1#2{%
+%  \argsep{#1}{;}{csyndiv@gyou}\csyndiv@gyousuu
+%  \ifnum\csyndiv@gyousuu=3\else\errmessage{csyndiv:illegal argument.}\fi
+%  \argsep{\hairetu{csyndiv@gyou}{1}}{,}{csyndiv@a}\csyndiv@retusuu
+%  \argsep{\hairetu{csyndiv@gyou}{2}}{,}{csyndiv@b}\csyndiv@n
+%  \ifnum\csyndiv@retusuu=\csyndiv@n\else\errmessage{csyndiv:illegal argument (the second line)}\fi
+%  \argsep{\hairetu{csyndiv@gyou}{3}}{,}{csyndiv@c}\csyndiv@n
+%  \ifnum\csyndiv@retusuu=\csyndiv@n\else\errmessage{csyndiv:illegal argument (the third line)}\fi
+%  \def\csyndiv@gyoui{\multicolumn{1}{c|}{#2}}%
+%  \Cfor{\edef\csyndiv@i{0}}{\csyndiv@i<\csyndiv@retusuu}{}\do{%
+%    \Incr\csyndiv@i
+%    \EMedefappend\csyndiv@gyoui{&\hairetu{csyndiv@a}{\csyndiv@i}}}%
+%  \def\csyndiv@gyouii{}%
+%  \Cfor{\edef\csyndiv@i{0}}{\csyndiv@i<\csyndiv@retusuu}{}\do{%
+%    \Incr\csyndiv@i
+%    \EMedefappend\csyndiv@gyouii{&\hairetu{csyndiv@b}{\csyndiv@i}}}%
+%  \def\csyndiv@gyouiii{}%
+%  \Cfor{\edef\csyndiv@i{0}}{\csyndiv@i<\csyndiv@retusuu}{}\do{%
+%    \Incr\csyndiv@i
+%    \ifthenelse{\csyndiv@i<\csyndiv@retusuu}{%
+%      \EMedefappend\csyndiv@gyouiii{&\hairetu{csyndiv@c}{\csyndiv@i}}%
+%    }{%%
+%      \EMedef\csyndiv@lastc{\hairetu{csyndiv@c}{\csyndiv@i}}%
+%    }%
+%  }%
+%  \Incr\csyndiv@retusuu
+%  \begin{array}{*{\csyndiv@retusuu}r}
+%    \csyndiv@gyoui \\ \cline{1-1}
+%    \csyndiv@gyouii \\ \hline
+%    \csyndiv@gyouiii & \multicolumn{1}{|r}{\csyndiv@lastc} 
+%      \\ \cline{\csyndiv@retusuu-\csyndiv@retusuu}
+%  \end{array}
+%}
+%
+%
+% 二次式で割る組立除法
+%
+% 多項式 #2 を 2次式 #3 で割る
+%
+\def\iisyndiv{\@ifnextchar<{\@iisyndiv}{\@iisyndiv<\empty>}}%
+\def\@iisyndiv<#1>#2#3{{%
+  \edef\s@r@e{r}%
+  \ifx\empty #1\else\setkeys{takousiki}{#1}\fi
+  \csvhairetu*{#2}{P@a}%
+  \csvhairetu*{#3}{P@b}%
+  \ifnum\P@bN=3\relax\else\errmessage{not 2ji}\fi
+  \ifnum\P@bi=\@ne\else\errmessage{coefficient of x^2 must be 1}\fi
+  \edef\tmp@@{\hairetu{P@b}{2}}\IMul\tmp@@{-1}\l@val
+  \edef\tmp@@@{\hairetu{P@b}{3}}\IMul\tmp@@@{-1}\m@val
+% 1
+  \edef\a@val{\hairetu{P@a}{1}}%
+  \edef\q@val{\a@val}%
+  \edef\@buf{&\a@val}%
+  \edef\m@buf{\noexpand\multicolumn{1}{r|}{\m@val}&}%
+  \edef\l@buf{\noexpand\multicolumn{1}{r|}{\l@val}&}%
+  \edef\q@buf{&\q@val}%
+% 2
+  \edef\a@val{\hairetu{P@a}{2}}%
+  \edef\old@q@val{\q@val}%
+  \IMul\old@q@val\l@val\ql@val
+    \IAdd\ql@val\a@val\q@val
+  \EMedefappend\@buf{&\a@val}%
+  \EMedefappend\m@buf{&}%
+  \EMedefappend\l@buf{&\ql@val}%
+  \EMedefappend\q@buf{&\q@val}%
+% 3 --- P@aN-1
+  \ISub\P@aN{1}\P@aNmi
+  \Ifor\syndiv@i{3}{\P@aN}\Do{%
+    \edef\a@val{\hairetu{P@a}{\syndiv@i}}%
+    \edef\oldold@q@val{\old@q@val}%
+    \edef\old@q@val{\q@val}%
+    \IMul\oldold@q@val\m@val\qm@val
+    \IMul\old@q@val\l@val\ql@val
+      \IAdd\qm@val\a@val\q@val
+      \IAdd\q@val\ql@val\q@val
+    \EMedefappend\@buf{&\a@val}%
+    \EMedefappend\m@buf{&\qm@val}%
+    \EMedefappend\l@buf{&\ql@val}%
+    \ifnum\syndiv@i=\P@aNmi
+      \EMedefappend\q@buf{&\noexpand\multicolumn{1}{|\s@r@e}{\q@val}}%
+    \else
+      \EMedefappend\q@buf{&\q@val}%
+    \fi
+  }%
+% P@aN
+  \edef\a@val{\hairetu{P@a}{\P@aN}}%
+  \edef\oldold@q@val{\old@q@val}%
+  \IMul\old@q@val\m@val\qm@val
+    \IAdd\qm@val\a@val\q@val
+  \EMedefappend\@buf{&\a@val}%
+  \EMedefappend\m@buf{&\qm@val}%
+  \EMedefappend\l@buf{&}%
+  \EMedefappend\q@buf{&\q@val}%
+%
+    \ensuremath{%
+    \begin{EMarray}{r*{\P@aN}{\s@r@e}}%
+      \@buf \\
+      \m@buf \\
+      \l@buf \\\hline
+      \q@buf 
+    \end{EMarray}}%
+}}%
+%
+%  (ax^4+bx^3+cx^2+dx+e) / (x^2-mx-n)
+%  
+%     a    b       c         d          e
+%  n               pn        qn         rn
+%  m       pm      qm        rm
+% ------------------------------------------------
+%     p=a  q=b+pm  r=c+pn+qm  s=d+qn+rm  t=e+rn
+%
+%% 整式の縦書き割算
+%% \zyohou{被除数}{除数}{商}{被除数の下の計算式}
+%%   引数はすべて項毎に , で区切る．
+%%
+\newcount\zyo@@c
+\newcount\hizyo@@c
+\newcount\wari@@cnt
+\newcount\wari@@cmax
+\newcount\gyou@@c
+\newcount\hidari@@p
+\newcount\migi@@p
+%
+%\def\zyohou#1#2#3#4{%
+%    \def\bunkai##1{\global\wari@@cnt\z@\def\t@{}\wari@prfalse
+%        \@for\@c:=##1\do{\ifx\empty\@c\else\wari@prtrue\fi
+%        \ifnum\wari@@cnt=\z@\xdef\t@{\t@\@c}\else
+%        \xdef\t@{\t@&\@c}\fi
+%        \global\advance\wari@@cnt\@ne
+%        \ifnum\wari@@cnt=\wari@@cmax
+%        \ifodd\gyou@@c
+%            \xdef\wari@@hidari{&\wari@@hidari}
+%            \ifwari@pr\wari@@hidari\t@\\\fi
+%        \else
+%            \global\advance\hidari@@p\@ne
+%            \ifwari@pr\wari@@hidari\t@\\\cline{\the\hidari@@p-\the\migi@@p}\fi
+%        \fi
+%        \global\advance\gyou@@c\@ne\def\t@{}\wari@@cnt\z@\fi
+%        }}%
+%    \gyou@@c\z@\hizyo@@c\z@
+%    \@for\@c:=#1\do{\advance\hizyo@@c\@ne}%
+%    \zyo@@c\z@
+%    \@for\@c:=#2\do{\advance\zyo@@c\@ne}%
+%    \hidari@@p\zyo@@c\advance\hidari@@p\@ne
+%    \migi@@p\hidari@@p\advance\migi@@p\hizyo@@c
+%    \def\wari@@hidari{}\wari@@cnt\m@ne
+%    \@whilenum\wari@@cnt<\zyo@@c\do{\edef\wari@@hidari{&\wari@@hidari}%
+%        \advance\wari@@cnt\@ne}%
+%    \wari@@cmax=100\relax
+%\begin{array}[t]{*{\the\zyo@@c}{@{\,}r}@{\,\,}l*{\the\hizyo@@c}{@{\,}r}}
+%    \wari@@hidari\bunkai{#3}\t@\\\cline{\the\hidari@@p-\the\migi@@p}
+%    \bunkai{#2}\t@&
+%    \@ifundefined{varheartsuit}{% cm fonts
+%      \kern-.05em\smash{\raisebox{.5ex}{$\bigr)$}}% cm-fonts
+%    }{%
+%      \@ifundefined{ifwinjis}{% txfonts
+%        \kern-.03em\smash{\raisebox{.48ex}{\scalebox{1.1}{$\bigr)$}}}% j*.cls
+%      }{%
+%        \kern-.03em\smash{\raisebox{.48ex}{\scalebox{1.2}{$\bigr)$}}}% js*.cls
+%      }%
+%    }%
+%    &\bunkai{#1}\t@
+%        \\
+%    \global\wari@@cmax\zyo@@c\bunkai{#4}
+%    \wari@@hidari&\t@
+%\end{array}}%
+%%
+%\let\oldzyohou\zyohou
+%%
+% 加減法
+% \kagenhou<#1>(#2)[#3]#4#5#6
+%
+%   #1 : M を指定すると問題部のみ
+%       または
+%         key=val
+%           kotae=no (Mを指定したのと同じ)
+%           pos=t/c/b (array環境の配置オプションでデフォルトは b）
+%           prei=... （第1式前置文）
+%           preii=...（第2式前置文）
+%           reverse   左辺と右辺の交換
+%   #2 : array環境の配置オプション(t/c/b)
+%   #3 : 未知数
+%   #4 : 第1式の係数
+%   #5 : + or -
+%   #6 : 第2式の係数
+%
+\define@key{emath}{M}[no]{\def\@kotae{#1}}%
+\define@key{emath}{pre}{\def\em@pre{#1}}%
+\define@key{emath}{prei}{\def\kagenhoupre@i{#1}}%
+\define@key{emath}{preii}{\def\kagenhoupre@ii{#1}}%
+\define@key{emath}{reverse}[1]{\edef\reverse@{#1}}%
+\def\kagenhou{\@ifnextchar<{\@kagenhou}{\@kagenhou<\empty>}}
+\def\@kagenhou<#1>{\def\prans@kagen{1}\def\@pos{b}\def\@kotae{yes}%
+  \edef\kagenhoupre@i{\empty}%
+  \edef\kagenhoupre@ii{\empty}%
+  \edef\reverse@{\empty}%
+  \ifx\empty #1\relax\else\setkeys{emath}{#1}\fi
+  \ifthenelse{\equal{\@kotae}{no}}{\def\prans@kagen{0}}{}%
+  \@@kagenhou}
+\def\@@kagenhou{\@ifnextchar[{\@@@kagenhou}{\@@@kagenhou[x,y]}}
+\def\@@@kagenhou[#1]#2#3#4{%
+%
+\def\keisuu@keisan{%
+  \edef\keisuu@{}%
+  \if +#3\relax
+    \Cfor{\edef\@j{0}}{\@j<\@i}{}\do{%
+      \ifnum\@j>0\relax\edefappend\keisuu@{,}\fi
+      \Incr\@j
+      \IAdd{\csname keisuu@i@\romannumeral\@j\endcsname}{%
+        \csname keisuu@ii@\romannumeral\@j\endcsname}\@tmp
+      \edefappend\keisuu@{\@tmp}%
+    }%
+  \else\if -#3\relax
+    \Cfor{\edef\@j{0}}{\@j<\@i}{}\do{%
+      \ifnum\@j>0\relax\edefappend\keisuu@{,}\fi
+      \Incr\@j
+      \ISub{\csname keisuu@i@\romannumeral\@j\endcsname}{%
+        \csname keisuu@ii@\romannumeral\@j\endcsname}\@tmp
+      \edefappend\keisuu@{\@tmp}%
+    }%
+  \fi\fi
+}
+\def\kagenhou@sub##1{%
+  \xdef\sentou@{0}%
+  \ifthenelse{\equal\reverse@\empty}{%
+    \Cfor{\xdef\@i{0}\xdef\@tmp{##1}}{\not\equal{\@tmp}{\@empty}}{}\do{%
+      \ifthenelse{\@i=\@gensuu}{&=}{}%
+      \xIncr\@i
+      &\strsep\@tmp{,}\@a\@b\xdef\@tmp{\@b}%
+      \expandafter\xdef\csname keisuu@\romannumeral\siki@n @\romannumeral\@i
+      \endcsname{\@a}%
+      \ifthenelse{\(\@i>\@gensuu\)\or\(\not\equal\@a{0}\)}{%
+      \headchar\@a\@h\@b
+      \ifthenelse{\equal\@h{+}\or\equal\@h{-}}{\@h\xdef\@a{\@b}}{%
+      \xdef\@a{\@a}\ifthenelse{\sentou@=0}{}{\ifthenelse{\@i>\@gensuu}{}{+}}}%
+      &\ifthenelse{\(\@i>\@gensuu\)\or\(\not\equal\@a{1}\)}{\@a}{}%
+      \csname mitisuu@\romannumeral\@i\endcsname\xdef\sentou@{1}%
+      }{&}
+    }%
+  }{%
+    \strsep{##1}{,}\sa@hen\u@hen\xdef\@tmp{\u@hen}\xdef\sa@hen{\sa@hen}%
+    \expandafter\xdef\csname keisuu@\romannumeral\siki@n @\romannumeral1\endcsname{\sa@hen}%
+    & \sa@hen &\mbox{}\,=
+    \Cfor{\xdef\@i{0}}{\not\equal{\@tmp}{\@empty}}{}\do{%
+%     \ifthenelse{\@i=\@gensuu}{&=}{}%
+      \xIncr\@i
+      &\strsep\@tmp{,}\@a\@b\xdef\@tmp{\@b}%
+      \IAdd\@i{1}\@i@
+      \expandafter\xdef\csname keisuu@\romannumeral\siki@n @\romannumeral\@i@\endcsname{\@a}%
+      \ifthenelse{\(\@i>\@gensuu\)\or\(\not\equal\@a{0}\)}{%
+        \headchar\@a\@h\@b
+        \ifthenelse{\equal\@h{+}\or\equal\@h{-}}{%
+          \@h\xdef\@a{\@b}%
+        }{%
+          \xdef\@a{\@a}%
+          \ifthenelse{\sentou@=0}{}{\ifthenelse{\@i>\@gensuu}{}{+}}%
+        }%
+%        &\ifthenelse{\(\@i>\@gensuu\)\or\(\not\equal\@a{1}\)}{\@a}{}%
+        &
+        \edef\mitisuu@@{\csname mitisuu@\romannumeral\@i\endcsname}%
+        \ifthenelse{\equal\mitisuu@@\empty}{%
+          \@a
+        }{%
+          \ifthenelse{\not\equal\@a{1}}{\@a}{}%
+          \csname mitisuu@\romannumeral\@i\endcsname
+        }%
+        \xdef\sentou@{1}%
+      }{&}
+    }%
+    \xIncr\@i
+  }%
+}%
+  \edef\@gensuu{0}%
+\bgroup
+  \expandafter\@for\expandafter\@@c\expandafter:\expandafter=#1\do{%
+    \Incr\@gensuu
+    \expandafter\edef\csname mitisuu@\romannumeral\@gensuu\endcsname{\@@c}%
+  }%
+  \arraycolsep=2pt\relax
+  \IMul\@gensuu{2}\@tmp\Incr\@tmp
+  \leavevmode
+  \ifthenelse{\equal\kagenhoupre@i\empty\and\equal\kagenhoupre@ii\empty}{%
+    \begin{array}[\@pos]{rr@{}*{\@tmp}{r}@{}r}
+      \xdef\siki@n{1}      \kagenhou@sub{#2}\\
+      \xIncr\siki@n   #3)  \kagenhou@sub{#4}
+      \ifthenelse{\prans@kagen=\@ne}{%
+        \\\hline\keisuu@keisan
+        \kagenhou@sub\keisuu@
+      }{%
+        \\\hline
+      }%
+    \end{array}%
+  }{%
+    \begin{array}[\@pos]{rlr@{}*{\@tmp}{r}@{}r}
+      \xdef\siki@n{1}     & \kagenhoupre@i   \kagenhou@sub{#2}\\
+      \xIncr\siki@n   #3) & \kagenhoupre@ii \kagenhou@sub{#4}
+      \ifthenelse{\prans@kagen=\@ne}{%
+        \\\hline & \keisuu@keisan\kagenhou@sub\keisuu@
+      }{%
+        \\\hline
+      }%
+    \end{array}
+  }%
+\egroup
+}%
+%
+\endinput
+
+% 0.02β0 1999.4.28
+% \warizan, \kakezan に <M> オプション
+%   縦書き形式の問題のみを記述する．
+% \tasizan, \hikizan
+% 0.02β1 1999.4.29
+% \tasizan, \hikizan 答えも出せるようにする．
+% 0.03 1999.7.14
+% \warizan
+%   M オプションの縦位置調整
+% 0.04 2000/01/11
+%   \kakezan
+%     \begin{array} の前に \leavevmode を追加．
+% 0.05 臨時
+% 0.06 戻す
+% 0.07 2000/02/01
+%   \hikizan
+%     必要桁数の処理が \tasizan のままであった
+% 0.08  2000/04/27
+%   \ikahou, \igenpou 追加
+% 0.09 2000/04/29
+%   コメント文修正
+% 0.10 2000/08/18
+%   \getcurrentsize 追放不完全
+% 0.11 2000/08/26
+%   カウンタ追放
+% 0.12 2000/09/01
+%   べきが2桁の場合の対応
+% 0.13 2001/05/03
+%   素因数分解を表示する \soinsuubunkai
+% 0.14 2001/10/23
+%   ユークリッドの互除法
+% 0.15 2006/09/29
+%   空白の混入対策
+%   \ikahou, \igenpou 修正
+% 0.16 2006/10/07
+%   \IMul とすべきところが \Mul となっていたバグ
+% 0.17 2007/03/23
+%   空白の混入対策
+% 0.18 2007/04/28
+%   インデント整備
+%   \izyouhou, \izyohou : <M>オプションを有効に
+%   \kakezan ---> \Ikakezan など
+% 0.19 2008/02/01
+%   \HissanGCM
+%   \Gozyohou
+% 0.20 2008/02/01
+%   \Gozyohou: array の列数にバグ
+% 0.21 2008/04/20
+%   \big) \Big) を \hissankakko に統一 (BBS #7182)
+% 0.22 2009/01/12
+%   \ikahou: \hissankakko の \ が抜けているバグ（BBS #7850)
+% 0.23 2010/02/22
+%   \Iwarizan: <a>オプション (BBS #8628)
+% 0.24 2010/02/23
+%   \Ikakezan, \Itasizan, \Ihikizan: v 0.23 の変更
+%   \Iwarizan: <d>オプション (BBS #8635)
+%   \warikakko (BBS #8636)
+% 0.25 2010/02/24
+%   \Iwarizan: <d>オプションの出力フォーマット変更コマンド
+% 0.26 2010/02/25
+%   \Iwarizan: ) 左の空き調整 (BBS #8660)
+%              <D>オプション (BBS #8661)
+% 0.27 2010/12/15
+%   \Ikakezanz: 終りの 0 (BBS #9563)
+% 0.28 2011/03/21
+%   \let\sudarezan\HissanGCM, gcmbox/lcmbox オプション
+% 0.29 2011/04/03
+%   \hissanketasep コマンド
+% 0.30 2011/04/25
+%   \Iwarizan に K/k オプション：答は筆算を含まない (BBS #9818)
+% 0.32 2011/04/27
+%   \Ikakezan にも K/k オプション
+% 0.33 2012/03/11
+%   \zyohou を他の筆算と揃える
+% 0.34 2012/04/03
+%   \HissanLCM
+%   \HissanGCM: 3個以上の整数を与えた場合，lcmbox オプションを使用不可とする
+%                                                   (BBS #10673)
+% 0.35 2012/04/04
+%   \HissanGCM: 修正
+% 0.36 2012/04/06
+%   \HissanGCM, \HissanLCM: drawbox オプション
+% 0.37 2012/06/20
+%   \soinsuubunkai: \ensuremath をかぶせる (BBS #10891)
+% 0.38 2013/08/16
+%   \zyohou: 旧スタイル削除 (BBS #11866)
+% 0.39 2014/04/27
+%   \tasizan, \hikizan, \kakezan, \warizan: 整数・有限小数共通
+% 0.40 2015/03/11
+%   \Ihikizan a<b の場合 (BBS #12634)
+% 0.41 2017/01/20
+%   \Itasizan: 繰り上がりのある場合 (BBS #13240)

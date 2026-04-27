@@ -1,0 +1,29 @@
+\begin{thm}{058}{\hosi 10}{MathOlympian}
+ $p$を3より大きい素数、$k$を$\dfrac{2}{3}p$以下の最大の整数とするとき、
+ \begin{align*}
+  \combi{p}{1}+\combi{p}{2}+\dots+\combi{p}{k}
+ \end{align*}
+ は$p^2$の倍数であることを示せ。
+\end{thm}
+
+\[ \sum_{1\le i\le k} \combi{p}{i}=p\uwave{\sum_{1\le i\le k}\frac{(p-1)!}{(p-i)! i!}} \]
+であるから、波線部が$p$で割り切れることを言えばよいが、$p$と$(p-1)!$は互いに素であるから、$\disp \sum_{1\le i\le k}\frac{\bigl[(p-1)!\bigr]^2}{(p-i)! i!}$が$p$で割り切れることを示せばよい。
+\begin{align*}
+ &\frac{\bigl[(p-1)!\bigr]}{(p-i)! i!}=\frac{(p-1)!}{(p-i)!}\frac{(p-1)!}{i!} \\
+ =& (p-1)(p-2)\dots(p-i+1)\times(p-1)(p-2)\dots(i+1) \\
+ \equiv & (-1)(-2)\dots(-i+1)\times(p-1)(p-2)\dots(i+1) \pmod{p} \\
+ \equiv & \frac{(p-1)!}{i}(-1)^{i-1} \pmod{p}
+\end{align*}
+これによって
+\begin{align*}
+ &\sum_{1\le i\le k} \frac{\bigl[(p-1)!\bigr]^2}{(p-i)! i!}\equiv \frac{(p-1)!}{i}(-1)^{i-1} \\
+ =& \frac{(p-1)!}{1}-\frac{(p-1)!}{2}+\frac{(p-1)!}{3}-\dots+\frac{(p-1)!}{k}(-1)^{k-1} \\
+ =& \sum_{1\le i\le k} \frac{(p-1)!}{i} - 2\sum_{1\le i\le \frac{k}{2}}\frac{(p-1)!}{2i} \\
+ =& \sum_{\frac{1}{3}p< i\le \frac{2}{3}p} \frac{(p-1)!}{i}
+\end{align*}
+$p$は3より大きい素数であるので、$\dfrac{2}{3}p$も$\dfrac{1}{2}p$も整数でないから、
+\begin{align*}
+ \sum_{\frac{1}{3}p< i\le \frac{2}{3}p} \frac{(p-1)!}{i} &= \sum_{\frac{p}{3}<i<\frac{p}{2}}\left(\frac{(p-1)!}{i}+\frac{(p-1)!}{p-i}\right) \\
+ &= \sum_{\frac{p}{3}<i<\frac{p}{2}} \frac{p!}{i(p-i)}
+\end{align*}
+となって、これは$p$の倍数である。したがって題意は示された。\footnote{後半はメルカトル級数の収束値を区分求積法で求める方法に似ています。}

@@ -1,0 +1,147 @@
+% emfpcalc.sty by tDB (emath@nifty.com)
+%
+\NeedsTeXFormat{LaTeX2e}%
+\ProvidesPackage{emfpcalc}[2014/11/18 v0.01]%
+%
+  \RequirePackage{fp-eval}%
+%
+\FPmessagesfalse
+%
+%\def\fpcalcval{\@ifnextchar[{\@fpcalcval}{\@fpcalcval[s]}}%
+%\def\fpcalcval[#1]#2#3{%
+%  \edef\fpc@i{#2}%
+%  \FPeval\fpc@tmp{\fpc@i}%
+%  \FPclip\fpc@tmp@{\fpc@tmp}%
+%  \edef#3{\fpc@tmp@}%
+%}%
+%
+\def\fpcalcval{\@ifnextchar[{\@fpcalcval}{\@fpcalcval[s]}}%
+\def\@fpcalcval[#1]#2#3{%
+\ifx\empty #2\@latex@warning{fpcalcval: empty arg.}\edef #3{\empty}\else
+  \def\pre@fpcalc{%
+    \Okikae{(#2)}{**}{^}\fpc@i
+    \edef\s@str{\fpc@i}%
+    \edef\r@str{}%
+    \Cfor{\Strsep\s@str{log}\a@str\b@str}{\not\equal\b@str\empty}{%
+        \Strsep\b@str{log}\a@str\b@str}\do{%
+      \headchar\b@str\h@c\h@r
+      \if 2\h@c
+        \edefappend\r@str{\a@str logii}%
+        \edef\a@str{}%
+        \edef\b@str{\h@r}%
+      \else\if i\h@c
+        \edefappend\r@str{\a@str log}%
+      \else
+        \edefappend\r@str{\a@str ln}%
+      \fi\fi
+    }%
+    \edef\fpc@i{\r@str\a@str}%
+%\typeout{fpc@i=\fpc@i}%
+  }%
+  \@ifundefined{FPeval}{\errmessage{fpcalcval needs fp-eval.sty}}{}%
+%  \edef\fpc@i{(#2)}%
+%  \Okikae{(#2)}{**}{^}\fpc@i
+  \pre@fpcalc
+  \FPeval\fpc@tmp{\fpc@i}%
+  \FPclip\fpc@tmp@{\fpc@tmp}%
+  \edef#3{\fpc@tmp@}%
+\fi
+}%
+%
+%\def\fpteisuuretu#1{%
+%  \exfor[;]\fptr@a:=#1\do{%
+%    \trim\fptr@a\to\fptr@a
+%    \Strsep\fptr@a{=}\fptr@b\fptr@c
+%    \fpcalcval{\fptr@c}\fptr@a
+%    \expandafter\edef\csname\fptr@b\endcsname{\fptr@a}%
+%  }%
+%}%
+%
+\def\FP@pow#1#2#3{
+  % #1 macro, which gets the result
+  % #2 base
+  % #3 exponent
+  %
+  \FP@beginmessage{POW}%
+  %
+  {\def\FP@beginmessage##1{}%
+   \def\FP@endmessage##1{}%
+   %
+\FPifzero{#2}%
+     \FP@pow@zero{#3}%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\else\FPifint{#3}%
+\strsep{#3}{.}\FP@tmpa\FP@tmpb
+   \ifnum \FP@tmpa>\z@
+      \edef\FP@tmp{1}%
+      \Ifor\FP@itmp{0}{\FP@tmpa}\Do{%
+        \FPmul\FP@tmp\FP@tmp{#2}%
+      }%
+    \else
+      \FPln\FP@tmpd{#2}%
+      \FPmul\FP@tmpd\FP@tmpd{#3}%
+      \FPexp\FP@tmp\FP@tmpd%
+    \fi
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\else
+     \FPln\FP@tmpd{#2}%
+     \FPmul\FP@tmpd\FP@tmpd{#3}%
+     \FPexp\FP@tmp\FP@tmpd%
+\fi\fi%
+   %
+   \global\let\FP@tmp\FP@tmp%
+  }%
+  %
+  \FP@endmessage{}%
+  %
+  \let#1\FP@tmp%
+}%
+%
+\defpattern\FP@gen@app[Degsin #2]{#2 Degsin}
+\defpattern\FP@gen@app[Degcos #2]{#2 Degcos}
+\defpattern\FP@gen@app[Degtan #2]{#2 Degtan}
+\defpattern\FP@gen@app[DegRad #2]{#2 DegRad}
+\defpattern\FP@gen@app[RadDeg #2]{#2 RadDeg}
+\defpattern\FP@gen@app[Degarcsin #2]{#2 Degarcsin}
+\defpattern\FP@gen@app[Degarccos #2]{#2 Degarccos}
+\defpattern\FP@gen@app[Degarctan #2]{#2 Degarctan}
+\defpattern\FP@gen@app[sqrt #2]{#2 sqrt}
+\defpattern\FP@gen@app[logii #2]{#2 logii}
+%
+\defpattern\FP@upn[Degsin]{\FP@monop{Degsin}}
+\defpattern\FP@upn[Degcos]{\FP@monop{Degcos}}
+\defpattern\FP@upn[Degtan]{\FP@monop{Degtan}}
+\defpattern\FP@upn[DegRad]{\FP@monop{DegRad}}
+\defpattern\FP@upn[RadDeg]{\FP@monop{RadDeg}}
+\defpattern\FP@upn[Degarcsin]{\FP@monop{Degarcsin}}
+\defpattern\FP@upn[Degarccos]{\FP@monop{Degarccos}}
+\defpattern\FP@upn[Degarctan]{\FP@monop{Degarctan}}
+\defpattern\FP@upn[sqrt]{\FP@monop{sqrt}}
+\defpattern\FP@upn[logii]{\FP@binopv{logii}}
+%
+\def\FPDegsin#1#2{\FPmul\FP@tmp{#2}\FPpi\FPdiv\FP@tmp\FP@tmp{180}%
+  \FPsin#1{\FP@tmp}}%
+\def\FPDegcos#1#2{\FPmul\FP@tmp{#2}\FPpi\FPdiv\FP@tmp\FP@tmp{180}%
+  \FPcos#1{\FP@tmp}}%
+\def\FPDegtan#1#2{\FPmul\FP@tmp{#2}\FPpi\FPdiv\FP@tmp\FP@tmp{180}%
+  \FPtan#1{\FP@tmp}}%
+%
+\def\FPDegRad#1#2{\FPmul\FP@tmp{#2}\FPpi\FPdiv\FP@tmp\FP@tmp{180}%
+  \let#1\FP@tmp}%
+\def\FPRadDeg#1#2{\FPmul\FP@tmp{#2}{180}\FPdiv\FP@tmp\FP@tmp\FPpi
+  \let#1\FP@tmp}%
+%
+\def\FPDegarcsin#1#2{\FParcsin\FP@tmps{#2}\FPRadDeg#1{\FP@tmps}}%
+\def\FPDegarccos#1#2{\FParccos\FP@tmps{#2}\FPRadDeg#1{\FP@tmps}}%
+\def\FPDegarctan#1#2{\FParctan\FP@tmps{#2}\FPRadDeg#1{\FP@tmps}}%
+%
+\def\FPsqrt#1#2{\FPpow\FP@tmp{#2}{.5}\let#1\FP@tmp}%
+%
+\def\FPlogii#1#2#3{%
+  \FPln\FP@loga{#2}\FPln\FP@logb{#3}%
+  \FPdiv\FP@tmp\FP@logb\FP@loga\let#1\FP@tmp}%
+%
+\endinput
+
+v 0.00 2014/03/30
+v 0.01 2014/11/18 log2, log を使用可能とする。

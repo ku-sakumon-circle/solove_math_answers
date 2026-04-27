@@ -1,0 +1,41 @@
+\begin{thm}{046}{\hosi 7\maru}{駿台模試}
+ $x$についての不等式$(x-a)(x-a^2)<0$を満たすような整数$x$が5つだけ存在するような$a$の範囲を求めよ。
+\end{thm}
+
+$a^2\le a$、すなわち$0\le a\le 1$の場合を考える。$x$が$(x-a)(x-a^2)<0$を満たすことと、区間$(a^2, a)$に属することは同値である。しかし$a$の範囲から、$(a^2, a)\subset (0, 1)$なので、5つの整数を含めることはできない。よってこの場合は解なし。
+
+$a^2<a$、すなわち$a<0$または$a>1$の場合を考えると、$x$は区間$(a, a^2)$に属する。この区間に整数が5つ含まれればよい。つまりある整数$N$が存在して
+\[ N\le a<N+1<N+2<N+3<N+4<N+5<a^2\le N+6 \]
+であればよい。ここで、整数$N$が$N\le a<N+1$を満たすことは$N=\lfloor x\rfloor$であること、$N+5<a^2\le N+6$を満たすことは$N+6=\lceil a^2\rceil$であることと、それぞれ同じであるから、
+\[ \lfloor a\rfloor + 6=\lceil a^2\rceil \]
+を$a$が満たすことと、区間$(a, a^2)$が整数を5つ含むことは同値である。
+
+一般に、$\lfloor x\rfloor \le x$, $\lceil x^2\rceil \ge x^2$であるから、
+\[ a+6\ge a^2 \quad\dou\quad (a-3)(a+2)\le 0 \]
+を満たす、すなわち$-2\le a\le 3$が必要条件となる。$\lfloor a\rfloor=k$の値で場合わけを行う。
+
+$k=-2$のとき、$\lceil a^2\rceil=4$となるから、
+\[ -2\le a< -1 \quad\text{かつ}\quad 3<a^3\le 4 \]
+すなわち、$-2\le a <-\sqrt{3}$である。
+
+$k=-1$のとき、$\lceil a^2\rceil=5$となるから、
+\[ -1\le a< 0 \quad\text{かつ}\quad 4<a^3\le 5 \]
+この場合は解なし。
+
+$k=0$のとき、$\lceil a^2\rceil=6$となるから、
+\[ 0\le a< 1 \quad\text{かつ}\quad 5<a^3\le 6 \]
+この場合は解なし。
+
+$k=1$のとき、$\lceil a^2\rceil=7$となるから、
+\[ 1\le a< 2 \quad\text{かつ}\quad 6<a^3\le 7 \]
+この場合は解なし。
+
+$k=2$のとき、$\lceil a^2\rceil=8$となるから、
+\[ 2\le a< 3 \quad\text{かつ}\quad 7<a^3\le 8 \]
+すなわち、$\sqrt{7}\le a <2\sqrt{2}$である。
+
+$k=3$のとき、$-2\le a\le 3$であったからこれを満たすのは$a=3$である。これは$\lceil a^2\rceil=9$となり$\lfloor a\rfloor + 6=\lceil a^2\rceil$を満たすのでよい。
+
+以上より、
+\[ -2\le a<-\sqrt{3} \,,\,\, \sqrt{7}\le a>2\sqrt{2} \,,\,\, a=3 \]
+

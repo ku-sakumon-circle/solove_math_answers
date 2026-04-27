@@ -1,0 +1,26 @@
+\begin{thm}{137}{\hosi 3\maru}{Australia (1999) 改題}
+ 以下の連立方程式を解け。
+ \begin{align*}
+  \left\{
+  \begin{aligned}
+   x+\lfloor y \rfloor + \{z\} &= 33.4 \\
+   y+\lfloor z \rfloor + \{x\} &= 34.3 \\
+   z+\lfloor x \rfloor + \{y\} &= 43.3 \\
+  \end{aligned}
+  \right.
+ \end{align*}
+ ただし、$\lfloor r \rfloor$で$r$以下の最大の整数、$\{r\}$で$r$の小数部分を表す。
+\end{thm}
+
+一般に、実数$a$に対して$a=\lfloor a \rfloor+ \{a\}$である。3つの式全て辺々足し合わせれば、
+\begin{align*}
+ &(x+y+z)+\bigl(\lfloor x\rfloor+\lfloor y\rfloor +\lfloor z\rfloor\bigr) + \bigl(\{x\}+\{y\}+\{z\}\bigr) \\
+ =&2(x+y+z)= 111
+\end{align*}
+よって$x+y+z=55.5$。続いて第1式と第2式の辺々足し合わせて、
+\[ (x+y+z)+\lfloor y\rfloor+\{x\}=67.7 \quad\dou\quad \lfloor y\rfloor+\{x\}=12.2 \]
+よって、$\lfloor y\rfloor=12$, $\{x\}=0.2$と求まる。第2式において、
+\[ y+\lfloor z\rfloor + 0.2=34.3 \quad\dou\quad y+\lfloor z\rfloor =34.1 \]
+より、$\{y\}=0.1$とわかる。したがって、$y=12.1$。また$\lfloor z\rfloor=22$。第1式と$\{x\}=0.2$より、$\{z\}=0.2$とわかる。したがって$z=22.2$。最後に第1式から、
+\[ x+12+0.2=33.4 \quad\dou\quad x=21.2 \]
+以上より、$(x, y, z)=(21.2, 12.1, 22.2)$。

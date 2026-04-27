@@ -1,0 +1,87 @@
+% xykaisa.sty by tDB(CQB00260@nifty.ne.jp)
+%
+  \ProvidesPackage{xykaisa}[2012/07/23 v0.01]%
+%
+\define@key{xykaisa}{title}{\csvhairetu*{#1}{ttl@s}}%
+\define@key{xykaisa}{midasi}{\csvhairetu*{#1}{ttl@s}}%
+\define@key{xykaisa}{nextopt}{\EMedef\next@opt{#1}}%
+\define@key{xykaisa}{nextoption}{\EMedef\next@opt{#1}}%
+%
+\def\xykaisasuuretu{\@ifnextchar<{\@xykaisasuuretu}{\@xykaisasuuretu<\empty>}}%
+\def\@xykaisasuuretu<#1>#2{%
+\changeArrowHeadSize{0}%
+\let\ar\relax
+\csvhairetu*{,,,,,,}{ttl@s}%
+\edef\next@opt{\empty}%
+%
+\ifx\empty #1\else\setkeys{xykaisa}{#1}\fi
+%
+  \csvhairetu*[;]{#2}{xyks@d}%
+  \edef\xyks@buf{}%
+  \Ifor*\i@val{1}{\xyks@dN}\Do{%
+    \EMedef\xyks@tmp{\hairetu{xyks@d}{\i@val}}%
+    \csvhairetu*\xyks@tmp{xyks@a}%
+    \EMedef\xyks@tmp{\hairetu{xyks@a}{1}}%
+    \ifnum\i@val>\@ne
+      \EMedefappend\xyks@tmp{\noexpand\ar[ul]\noexpand\ar[ur]}%
+    \fi
+    \Ifor*\j@val{2}{\xyks@aN}\Do{%
+      \EMedef\xyks@c{\hairetu{xyks@a}{\j@val}}%
+      \ifx\empty\xyks@c
+        \EMedefappend\xyks@tmp{&&\cdots}%
+      \else
+        \ifthenelse{\equal{\xyks@c}{ }}{%
+          \EMedefappend\xyks@tmp{&&\cdots}%
+        }{%
+          \EMedefappend\xyks@tmp{&&\xyks@c}%
+          \ifnum\i@val>\@ne
+            \EMedefappend\xyks@tmp{\noexpand\ar[ul]\noexpand\ar[ur]}%
+          \fi
+        }%
+      \fi
+    }%
+    \ifnum\i@val>\@ne\EMedefappend\xyks@buf{\noexpand\\}\fi
+    \EMedef\xyks@t{\hairetu{ttl@s}{\i@val}}%
+    \ifx\empty\xyks@t\else\EMedefappend\xyks@buf{\xyks@t&&}\fi
+    \Ifor\j@val{1}\i@val\Do{%
+      \EMedefappend\xyks@buf{&}%
+    }%
+    \EMedefappend\xyks@buf{\xyks@tmp}%
+    \Ifor\j@val\i@val{1}[-1]\Do{%
+      \EMedefappend\xyks@buf{&}%
+    }%
+  }%
+    \ifx\next@opt\empty
+      \EMxymatrix<wa=0pt>{\xyks@buf\ }%
+    \else
+      \EMedef\xyks@p{<wa=0pt,\next@opt>}%
+      \expandafter\EMxymatrix\xyks@p{\xyks@buf\ }%
+    \fi
+}%
+%
+\def\Ixykaisasuuretu{%
+  \@ifnextchar[{\@Ixykaisasuuretu}{\@Ixykaisasuuretu[1]}}%
+\def\@Ixykaisasuuretu[#1]{%
+  \@ifnextchar<{\@@Ixykaisasuuretu[#1]}{\@@Ixykaisasuuretu[#1]<\empty>}}%
+\def\@@Ixykaisasuuretu[#1]<#2>#3{%
+  \edef\Ixyks@buf{#3,}%
+  \csvhairetu*{#3}{Ixyks@A}%
+  \Ifor\Ixyks@lvl{0}{#1}\Do{%
+    \edef\Ixyks@buf@{}%
+    \Ifor\i@val{1}\Ixyks@AN\Do{%
+      \IAdd\i@val{1}\j@val
+      \edef\Ixyks@i{\hairetu{Ixyks@A}{\i@val}}%
+      \edef\Ixyks@j{\hairetu{Ixyks@A}{\j@val}}%
+      \ISub\Ixyks@j\Ixyks@i\Ixyks@tmp
+      \edefappend[,]\Ixyks@buf@{\Ixyks@tmp}%
+    }%
+    \csvhairetu*{\Ixyks@buf@}{Ixyks@A}%
+    \edefappend\Ixyks@buf{;\Ixyks@buf@,}%
+  }%
+  \xykaisasuuretu<#2>\Ixyks@buf
+}%
+%
+\endinput
+%
+v 0.00 2012/06/25
+v 0.01 2012/07/23 <nextoption> EMxymatrix に引き継ぐオプション

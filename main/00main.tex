@@ -1,0 +1,173 @@
+\documentclass[twocolumn]{jsreport}
+
+\makeatletter
+\def\input@path{{./sty/}}
+\makeatother
+
+\input{../preamble/preamble.tex}
+
+\begin{document}
+\fontsize{9pt}{7pt}\selectfont
+\lengthparam
+\onecolumn
+
+
+\begin{titlepage}
+\title{どちゃ楽数学bot解答編}
+\author{@solove\_math, ＠math\_Hurdia}
+\maketitle
+\onecolumn
+\thispagestyle{empty}
+\end{titlepage}
+
+\tableofcontents
+\clearpage
+
+\chapter{はじめに}
+\section{どちゃ楽数学botとは}
+主に高校数学における自作問題, 入試問題, 院試など, 中の人が好きな問題をまとめたbotです.
+「楽」は「ラク」と読んで貰っても, 「タノ」と読んで貰っても構いません. 中の人の「収集癖」が生み出したbotです. 高校1年くらいのときに作った.
+
+\section{これは何?}
+botの解答集です. 解答は最速とは限らないし, まれに間違えるので間違いを発見したら教えて下さい.\par
+載ってない問題の解答が欲しいとかいわれたら中の人に直接言って下さい. よかったら解答提供してくれると助かります. ＠math\_Hurdiaさんにはいくつかの解答の提供および, コーディングによる全体的な作業効率化にご尽力くださりました. ここに深く感謝の意を表します.
+
+\section{難易度について}
+ツイート上では大学範囲に黒星をつけています. 大体以下の感覚でつけている.
+\begin{itemize}
+\item $\star 1 \sim \star 2$: よくある問題
+\item $\star 3\sim \star 5$: ちょっと考える感じの問題
+\item $\star 6 \sim \star 8$: まあまあ(東大京大数学はこのあたりに来やすい)
+\item $\star 9 \sim \star 10$: 結構難しい(中の人がまだギリ解けるライン)
+\item $\star 11 \sim \star 12$: かなり難しい(中の人が解けなかったものなどもある)
+\item $\star ?$: 気付けば簡単だったりするけど, それが簡単なのか難しいのかよく分からんときにつけてる
+\end{itemize}
+\subsection{(2025/02/17追記) 難易度表記の一部変更}
+以下の形で表します.
+\begin{itemize}
+\item 基本的な形: \hosi n - X
+\item ただし $n\in \{ 1,2,\dots, 12, ?\}$ であり, $\text{X} \in \{ 小, 中, 高, 大, 競\}$ である.
+\item 意味としては, たとえば$\text{X} = \text{高}$ならば\textbf{高校数学の問題として扱う}ことを意味し, そのもとで主観的な難易度評価を下している. $\text{X} = \text{競}$ならば競技数学(OMC,　数学オリンピック)的な知識を必要とすることを意味する. $\text{X} = \text{小, 中, 大}$についても同様で, 小学校範囲, 中学校範囲, 大学範囲であることを意味する(一応, 高校数学か競技数学がメインですが).
+\end{itemize}
+
+\section{記法の固定}
+ことわりの無い限りは以下のように記号を用います.
+\begin{itemize}
+\item $\mathbb{C}$: 複素数全体の集合
+\item $\mathbb{R}$: 実数全体の集合
+\item $\mathbb{Q}$: 有理数全体の集合
+\item $\mathbb{Z}$: 整数全体の集合
+\item $\mathbb{N}$: 1以上の整数全体の集合
+\item $\pi$: 円周率
+\item $e$: 自然対数の底(ネイピア数)
+\item $[x]$ :$x$以下の最大の整数($\left\lfloor x \right\rfloor$とも書くことがある)
+\item $\lceil x \rceil$: $x$以上の最小の整数
+\end{itemize}
+
+\section{中の人について}
+本垢 @Lim\_Rim\_  京都数学科修士. 博士課程に1年在籍しておりましたが, 2025年からは社会人(エンジニア)をしています. 専門は数論幾何(ディオファントス幾何学)でした. \par
+とある商業高校から1浪を経て, 2018年の京大理学部特色入試に合格し入学しました.
+京大を目指した理由は, 京大の数学が好きだったため. 大学数学ももちろん好きでしたが,
+やはり問題を解くことそのものに魅力を感じるタイプでした.
+受験生としてはいろいろ残念な部分がありましたが, 大数の学コンだとか,
+数オリの難しい問題とか, 1問に向き合うことは得意でした.
+
+受験期に整数問題に目覚めたり, いろいろ遊んでるうちに,
+今度は自分で問題を作ることに興味が芽生えました.
+大学入学後「京大作問サークル」を立ち上げ,
+京大オリジナル模試とか部誌を作ったりしています.
+
+
+\subsection{大学への数学の投稿}
+大学への数学に自作問題を投稿するなどの活動もしています. 以下のリンク先(ツイート)にまとめているのでご覧ください.
+\begin{center}
+\verb|https://twitter.com/Lim_Rim_/status/1512784379566718985?s=20&t=Mu-8sW1u2vbQHFo9OtM7pQ|
+\end{center}
+
+\subsection{京都大学数学作問サークル}
+原則京大関係者に限って活動しています. 京大オリジナル模試とか部誌にも僕の問題はたくさんあるし,
+無料公開はできないけどすごい自信作もそっちにいろいろあるので, ぜひ購入して見てほしいです.....  以下のリンク先からサークルの商品が購入できます.
+\begin{center}
+\verb|https://sakumoncircle.booth.pm/|
+\end{center}
+
+
+\subsection{その他リンク}
+\begin{itemize}
+\item OMCのLimのページ \verb|https://onlinemathcontest.com/users/Lim_Rim_|
+\end{itemize}
+
+
+
+
+
+
+\twocolumn
+\newpage
+\chapter{解答集}
+
+\newcounter{q}
+\setcounter{q}{0}
+\loop \ifnum\value{q}<\value{qnum}
+
+\stepcounter{q}
+
+\ifnum\value{q}<51
+\def\qgroup{001-050}
+\else\ifnum\value{q}<101
+\def\qgroup{051-100}
+\else\ifnum\value{q}<151
+\def\qgroup{101-150}
+\else\ifnum\value{q}<201
+\def\qgroup{151-200}
+\else\ifnum\value{q}<251
+\def\qgroup{201-250}
+\else\ifnum\value{q}<301
+\def\qgroup{251-300}
+\else
+\def\qgroup{301-350}
+\fi\fi\fi\fi\fi\fi
+
+\ifnum\value{q}=1
+\section{問題 001-050}
+\else\ifnum\value{q}=51
+\newpage
+\section{問題 051-100}
+\else\ifnum\value{q}=101
+\newpage
+\section{問題 101-150}
+\else\ifnum\value{q}=151
+\newpage
+\section{問題 151-200}
+\else\ifnum\value{q}=201
+\newpage
+\section{問題 201-250}
+\else\ifnum\value{q}=251
+\newpage
+\section{問題 251-300}
+\else\ifnum\value{q}=301
+\newpage
+\section{問題 301-350}
+\fi\fi\fi\fi\fi\fi\fi
+
+\ifnum\value{q}<10
+\index{Q.00\the\value{q}}
+\input{../problems/\qgroup/Q_00\the\value{q}/Q_00\the\value{q}.tex}
+\else
+\ifnum\value{q}<100
+\index{Q.0\the\value{q}}
+\input{../problems/\qgroup/Q_0\the\value{q}/Q_0\the\value{q}.tex}
+\else
+\index{Q.\the\value{q}}
+\input{../problems/\qgroup/Q_\the\value{q}/Q_\the\value{q}.tex}
+\fi \fi
+
+\repeat
+
+\onecolumn
+\thispagestyle{empty}
+\begin{multicols}{5}
+ \printindex
+\end{multicols}
+
+\end{document}

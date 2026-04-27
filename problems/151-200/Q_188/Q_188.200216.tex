@@ -1,0 +1,37 @@
+\begin{thm}{188}{\hosi 1}{同値性}
+ 記述問題にて同値性には十分な注意が必要である。次の同値性を示せ。なお、$x,y$は実数とする。
+ \begin{enumerate}
+  \item $x, y\ge 0$のとき、$x\ge y \dou x^2\ge y^2$
+  \item $x^2\ge y^2 \dou |x|\ge |y|$
+ \end{enumerate}
+ 次の$x$の不等式を解け。
+ \begin{enumerate}
+  \setcounter{enumi}{2}
+  \item $\sqrt{x^2-4}\le x-3$
+  \item $\sqrt{x^2-4}\le x-1$
+ \end{enumerate}
+\end{thm}
+
+\syoumon{1}
+まず、$x=y=0$の場合はどちらの方向も明らかによい。そうでない場合を考えると、$x+y>0$となるので、
+\begin{align*}
+ x-y \ge 0 \quad&\dou\quad (x-y)(x+y)\ge 0 \quad (\because x+y\ge 0) \\
+ &\dou\quad x^2-y^2 \ge 0
+\end{align*}
+
+\syoumon{2}
+まず、$y=0$の場合は$x^2\ge 0$なので明らかにどちらの方向もよい。$y\neq 0$として、
+\begin{align*}
+ x^2\ge y^2 \quad&\dou\quad \left(\frac{x}{y}\right)^2 \ge 1 \\
+ &\dou\quad \left|\frac{x}{y}\right| \ge 1 \\
+ &\dou\quad |x|^2\ge |y|^2 \\
+ &\dou\quad |x|\ge |y| \quad(\because \text{前問})
+\end{align*}
+
+\syoumon{3}
+$x^2-4\ge 0$の必要がある。また、左辺はそのとき常に正なので、$x-3\ge 0$である必要がある。よって$x\ge 3$に限定して解けばよい。このとき、(1)より両辺を2乗しても同値なので、$x^2-4\le (x-3)^2$を解くことと同値である。これは$x\le\dfrac{13}{6}$となるから、解は存在しない。
+
+\syoumon{4}
+同様のことから、$x^2\ge 4$かつ$x\ge 1$である。そこで$x\ge 2$に限定して解けばよい。この制限の下で(1)より両辺を2乗しても同値であり、
+\[ x^2-4 \le (x-1)^2 \quad\dou\quad x\le \frac{5}{2} \]
+となる。よって解は、$2\le x\le \dfrac{5}{2}$である。

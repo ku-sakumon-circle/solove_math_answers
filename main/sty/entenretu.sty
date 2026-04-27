@@ -1,0 +1,37 @@
+%%% entenretu.sty by tDB(emath@nifty.com)
+% 日本語
+\ProvidesPackage{entenretu}[2014/06/29 v0.00]%
+%
+% entenretu
+%
+\def\entenretu{\@ifstar{\entenretu@}{\@entenretu}}%
+\def\entenretu@{\@ifstar{\entenretu@@}{\@entenretu@}}%
+\def\@entenretu{\errmessage{Usage: entenretu**}}%
+\def\@entenretu@{\errmessage{Usage: entenretu**}}%
+\def\entenretu@@{%
+  \@ifnextchar<{\@entenretu@@}{\@entenretu@@<Hamidasi=.7em>}}%
+\def\@entenretu@@<#1>#2#3{%
+%    #1: key=val
+%    #2: 円の中心
+%    #3: 円周上の点列（制御綴名)
+% ---------------------------------------------------------------
+      \def\entenretu@sub{%
+        \@ifnextchar[{\entenretu@@sub}{\entenretu@@sub[\empty]}}%
+      \def\entenretu@@sub[##1]##2\@nil{%
+%\typeout{entenretu@@sub:[##1]##2}%
+        \ifx\empty ##1\edef\et@vname{##2}\else\edef\et@vname{##1}\fi
+        \Hamidasiten{#2}{\csname ##2\endcsname}\hamidasi@\et@P
+        \emathPut\et@P(0,0)[c]{\et@vname}
+      }%
+% ---------------------------------------------------------------
+  \ifx\empty #1\else\setkeys{emP}{#1}\fi
+  \Cfor{\edef\et@a{#3}}{\not\equal\et@a\empty}{\edef\et@a{\et@b}}\do{%
+    \strsep\et@a{;}\et@a\et@b%
+%\typeout{et@a=\et@a}%
+    \expandafter\entenretu@sub\et@a\@nil
+  }%
+}%
+%
+\endinput
+%
+v 0.00 2014/06/29

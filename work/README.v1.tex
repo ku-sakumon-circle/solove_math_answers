@@ -1,0 +1,254 @@
+\documentclass{jsarticle}
+\makeatletter
+\renewcommand{\theequation}{\thesection.\arabic{equation}}
+\@addtoreset{equation}{section}
+\makeatother
+\usepackage{amsmath,amssymb}
+\usepackage{ascmac,fancybox,listings}
+\usepackage{bm}
+\usepackage[top=15truemm,bottom=20truemm,left=15truemm,right=15truemm]{geometry}
+\usepackage{dirtree}
+
+\makeatletter
+\def\section{\@startsection {section}{1}{\z@}{2ex plus -1ex minus -.2ex}{0.5 ex plus .2ex}{\Large\bf}}
+\def\subsection{\@startsection {subsection}{1}{\z@}{2ex plus -1ex minus -.2ex}{0.5 ex plus .2ex}{\Large\bf}}
+\def\subsubsection{\@startsection {subsubsection}{1}{\z@}{2ex plus -1ex minus -.2ex}{0.5 ex plus .2ex}{\large \bf }}
+\makeatother
+
+\lstset{frame={tb}}
+
+\begin{document}
+
+\begin{center}
+ {\LARGE 解答まとめREADME}
+\end{center}
+解答まとめ作成の方法やフォルダの中身をここにまとめます。
+運用にはbashを利用しています。`\$'はコマンドプロンプトです。
+正直なところ動作確認は作成者の環境でしか行えておりませんので、バグや不具合の報告をお待ちしています。
+
+\begin{flushright}
+ 作成者: @math\_Hurdia \\
+ 第1稿: 2020/03/20
+\end{flushright}
+
+\input{./dirtree.tex}
+
+\section{ディレクトリ構造と内容物のリスト、簡易目次}
+\dirtree{%
+.1 DochaBot\_Ans. 
+.2 main\DTcomment{2節参照、pdfを出力するための作業場}. 
+.3 00main.(sh, tex, pdf, log, ist, ilg)\DTcomment{2.1節参照、解答まとめの出力}. 
+.3 00NotSolved.list\DTcomment{2.1節参照、解答未作成問題のリスト}. 
+.3 00debug.(sh, pdf, log)\DTcomment{2.2節参照解答の出力チェック}. 
+.3 *.sty\DTcomment{一般的でなさそうなスタイルファイル群。ほとんどemathからの引用。全部は使っていない。}. 
+.2 problems\DTcomment{3節参照、問題の格納庫}. 
+.3 preamble\DTcomment{3.3節参照、プリアンブルを格納}. 
+.3 Q\_nnn\DTcomment{3.1,3.2節参照、各解答のtexファイル置き場}. 
+.2 org\DTcomment{はじめに頂いたtexファイルのバックアップ}. 
+.2 ver.20190224\DTcomment{$\beta$版のバックアップ}. 
+.2 mailbox\DTcomment{解答の草案置き場}. 
+.3 trash\DTcomment{解答まとめに反映が済んだ画像置き場}. 
+.2 UpdateLog.txt\DTcomment{更新履歴}. 
+.2 README.v1.pdf\DTcomment{このファイル}. 
+.2 work\DTcomment{このREADMEを作成するなどのスクラップ}. 
+}
+
+\section{解答まとめの出力}
+この節では、解答まとめをpdfファイルとして出力する方法を記述します。全ての問題を1つのファイルにまとめての出力だけでなく、1つの問題だけを出力することも可能です。
+
+なお、実行ファイルやtexファイルの詳細については、別の節に記述します。
+
+ファイル名の先頭に`00'とついているのは、単にソートしたときに先頭にくるための調整です。
+
+\subsection{全ての問題と解答を出力}
+全ての問題の解答と、タイトル・索引などがまとめて1つのpdfファイルに出来上がります。
+
+\subsubsection{mainディレクトリに入る}
+\subsubsection{00main.sh を実行する}
+単に実行するだけでよいです。
+\begin{lstlisting}
+ $ ./00main.sh
+\end{lstlisting}
+この実行ファイルは、解答とプリアンブルのバージョン確認を行って、本体である00main.texのコンパイルを行います。バージョン確認に少々時間がかかります。正常に処理が終了すると、pdfファイルが生成されるほか、ログファイルや索引の処理ファイルが出力されます。また、おまけとして、未だ解答が作成されていない問題番号を羅列したテキストファイル`00NotSolved.list'が出力されます。
+
+このとき、00main.texについては編集の必要はありません。
+
+なお、platex, dvipdfmxの結果として得られるdvi, auxファイルと、索引作成のための一時ファイル(ind, idx)は、pdfの出力が正常に終了するとこのスクリプトが削除します。
+
+\subsection{1つの問題についてのみ解答を出力}
+1つの問題についてのみ、問題と解答をpdfファイルに出力します。これは1つの問題に着目したい場合や、解答を作成した際にpdfの出力を確認するために用います。
+
+\subsubsection{mainディレクトリに入る}
+\subsubsection{00debug.sh を実行する}
+この実行ファイルは出力したい問題番号を引数にとります。
+\begin{lstlisting}
+ $ ./00debug.sh nnn
+\end{lstlisting}
+問題番号は必ず3桁で入力してください。100に満たない場合は0で埋めてください。007, 023, 189 など。挙動は00main.shとほとんど同じです。索引はつきませんが、出力確認用に、中央に縦線が引かれるようになっています。
+
+\section{解答と問題の追加}
+この節では解答を追加する方法と、新しく問題を追加する際の注意事項を記述します。
+
+\subsection{解答の追加}
+既にある問題に、解答を追加する方法を記述します。
+
+\subsubsection{problemsディレクトリに入る}
+\subsubsection{Q\_nnnディレクトリに入る}
+問題番号は常に3桁で管理されています。100に満たない場合は先頭を0で埋めてください。このディレクトリの中には、2種類のtexファイルが存在します。
+
+1つは、`Q\_nnn.tex'で、これは先の`00main.sh'によって解答まとめのために作成される仮のファイルです。これを編集する必要はありません。
+
+\subsubsection{ファイルのバージョンを管理する}
+もう1つは、`Q\_nnn.yymmdd.tex'で、こちらが編集するべきファイルです。解答の修正、別解の追加に対応できるように、編集した年月日でバージョン管理されています。年は西暦の下2桁、月・日は2桁になるように、10に満たない場合は0で埋めます。新しく編集する場合には、古いファイルを直接編集せずに、また削除しないように、コピーしたものを編集します。例えば、2019年4月1日に作成されていたファイルを2020年3月20日に編集する場合は、
+\begin{lstlisting}
+ $ cp Q_nnn.190401.tex Q_nnn.200320.tex
+\end{lstlisting}
+のようにしてから、新しいバージョンの`Q\_nnn.200320.tex' を編集します。
+
+もちろんbashでなくとも、windowsなどのGUIからコピーしていただいても構いません。
+
+\subsubsection{texファイルを編集する}
+新しく作成したバージョンのtexファイルを編集し、解答を追加します。問題と解答の間に空行を(tex内に)あけておくようにしてください。
+
+このとき、まったく新しく解答を追加する場合には、「ここに解答を記述。」という文言がありますので、削除してください。別解を追加する場合には、何か分かりやすく目印をつけるようにお願いします。後述の`\\syoumon'コマンドの利用をお勧めします。
+
+\subsubsection{図を追加する際の注意事項}
+解答に添付する図は同じ問題のディレクトリ内に入れるようにお願いします。また、texファイル内では、
+\begin{lstlisting}
+ \includegraphics{../problems/Q_nnn/figure.png}
+\end{lstlisting}
+のように、参照するファイルのディレクトリ構造に注意してください。これは、texのコンパイルをmainディレクトリ内で行うように設計したことによる弊害です。
+
+\subsection{問題の追加}
+新しく問題を追加する方法を記述します。
+
+\subsubsection{problmesディレクトリに入る}
+\subsubsection{Q\_nnnディレクトリを作成する}
+bashなら、
+\begin{lstlisting}
+ $ mkdir Q_nnn
+\end{lstlisting}
+でよいです。
+
+\subsubsection{texファイルの作成}
+新しくtexファイルを、`Q\_nnn.yymmdd.tex'のようにバージョンを含めて作成します。問題の記述には、ユーザー定義環境`thm'を利用しています。書式は次のようになっています。
+\begin{lstlisting}
+ \begin{thm}{nnn}{\hosi n}{ 出典 }
+
+ \end{thm}
+\end{lstlisting}
+thm環境の詳細は別の節に記述しますが、第一の引数は問題番号、第二の引数は星の数、第三の引数は出典を要求します。第二、第三の引数に適当な内容がない場合(例えば小問毎に設定するなど)、括弧の中を空にすることが可能です(括弧そのものは省略しないでください)。また、お勧めを意味する二重丸は、`\textbackslash maru'で出力できます。
+
+小問を設定する場合には、enumerate環境を利用してください。
+
+問題を記述する環境のあと、一行空けて(texファイル内で)「ここに解答を記述」 と記入しておいてください。こうしておくと、00main.shが00NotSolved.listに新しい問題を正しく反映できます。
+
+\subsubsection{総問題数の更新}
+解答まとめに全部でいくつの問題が収録されているかを、更新する必要があります。これはループ処理によってtexファイルやシェルスクリプトが動いているためです。更新が必要なのは、2箇所です。
+
+1つめは、`00main.sh'内の6,7行目
+\begin{lstlisting}
+ qnum=239
+ echo ``total number of problems is ``${qnum}
+\end{lstlisting}
+で、変数`qnum'を更新します。2020年3月20日現在239問収録されていますので、`qnum=239'となっています。
+
+2つめは、プリアンブルファイル内の85,86,87行目
+\begin{lstlisting}
+ % 問題の総数
+ \newcounter{qnum}
+ \setcounter{qnum}{239}
+\end{lstlisting}
+で、カウンタ`qnum'の値を更新します。更新の際には、問題と同様にバージョン管理を行うようにしてください。
+
+\subsection{プリアンブルファイルと、ユーザー定義コマンド}
+プリアンブルファイルはpreambleディレクトリ内に、問題同様のバージョン管理のうえで格納されています。特に編集の必要はありませんが、書式やスタイル、ユーザー定義を変更したい場合には編集する必要があります。この節では、主なユーザー定義したコマンドなどをまとめます。
+\begin{table}
+ \centering
+ \begin{tabular}{lll}
+  名称 & 内容 & 書式 \\ \hline\hline
+  thm & 問題を記述する環境 & \textbackslash begin\{thm\}\{問題番号\}\{星の数\}\{出典\} \\ \hline
+  subthm & 補題を記述する環境 & \textbackslash begin\{subthm\}\{問題番号.補題番号\} \\ \hline
+  Rnum & ローマ数字/大文字 & \textbackslash Rnum\{n\} \\ \hline
+  rnum & ローマ数字/小文字 & \textbackslash rnum\{n\} \\ \hline
+  syoumon & 小問見出しの出力 & \textbackslash syoumon\{n\} \\ \hline
+  vvv & ベクトル上付矢印の出力 & \textbackslash vvv\{hoge\} \\ \hline
+  combi & 組み合わせ$\mathrm{C}$の出力 & \textbackslash combi\{左下\}\{右下\} \\ \hline
+  permu & 順列$\mathrm{P}$の出力 & \textbackslash permu\{左下\}\{右下\} \\ \hline
+  disp & 数式モードをdisplaystyleに & \textbackslash disp \\ \hline
+  dou & 同値矢印の出力 & \textbackslash dou \\ \hline
+  marunum & 丸囲み数字の出力 & \textbackslash marunum\{n\} \\ \hline
+  mr & 数式モード中で文字を立体に & \textbackslash mr \{hoge\} \\ \hline
+ \end{tabular}
+\end{table}
+
+\section{スクリプトやtexファイルの詳細情報}
+この節の内容は知らなくても直ちに影響はありませんが、より詳細な編集を行う際に参考にしてください。
+
+\subsection{00main.shについて}
+解答まとめpdfを作成するためのシェルスクリプトです。実行に必要なファイルは、`00main.sh', `00main.tex', `00main.ist', preambleファイル、各問題ファイル、です。最終的な出力ファイルは`00main.pdf'です。
+
+プリアンブル及び各問題ディレクトリに移動してバージョン確認を行います。具体的な挙動は、
+\begin{enumerate}
+ \item 以前の仮ファイル`Q\_nnn.tex', `preamble.tex'が存在すれば削除する
+ \item 各ファイルのバージョン情報`yymmdd'を抽出し、最も値が大きいもの(=直近のもの)を選択する
+ \item 最新バージョンを`Q\_nnn.tex', `preamble.tex'という名前にコピーする。
+\end{enumerate}
+となっています。特に問題ファイルについては、このとき同時に中身を確認し、「けつばん」「未完」「ここに解答を記述」と同一の文字列を検出した場合に、00NotSolved.listに問題番号を出力する操作も行います。
+
+バージョン確認が終わると、texのコンパイルに移ります。このときコマンドは`platex'を利用しています。一度コンパイルすると、続いて索引の作成のためのコマンド`mendex'が実行されます。このためのスタイルファイルは`00main.ist'です。索引を正しく含めたコンパイルとなるように、`platex'がもう1回実行されます。最後に、pdfへの出力のために`dvipdfmx'が実行されます。
+
+`platex'実行時にエラーが出た場合は、対話モードに入るため、スクリプトは一時中断されます。対話モードの中でエラーを解決するよりは、`x'として中断することを勧めます。この場合、スクリプトも`platex 1st(2nd) ERROR'と出力して停止します。なるべく、00debug.shを利用して、texのコンパイルエラーは全て解決してから00main.shを実行することを勧めます。`mendex', `dvipdfmx'でエラーを検出した場合も同様の出力をして停止します。もちろんシェルスクリプトなので、ctrl+Cで中断することも可能です(やむを得ない場合以外では勧めませんが)。
+
+最後に、一時ファイル.aux, .dvi, .ind, .idx, .ilg を削除します。作成者がよく利用するemacsが(勝手に)作成するバックアップ仮ファイルも削除します。
+
+\subsection{00main.texについて}
+このtexファイルは、problmesディレクトリ内で編集した、preambleや各問題ファイルを結合して取り扱うためのファイルです。
+\begin{lstlisting}
+ \input{ファイル名}
+\end{lstlisting}
+によって、別ファイルに書かれたtex原稿を呼び出すことができることを利用しています。
+
+はじめにpreambleを呼び出します。ここでは`00main.sh'によって、バージョン確認がなされたことを前提にしているので、後の問題ファイルも含めて、バージョンは除かれたファイル名で呼び出します。
+
+続いてイントロの内容を記述します。2020年3月20日現在、初稿の内容が反映されています。将来的に複数ページにわたっても問題ありません。内容の最後に、次のカラムへ移るように指示があります (\textbackslash newpage)。
+
+続いて、各問題ファイルを読み込みます。問題番号に`q'というカウンタを当てて、これをループ処理させます。texのカウンタは自動的には0埋めできないので、条件分岐の処理をいれてあります。
+
+最後に、索引を出力します。2カラムのままでは綺麗に出力されなかったので、一度`\textbackslash onecolumn'し、改ページした上で`multicols'環境の中に索引を出力しています。
+
+\subsection{00debug.shについて}
+ある1問についてその問題と解答をpdfに出力するためのスクリプトです。実行に必要なファイルは、対象の問題ファイルとプリアンブルです。出力ファイルは`00debug.pdf'と`00debug.tex'です。
+
+指定の問題について対応するように、問題番号を引数にとります。このとき0埋めした値を引数に与えないと、シェルの変数扱いの仕様上エラーが出ます。バージョン確認の挙動は00main.shと同様です。preambleと引数に与えられた問題についてのみバージョン確認を行う点と、`Q\_nnn.tex', `preamble.tex'の仮ファイルは作成しない点で異なります。
+
+バージョン確認が済むと、ヒアドキュメントを利用して`00debug.tex'を生成します。続いて`platex', `dvipdfmx'を用いてコンパイルとpdfの出力を行います。`platex'実行時にエラーが出た場合は、対話モードに入るため、スクリプトは一時中断されます。スクリプト内で対話モードを実行することでどのような挙動となるか不明なため、`x'として中断することを勧めます。この場合、スクリプトも`platex ERROR'と出力して停止します。
+
+やはり00main.shと同様に、不要な一時ファイルはスクリプトが削除して終了します。
+
+\subsection{preamble.texについて}
+このファイルには、問題・解答作成のために必要な設定がまとめられています。ここを確認すればどのようなスタイルファイルが読み込まれているか・いないかが確認できるほか、ユーザー定義コマンド・環境の詳細も確認できます。
+
+パッケージについては、あまり一般的でないもののみ簡単に記述します。
+
+`wrapfig'は図の貼り付けに用いるパッケージで、これを利用することで図の周囲に回り込むように文章を記述できるようになります。ただし、パラメータを適切に設定しないとタイプが崩れがちで、その影響が次の問題にも及ぶことがあり、これはdebugの出力では分かりづらいために注意が必要です。
+
+`itembkbx'は問題を囲む角の丸い四角形を出力するパッケージです。\LaTeX にプリセットされているものとは異なり、ページやカラムをまたいで出力できることが大きなメリットです。一方で、このボックスの中に`数式を除いて'1行しか本文が存在しないと表示が崩れるバグ(?)が存在します。その場合には、問題文の末尾に改行コマンド`\textbackslash\textbackslash'を付け足すと解消できます。
+
+そのほか多数の設定が書き込まれていますが、コメントを参照して解読していただければと思います。
+
+索引を出力するための環境調整は、作成者も明るくないので解説不可です。
+
+enumerate環境は、(1)などが中央そろえになるように調整しています。
+
+図や数式周囲の余白はなるべく小さく、また長い行数の数式は常にページまたぎするような設定です。
+
+問題のためのユーザー定義環境`thm'は、前の問題の解答からの余白・続く解答への余白の調整、ページのヘッダに問題番号を表示させるための設定、を含んでいます。
+
+補題のためのユーザー定義環境`subthm'は、左端にグレーのハイライトを付けるようになっています。なお、作成者は引数に`問題番号.補題番号'をとることを想定しています。例えば、問題123の1つめの補題は、引数に`123.1'を渡し、出力は`\textbf{補題123.1}'となるように設定しています。
+
+小問の見出しを出力するユーザー定義コマンド`syoumon'は、少し大きめの太字で引数の内容を{\large ({\bf 引数})}のように出力し、改行します。そのため、引数に1をとれば(1)が、別解とすれば(別解)と出力できます。一方で、書式デザインとしては改良の余地がありそうです。
+
+必要なコマンドや、書式の改良など、手を加えて頂くとよいと思います。変更の際にはバージョン管理をお願いします。あるいは作成者まで依頼していただいても構いません。
+
+\end{document}

@@ -1,0 +1,17 @@
+\begin{thm}{008}{\hosi 5}{JMO予選 2014-3番 改題}
+ $15!$の正の約数$d$の全てについて、$\dfrac{1}{d+\sqrt{15!}}$を全て足し合わせたものを求めよ。
+\end{thm}
+
+$n=15!$とする。求めるものは、$\disp \sum_{d|n}\frac{1}{d+\sqrt{n}}$ である。ここで、
+\[ \frac{1}{d+\sqrt{n}} = \frac{d-\sqrt{n}}{d^2-n} = \frac{1}{d-\frac{n}{d}}-\frac{1}{\sqrt{n}}\frac{\frac{n}{d}}{d-\frac{n}{d}} \]
+と整理できる。\\
+$n=15!=2^{11}\times 3^6\times 5^3\times 7^2\times 11\times 13$より、$n$の約数の個数は明らかに偶数である。この個数を$2k$とおき、小さい順に$i$番目の$n$の約数を$d_i$とする。ここで、$i$を$1\le i \le k$の範囲で動かすとき、$\dfrac{n}{d_i}$は$k+1\le j \le 2k$の範囲のすべての$d_j$をとる。このことから、$n$の約数全体についての総和は、
+\begin{align*}
+ \sum_{d|n} \frac{1}{d-\frac{n}{d}}=\sum_{i=1}^k \left(\frac{1}{d_i-\frac{n}{d_i}}+\frac{1}{\frac{n}{d_i}-\frac{n}{n/d_i}}\right) &= 0 \\
+ \sum_{d|n} \frac{1}{\sqrt{n}}\frac{\frac{n}{d}}{d-\frac{n}{d}} = \frac{1}{\sqrt{n}} \sum_{i=1}^k \left(\frac{\frac{n}{d_i}}{d_i-\frac{n}{d_i}} + \frac{\frac{n}{n/d_i}}{\frac{n}{d_i}-\frac{n}{n/d_i}}\right) &= -\frac{k}{\sqrt{n}} 
+\end{align*}
+と書き直せる。以上のことから、
+\[ \sum_{d|n}\frac{1}{d+\sqrt{n}} = \frac{k}{\sqrt{n}} \]
+と求められた。$n$の素因数分解の結果から、$n$の約数の個数は4032個であり、これを$2k$としたので、$k=2016$である。
+
+よって求める値は、\textbf{$\dfrac{2}{15\sqrt{1430}}$}。

@@ -1,0 +1,38 @@
+% !TeX program = uplatex
+% !TeX root = collection_probs.tex
+\documentclass{jsreport}
+\makeatletter
+\def\input@path{{../../main/sty/}}
+\makeatother
+\input{../../preamble/parts/usepackage.tex}
+\input{../../preamble/parts/other/index-format.tex}
+\input{../../preamble/parts/other/enumerate.tex}
+\input{../../preamble/parts/other/display-layout.tex}
+\input{../../preamble/parts/other/problem-env.tex}
+\input{../../preamble/parts/other/problem-count.tex}
+\input{../../preamble/parts/other/header.tex}
+\input{../../preamble/parts/newcommand.tex}
+\input{../../preamble/parts/newtheorem.tex}
+\title{どちゃ楽数学bot -collection編-}
+\author{}
+\date{}
+\begin{document}
+\fontsize{9pt}{7pt}\selectfont
+\lengthparam
+
+\maketitle
+\tableofcontents
+\clearpage
+
+\chapter{剰余計算}
+\input{mod-calculation/prob.tex}
+\chapter{無理数の証明}
+\input{irrationality-proofs/prob.tex}
+\chapter{積分}
+\input{integrals/prob.tex}
+\chapter{極限}
+\input{limits/prob.tex}
+\chapter{漸化式}
+\input{recurrences/prob.tex}
+
+\end{document}

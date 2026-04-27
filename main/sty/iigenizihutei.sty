@@ -1,0 +1,73 @@
+%%% iigenizihutei.sty by tDB(emath@nifty.com)
+% 日本語
+\ProvidesPackage{iigenizihutei}[2013/05/11 v0.00]%
+%
+%\RequirePackage{}%
+%
+%
+% 二元一次不定方程式 ax+by=1 の特殊解
+%
+  \def\iigenizihutei#1#2{%
+    \def\a@sgn{1}\edef\a@val{#1}%
+    \def\b@sgn{1}\edef\b@val{#2}%
+%    \noindent 不定方程式
+%    \ifnum #1<\z@
+%      \edef\a@sgn{-1}\IMulself\a@val{-1}%
+%    \fi
+%    \ifnum #2>\z@
+%      $#1x+#2y=1$
+%    \else
+%      \edef\b@sgn{-1}%
+%      \IMulself\b@val{-1}%
+%      $#1x#2y=1$
+%    \fi
+%    のひとつの特殊解を求める：\\
+%    ユークリッドの互除法を適用して，\\
+\begin{jquote}
+    \GozyohouSuii<lastremainder=1,arrowcolor=,baselineskip=\the\baselineskip>%
+      \a@val\b@val\\[.5\baselineskip]
+    \edef\ans@buf@i{\empty}%
+    \Ifor*\hutei@i{1}{\Q@N}\Do{%
+      \edefappend[&]\ans@buf@i{\hairetu{Q@}{\hutei@i}}%
+    }%
+    \edefappend\ans@buf@i{&}%
+    \IAdd\Q@N{1}\Q@Ni
+    \edefhairetu{c@}{\Q@Ni}{1}%
+    \edefhairetu{c@}{\Q@N}{\hairetu{Q@}{\Q@N}}%
+    \Ifor*\hutei@i{\Q@N}{\tw@}[\m@ne]\Do{%
+      \ISub\hutei@i{1}\hutei@mi
+      \IAdd\hutei@i{1}\hutei@pi
+      \IMul{\hairetu{Q@}{\hutei@mi}}{\hairetu{c@}{\hutei@i}}\hutei@tmp
+      \IAdd\hutei@tmp{\hairetu{c@}{\hutei@pi}}\hutei@tmp
+      \edefhairetu{c@}{\hutei@mi}{\hutei@tmp}%
+    }%
+    \edef\ans@buf@ii{\empty}%
+    \Ifor*\hutei@i{1}{\Q@Ni}\Do{%
+      \edefappend[&]\ans@buf@ii{\hairetu{c@}{\hutei@i}}%
+    }%
+    \ifodd\Q@N\edef\hutei@sign{-}\else\edef\hutei@sign{+}\fi
+    \edef\ans@buf@iii{\empty}%
+    \Ifor*\hutei@i{1}{\Q@Ni}\Do{%
+      \edefhairetu{s@}{\hutei@i}{\hutei@sign}%
+      \edefappend[&]\ans@buf@iii{\hutei@sign}%
+      \if +\hutei@sign\edef\hutei@sign{-}\else\edef\hutei@sign{+}\fi
+    }%
+    \edef\s@{\hairetu{s@}{\tw@}}%
+    \if +\s@\edef\x@val{\hairetu{c@}{\tw@}}\else
+      \edef\x@val{-\hairetu{c@}{\tw@}}\fi
+    \edef\s@{\hairetu{s@}{\@ne}}%
+    \if +\s@\edef\y@val{\hairetu{c@}{\@ne}}\else
+      \edef\y@val{-\hairetu{c@}{\@ne}}\fi
+    \ensuremath{%
+    \begin{array}{*{\Q@Ni}{c}}
+      \ans@buf@i \\\hline
+      \ans@buf@ii \\
+      \ans@buf@iii
+    \end{array}}\\
+    \ifnum\a@sgn<\z@\IMulself\x@val{-1}\fi
+    \ifnum\b@sgn<\z@\IMulself\y@val{-1}\fi
+    \ensuremath{x=\x@val,\quad y=\y@val}%
+\end{jquote}
+  }%
+%
+\endinput

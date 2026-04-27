@@ -1,0 +1,35 @@
+\begin{thm}{152}{\hosi 5\maru}{京大特色 総人理系 (2016)}
+ $n$を自然数とする。複素数$z$が単位円$|z|=1$ を一周するとき、
+ \[ f(z) = z - \frac{1}{n+1}z^{n+1} \]
+ が描く曲線の長さを求めよ。
+\end{thm}
+
+$z=\cos\theta+i\sin\theta$とおき、$\theta$を$0\le\theta <2\pi$で動かすように考える。このとき、ド・モアブルの定理によって、
+\begin{align*}
+ f(z)&=(\cos\theta+i\sin\theta)-\frac{1}{n+1}\left(\cos(n+1)\theta+i\sin(n+1)\theta\right) \\
+ &=\left(\cos\theta-\frac{1}{n+1}\cos(n+1)\theta\right) \\
+ &\qquad +i\left(\sin\theta-\frac{1}{n+1}\sin(n+1)\theta\right)
+\end{align*}
+となるから、$f(z)$が複素平面上で動く曲線は、$xy$平面において、媒介変数$\theta$を用いて
+\begin{align*}
+ \left\{
+ \begin{aligned}
+  x&=\cos\theta-\frac{1}{n+1}\cos(n+1)\theta \\
+  y&=\sin\theta-\frac{1}{n+1}\sin(n+1)\theta
+ \end{aligned}
+ \right. \qquad (0\le \theta < 2\pi)
+\end{align*}
+が表す曲線である。曲線の長さは$\disp \bigintss_0^{2\pi}\!\!\! \sqrt{\left(\frac{dx}{d\theta}\right)^2+\left(\frac{dy}{d\theta}\right)^2} \,d\theta$ で求められる。
+\begin{align*}
+ &\left(\frac{dx}{d\theta}\right)^2+\left(\frac{dy}{d\theta}\right)^2 \\
+=&(-\sin\theta+\sin(n+1)\theta)^2+(\cos\theta-\cos(n+1)\theta)^2 \\
+ =& (\sin^2\theta+\cos^2\theta)+(\sin^2(n+1)\theta+\cos^2(n+1)\theta) \\
+ & \qquad -2\sin\theta\sin(n+1)\theta-2\cos\theta\cos(n+1)\theta \\
+ =& 2-2\cos n\theta =4\cdot\frac{1-\cos n\theta}{2} = 4\sin^2\frac{n}{2}\theta
+\end{align*}
+であるから、求める長さは、
+\begin{align*}
+ &\bigintss_0^{2\pi}\!\!\!\sqrt{\left(\frac{dx}{d\theta}\right)^2+\left(\frac{dy}{d\theta}\right)^2} \,d\theta=\bigintss_0^{2\pi}\!\!\!\sqrt{4\sin^2\frac{n}{2}\theta} \,d\theta \\
+ =&2\int_0^{2\pi}\!\left|\sin\frac{n}{2}\theta\right| \,d\theta = \left(2\int_0^{\frac{2}{n}\pi}\! \sin\frac{n}{2}\theta \,d\theta \right) \times n \\
+ =& 2n\left[-\frac{2}{n}\cos\frac{n}{2}\theta\right]^{\frac{2}{n}\pi}_0=8
+\end{align*}

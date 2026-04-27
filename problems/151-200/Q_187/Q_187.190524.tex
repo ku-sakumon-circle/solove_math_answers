@@ -1,0 +1,17 @@
+\begin{thm}{187}{\hosi 4}{京大OP}
+ $a$を実数の定数とする。$x$の方程式 $2(x^2+ax)^2+2a(x^2+ax)-a^2=0$ が、絶対値が1である虚数を解に持つような$a$の値を求めよ。
+\end{thm}
+
+$x^2+ax$の2次方程式とみて、解の公式により
+\[ x^2+ax=\frac{-a\pm\sqrt{3a^2}}{2}=\frac{-1\pm\sqrt{3}}{2}a \]
+なので、
+\[ x^2+ax+\frac{1\pm\sqrt{3}}{2}a=0 \qquad (\cdots \text{＊}) \]
+が絶対値1の虚数解を持つ。これを$z=\cos\theta+i\sin\theta$~(ただし$0<\theta<2\pi$, $\theta\neq\pi$)とする。このとき$z^2+az+\dfrac{1\pm\sqrt{3}}{2}=0$が成り立ち、
+\[ 0=\overline{z^2+az+\frac{1\pm\sqrt{3}}{2}}=\overline{z^2}+\overline{az}+\overline{\frac{1\pm\sqrt{3}}{2}}=\overline{z^2}+a\overline{z}+\frac{1\pm\sqrt{3}}{2} \]
+となるから、(＊)は$z, \overline{z}$を解に持つ。
+
+解と係数の関係により、
+\[ z+\overline{z}=2\cos\theta=-a,\quad z\overline{z}=|z|^2=1=\frac{1\pm\sqrt{3}}{2}a \]
+であるから、$a=\pm\sqrt{3}-1$, $\cos\theta=\dfrac{1\mp\sqrt{3}}{2}$ と求まる(複合同順)。$-1<\dfrac{1-\sqrt{3}}{2}<0$なので、$\cos\theta=\dfrac{1-\sqrt{3}}{2}$を満たす$\theta$が存在する。一方、$\dfrac{1+\sqrt{3}}{2}>1$なので、$\cos\theta=\dfrac{1+\sqrt{3}}{2}$を満たす$\theta$は存在せず不適。
+
+したがって、求めるものは、$a=\sqrt{3}-1$

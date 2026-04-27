@@ -1,0 +1,29 @@
+% bigintegral.sty by tDB(emath@nifty.com)
+%
+\NeedsTeXFormat{LaTeX2e}%
+\ProvidesPackage{bigintegral}[2011/01/28 v0.00]%
+%
+%% 大きな積分記号
+%
+\DeclareOption{large}{\def\basesize{12}}%
+\DeclareOption{Large}{\def\basesize{14.4}}%
+\DeclareOption{LARGE}{\def\basesize{17.28}}%
+\DeclareOption{huge}{\def\basesize{20.74}}%
+\DeclareOption{Huge}{\def\basesize{24.88}}%
+\ExecuteOptions{LARGE}%
+\ProcessOptions\relax
+
+\DeclareFontFamily{OMX}{bigcmex}{}%
+\DeclareFontShape{OMX}{bigcmex}{m}{n}{%
+       <->sfixed*[\basesize]cmex10%
+      }{}%
+\DeclareFontShape{OMX}{bigcmex}{m}{In}{%
+       <->sfixed*[\basesize]cmex10%
+      }{}%
+\DeclareSymbolFont{Largesymbols}{OMX}{bigcmex}{m}{n}%
+\DeclareMathSymbol{\bigintop}{\mathop}{Largesymbols}{"52}%
+    \def\bigint{\bigintop\nolimits}%
+%
+\endinput
+%
+2011/01/28 v 0.00

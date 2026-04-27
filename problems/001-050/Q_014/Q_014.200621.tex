@@ -1,0 +1,33 @@
+\begin{thm}{014}{\hosi 4}{[$y=x^x$]}
+ \begin{enumerate}
+  \item $f(x)=x^x~(x>0)$ とする。導関数$f'(x)$を求めよ。
+  \item $f(x)$の最小値$m$を求めよ。
+  \item $a^a < m$を満たす実数$a$を1つ挙げよ。
+  \item 原点を通り、曲線$y=f(x)$に接する直線を求めよ。
+ \end{enumerate}
+\end{thm}
+
+\syoumon{1}
+$\log f(x)=x\log x$について両辺$x$で微分すると、
+\[ \frac{f'(x)}{f(x)}=\log x+1 \quad\dou\quad f'(x)=x^x(\log x+1) \]
+
+\syoumon{2}
+$f'(x)=0$となるのは$x=\dfrac{1}{e}$のとき。$x>0$においては明らかに$x^x>0$であるから増減表は
+\begin{align*}
+\begin{array}{c|c|c|c|c}
+ x & 0 & \cdots & \frac{1}{e} & \cdots \\ \hline\hline
+ f' & & - & 0 & + \\ \hline
+ f & & \searrow & e^{-\frac{1}{e}} & \nearrow
+\end{array}
+\end{align*}
+よって$m=e^{-\frac{1}{e}}$
+
+\syoumon{3}
+明らかに$m=e^{-\frac{1}{e}}>0>-1=(-1)^{-1}$となるから、$a=-1$とすればよい\footnote{負の奇数なら結果が負になるのでよい。}。
+
+\syoumon{4}
+点$(t,t^t)$を通り、$y=x^x$に接する直線は、
+\[ y=\bigl[t^t(\log t+1)\bigr](x-t)+t^t \]
+であり、これが原点を通ればよいので、
+\[ 0=\bigl[t^t(\log t+1)\bigr](0-t)+t^t \quad\dou\quad t=1 \]
+と求まる。よって求める直線は、$y=x$。

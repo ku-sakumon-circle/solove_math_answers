@@ -1,0 +1,141 @@
+% itemtopmath.sty by tDB (emath@nifty.com)
+%
+\NeedsTeXFormat{LaTeX2e}%
+\ProvidesPackage{itemtopmath}[2013/12/18 v0.01alpha]%
+%
+  \DeclareOption{old}{\def\itm@old{}}%
+  \ProcessOptions\relax
+%
+%%% \item 直後に別行立て数式を配置する際の縦位置の調整
+%%%
+%%% \itemtopmath<#1>[#2]
+%%%   #1 : 微調整量（単位つき）+で上に，-で下に移動
+%%%   #2 : key=val
+%
+\edef\itemtopmath@hosei{0pt}%
+%
+\if@jsclasses\else
+\@ifundefined{EM@normallineskip}{%
+  \edef\itemtopmath@hosei{3\p@}%
+%
+  \let\itm@small\small
+  \def\small{%
+    \itm@small
+    \edef\itemtopmath@hosei{0pt}%
+  }%
+  \let\itm@Large\Large
+  \def\Large{%
+    \itm@Large
+    \edef\itemtopmath@hosei{0\p@}%
+  }%
+}{}%
+\fi
+\if@jsclasses
+  \@tempdima\itemtopmath@hosei
+  \advance\@tempdima4pt%
+  \edef\itemtopmath@hosei{\the\@tempdima}%
+  \let\itm@small\small
+  \def\small{%
+    \itm@small
+    \edef\itemtopmath@hosei{2pt}%
+  }%
+\fi
+%
+\define@key{itemtop}{L}{\emtokenL={#1}}%
+\define@key{itemtop}{R}{\emtokenR={#1}}%
+%
+\newtoks\emtokenL
+\newtoks\emtokenR
+%\def\itemtopmath{\@ifnextchar<{\@itemtopmath}{\@itemtopmath<\z@>}}%
+\DeclareRobustCommand\itemtopmath{%
+  \@ifnextchar<{\@itemtopmath}{\@itemtopmath<\z@>}}%
+\def\@itemtopmath<#1>{\@ifnextchar[{\@@itemtopmath<#1>}{\@@itemtopmath<#1>[]}}%
+\def\@@itemtopmath<#1>[#2]{%
+  \emtokenL={}%
+  \emtokenR={}%
+  \ifx\empty #2\else\setkeys{itemtop}{#2}\fi
+  \setbox0=\hbox{\ensuremath{\displaystyle \the\emtokenL}}%
+  \edef\itemtopLcr{\the\dp0}%
+  \setbox1=\hbox{\ensuremath{\displaystyle \the\emtokenR}}%
+  \edef\itemtopcr{\the\dp1}%
+  \ifdim\itemtopLcr>\itemtopcr\edef\itemtopcr{\itemtopLcr}\fi
+  \EMedef\itemtopmathL{\smash{\the\emtokenL}}%
+  \EMedef\itemtopmathR{\smash{\the\emtokenR}\noexpand\\[\itemtopcr]}%
+  \@tempdima\ht0
+  \ifdim\@tempdima<\ht1\relax\@tempdima=\ht1\fi
+%  \strut\mbox{}\vrule height \@tempdima width \z@
+  \mbox{}\vrule height \@tempdima width \z@
+    \vspace{-\baselineskip}\vspace{-\abovedisplayskip}
+    \vspace{\itemtopmath@hosei}%
+    \@tempdima=#1\relax
+  \@ifundefined{ifedaenum}{}{%
+    \ifedaenum
+      \@ifundefined{EM@normallineskip}{\advance\@tempdima\tw@\p@}{}%
+    \fi
+  }%
+  \vspace{-\@tempdima}%
+}%
+%%
+%% 旧仕様
+%%
+%%% \item 直後に別行立て数式を配置する際の縦位置の調整
+%%%
+%%% \itemtopmath<#1>[#2]
+%%%   #1 : 微調整量（単位つき）+で上に，-で下に移動
+%%%   #2 : 1行目の高さが高いとき，その部分を与える
+%%%        ( \emtokena に保存される)
+%
+\newtoks\emtokena
+\def\olditemtopmath{\@ifnextchar<{\olditem@topmath}{\olditem@topmath<\z@>}}
+\def\olditem@topmath<#1>{\templa=#1\relax
+  \@ifnextchar[{\olditemtopmath@}{\@olditemtopmath}}
+\def\olditemtopmath@[#1]{%
+  \emtokena={#1}%
+  \@ifundefined{hakobanpush}{%
+    \setbox0=\hbox{$\displaystyle #1$}%
+  }{\hakobanpush
+    \setbox0=\hbox{$\displaystyle #1$}\hakobanpop
+  }%
+  \bgroup
+    \EMresetstrutbox
+    \@tempdima=\baselineskip
+    \@tempdimb=\ht0%\advance\@tempdimb\dp0\divide\@tempdimb\tw@% さてどっち
+    \ifdim\@tempdimb>\ht\strutbox
+      \advance\@tempdima\@tempdimb\advance\@tempdima-\ht\strutbox
+    \fi
+\@ifundefined{ifedaenum}{%
+      \advance\@tempdima\abovedisplayskip
+}{%
+    \ifedaenum\else
+      \advance\@tempdima\abovedisplayskip
+    \fi
+}%
+    \advance\@tempdima\templa
+    \leavevmode\vspace{-\@tempdima}%
+  \egroup
+  }
+\def\@olditemtopmath{{%
+  \EMresetstrutbox
+  \@tempdima\baselineskip
+\@ifundefined{ifedaenum}{%
+      \advance\@tempdima\abovedisplayskip
+}{%
+  \ifedaenum\else
+    \advance\@tempdima\abovedisplayskip
+  \fi
+}%
+  \advance\@tempdima\templa
+  \leavevmode\vspace{-\@tempdima}}}
+%
+% [old] オプション処理
+%
+\@ifundefined{itm@old}{}{%
+  \let\newitemtopmath\itemtopmath
+  \let\itemtopmath\olditemtopmath
+}%
+%
+\endinput
+%
+% ver 0.00 2013/11/29 emathE.sty から独立
+% ver 0.01 2013/12/18 アッパコンパチとするため，ロードオプション [old]
+           (BBS #12088)

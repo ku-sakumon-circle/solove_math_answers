@@ -1,0 +1,29 @@
+\begin{thm}{123}{\hosi 9}{USAMO 類 (1998)}
+ 無限の精度で計算できる電卓が壊れて、$\sin$, $\arcsin$, $\cos$, $\arccos$, $\tan$, $\arctan$のボタンしか使えなくなった。最初の画面上の0の状態から、$m, n\in\mathbb{N}$を用いて$\sqrt{\dfrac{m}{n}}$と表される任意の数を得られることを示せ。
+\end{thm}
+
+ここでは、$\arcsin$, $\arccos$, $\arctan$ の主値を用いることとする。加えて、定義域は正の区間を考えれば十分であるからそのようにする。
+%\begin{align*}
+% \arcsin &: [0,1]\in\mathbb{R} \longmapsto \left[0,\frac{\pi}{2}\right]\in\mathbb{R} \\
+% \arccos &: [0,1]\in\mathbb{R} \longmapsto \left[0,\frac{\pi}{2}\right]\in\mathbb{R} \\
+% \arctan &: [0,\infty)\in\mathbb{R} \longmapsto \left[0,\frac{\pi}{2}\right)\in\mathbb{R}
+%\end{align*}
+
+(i)~任意の正の実数$r$がこの電卓によって得られるとき、$\dfrac{1}{r}$も得られることを示す。$\theta=\arctan r$とおく。$\cos\theta=\sin\left(\dfrac{\pi}{2}-\theta\right)$ であるから、$\arcsin(\cos\theta)=\dfrac{\pi}{2}-\theta$ が得られる。さらに、$\tan\left(\dfrac{\pi}{2}-\theta\right)=\dfrac{1}{\tan\theta}$ である。したがって、画面に$r$が表示されている状態から、$\arctan$, $\cos$, $\arcsin$, $\tan$ の順に操作することで、$\dfrac{1}{r}$が得られることがわかる。
+
+(ii)~ある自然数$i, j\in\mathbb{N}$を用いて$\sqrt{\dfrac{j}{i}}$で表される数がこの電卓によって得られた場合を考える。$\theta=\arctan \sqrt{\dfrac{j}{i}}$ とすると、$\cos\theta=\sqrt{\dfrac{i}{i+j}}$, $\sin\theta=\sqrt{\dfrac{j}{i+j}}$ となる。つまり、画面に$\sqrt{\dfrac{j}{i}}$が表示された状態で$\arctan$, $\cos$ の順に操作することで$\sqrt{\dfrac{i}{i+j}}$が得られ、$\arctan$, $\sin$の順に操作することで$\sqrt{\dfrac{j}{i+j}}$が得られることがわかる。
+
+(iii)~任意の自然数$n$と、$1\le m \le n$を満たす自然数$m$を用いて$\sqrt{\dfrac{m}{n}}$と表される任意の数はこの電卓によって得られることを示す。まず、はじめ$0$が表示された状態で$\cos$のボタンを押すことで、$\cos 0 = 1 = \sqrt{\dfrac{1}{1}}$が得られる。続いて、ある$k$以下の任意の自然数$i$と、$1\le j \le i$を満たす自然数$j$を用いて$\sqrt{\dfrac{j}{i}}$と表される任意の数がこの電卓によって得られたと仮定する。ここで、$1\le l \le k+1$を満たす自然数$l$を用いて$\sqrt{\dfrac{l}{k+1}}$ と表される数を考えるとき、$l$と$k-l+1$のうち大きい方を$i$、小さい方を$j$とすれば、$1\le j \le i \le k$を満たし、
+\begin{align*}
+ \sqrt{\frac{l}{k+1}}=\left\{
+ \begin{aligned}
+  \sqrt{\frac{i}{i+j}} &\quad\left(l\ge \frac{k+1}{2}\right) \\
+  \sqrt{\frac{j}{i+j}} &\quad\left(l < \frac{k+1}{2}\right)
+ \end{aligned}\right.
+\end{align*}
+と書き直すことができる。この右辺は、どちらも(ii)の結果により$\sqrt{\dfrac{j}{i}}$から得られる数であるから、$\sqrt{\dfrac{l}{k+1}}$もこの電卓で得られる。以上のことから帰納的に、任意の自然数$n$と、$1\le m \le n$を満たす自然数$m$を用いて$\sqrt{\dfrac{m}{n}}$と表される任意の数はこの電卓によって得られる。
+
+(vi)~自然数$m, n$が、$m > n$ となる場合、(iii)の結果により、$\sqrt{\dfrac{n}{m}}$はこの電卓によって得られる。これに(i)の結果を合わせれば、$\sqrt{\dfrac{m}{n}}$もこの電卓によって得られることがわかる。
+
+以上(i)から(vi)の結果から、$m, n\in\mathbb{N}$を用いて$\sqrt{\dfrac{m}{n}}$と表される任意の数はこの電卓によって得られることが示された。
+

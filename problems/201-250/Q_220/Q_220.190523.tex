@@ -1,0 +1,43 @@
+\begin{thm}{220}{\hosi 8}{自作 DMO4.5th}
+ 2以上の自然数$n$に対して、関数
+ \[ f_n(\theta)=\frac{\sqrt[n]{\tan\theta}}{\theta} \quad (0<\theta<\frac{\pi}{2}) \]
+ の最小値を$m_n$とする。$\disp \lim_{n\to\infty} m_n$を求めよ。
+
+ 必要ならば$\disp \lim_{n\to\infty} n^{\frac{1}{n}}$ を用いてよい。
+\end{thm}
+
+導関数は以下のように求められる。
+\begin{align*}
+ f'_n(\theta)&=\frac{\frac{1}{n}(\tan\theta)^{\frac{1}{n}-1}\cdot\frac{1}{\cos^2\theta}\cdot\theta-\sqrt[n]{\tan\theta}}{\theta^2} \\
+ &=\frac{\sqrt[n]{\tan\theta}}{\theta\sin\theta\cos\theta}\left(\frac{1}{n}-\frac{\sin 2\theta}{2\theta}\right)
+\end{align*}
+$0<\theta<\dfrac{\pi}{2}$の範囲においては、常に$\dfrac{\sqrt[n]{\tan\theta}}{\theta\sin\theta\cos\theta}>0$であるから、$\dfrac{1}{n}-\dfrac{\sin 2\theta}{2\theta}$の符号をみればよい。
+
+$g(x)=\dfrac{\sin x}{x}$とおくと、$g'(x)=\dfrac{\cos x}{x^2}(x-\tan x)$となる。さらに、関数$x-\tan x$について、
+\[ (x-\tan x)'=1-\frac{1}{\cos^2 x}=-\tan^2 x < 0 \]
+であるから$x-\tan x$は常に単調減少する。$0<x<\dfrac{\pi}{2}$の範囲では、$0-\tan 0=0$を踏まえれば$x-\tan x<0$であり、$\cos x>0$と合わせて、$g'(x)<0$が言える。また、$\dfrac{\pi}{2}<x<\pi$の範囲では、$\tan x<0$によって$x-\tan x>0$であり、$\cos x<0$と合わせて、やはり$g'(x)<0$が言える。なお、$x=\dfrac{\pi}{2}$では、$g'(x)=\dfrac{\cos x}{x}-\dfrac{\sin x}{x^2}=-\dfrac{4}{\pi^2}<0$であるので、$0<x<\pi$では、常に$g'(x)<0$であり、$g(x)$は単調減少することがわかる。
+
+続いて、$h(\theta)=\dfrac{1}{n}-g(2\theta)$とおく。$0<x<\pi$で$g(x)$は単調減少したから、$0<\theta<\dfrac{\pi}{2}$の範囲で$h(\theta)$は単調増加する。加えて、
+\begin{align*}
+ \lim_{\theta\to +0} h(\theta)&=\lim_{\theta\to +0} \left(\frac{1}{n}-\frac{\sin 2\theta}{2\theta}\right)=\frac{1}{n}-1 < 0 \\
+ \lim_{\theta\to \frac{\pi}{2}-0}h(\theta)&=\lim_{\theta\to \frac{\pi}{2}-0} \left(\frac{1}{n}-\frac{\sin 2\theta}{2\theta}\right)=\frac{1}{n}>0
+\end{align*}
+であるから、中間値の定理によって、$h(\varphi_n)=0$を満たす実数$\varphi_n$が区間$\left(0, \dfrac{\pi}{2}\right)$にただ一つ存在することがわかる。また、$\theta=\varphi_n$のとき、$f_n(\theta)$は極小かつ最小となる。
+\begin{align*}
+ \begin{array}{c|c|c|c|c|c}
+  \theta & 0 & \cdots & \varphi_n & \cdots & \dfrac{\pi}{2} \\[1.0ex] \hline
+  h(\theta) & & - & 0 & + & \\[1.0ex] \hline
+  f_n(\theta) & & \searrow & m_n & \nearrow & \\
+ \end{array}
+\end{align*}
+
+さて、$\dfrac{\sin 2\varphi_n}{2\varphi_n}=\dfrac{1}{n}$であるから、$\disp \lim_{n\to\infty}\dfrac{\sin 2\varphi_n}{2\varphi_n}=0$である。これに加え、$g(x)=\dfrac{\sin x}{x}$は単調減少し$\disp \lim_{x\to \pi} g(x)=0$であること、さらに$0<\varphi_n<\dfrac{\pi}{2}$であることから、$\disp \lim_{n\to\infty} \varphi_n=\dfrac{\pi}{2}$である。
+
+以上の事柄から、
+\begin{align*}
+ m_n&=\frac{\sqrt[n]{\tan\varphi_n}}{\varphi_n}=\frac{1}{\varphi_n}\left(\frac{\sin\varphi_n}{\cos\varphi_n}\right)^{\frac{1}{n}}=\frac{1}{\varphi_n}\left(\frac{\sin^2\varphi_n}{\sin\varphi_n\cos\varphi_n}\right)^{\frac{1}{n}} \\
+ &=\frac{(\sin\varphi_n)^{\frac{2}{n}}}{\varphi_n\cdot\varphi_n^{\frac{1}{n}}}\left(\frac{\varphi_n}{\sin\varphi_n\cos\varphi_n}\right)^{\frac{1}{n}}=\frac{(\sin\varphi_n)^{\frac{2}{n}}}{\varphi_n\cdot\varphi_n^{\frac{1}{n}}}\left(\frac{2\varphi_n}{\sin 2\varphi_n}\right)^{\frac{1}{n}} \\
+ &=\frac{(\sin\varphi_n)^{\frac{2}{n}}}{\varphi_n\cdot\varphi_n^{\frac{1}{n}}}\cdot n^{\frac{1}{n}}
+\end{align*}
+と整理できるから、求めるものは、
+\[ \lim_{n\to\infty} m_n=\lim_{n\to\infty}\left(\frac{(\sin\varphi_n)^{\frac{2}{n}}}{\varphi_n\cdot\varphi_n^{\frac{1}{n}}}\cdot n^{\frac{1}{n}}\right) = \frac{2}{\pi} \]

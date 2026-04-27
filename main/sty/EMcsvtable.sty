@@ -1,0 +1,48 @@
+% csvtable.sty by tDB(emath@nifty.com)
+%
+  \ProvidesPackage{EMcsvtable}[2011/06/09 v 0.00alpha]%
+%
+%  \RequirePackage{emath}%
+\@ifpackageloaded{emath}{}{\RequirePackage{emath}}%
+%
+\newread\csvtbl@hndl
+%
+\def\yokokeisen{\\\hline}
+%\def\yokokeisen{\\}
+%\def\yokokeisen{\ifodd\csvtblln\\\hline\else\\\fi}%
+%\def\yokokeisen{\IMod\csvtblln{5}\r@@@
+%   \ifnum\r@@@=\@ne\\\hline\else\\\fi}%
+\def\csvtbl@sub{%
+    \read\csvtbl@hndl to\tmp@iln
+    \ifeof\csvtbl@hndl
+      \relax
+    \else
+      \edef\ln@buf{\null}%
+      \expandafter\@for\expandafter\rs@c\expandafter:\expandafter=\tmp@iln\do{%
+        \ifx\null\ln@buf
+          \ifnum\csvtblln=\z@
+            \EMedef\ln@buf{\rs@c}%
+          \else
+            \EMedef\ln@buf{\noexpand\yokokeisen\rs@c}%
+          \fi
+        \else
+          \EMedefappend\ln@buf{&\rs@c}%
+        \fi
+      }%
+      \ln@buf
+      \xIncr\csvtblln
+      \csvtbl@sub
+    \fi
+}%
+%
+\def\inputcsvtbl#1{%
+  \xdef\csvtblln{0}%
+  \openin\csvtbl@hndl=#1\relax
+  \csvtbl@sub
+  \immediate\closein\csvtbl@hndl
+  \ignorespaces
+}%
+%
+\endinput
+%
+v 0.00 2011/06/09

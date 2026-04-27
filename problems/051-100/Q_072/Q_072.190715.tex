@@ -1,0 +1,28 @@
+\begin{thm}{072}{\hosi 7}{自作 DMO 4.5th}
+ 正三角形$\mr{ABC}$とその外接円$\mr{K}$がある。$\mr{K}$の弧$\mr{BC}$のうち点$\mr{A}$を含まないほうに2点$\mr{D}, \mr{E}$を取る。このとき、長さに関して$\mr{AD}, \mr{BD}, \mr{CD}$はこの順に等差数列、$\mr{AE}, \mr{BE}, \mr{CE}$はこの順に等比数列となった。$\mr{CD}=1$のとき、$\mr{AD}, \mr{AE}$の長さを求めよ。
+\end{thm}
+
+トレミーの定理によって、
+\[ \mr{AD}\cdot\mr{BC}=\mr{AB}\cdot\mr{CD}+\mr{AC}\cdot\mr{BD} \]
+であるが、$\mr{AB}=\mr{BC}=\mr{AC}$だから、これで両辺割って、
+\[ \mr{AD}=\mr{CD}+\mr{BD} \quad\cdots \marunum{1} \]
+を得る。同様に、$\mr{AE}=\mr{CE}+\mr{BE}$~($\cdots\marunum{2}$) も得られる。
+
+等差数列をなす条件から、$2\mr{BD}=\mr{AD}+\mr{CD}$~($\cdots\marunum{3}$)。\marunum{1}と\marunum{3}から$\mr{BD}$を消去し、$\mr{CD}=1$も用いれば、$\mr{AD}=3$と求まる。なお$\mr{BD}=2$。$\triangle\mr{BCD}$で余弦定理を用いると、
+\[ \mr{BC}^2=\mr{BD}^2+\mr{CD}^2-2\cdot\mr{BD}\cdot\mr{CD}\cos 120^\circ \,\dou\, \mr{BC}=\sqrt{7} \]
+
+等比数列をなす条件から、$\mr{BE}^2=\mr{AE}\cdot\mr{CE}$~($\cdots\marunum{4}$) である。\marunum{2}と\marunum{4}から$\mr{CE}$を消去すると、
+\[ \mr{BE}^2=\mr{AE}\cdot(\mr{AE}-\mr{BE}) \quad\dou\quad \mr{BE}=\frac{-1+\sqrt{5}}{2} \mr{AE} \]
+を得る。$r=\dfrac{-1+\sqrt{5}}{2}$とおけば、$\mr{BE}=r\mr{AE}$, $\mr{CE}=r^2\mr{AE}$である。$\triangle\mr{BCE}$で余弦定理を用いれば、
+\[ \mr{BC}^2=\mr{BE}^2+\mr{CE}^2-2\mr{BE}\cdot\mr{CE}\cos 120^\circ \,\dou\, 7=(r^2+r^4+r^3)\mr{AE}^2 \]
+を得る。$r^2+r-1=0$が成り立っていることに注意すれば、
+\[ r^3=2r-1 \,,\,\, r^4=-3r+2 \,,\,\, \frac{1}{r}=r+1 \]
+であるから、
+\begin{align*}
+ \mr{AE}^2&=\frac{7}{r^2+r^3+r^4}=\frac{7}{-2r+2} \\
+ &= \frac{7}{2}\frac{1}{1-r}=\frac{7}{2}\frac{1}{r^2} \\
+ \dou\quad \mr{AE}&=\sqrt{\frac{7}{2}}\frac{1}{r} = \frac{\sqrt{14}}{2}(r+1) = \frac{\sqrt{14}+\sqrt{70}}{4}
+\end{align*}
+
+以上により、求めるものは、
+\[ \mr{AD}=3 \,,\,\, \mr{AE}=\frac{\sqrt{14}+\sqrt{70}}{4} \] 

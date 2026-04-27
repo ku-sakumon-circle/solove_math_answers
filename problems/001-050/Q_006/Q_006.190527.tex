@@ -1,0 +1,55 @@
+\begin{thm}{006}{}{2項係数とシグマ}
+ 次の式を計算せよ。
+ \begin{enumerate}
+  \item $\disp \sum_{k=1}^n k \combi{n}{k}$~(\hosi 2)
+  \item $\disp \sum_{k=1}^n k^2 \combi{n}{k}$~(\hosi 2)
+  \item $\disp \sum_{k=0}^n \left(\sum_{j=0}^{k^2} \combi{n}{\left\lfloor \sqrt{j} \right\rfloor}\right)$~(\hosi 6 学コン 2016-4-6)
+  \item $\disp \sum_{k=0}^n \left(\combi{n}{k}\right)^2$~(\hosi ?)
+ \end{enumerate}
+\end{thm}
+
+\syoumon{1}
+\[ k\combi{n}{k}=k\cdot\frac{n!}{k! (n-k)!}=n\cdot\frac{(n-1)!}{(k-1)!(n-k)!}=n\combi{n-1}{k-1} \]
+であるから、
+\[ \sum_{k=1}^n k\combi{n}{k}=n\sum_{k=1}^n \combi{n-1}{k-1}=n2^{n-1} \]
+
+\syoumon{2}
+\begin{align*}
+ k^2\combi{n}{k}&=kn\combi{n-1}{k-1}=n(k-1)\combi{n-1}{k-1}+n\combi{n-1}{k-1} \\
+ &=n(n-1)\combi{n-2}{k-2}+n\combi{n-1}{k-1}
+\end{align*}
+である。ここで、$k=1$のときの場合を考えれば$\combi{n-2}{-1}=0$となる。これを用いて、
+\begin{align*}
+ \sum_{k=1}^n k^2\combi{n}{k}&=n(n-1)\sum_{k=1}^n\combi{n-2}{k-2}+n\sum_{k=1}^n\combi{n-1}{k-1} \\
+ &=n(n-1)2^{n-2}+n2^{n-1}=n(n+1)2^{n-2}
+\end{align*}
+
+\syoumon{3}
+$\left\lfloor\sqrt{j}\right\rfloor=i$~$(i=0,1,\dots,k-1)$を満たす$j$の個数を求める。$j$の条件は、
+\[ i\le \sqrt{j}< i+1 \,\dou\, i^2\le j<i^2+2i+1 \]
+なので、$j=i^2, i^2+1,\dots , i^2+2i$ の$2i+1$個の$j$が、$\left\lfloor\sqrt{j}\right\rfloor=i$を満たす。よって、
+\[ \sum_{j=0}^k\combi{n}{\left\lfloor\sqrt{j}\right\rfloor} = \underbrace{\sum_{i=0}^{k-1}(2i+1)\combi{n}{i}}_{(0\le j\le k^2-1)} + \underbrace{\combi{n}{k}}_{j=k^2} \]
+となる。なお、$k=0$の場合には右辺第1項に相当するものは現れない。
+\[ \sum_{k=0}^n\left(\sum_{i=0}^{k-1}(2i+1)\combi{n}{i} +\combi{n}{k}\right) = \sum_{k=0}^{n}\left(\sum_{i=0}^{k-1}(2i+1)\combi{n}{i}\right) + 2^n \]
+であるから、$\combi{n}{m}$~$(m=0,1,\dots,n-1)$が、この和のなかにどれだけ現れるかを考えればよい。$k$が$m<k\le n$を満たすときに$(2m+1)\combi{n}{m}$が1回ずつ登場し、$k$は$n-m$通りあるので、
+\begin{align*}
+ &\sum_{m=0}^{n-1}(n-m)(2m+1)\combi{n}{m} +2^n \\
+ =& -2\sum_{m=0}^{n-1}m^2\combi{n}{m}+(2n-1)\sum_{m=0}^{n-1}m\combi{n}{m}+n\sum_{m=0}^{n-1}\combi{n}{m} + 2^n \\
+ =& -2\bigl[n(n+1)2^{n-2}-n^2\bigr]+(2n-1)(n2^{n-1}-n) \\
+ & \qquad +n(2^n-1)+2^n \\
+ =& (n^2+2)2^{n-1}
+\end{align*}
+
+\syoumon{4}
+\begin{align*}
+ (1+x)^n &= \combi{n}{0}+\combi{n}{1}x+\combi{n}{2}x^2+\dots+\combi{n}{n}x^n \\
+ &= \combi{n}{n}+\combi{n}{n-1}x+\combi{n}{n-2}x^2+\dots+\combi{n}{0}x^n
+\end{align*}
+なので、
+\begin{align*}
+ &\bigl(\combi{n}{0}+\combi{n}{1}x+\combi{n}{2}x^2+\dots+\combi{n}{n}x^n\bigr) \\
+ &\qquad \times\bigl(\combi{n}{n}+\combi{n}{n-1}x+\combi{n}{n-2}x^2+\dots+\combi{n}{0}x^n\bigr)
+\end{align*}
+を展開したときの$x^n$の係数が$\disp \sum_{k=0}^n\left(\combi{n}{k}\right)^2$となる。
+
+一方でこれは$(1+x)^n(1+x)^n=(1+x)^2n$を展開したときの$x^n$の係数であるから、求める値は$\combi{2n}{n}$

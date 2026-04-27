@@ -1,0 +1,39 @@
+\begin{thm}{078}{\hosi 9}{東大プレ}
+ $\triangle\mr{ABC}$において、$\angle\mr{A}, \angle\mr{B}, \angle\mr{C}$の大きさをそれぞれ$\theta_1, \theta_2, \theta_3$として、
+ \begin{align*}
+  F=\frac{\sin^2\theta_1+2\sin^2\theta_2+3\sin^2\theta_3}{\sin\theta_1 \sin\theta_2 \sin\theta_3}
+ \end{align*}
+ とおく。
+ \begin{enumerate}
+  \item $\triangle\mr{ABC}$の3辺の長さを $\mr{BC}=a, \mr{CA}=b, \mr{AB}=c$ とおき、さらに$\triangle\mr{ABC}$の面積を$S$とする。$F$を$a, b, c, S$で表せ。
+  \item $F$の最小値を求めよ。
+ \end{enumerate}
+\end{thm}
+
+\syoumon{1}
+\[ F=\frac{\frac{\sin\theta_1}{\sin\theta_2}+2\frac{\sin\theta_2}{\sin\theta_1}+3\frac{\sin\theta_3}{\sin\theta_1}\frac{\sin\theta_3}{\sin\theta_2}}{\sin\theta_3} \]
+である。正弦定理により、
+\[ \frac{\sin\theta_2}{\sin\theta_1}=\frac{b}{a},\quad \frac{\sin\theta_3}{\sin\theta_1}=\frac{c}{a},\quad \frac{\sin\theta_3}{\sin\theta_2}=\frac{c}{b} \]
+だから、
+\[ F=\frac{\frac{a}{b}+2\frac{b}{a}+3\frac{c^2}{ab}}{\sin\theta_3}=\frac{a^2+2b^2+3c^2}{ab\sin\theta_3}=\frac{a^2+2b^2+3c^2}{2S} \]
+
+\syoumon{2}
+$b, c$を固定し、$\theta_1=x$として、$0<x<\pi$で動かす。余弦定理によって$a^2=b^2+c^2-2bc\cos x$であるから、以下を得る。
+\[ F=\frac{3b^2+4c^2-2bc\cos x}{bc\sin x}=\frac{3b^2+4c^2}{bc\sin x}-2\frac{1}{\tan x} \]
+ここで$\frac{3b^2+4c^2}{bc}=k$とし、$f(x)=\frac{k}{\sin x}-\frac{2}{\tan x}$ $(0<x<\pi)$とすれば、$f'(x)$は以下。
+\[ f'(x)=-\frac{k\cos x}{\sin^2 x}+\frac{2}{\sin^2 x}=\frac{1}{\sin^2 z}(2-k\cos x) \]
+さて、$b, c>0$なので、相加相乗平均の不等式によって、
+\[ k=\frac{3b^2+4c^2}{bc}\ge\frac{2\sqrt{12b^2c^2}}{bc}=4\sqrt{3}>2 \]
+がわかる。等号成立条件は$3b^2=4c^2$。このことから、$0<x<\pi$では$f'(x)$は単調増加する。$2-k\cos 0=2-k<0$, $2-k\cos\pi=2+k>0$を踏まえて、増減表は以下のようになる。
+\begin{align*}
+ \begin{array}{c|c|c|c|c|c}
+  x& 0 & \cdots & t & \cdots & \pi \\ \hline
+  f'(x) & & - & 0 & + &  \\ \hline
+  f(x) & & \searrow & & \nearrow & 
+ \end{array}
+\end{align*}
+ここで、$t$は$\cos t=\dfrac{2}{k}$を満たす実数である。よって$b, c$を固定したときは、
+\begin{align*}
+ f(x)\ge f(t)=\frac{k}{\sin t} -\frac{2}{\tan t}=\frac{k-\frac{4}{k}}{\sqrt{1-\left(\frac{2}{k}\right)^2}}=\sqrt{k^2-4}
+\end{align*}
+である。$k\ge 4\sqrt{3}$であったから、$\sqrt{k^2-4}\ge 2\sqrt{11}$。よって、$F\ge 2\sqrt{11}$である。実際に、$b=2$, $c=\sqrt{3}$, $\cos\theta_1=\dfrac{1}{2\sqrt{3}}$とすれば$F=2\sqrt{11}$とできる\footnote{もう少し一般に、$3b^2=4c^2$を満たすように$b, c$を選び、これによって得られる$k$に対して$\cos\theta_1=2/k$となるように$\theta_1$を選べば、最小値を得られる。}。したがって、求める最小値は$2\sqrt{11}$。

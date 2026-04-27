@@ -1,0 +1,33 @@
+\begin{thm}{180}{\hosi 9}{DMO3rd 理5}
+ 正の整数$n$の正の約数の個数, 総和をそれぞれ $d(n), \sigma (n)$ とする。次の極限値を求めよ。
+ \[\disp\lim_{n\to \infty}\dfrac{\log{(\sigma(1) +\sigma(2) +\cdots +\sigma (n))}}{\log{(d(1)+d(2)+\cdots +d(n))}}\]
+\end{thm}
+
+$D_n=\{d| \mbox{$d$ は $n$ の正の約数}\}$ とする。
+\[\displaystyle\sum_{k=1}^n d(k) = \displaystyle\sum_{k=1}^n|D_k|\] である。ここで, $i\in D_k$ と $k$ が $i$ の倍数であることは同値である。$1,2,\cdots n$ のうち $i$ の倍数は $\left\lfloor\dfrac{n}{i}\right\rfloor$ 個あるから,$i$ が $D_1, D_2, \cdots D_n$ の要素として現れる回数は, $1,2,\cdots, n$の中にある$k$の$i$の倍数の個数なので $\left\lfloor\dfrac{n}{i}\right\rfloor$ である。この回数を $1\le i\le n$ で足し合わせた $\displaystyle\sum_{i=1}^n \left\lfloor\dfrac{n}{i}\right\rfloor$ が $\displaystyle\sum_{k=1}^n |D_k|$ に等しい。 \\
+\\
+$\displaystyle\sum_{k=1}^n \sigma (k)$ も同様, $i$ が $\left\lfloor\dfrac{n}{i}\right\rfloor$ 回 登場することから $\displaystyle\sum_{k=1}^n i\left\lfloor\dfrac{n}{i}\right\rfloor$ に等しい。 \\
+この2つの結果を不等式で評価し, はさみうちの原理で極限値を求めることを考える。\\
+一般に $\lfloor x\rfloor\le x$ が成立し, $n$ が2以上のとき
+\begin{eqnarray*}
+n=\displaystyle\sum_{k=1}^n 1 < &\displaystyle\sum_{i=1}^n \left\lfloor\dfrac{n}{i}\right\rfloor& \le\displaystyle\sum_{i=1}^n \dfrac{n}{i}=nH_n\\
+\dfrac{n^2}{2}<\dfrac{n(n+1)}{2}=
+\displaystyle\sum_{i=1}^n i \le &\displaystyle\sum_{i=1}^n i\left\lfloor\dfrac{n}{i}\right\rfloor & \le \displaystyle\sum_{i=1}^n i\dfrac{n}{i} =n^2
+\end{eqnarray*}
+となる。（ただし $H_n=\displaystyle\sum_{k=1}^n\dfrac{1}{k}$ ）そして,次のように評価が出来る。
+\begin{eqnarray*}
+\dfrac{\log{n^2}-\log{2}}{\log{n}+\log{H_n}} < \dfrac{\log{\sigma(1) +\sigma (2)+\cdots \sigma (n)}}{\log{d(1)+d(2)+\cdots d(n)}} < \dfrac{\log{n^2}}{\log{n}} = 2
+\end{eqnarray*}
+次に十分大きい $n$ で $H_n<2\log{n}$ が成り立つことを示し,\\
+$\displaystyle\lim_{n\to\infty}\dfrac{\log{n^2}-\log{2}}{\log{n}+\log{H_n}}=\displaystyle\lim_{n\to\infty}\dfrac{2-\log_n{2}}{1+\log_n{H_n}}=2$ を示す。\\
+\\
+$2\le k\le n$ なる整数 $k$ で, （曲線 $y=\dfrac{1}{x}$ の $0<x$ における単調減少性と面積評価から) $\dfrac{1}{k}<\displaystyle\int_{k-1}^{k} \dfrac{1}{x} dx$ が成り立つから, 総和を取り $H_n-1<\displaystyle\int_1^{n}\dfrac{1}{x} dx=\log{n} $ \\
+よって $H_n<\log{n}+1<2\log{n}$ である。これを用いて
+\begin{eqnarray*}
+\displaystyle\lim_{n\to\infty}\dfrac{2-\log_n{2}}{1+\log_n{2}+\log_n{\log{n}}}\le\displaystyle\lim_{n\to\infty}\dfrac{2-\log_n{2}}{1+\log_n{H_n}}\\
+\le\displaystyle\lim_{n\to\infty}\dfrac{2-0}{1+0}=2 
+\end{eqnarray*}
+となる。$\log_n{\log{n}}=\dfrac{\log{\log{n}}}{\log{n}}=\dfrac{t}{e^t}$ で(ただし $n= e^{(e^t)}$) $n\rightarrow \infty$ のとき $t\rightarrow \infty$ なので, $\log_n{\log{n}}=\dfrac{t}{e^t}\rightarrow 0$ であるから $\displaystyle\lim_{n\to\infty}\dfrac{2-\log_n{2}}{1+\log_n{2}+\log_n{\log{n}}}=\dfrac{2-0}{1+0+0}=2$\\
+\\
+しかるに(2)とハサミウチの原理から $\displaystyle\lim_{n\to\infty}\dfrac{2-\log_n{2}}{1+\log_n{H_n}}=2$, そして(1)とハサミウチの原理から
+\[\displaystyle\lim_{n\to\infty }\dfrac{\log{\sigma(1) +\sigma (2)+\cdots \sigma (n)}}{\log{d(1)+d(2)+\cdots d(n)}}=2\]

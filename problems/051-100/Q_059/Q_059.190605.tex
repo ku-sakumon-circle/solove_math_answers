@@ -1,0 +1,56 @@
+\begin{thm}{059}{}{}
+ 次の式の値を計算せよ。
+ \begin{enumerate}
+  \item $\disp \int_0^1\! \left\lfloor \sqrt{\dfrac{1}{x}+1} \right\rfloor$ \,dx
+  \item $\disp \int_1^\infty\! \dfrac{1-2\{x\}}{2x}$ \,dx
+ \end{enumerate}
+ (1) \hosi 4 l\_ength様, (2) \hosi ? FromDMRK様 (Stirlingの公式を利用して)
+\end{thm}
+
+\syoumon{1}
+$0<x\le 1$より、$\left\lfloor \sqrt{\dfrac{1}{x}+1} \right\rfloor \ge \left\lfloor\sqrt{2}\right\rfloor=1$。正の整数$n$に対して、$n\le \sqrt{\dfrac{1}{x}+1}<n+1$となる範囲を考える。二乗して、
+\[ n^2\le \frac{1}{x}+1 < n^2+2n+1 \quad\dou\quad n^2-1\le \frac{1}{x}<n^2+2n \]
+$n=1$のとき、$0\le \dfrac{1}{x}<3$より、$0<x\le 1$とあわせて、$\dfrac{1}{3}<x\le 1$。$n\ge 2$のとき、$\dfrac{1}{n^2-1}\ge x>\dfrac{1}{n^2+2n}=\dfrac{1}{(n+1)^2-1}$。
+
+ここで、$E_1=1$, $E_n=\dfrac{1}{n^2-1}$~$(n=2, 3, \dots)$とおけば、$E_{n+1}<x\le E_n$ のとき、$n\le \sqrt{\dfrac{1}{x}+1}<n+1$であるから、$\left\lfloor\sqrt{\dfrac{1}{x}+1}\right\rfloor=n$である。よて、
+\begin{align*}
+ \bigintss_0^1\! \left\lfloor\sqrt{\frac{1}{x}+1}\right\rfloor \,dx &=\lim_{n\to\infty}\sum_{k=1}^n\bigintss_{E_{k+1}}^{E_n}\!\left\lfloor\sqrt{\frac{1}{x}+1}\right\rfloor \,dx \\
+ &= \lim_{n\to\infty}\sum_{k=1}^n\int_{E_{k+1}}^{E_n}\!k\,dx \\
+ &=\lim_{n\to\infty}\sum_{k=1}^n k(E_k-E_{k+1})
+\end{align*}
+と整理された。総和について、
+\begin{align*}
+ &\sum_{k=1}^nk(E_k-E_{k+1}) \\
+ =& \sum_{k=1}^nkE_k - \sum_{k=2}^n+1(k-1)E_k \\
+ =& E_1 + \sum_{k=2}^nE_k -nE_{n+1} = 1+\sum_{k=2}^n\frac{1}{k^2-1}-\frac{n}{(n+1)^2-1} \\
+ =& 1+\frac{1}{2}\sum_{k=2}^n\left[\frac{1}{k-1}-\frac{1}{k+1}\right] - \frac{1}{n+2} \\
+ =& 1+\frac{1}{2}\left(\frac{1}{2-1}+\frac{1}{3-1}-\frac{1}{n}-\frac{1}{n+1}\right) -\frac{1}{n+2}
+\end{align*}
+であるから、$n\to\infty$の極限を考えて、求める値は$\dfrac{7}{4}$。
+
+\syoumon{2}
+積分区間を幅1に分割して、
+\[ \int_1^\infty\! \frac{1-2\{x\}}{2x} \,dx = \sum_{k=1}^\infty \int_k^{k+1}\!\frac{1-2\{x\}}{2x} \,dx \]
+とする。$k\le x < k+1$において、$\{x\}=x-k$であるから、
+\begin{align*}
+ &\int_k^{k+1}\!\frac{1-2(x-k)}{2x} \,dx = \int_k^{k+1}\!\left(\frac{1}{2z}-1+\frac{2k}{2x}\right) \,dx \\
+ =& \Bigl[(2k+1)\log|2x|\cdot\frac{1}{2}-x\Bigr]_k^{k+1} \\
+ =& \frac{2k+1}{2}\log\left(\frac{k+1}{k}\right)-1 = \log\frac{\left(\frac{k+1}{k}\right)^{\frac{2k+1}{2}}}{e}
+\end{align*}
+と求まる。$\disp \sum_{k=1}^\infty$は、$\disp \lim_{n\to\infty}\sum_{k=1}^n$によって求めればよく、
+\begin{align*}
+ &\sum_{k=1}^n\log\frac{\left(\frac{k+1}{k}\right)^{\frac{2k+1}{2}}}{e} = \log\left[\prod_{k=1}^n\frac{\left(\frac{k+1}{k}\right)^{\frac{2k+1}{2}}}{e}\right] \\
+ =& \log\left[\frac{\prod_{k=1}^n \left(\frac{k+1}{k}\right)^{\frac{2k+1}{2}}}{e^n}\right]
+\end{align*}
+である。さらに分母の総積について、
+\begin{align*}
+ &\prod_{k=1}^n\left(\frac{k+1}{k}\right)^{\frac{2k+1}{2}} = \left(\frac{2}{1}\right)^{\frac{3}{2}}\left(\frac{3}{2}\right)^{\frac{5}{2}}\left(\frac{4}{3}\right)^{\frac{7}{2}}\dots\left(\frac{n+1}{n}\right)^{\frac{2n+1}{2}} \\
+ =& \frac{(n+1)^{n+\frac{1}{2}}}{1^1\cdot 2^1\cdot 3^1\cdot \dots n^1} = \frac{(n+1)^{n+\frac{1}{2}}}{n!}
+\end{align*}
+であるから、求めるものは、
+\begin{align*}
+ &\lim_{n\to\infty} \log\frac{(n+1)^{n+\frac{1}{2}}}{e^n n!} = \lim_{n\to\infty}\log\left[\frac{n^{n+\frac{1}{2}}}{e^n n!}\cdot\left(\frac{n+1}{n}\right)^{n+\frac{1}{2}}\right] \\
+ =& \lim_{n\to\infty} \log\left\{\frac{n^n\sqrt{n}}{e^n n!}\cdot \left[\left(1+\frac{1}{n}\right)^n\right]^{\frac{n+\frac{1}{2}}{n}}\right\} \\
+ =& \log\left(\frac{1}{\sqrt{2\pi}}\cdot e\right) \quad (\because\, \text{Stirlingの公式}) \\
+ =& 1-\frac{1}{2}\log{2\pi}
+\end{align*}

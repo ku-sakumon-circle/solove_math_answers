@@ -1,0 +1,24 @@
+\begin{thm}{233}{\hosi 2}{阪大 (2020)}
+ 三角形$\mr{ABC}$において、辺$\mr{AB}$の長さを$c$、辺$\mr{CA}$の長さを$b$で表す。
+ \begin{enumerate}
+  \item $\angle\mr{ACB}=3\angle\mr{ABC}$であるとき、$c<3b$を示せ。
+  \item $n$を2以上の自然数とする。$\angle\mr{ACB}=n\mr{ABC}$であるとき、$c<nb$を示せ。
+ \end{enumerate}
+ \begin{flushright}
+  {\small (1): 文系、(2): 理系}
+ \end{flushright}
+\end{thm}
+
+(註)~ここでは理系の読者を想定し、(2)のみ記す。
+
+$\angle\mr{ABC}=\theta$とする。正弦定理から、
+\[ \frac{b}{\sin\theta}=\frac{c}{\sin n\theta} \quad\dou\quad \frac{\sin n\theta}{\sin\theta}=\frac{c}{b} \]
+である。角度について$0<\theta<\pi$, $0<n\theta<\pi$, $0<\pi-(n+1)\theta<\pi$ が成り立つので、$0<\theta<\dfrac{\pi}{n+1}$で考える。このもとで$\dfrac{\sin n\theta}{\sin\theta}<n$を示せばよい。$\sin\theta>0$に注意して、$f(\theta)=n\sin\theta-\sin n\theta>0$を示してもよいのでそのようにする。
+\begin{align*}
+ f'(\theta)&=n\cos\theta-n\cos n\theta \\
+ &=n(\cos\theta-\cos n\theta) \\
+ &=2n\sin\frac{n+1}{2}\theta\sin\frac{n-1}{2}\theta
+\end{align*}
+であって、$0<\dfrac{n-1}{2}\theta<\dfrac{n+1}{2}\theta<\pi$ よりこれは正である。従って$f(\theta)$は$0<\theta<\dfrac{\pi}{n+1}$で単調増加する関数であって、
+\[ f(\theta)>\lim_{t\to+0}f(t)=0 \]
+が示された。以上より、$c<nb$。

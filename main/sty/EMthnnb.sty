@@ -1,0 +1,16 @@
+%%
+\begingroup \makeatletter
+\global\let\thbstrut\strut%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\@ifundefined{theorem@style}{\input{theorem.sty}}{}
+\gdef\th@nonumberbreak{\normalfont\itshape
+  \def\@begintheorem##1##2{%
+        \item[\rlap{\vbox{\theorem@headerfont
+                    \hbox{\llap{}\hskip\labelsep ##1}%
+                    \hbox{\strut}}}]}%
+\def\@opargbegintheorem##1##2##3{%
+  \item[\rlap{\vbox{\hbox{\hskip \labelsep \theorem@headerfont
+                      ##1\post@Thnum\ \thmkakkokukuri{##3}}%
+                      \hbox{\thbstrut}}}]}}%
+\endgroup
+\endinput
+%%

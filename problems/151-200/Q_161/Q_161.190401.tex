@@ -1,0 +1,19 @@
+\begin{thm}{161}{\hosi 3\maru}{京大理系 (2016)}
+ $n$を2以上の自然数とするとき, 関数
+\[f_n(\theta )= (1+\cos{\theta})\sin^{n-1}{\theta}\]
+の $0\leq \theta\leq \dfrac{\pi}{2}$ における最大値 $M_n$ と, $\disp\lim_{n\to \infty} (M_n)^n$ を求めよ。
+\end{thm}
+
+簡単のため$\sin{\theta}=s, \cos{\theta}=c$ と表記する。このとき$f_n$を微分すると
+\begin{align*}
+ f_n'(\theta)&= -s^n + (n-1)(1+c)s^{n-2}c\\
+ &=s^{n-2}\{-s^2 +(n-1)(1+c)c\}\\
+ &=s^{n-2}\{nc^2 +(n-1)c -1\}\\
+ &=s^{n-2}(c+1)(nc-1)
+\end{align*}
+となり, $0\leq \theta\leq \dfrac{\pi}{2}$の範囲では $s^{n-2}(c+1)\geq 0$である。$c=\dfrac{1}{n}$となるときの$\theta$ を $\theta_n$とすると, $0\leq \theta\leq \theta_n$ で$f_n'(\theta)\geq 0$, そして$\theta_n\leq \theta\leq \dfrac{\pi}{2} $ で$f_n'(\theta)\leq 0$ となるので, $f_n(\theta)$が極大値かつ最大値となる。よって,
+\[M_n=f_n(\theta)=\left(1+\dfrac{1}{n}\right)\sqrt{1-\dfrac{1}{n^2}}^{n-1}\]
+である。
+\[(M_n)^n=\left(1+\dfrac{1}{n}\right)^n\left(1-\dfrac{1}{n^2}\right)^{\frac{n(n-1)}{2}}\]
+
+未完。

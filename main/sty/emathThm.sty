@@ -1,0 +1,392 @@
+% emathThm.sty by tDB (CQB00260@nifty.ne.jp)
+%
+  \@ifpackageloaded{amsthm}{%
+    \errmessage{EMtheorem.sty と amsthm.sty は併用できません。}%
+  }{}%
+%
+\def\tmpname{LaTeX2e}%
+\ProvidesPackage{emathThm}[2015/06/08 v0.23]%
+\RequirePackage{theorem}%
+%\RequirePackage{emath}%
+\@ifpackageloaded{emath}{}{\RequirePackage{emath}}%
+%
+\gdef\th@plain{\@input@{EMthp.sty}}
+\gdef\th@break{\@input@{EMthb.sty}}
+\gdef\th@marginbreak{\@input@{EMthmb.sty}}
+\gdef\th@changebreak{\@input@{EMthcb.sty}}
+\gdef\th@change{\@input@{EMthc.sty}}
+\gdef\th@indent{\@input@{EMthi.sty}}
+\gdef\th@margin{\@input@{EMthm.sty}}
+\gdef\th@nonumber{\@input@{EMthnn.sty}}
+\gdef\th@nonumberbreak{\@input@{EMthnnb.sty}}
+\gdef\th@boxed{\@input@{EMthbx.sty}}
+\gdef\th@boxednonumber{\@input@{EMthbxnn.sty}}
+\gdef\th@breaknum{\@input@{EMthbn.sty}}
+%
+\let\ltxnewtheorem\newtheorem
+\define@key{EMthm}{itemindent}{\edef\EMthm@@itemindent{#1}}%
+\define@key{EMthm}{leftmargin}{\edef\EMthm@@leftmargin{#1}}%
+\define@key{EMthm}{Leftmargin}{\edef\EMthm@@Leftmargin{#1}}%
+\define@key{EMthm}{frontThnum}{\EMedef\EMthm@@frontThnum{#1}}%
+\define@key{EMthm}{preThnum}{\EMedef\EMthm@@frontThnum{#1}}%
+\define@key{EMthm}{postThnum}{\EMedef\EMthm@@postThnum{#1}}%
+\define@key{EMthm}{postTh}{\EMedef\EMthm@@postTh{#1}}%
+\define@key{EMthm}{labelThm}{\EMedef\EMthm@@labelThm{#1}}%
+%\define@key{EMthm}{labelsep}{\EMedef\EMthm@@labelsep{#1}}%
+\define@key{EMthm}{thbstrut}{\def\thbstrut{#1}}%
+%\define@key{EMthm}{nonumber}[0]{\edef\th@num{0}}%
+\define@key{EMthm}{minipagetrue}[1]{\def\EMthm@@minipagetrue{1}}%
+\define@key{EMthm}{preskipamount}{\def\EMthm@@preskipamount{#1}}%
+\define@key{EMthm}{postskipamount}{\def\EMthm@@postskipamount{#1}}%
+\define@key{EMthm}{frame}{\EMedef\EMthm@@frame{#1}}%
+\define@key{EMthm}{ttlcmd}{\EMedef\EMthm@@ttlcmd{#1}}%
+\define@key{EMthm}{boxopt}{\EMedef\EMthm@@boxopt{#1}}%
+\define@key{EMthm}{frameoption}{\EMedef\EMthm@@boxopt{#1}}%
+\define@key{EMthm}{KKaitou}[1]{\EMedef\EMthm@@KKaitou{#1}}%
+%
+\define@key{EMthmi}{postThnum}{\EMedef\post@Thnum{#1}}%
+\define@key{EMthmi}{postTh}{\EMedef\post@Th{#1}}%
+\define@key{EMthmi}{thbstrut}{\def\thbstrut{#1}}%
+\define@key{EMthmi}{boxopt}{\EMedef\box@opti{#1}}%
+\define@key{EMthmi}{frameoption}{\EMedef\box@opti{#1}}%
+\define@key{EMthmi}{preskipamount}{\EMedef\EMthm@preskipamounti{#1}}%
+\define@key{EMthmi}{postskipamount}{\EMedef\EMthm@postskipamounti{#1}}%
+%
+\def\EMthm@leftmargin{1zw}%
+\def\EMthm@Leftmargin{.25zw}%
+\def\EMthm@itemindent{0zw}%
+\def\EMthm@frontThnum{}%
+\def\EMthm@postThnum{}%
+\def\EMthm@postTh{}%
+\EMedef\EMthm@frame{rectbox}%
+\EMedef\EMthm@ttlcmd{}%
+\edef\EMthm@boxopt{\empty}%
+\edef\box@opti{\empty}%
+\def\EMthm@KKaitou{0}%
+\def\EMthm@minipagetrue{0}%
+\def\EMthm@preskipamount{\the\theorempreskipamount}%
+\def\EMthm@postskipamount{\the\theorempostskipamount}%
+%\def\EMthm@labelsep{\the\labelsep}%
+\def\EMthm@labelThm#1{#1}%
+%\def\thmkakkokukuri#1{\protect\jkakkokukuri{#1}}%
+%\DeclareRobustCommand\thmkakkokukuri[1]{\jkakkokukuri{#1}}%
+\def\thmkakkokukuri#1{\inhibitglue（#1）\inhibitglue}%
+%
+%\def\EMtheorem{\edef\th@num{1}%
+%  \@ifstar{\EMtheorem@}{\@EMtheorem}}%
+%\def\EMtheorem@{\edef\th@num{0}\@EMtheorem}%
+\def\EMtheorem{\@ifnextchar<{\@@EMtheorem}{\@@EMtheorem<\empty>}}
+\def\@@EMtheorem<#1>#2{%
+  \expandafter\xdef\csname #2@leftmargin\endcsname{\EMthm@leftmargin}%
+  \expandafter\xdef\csname #2@Leftmargin\endcsname{\EMthm@Leftmargin}%
+  \expandafter\xdef\csname #2@itemindent\endcsname{\EMthm@itemindent}%
+  \expandafter\def\csname #2@frontThnum\endcsname{\EMthm@frontThnum}%
+  \expandafter\EMxdef\csname #2@postThnum\endcsname{\EMthm@postThnum}%
+  \expandafter\EMxdef\csname #2@postTh\endcsname{\EMthm@postTh}%
+  \expandafter\EMxdef\csname #2@frame\endcsname{\EMthm@frame}%
+  \expandafter\EMxdef\csname #2@ttlcmd\endcsname{\EMthm@ttlcmd}%
+  \expandafter\EMxdef\csname #2@boxopt\endcsname{\EMthm@boxopt}%
+  \expandafter\EMxdef\csname #2@KKaitou\endcsname{\EMthm@KKaitou}%
+  \expandafter\gdef\csname #2@labelThm\endcsname{\EMthm@labelThm}%
+%  \expandafter\gdef\csname #2@labelsep\endcsname{\EMthm@labelsep}%
+  \expandafter\xdef\csname #2@minipagetrue\endcsname{\EMthm@minipagetrue}%
+  \expandafter\xdef\csname #2@preskipamount\endcsname{\EMthm@preskipamount}%
+  \expandafter\xdef\csname #2@postskipamount\endcsname{\EMthm@postskipamount}%
+  \xdef\EMthm@@itemindent{\EMthm@itemindent}%
+  \xdef\EMthm@@leftmargin{\EMthm@leftmargin}%
+  \xdef\EMthm@@Leftmargin{\EMthm@Leftmargin}%
+  \xdef\EMthm@@frontThnum{\EMthm@frontThnum}%
+  \EMxdef\EMthm@@postThnum{\EMthm@postThnum}%
+  \EMxdef\EMthm@@postTh{\EMthm@postTh}%
+  \EMxdef\EMthm@@frame{\EMthm@frame}%
+  \EMxdef\EMthm@@ttlcmd{\EMthm@ttlcmd}%
+  \EMxdef\EMthm@@boxopt{\EMthm@boxopt}%
+  \EMxdef\EMthm@@KKaitou{\EMthm@KKaitou}%
+  \gdef\EMthm@@labelThm{\EMthm@labelThm}%
+%  \xdef\EMthm@@labelsep{\EMthm@labelsep}%
+  \xdef\EMthm@@minipagetrue{\EMthm@minipagetrue}%
+  \xdef\EMthm@@preskipamount{\EMthm@preskipamount}%
+  \xdef\EMthm@@postskipamount{\EMthm@postskipamount}%
+  \ifx\empty #1\relax\else\setkeys{EMthm}{#1}%
+    \expandafter\xdef\csname #2@leftmargin\endcsname{\EMthm@@leftmargin}%
+    \expandafter\xdef\csname #2@Leftmargin\endcsname{\EMthm@@Leftmargin}%
+    \expandafter\xdef\csname #2@itemindent\endcsname{\EMthm@@itemindent}%
+    \expandafter\EMxdef\csname #2@frontThnum\endcsname{\EMthm@@frontThnum}%
+    \expandafter\EMxdef\csname #2@postThnum\endcsname{\EMthm@@postThnum}%
+    \expandafter\EMxdef\csname #2@postTh\endcsname{\EMthm@@postTh}%
+    \expandafter\EMxdef\csname #2@frame\endcsname{\EMthm@@frame}%
+    \expandafter\EMxdef\csname #2@ttlcmd\endcsname{\EMthm@@ttlcmd}%
+    \expandafter\EMxdef\csname #2@boxopt\endcsname{\EMthm@@boxopt}%
+    \expandafter\EMxdef\csname #2@KKaitou\endcsname{\EMthm@@KKaitou}%
+    \expandafter\gdef\csname #2@labelThm\endcsname{\EMthm@@labelThm}%
+%    \expandafter\xdef\csname #2@labelsep\endcsname{\EMthm@@labelsep}%
+    \expandafter\xdef\csname #2@minipagetrue\endcsname{\EMthm@@minipagetrue}%
+    \expandafter\xdef\csname #2@preskipamount\endcsname{\EMthm@@preskipamount}%
+    \expandafter\xdef\csname #2@postskipamount\endcsname{\EMthm@@postskipamount}%
+  \fi
+  \ltxnewtheorem{#2}}
+%
+\def\@endtheorem{%
+%\typeout{post@Th=\post@Th}%
+  \ifthenelse{\equal\post@Th\empty}{}{%
+    \owari[\post@Th]\relax
+  }%
+  \@ifundefined{minipage@flg}{}{\@minipagetrue}%
+  \endtrivlist
+  \@minipagefalse
+}
+%
+%
+\newcounter{mycnta}
+\@ifundefined{ifpr@kaitou}{\newif\ifpr@kaitou\pr@kaitoufalse}{}%
+%
+\gdef\@xnthm#1#2[#3]{%
+%\typeout{now! @xnthm:arg1=#1,arg2=#2,th@num=\th@num}\xxx%
+%\typeout{now! @xnthm:arg1=#1,arg2=#2, arg3=#3}%\xxx%
+  \expandafter\@ifdefinable\csname #1\endcsname
+   {%
+    \@definecounter{#1}\@newctr{#1}[#3]%
+%    \ifnum\th@num=\z@
+%      \expandafter\xdef\csname the#1\endcsname{\relax}%
+%    \else
+      \expandafter\xdef\csname the#1\endcsname
+        {\expandafter \noexpand \csname the#3\endcsname
+         \@thmcountersep \@thmcounter{#1}}%
+%    \fi
+    \def\@tempa{\global\@namedef{#1}}%
+    \expandafter \@tempa \expandafter{%
+      \csname th@\the \theorem@style
+            \expandafter \endcsname \the \theorem@bodyfont
+     \@thm{#1}{#2}}%
+%
+\def\@tempa{\global\@namedef{ttl#1}}\expandafter \@tempa
+\expandafter{\refstepcounter{#1}#2\ \@nameuse{the#1}}%
+%
+    \global \expandafter \def \csname end#1\endcsname {%
+    \ifpr@kaitou
+%
+      \@whilenum\K@currentenumdepth>\@enumdepth\do{%
+        \xDecr\K@currentenumdepth
+        \ifx\empty\edaenumopt
+          \ifx\empty\betaenumopt
+            \immediate\write\kaitou@out{\string\end\string\Kaienumerate\string\def\string\Kaienumerate{enumerate}\string\def\string\Kaienumopt{}}%
+          \else
+            \immediate\write\kaitou@out{\string\end{betaenumerate}\string\par}%
+            \xdef\betaenumopt{\empty}%
+          \fi
+        \else
+          \immediate\write\kaitou@out{\string\end{edaenumerate}\string\par}%
+          \xdef\edaenumopt{\empty}%
+        \fi
+      }%
+%
+      \immediate\write\kaitou@out{\string\end{\Aeprobname}}%
+      \global\pr@kaitoufalse
+    \fi
+    \@endtheorem
+    }%
+   }}
+%
+\gdef\@ynthm#1#2{%
+%\typeout{now! @ynthm:arg1=#1,arg2=#2,th@num=\th@num}%\yyy%
+  \expandafter\@ifdefinable\csname #1\endcsname
+   {\@definecounter{#1}%
+%    \ifnum\th@num=\z@
+%      \expandafter\xdef\csname the#1\endcsname{\relax}%
+%    \else
+      \expandafter\xdef\csname the#1\endcsname{\@thmcounter{#1}}%
+%    \fi
+    \def\@tempa{\global\@namedef{#1}}\expandafter \@tempa
+     \expandafter{\csname th@\the \theorem@style \expandafter
+     \endcsname \the\theorem@bodyfont \@thm{#1}{#2}}%
+%
+\def\@tempa{\global\@namedef{ttl#1}}\expandafter \@tempa
+\expandafter{\refstepcounter{#1}#2\ \@nameuse{the#1}}%
+%
+    \global \expandafter \def \csname end#1\endcsname {%
+    \ifpr@kaitou
+%
+      \@whilenum\K@currentenumdepth>\@enumdepth\do{%
+        \xDecr\K@currentenumdepth
+        \ifx\empty\edaenumopt
+          \ifx\empty\betaenumopt
+            \immediate\write\kaitou@out{\string\end\string\Kaienumerate\string\def\string\Kaienumerate{enumerate}\string\def\string\Kaienumopt{}}%
+          \else
+            \immediate\write\kaitou@out{\string\end{betaenumerate}\string\par}%
+            \xdef\betaenumopt{\empty}%
+          \fi
+        \else
+          \immediate\write\kaitou@out{\string\end{edaenumerate}\string\par}%
+          \xdef\edaenumopt{\empty}%
+        \fi
+      }%
+%
+      \immediate\write\kaitou@out{\string\end{\Aeprobname}}%
+      \global\pr@kaitoufalse
+    \fi
+    \@endtheorem}}%
+}
+%
+\gdef\@othm#1[#2]#3{%
+%\typeout{now! @othm:arg1=#1,arg2=#2,arg3=#3}%
+  \expandafter\ifx\csname c@#2\endcsname\relax
+   \@nocounterr{#2}%
+  \else
+   \expandafter\@ifdefinable\csname #1\endcsname
+   {\expandafter \xdef \csname the#1\endcsname
+     {\expandafter \noexpand \csname the#2\endcsname}%
+    \def\@tempa{\global\@namedef{#1}}\expandafter \@tempa
+     \expandafter{\csname th@\the \theorem@style \expandafter
+     \endcsname \the\theorem@bodyfont \@thm{#2}[#1]{#3}}%
+%
+\def\@tempa{\global\@namedef{ttl#1}}\expandafter \@tempa
+\expandafter{\refstepcounter{#1}#2\ \@nameuse{the#1}}%
+%
+    \global \expandafter \def \csname end#1\endcsname {%
+    \ifpr@kaitou
+%
+      \@whilenum\K@currentenumdepth>\@enumdepth\do{%
+        \xDecr\K@currentenumdepth
+        \ifx\empty\edaenumopt
+          \ifx\empty\betaenumopt
+            \immediate\write\kaitou@out{\string\end\string\Kaienumerate\string\def\string\Kaienumerate{enumerate}\string\def\string\Kaienumopt{}}%
+          \else
+            \immediate\write\kaitou@out{\string\end{betaenumerate}\string\par}%
+            \xdef\betaenumopt{\empty}%
+          \fi
+        \else
+          \immediate\write\kaitou@out{\string\end{edaenumerate}\string\par}%
+          \xdef\edaenumopt{\empty}%
+        \fi
+      }%
+%
+      \immediate\write\kaitou@out{\string\end{\Aeprobname}}%
+      \global\pr@kaitoufalse
+    \fi
+    \@endtheorem}}%
+  \fi}%
+%
+\def\EMthmlabel#1{{\let\@currentlabel\EM@currentlabel
+  \let\apnitem\@gobble
+  \label{\prelabel #1}}}%
+%
+\gdef\@thm#1{\@ifnextchar[{\@thm@{#1}}{\@thm@{#1}[#1]}}
+\gdef\@thm@#1[#2]#3{\refstepcounter{#1}%
+%\typeout{now! @thm@:arg1=#1,arg2=#2,arg3=#3}%
+\EMedef\EM@currentlabel{#3\@currentlabel}%
+%\typeout{EMcurrentlabel=\EM@currentlabel}%
+  \ifnum\csname #1@minipagetrue\endcsname>\z@
+    \def\minipage@flg{}\@minipagetrue
+  \fi
+  \trivlist
+  \itemindent=\csname #2@itemindent\endcsname
+  \leftmargin=\csname #2@leftmargin\endcsname
+%  \labelsep=\csname #2@labelsep\endcsname
+  \advance\linewidth -\leftmargin
+  \advance\@totalleftmargin \leftmargin
+  \parshape \@ne \@totalleftmargin \linewidth
+  \@topsep \csname #2@preskipamount\endcsname
+  \@topsepadd \csname #2@postskipamount\endcsname
+  \def\frame@name{\csname #2@frame\endcsname}%
+  \def\ttlcmd@name{\csname #2@ttlcmd\endcsname}%
+  \EMedef\box@opt{\csname #2@boxopt\endcsname}%d
+  \def\K@Kaitou{\csname #2@KKaitou\endcsname}%
+  \def\post@Thnum{\csname #2@postThnum\endcsname}%
+  \def\post@Th{\csname #2@postTh\endcsname}%
+%\typeout{box@opt:\box@opt}%
+  \ifnum\K@Kaitou>\z@
+    \let\Kaitou\KKaitou
+    \let\endKaitou\endKKaitou
+    \long\def\kaitou##1{{
+      \immediate\openout\KKai@whndl=\EM@workfiledir\jobname.KK
+      \expandafter\verbatimR@addtoline\expandafter{\protect ##1}%
+      \immediate\write\KKai@whndl{\the\verbatim@line}%
+      \immediate\closeout\KKai@whndl
+    }}%
+  \fi
+%  \@topsep \theorempreskipamount               % used by first \item
+%  \@topsepadd \theorempostskipamount           % used by \@endparenv
+  \parindent=1zw\relax
+\EMedef\Aeprob{#1}%
+\EMedef\Aeprobname{#2}%
+  \def\makelabel##1{\hspace*{-\leftmargin}%
+    \hspace{\csname #1@Leftmargin\endcsname}%
+    \csname #1@frontThnum\endcsname{\!\!##1}%\csname #1@postThnum\endcsname
+  }%
+  \@ifnextchar<{\@thm@@{#1}{#3}}{\@thm@@@{#1}{#3}}%
+}%
+\def\@thm@@#1#2<#3>{%
+  \setkeys{EMthmi}{#3}\@thm@@@{#1}{#2}%
+}%
+\def\@thm@@@#1#2{%
+  \@ifundefined{minipage@true}{}{\@minipagetrue}
+  \@ifundefined{EMthm@preskipamounti}{}{\@topsep\EMthm@preskipamounti}%
+  \@ifundefined{EMthm@postskipamounti}{}{\@topsepadd\EMthm@postskipamounti}%
+  \@ifnextchar [%
+  {\@ythm{#1}{#2}}%
+  {\@begintheorem{#2}{\csname the#1\endcsname}}}%
+%
+\gdef\theoremstyle#1{%
+   \@ifundefined{th@#1}{\@warning
+          {Unknown theoremstyle `#1'. Using `plain'}%
+          \theorem@style{plain}}%
+      {\theorem@style{#1}}%
+      \ifthenelse{\equal{#1}{boxed}}{\def\EMthm@leftmargin{0pt}}{}%
+      \begingroup
+        \csname th@\the\theorem@style \endcsname
+      \endgroup}
+%
+\let\newtheorem\EMtheorem
+\theoremstyle{plain}
+%
+% \IfFileExists{EMproof.sty}{\RequirePackage{EMproof}}{}%
+%
+\endinput
+
+v 0.01 2004/05/21
+    \global\let\@endtheorem=\endlist を附加
+v 0.02 2004/07/19
+    <leftmargin=..>オプション
+    <Leftmargin=..>オプション
+v 0.03 2004/07/25
+    <postThnum=..>オプション
+v 0.04 2004/07/26
+    \ttlteiri など
+v 0.05 2006/10/07
+    <frontThnum=..> オプション
+v 0.06 2006/10/08
+    emathAe.sty との連携
+v 0.07 2007/05/01
+    \newtheorem#1#2[#3]に対応：\gdef\@xnthm#1#2[#3] にパッチ
+v 0.08 2007/05/06
+    \newtheorem#1[#2]#3 に対応
+v 0.09 2008/01/31
+    \if@prkaitou: 二重定義防止
+v 0.10 2010/09/16
+    \theoremtype{EMplain}
+v 0.11 2011/04/18
+    各 theorem環境などに <...> オプション
+v 0.12 2011/05/12
+    \theoremstyle{nonumber}
+v 0.13 2011/06/13
+    \theoremstyle{boxed}
+v 0.14 2011/06/17
+    <frame=...>
+v 0.15 2011/07/10
+    preskipamout,postskipamout : \newtheorem, \begin{teiri} 双方に
+v 0.16 2011/12/15
+    \postTh
+v 0.17 2012/01/08
+    \theoremstyle{nonumberbreak}
+v 0.18 2012/12/15
+    EMproof環境
+v 0.19 2013/07/24
+    <ttlcmd=..>
+v 0.20 2013/12/21
+    EMproof を切り離す。
+v 0.21 2015/01/15
+    \@thm@ で，arg1 と arg2 を取り違えていた。（普通の使用では，arg1=arg2）
+v 0.22 2015/01/22
+    \EMthmlabel: 環境名を含めた相互参照
+v 0.23 2015/06/08
+    \theoremstyle{breaknum}

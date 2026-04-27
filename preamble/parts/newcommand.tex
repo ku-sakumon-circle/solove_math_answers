@@ -1,0 +1,64 @@
+% ローマ数字
+\newcounter{rom}
+\newcommand{\Rnum}[1]{\setcounter{rom}{#1}\hspace{-0.1ex}\Roman{rom}\hspace{-0.1ex}}
+
+% 記号・体裁
+\newcommand{\disp}{\displaystyle}
+\newcommand{\dou}{\Leftrightarrow}
+\newcommand{\naraba}{\Rightarrow}
+\newcommand{\nea}{\nearrow}
+\newcommand{\sea}{\searrow}
+\newcommand{\ovl}{\overline}
+\newcommand{\parena}[1]{\left(#1\right)}
+\newcommand*{\vvv}{\overrightarrow}
+\newcommand{\mr}{\mathrm}
+\newcommand{\mb}{\mathbb}
+\renewcommand{\leq}{\leqq}
+\renewcommand{\geq}{\geqq}
+\renewcommand\thefootnote{*\arabic{footnote}}
+
+% 問題・証明まわり
+\newcommand{\syoumon}[1]{\vspace{1ex}\hspace{1eM}{\large (\textbf{#1})}\par\vspace{1ex}}
+\newcommand{\step}[2]{\textbf{Step #1.} (#2)\quad}
+\newcommand{\prf}{\noindent{\large (\textbf{Proof.})\quad}}
+\newcommand{\bealn}[1]{\begin{align*}#1\end{align*}}
+\newcommand{\ben}{\begin{enumerate}}
+\newcommand{\een}{\end{enumerate}}
+\newcommand{\tf}{\textbf}
+\newcommand{\bolm}[1]{{\mbox{\boldmath $#1$}}}
+
+% 組合せ・装飾
+\newcommand{\combi}[2]{{}_{#1}\mathrm{C}_{#2}}
+\newcommand{\permu}[2]{{}_{#1}\mathrm{P}_{#2}}
+\newcommand{\maru}{$\circledcirc$}
+\newcommand{\marunum}[1]{\raise0.2ex\hbox{\textcircled{\footnotesize{#1}}}}
+\newcommand{\hosi}{$\bigstar$}
+\newcommand{\jap}{\mbox}
+
+% 黒板文字（\X 形式で統一）
+\newcommand{\A}{\mathbb{A}}
+\newcommand{\B}{\mathbb{B}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\D}{\mathbb{D}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\G}{\mathbb{G}}
+\renewcommand{\H}{\mathbb{H}}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\J}{\mathbb{J}}
+\newcommand{\K}{\mathbb{K}}
+\renewcommand{\L}{\mathbb{L}}
+\newcommand{\M}{\mathbb{M}}
+\newcommand{\N}{\mathbb{N}}
+\renewcommand{\O}{\mathbb{O}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\renewcommand{\S}{\mathbb{S}}
+\newcommand{\T}{\mathbb{T}}
+\newcommand{\U}{\mathbb{U}}
+\newcommand{\V}{\mathbb{V}}
+\newcommand{\W}{\mathbb{W}}
+\newcommand{\X}{\mathbb{X}}
+\newcommand{\Y}{\mathbb{Y}}
+\newcommand{\Z}{\mathbb{Z}}

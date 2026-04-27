@@ -1,0 +1,17 @@
+\begin{thm}{205}{\hosi 6}{奈良県医大 (2009)}
+ $n$を2以上の整数とし、1から$n$までの相異なる$n$個の整数を横一列に並べて得られる各順列$\sigma$に対して、左から$i$番目の数字を$\sigma(i)$と記す。このとき、$1\le i < j \le n$ かつ $\sigma(i)>\sigma(j)$ を満たす整数の対$(i,j)$の個数を$l(\sigma)$とおく。さらに、1から$n$までの順列$\sigma$全体のなす集合を$S$とする。$\sigma$が$S$全体を動くとき、$l(\sigma)$の総和$\disp \sum_{\sigma\in S} l(\sigma)$ を求めよ。
+\end{thm}
+
+集合$S$の要素の個数は、1から$n$までの相異なる$n$個の整数を横一列に並べる順列の総数だから、$n!$である。
+
+ある順列$\sigma$に対して、数の並びを逆にした順列を$\sigma^*$とおく。すなわち、任意の$1\le i\le n$について、$\sigma(i)=\sigma^*(n+1-i)$が成り立つ。
+
+順列$\sigma$と$1\le i < j \le n$なる$i,j$において、$\sigma(i)>\sigma(j)$が成り立つとき、$\sigma^*(n+1-i)>\sigma^*(n+1-j)$も成り立つ。また$\sigma(i)<\sigma(j)$が成り立つとき、$\sigma^*(n+1-i)<\sigma^*(n+1-j)$も成り立つ。このことから、
+\[ l(\sigma)+l(\sigma^*)=\combi{n}{2} \]
+となることが従う。$\sigma$が$S$全体を動くとき、$\sigma^*$も$S$全体を動くから、
+\begin{align*}
+ 2\sum_{\sigma\in S} l(\sigma) &= \sum_{\sigma\in S} l(\sigma) + \sum_{\sigma^*\in S} l(\sigma^*)=\sum_{\sigma\in S} \Bigl(l(\sigma)+l(\sigma^*)\Bigr) \\
+ &=\sum_{\sigma\in S} \combi{n}{2}=n!\combi{n}{2}
+\end{align*}
+と計算される。したがって求めるものは、
+\[ \sum_{\sigma\in S} l(\sigma) = \frac{n(n-1)n!}{4} \]

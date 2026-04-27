@@ -1,0 +1,500 @@
+% emathSt.sty by tDB(emath@nifty.com)
+%
+  \ProvidesPackage{emathSt}[2012/06/02 v 0.07alpha]%
+%
+  \RequirePackage{keyval}%
+%  \RequirePackage{emath}%
+  \RequirePackage{emathPl}%
+%
+\define@key{EMst}{byfile}[1]{\edef\by@file{#1}}%
+\define@key{EMst}{siryoumei}{\edef\EMst@siryoumei{#1}}%
+\define@key{EMst}{kosuu}[kosuu]{\edef\EMst@kosuu{#1}}%
+\define@key{EMst}{MAX}[MAX]{\edef\EMst@max{#1}}%
+\define@key{EMst}{saidai}[saidai]{\edef\EMst@max{#1}}%
+\define@key{EMst}{MIN}[MIN]{\edef\EMst@min{#1}}%
+\define@key{EMst}{saisyou}[saisyou]{\edef\EMst@min{#1}}%
+\define@key{EMst}{SUM}[SUM]{\edef\EMst@souwa{#1}}%
+\define@key{EMst}{souwa}[souwa]{\edef\EMst@souwa{#1}}%
+\define@key{EMst}{souwai}[souwai]{\edef\EMst@souwa{#1}}%
+\define@key{EMst}{souwaii}[souwaii]{\edef\EMst@souwa{#1}}%
+\define@key{EMst}{mean}[mean]{\edef\EMst@heikin{#1}}%
+\define@key{EMst}{heikin}[heikin]{\edef\EMst@heikin{#1}}%
+\define@key{EMst}{heikini}[heikini]{\edef\EMst@heikin{#1}}%
+\define@key{EMst}{heikinii}[heikinii]{\edef\EMst@heikin{#1}}%
+\define@key{EMst}{variance}[variance]{\strip@cmd{1}\EMst@bunsan{#1}}%
+\define@key{EMst}{bunsan}[bunsan]{\edef\EMst@bunsan{#1}}%
+\define@key{EMst}{bunsani}[bunsani]{\edef\EMst@bunsan{#1}}%
+\define@key{EMst}{bunsanii}[bunsanii]{\edef\EMst@bunsan{#1}}%
+\define@key{EMst}{sd}[sd]{\edef\EMst@hyouzyunhensa{#1}}%
+\define@key{EMst}{hyouzyunhensa}[hyouzyunhensa]{%
+                    \edef\EMst@hyouzyunhensa{#1}}%
+\define@key{EMst}{hyouzyunhensai}[hyouzyunhensai]{%
+                    \edef\EMst@hyouzyunhensa{#1}}%
+\define@key{EMst}{hyouzyunhensaii}[hyouzyunhensaii]{%
+                    \edef\EMst@hyouzyunhensa{#1}}%
+\define@key{EMst}{median}[median]{\edef\EMst@median{#1}}%
+\define@key{EMst}{lhinge}[lhinge]{\edef\EMst@lhinge{#1}}%
+\define@key{EMst}{uhinge}[uhinge]{\edef\EMst@uhinge{#1}}%
+\define@key{EMst}{sibunni}[sibunni]{\edef\EMst@sibunni{#1}}%
+\define@key{EMst}{quartilei}[quartilei]{\edef\EMst@sibunni{#1}}%
+\define@key{EMst}{sibunniii}[sibunniii]{\edef\EMst@sibunniii{#1}}%
+\define@key{EMst}{quartileiii}[quartileiii]{\edef\EMst@sibunniii{#1}}%
+\define@key{EMst}{sorted}[sorted]{\edef\EMst@sorted{#1}}%
+\define@key{EMst}{rsorted}[rsorted]{\edef\EMst@rsorted{#1}}%
+\define@key{EMst}{reversed}[reversed]{\edef\EMst@reversed{#1}}%
+%
+\def\goukei#1#2{%
+  \CalcVal{%
+    my @dta=(#1);
+    my $SUM=0;
+    foreach (@dta){
+      $SUM+=$_;
+    }
+    printf FHNDL"\@percent s\string\n",$SUM;
+  }#2\relax
+}%
+\def\heikin#1#2{%
+  \CalcVal{%
+    my @dta=(#1);
+    my $SUM=0;
+    my $n=0;
+    foreach (@dta){
+      $SUM+=$_;
+      $n++;
+    }
+    printf FHNDL"\@percent s\string\n",$SUM/$n;
+  }#2\relax
+}%
+\def\bunsan#1#2{%
+  \CalcVal{%
+    my @dta=(#1);
+    my $SUM=0;
+    my $SSUM=0;
+    my $n=0;
+    foreach (@dta){
+      $SUM+=$_;
+      $SSUM+=$_*$_;
+      $n++;
+    }
+    printf FHNDL"\@percent s\string\n",$SSUM/$n-($SUM/$n)**2;
+  }#2\relax
+}%
+\def\hyouzyunhensa#1#2{%
+  \CalcVal{%
+    my @dta=(#1);
+    my $SUM=0;
+    my $SSUM=0;
+    my $n=0;
+    foreach (@dta){
+      $SUM+=$_;
+      $SSUM+=$_*$_;
+      $n++;
+    }
+    printf FHNDL"\@percent s\string\n",sqrt($SSUM/$n-($SUM/$n)**2);
+  }#2\relax
+}%
+%
+\def\toukeiryou<#1>#2{%
+  \def\by@file{0}%
+  \edef\EMst@siryoumei{\empty}%
+  \edef\EMst@max{\empty}%
+  \edef\EMst@min{\empty}%
+  \edef\EMst@kosuu{\empty}%
+  \edef\EMst@souwa{\empty}%
+  \edef\EMst@heikin{\empty}%
+  \edef\EMst@bunsan{\empty}%
+  \edef\EMst@hyouzyunhensa{\empty}%
+  \edef\EMst@median{\empty}%
+  \edef\EMst@lhinge{\empty}%
+  \edef\EMst@uhinge{\empty}%
+  \edef\EMst@sibunni{\empty}%
+  \edef\EMst@sibunniii{\empty}%
+  \edef\EMst@sorted{\empty}%
+  \edef\EMst@rsorted{\empty}%
+  \edef\EMst@reversed{\empty}%
+  \ifx\empty #1\else\setkeys{EMst}{#1}\fi
+  \ifnum\by@file>\z@\EMinputdatafile[,]{#2}\tk@dt\else\edef\tk@dt{#2}\fi
+  \ifx\empty\EMst@siryoumei\else
+    \ifx\empty\EMst@max\else
+      \edeffrontappend\EMst@max{\EMst@siryoumei}%
+    \fi
+    \ifx\empty\EMst@min\else
+      \edeffrontappend\EMst@min{\EMst@siryoumei}%
+    \fi
+    \ifx\empty\EMst@kosuu\else
+      \edeffrontappend\EMst@kosuu{\EMst@siryoumei}%
+    \fi
+    \ifx\empty\EMst@souwa\else
+      \edeffrontappend\EMst@souwa{\EMst@siryoumei}%
+    \fi
+    \ifx\empty\EMst@heikin\else
+      \edeffrontappend\EMst@heikin{\EMst@siryoumei}%
+    \fi
+    \ifx\empty\EMst@bunsan\else
+      \edeffrontappend\EMst@bunsan{\EMst@siryoumei}%
+    \fi
+    \ifx\empty\EMst@hyouzyunhensa\else
+      \edeffrontappend\EMst@hyouzyunhensa{\EMst@siryoumei}%
+    \fi
+    \ifx\empty\EMst@median\else
+      \edeffrontappend\EMst@median{\EMst@siryoumei}%
+    \fi
+    \ifx\empty\EMst@lhinge\else
+      \edeffrontappend\EMst@lhinge{\EMst@siryoumei}%
+    \fi
+    \ifx\empty\EMst@uhinge\else
+      \edeffrontappend\EMst@uhinge{\EMst@siryoumei}%
+    \fi
+    \ifx\empty\EMst@sibunni\else
+      \edeffrontappend\EMst@sibunni{\EMst@siryoumei}%
+    \fi
+    \ifx\empty\EMst@sibunniii\else
+      \edeffrontappend\EMst@sibunniii{\EMst@siryoumei}%
+    \fi
+    \ifx\empty\EMst@sorted\else
+      \edeffrontappend\EMst@sorted{\EMst@siryoumei}%
+    \fi
+    \ifx\empty\EMst@rsorted\else
+      \edeffrontappend\EMst@rsorted{\EMst@siryoumei}%
+    \fi
+    \ifx\empty\EMst@reversed\else
+      \edeffrontappend\EMst@reversed{\EMst@siryoumei}%
+    \fi
+  \fi
+  \CalcVals{%
+    my @dta=(\tk@dt);
+    my $SUM=0;
+    my $SSUM=0;
+    my $n=0;
+    my $MAX=$dta[0];
+    my $MIN=$dta[0];
+    foreach (@dta){
+      if ($_>$MAX) {$MAX=$_;}
+      if ($_<$MIN) {$MIN=$_;}
+      $SUM+=$_;
+      $SSUM+=$_*$_;
+      $n++;
+    }
+    my $heikin=$SUM/$n;
+    my $bunsan=$SSUM/$n-($SUM/$n)**2;
+    my $sd=sqrt($bunsan);
+    my @sorted = sort {$a <=> $b} @dta;
+    my $nmi=$n-1;
+    my $m=int($nmi/2);
+    my $p=$nmi/2-$m;
+    my $lhinge=0;
+    my $uhinge=0;
+    my $median = ($p==0)? $sorted[$m] : ($sorted[$m]+$sorted[$m+1])/2;
+       if ($p==0) {
+          my $lm=int($m/2);
+          $p=$m/2-$lm;
+          $lhinge=(1-$p)*$sorted[$lm]+$p*$sorted[$lm+1];
+          $uhinge=(1-$p)*$sorted[$m+$lm]+$p*$sorted[$m+$lm+1];
+       }else{
+          my $lm=int($m/2);
+          $p=$m/2-$lm;
+          $lhinge=(1-$p)*$sorted[$lm]+$p*$sorted[$lm+1];
+          $uhinge=(1-$p)*$sorted[1+$m+$lm]+$p*$sorted[1+$m+$lm+1];
+       }
+%    my $m=int($nmi/4); $p=$nmi/4-$m;
+%    my $sibunni=(1-$p)*$sorted[$m]+$p*$sorted[$m+1];
+%    my $sibunniii = 0;
+%    my $m=int(3*$nmi/4); $p=3*$nmi/4-$m;
+%    my $sibunniii = (1-$p)*$sorted[$m]+$p*$sorted[$m+1];
+    my $m=int($n/4); $p=$n-$m*4;
+    if ($p==0) {
+      $sibunni=($sorted[$m-1]+$sorted[$m])/2;
+      $sibunniii=($sorted[3*$m-1]+$sorted[3*$m])/2;
+    }elsif ($p==1) {
+      $sibunni=($sorted[$m-1]+$sorted[$m])/2;
+      $sibunniii=($sorted[3*$m]+$sorted[3*$m+1])/2;
+    }elsif ($p==2) {
+      $sibunni=$sorted[$m];
+      $sibunniii=$sorted[3*$m+1];
+    }else {
+      $sibunni=$sorted[$m];
+      $sibunniii=$sorted[3*$m+2];
+    }
+    print FHNDL $n, "\string\n";
+    print FHNDL $MAX, "\string\n";
+    print FHNDL $MIN, "\string\n";
+    print FHNDL $SUM, "\string\n";
+    print FHNDL $heikin, "\string\n";
+    print FHNDL $bunsan, "\string\n";
+    print FHNDL $sd, "\string\n";
+    print FHNDL $median, "\string\n";
+    print FHNDL join(',',@sorted), "\string\n";
+    print FHNDL join(',',reverse(@sorted)), "\string\n";
+    print FHNDL join(',',reverse(@dta)), "\string\n";
+    print FHNDL $sibunni, "\string\n";
+    print FHNDL $sibunniii, "\string\n";
+    print FHNDL $lhinge, "\string\n";
+    print FHNDL $uhinge, "\string\n";
+  }{EMst@ryou}
+  \ifx\empty\EMst@kosuu\else
+    \expandafter\edef\csname \EMst@kosuu\endcsname{\hairetu{EMst@ryou}{1}}\fi
+  \ifx\empty\EMst@max\else
+    \expandafter\edef\csname \EMst@max\endcsname{\hairetu{EMst@ryou}{2}}\fi
+  \ifx\empty\EMst@min\else
+    \expandafter\edef\csname \EMst@min\endcsname{\hairetu{EMst@ryou}{3}}\fi
+  \ifx\empty\EMst@souwa\else
+    \expandafter\edef\csname \EMst@souwa\endcsname{\hairetu{EMst@ryou}{4}}\fi
+  \ifx\empty\EMst@heikin\else
+    \expandafter\edef\csname \EMst@heikin\endcsname{\hairetu{EMst@ryou}{5}}\fi
+  \ifx\empty\EMst@bunsan\else
+    \expandafter\edef\csname \EMst@bunsan\endcsname{\hairetu{EMst@ryou}{6}}\fi
+  \ifx\empty\EMst@hyouzyunhensa\else\expandafter\edef\csname 
+    \EMst@hyouzyunhensa\endcsname{\hairetu{EMst@ryou}{7}}\fi
+  \ifx\empty\EMst@median\else\expandafter\edef\csname 
+    \EMst@median\endcsname{\hairetu{EMst@ryou}{8}}\fi
+  \ifx\empty\EMst@sorted\else\expandafter\edef\csname 
+    \EMst@sorted\endcsname{\hairetu{EMst@ryou}{9}}\fi
+  \ifx\empty\EMst@rsorted\else\expandafter\edef\csname 
+    \EMst@rsorted\endcsname{\hairetu{EMst@ryou}{10}}\fi
+  \ifx\empty\EMst@reversed\else\expandafter\edef\csname 
+    \EMst@reversed\endcsname{\hairetu{EMst@ryou}{11}}\fi
+  \ifx\empty\EMst@sibunni\else\expandafter\edef\csname 
+    \EMst@sibunni\endcsname{\hairetu{EMst@ryou}{12}}\fi
+  \ifx\empty\EMst@sibunniii\else\expandafter\edef\csname 
+    \EMst@sibunniii\endcsname{\hairetu{EMst@ryou}{13}}\fi
+  \ifx\empty\EMst@lhinge\else\expandafter\edef\csname 
+    \EMst@lhinge\endcsname{\hairetu{EMst@ryou}{14}}\fi
+  \ifx\empty\EMst@uhinge\else\expandafter\edef\csname 
+    \EMst@uhinge\endcsname{\hairetu{EMst@ryou}{15}}\fi
+}%
+\def\hensati{\@ifnextchar<{\@henasti}{\@hensati<\empty>}}%
+\def\@hensati<#1>#2#3{%
+  \edef\hs@m{\csname \EMst@heikin\endcsname}%
+  \edef\hs@ss{\csname \EMst@hyouzyunhensa\endcsname}%
+  \calcval{50+10*(#2-\hs@m)/\hs@ss}#3\relax
+}%
+%
+% 相関係数
+%
+\def\EMcorrel{\@ifnextchar<{\@EMcorrel}{\@EMcorrel<\empty>}}%
+\def\@EMcorrel<#1>{%
+  \def\by@file{0}%
+  \edef\EMst@kosuu{\empty}%
+  \edef\EMst@souwai{\empty}%
+  \edef\EMst@souwaii{\empty}%
+  \edef\EMst@heikini{\empty}%
+  \edef\EMst@heikinii{\empty}%
+  \edef\EMst@bunsani{\empty}%
+  \edef\EMst@bunsanii{\empty}%
+  \edef\EMst@hyouzyunhensai{\empty}%
+  \edef\EMst@hyouzyunhensaii{\empty}%
+  \ifx\empty #1\else\setkeys{EMst}{#1}\fi
+  \ifthenelse{\by@file>\z@}{%
+    \EMcorrel@
+  }{%
+    \@@EMcorrel
+  }%
+}%
+\def\EMcorrel@#1{%
+  \getflext{#1}\Pm@tmp\Pm@ext
+  \ifthenelse{\equal{\Pm@ext}{csv}}{%
+%    \errmessage{EMcorrel: not supported csv}%
+    \EMinputcsvfile{#1}{correl@h}%
+    \edef\correl@f{\hairetu{correl@h}{1}}%
+    \Ifor*\i@val{2}\correl@hN\Do{%
+      \edefappend\correl@f{;\hairetu{correl@h}{\i@val}}%
+    }%
+    \convcsv<transposed>\correl@f\correl@k
+    \Strsep\correl@k{;}\correl@a\correl@b
+    \@@EMcorrel\correl@a\correl@b
+  }{%
+    \@EMcorrel@{#1}%
+  }%
+}%
+\def\@EMcorrel@#1#2{%
+  \EMinputdatafile[,]{#1}\sk@dti
+  \EMinputdatafile[,]{#2}\sk@dtii
+  \@@EMcorrel\sk@dti\sk@dtii
+}%
+\def\@@EMcorrel#1#2#3{%
+  \edef\tk@dti{#1}%
+  \edef\tk@dtii{#2}%
+%\typeout{dti=\tk@dti,dtii=\tk@dtii}%
+  \CalcVal{%
+    my @dtai=(\tk@dti);
+    my @dtaii=(\tk@dtii);
+    my $SUMi=0;
+    my $SUMii=0;
+    my $SSUMi=0;
+    my $SSUMii=0;
+    my $n=0;
+    foreach (@dtai){
+      $SUMi+=$_;
+      $SSUMi+=$_*$_;
+      $n++;
+    }
+    my $N=$n;
+    $n=0;
+    foreach (@dtaii){
+      $SUMii+=$_;
+      $SSUMii+=$_*$_;
+      $n++;
+    }
+    if ($N==$n)
+      {
+        my $heikini=$SUMi/$n;
+        my $heikinii=$SUMii/$n;
+        my $bunsani=$SSUMi/$n-($SUMi/$n)**2;
+        my $bunsanii=$SSUMii/$n-($SUMii/$n)**2;
+        my $sdi=sqrt($bunsani);
+        my $sdii=sqrt($bunsanii);
+        my $correl=0;
+        for (my $i=0;$i<$n;$i++){
+          $correl+=($dtai[$i]-$heikini)*($dtaii[$i]-$heikinii);
+        }
+        $correl=$correl/($n*$sdi*$sdii);
+        printf FHNDL"\@percent s,\@percent s,\@percent s,\@percent s,\@percent s,\@percent s,\@percent s,\@percent s,\@percent s,\@percent s\string\n",$n,$SUMi,$SUMii,$heikini,$heikinii,$bunsani,$bunsanii,$sdi,$sdii,$correl;
+      }
+    else 
+      {print FHNDL "$N,$n,0,0,0,0,0,0,0,9";}
+  }\EMst@ryou
+  \Strsep\EMst@ryou{,}\EMst@tmp\EMst@cont
+  \ifx\empty\EMst@kosuu
+    \else\expandafter\edef\csname \EMst@kosuu\endcsname{\EMst@tmp}\fi
+  \Strsep\EMst@cont{,}\EMst@tmp\EMst@cont
+  \ifx\empty\EMst@souwai
+    \else\expandafter\edef\csname \EMst@souwai\endcsname{\EMst@tmp}\fi
+  \Strsep\EMst@cont{,}\EMst@tmp\EMst@cont
+  \ifx\empty\EMst@souwaii
+    \else\expandafter\edef\csname \EMst@souwaii\endcsname{\EMst@tmp}\fi
+  \Strsep\EMst@cont{,}\EMst@tmp\EMst@cont
+  \ifx\empty\EMst@heikini
+    \else\expandafter\edef\csname \EMst@heikini\endcsname{\EMst@tmp}\fi
+  \Strsep\EMst@cont{,}\EMst@tmp\EMst@cont
+  \ifx\empty\EMst@heikinii
+    \else\expandafter\edef\csname \EMst@heikinii\endcsname{\EMst@tmp}\fi
+  \Strsep\EMst@cont{,}\EMst@tmp\EMst@cont
+  \ifx\empty\EMst@bunsani
+    \else\expandafter\edef\csname \EMst@bunsani\endcsname{\EMst@tmp}\fi
+  \Strsep\EMst@cont{,}\EMst@tmp\EMst@cont
+  \ifx\empty\EMst@bunsanii
+    \else\expandafter\edef\csname \EMst@bunsanii\endcsname{\EMst@tmp}\fi
+  \Strsep\EMst@cont{,}\EMst@tmp\EMst@cont
+  \ifx\empty\EMst@hyouzyunhensai
+    \else\expandafter\edef\csname \EMst@hyouzyunhensai\endcsname{\EMst@tmp}\fi
+  \Strsep\EMst@cont{,}\EMst@tmp\EMst@cont
+  \ifx\empty\EMst@hyouzyunhensaii
+    \else\expandafter\edef\csname \EMst@hyouzyunhensaii\endcsname{\EMst@tmp}\fi
+  \Strsep\EMst@cont{,}\EMst@tmp\EMst@cont
+  \edef #3{\EMst@tmp}%
+  \ifthenelse{\lengthtest{#3 \p@>\p@}}{%
+    \errmessage{emathSt:EMcorrel: illegal data}
+  }{}%
+}%
+\let\soukankeisuu\EMcorrel
+%
+% 度数分布
+%
+\define@key{EMst}{varmax}[1]{\edef\DB@xmax{#1}}%
+\define@key{EMst}{varsup}[1]{\edef\DB@xsup{#1}\edef\DB@xmax{#1}}%
+\define@key{EMst}{varmin}[1]{\edef\DB@xmin{#1}}%
+\define@key{EMst}{varwidth}[1]{\edef\DB@dx{#1}}%
+\define@key{EMst}{Afreq}[Afreq]{\edef\DB@freq{#1}}%
+\define@key{EMst}{soutaidosuu}[1]{\edef\soutai@dosuu{#1}}%
+\define@key{EMst}{outputcsv}{\edef\DB@outcsv{#1}}%
+\define@key{EMst}{showtable}[1]{\edef\DB@showtable{#1}}%
+\def\dosuubunpu{\@ifnextchar({\@dosuubunpu}{\@dosuubunpu(\empty)}}%
+\def\@dosuubunpu(#1){%
+  \@ifnextchar<{\@@dosuubunpu(#1)}{\@@dosuubunpu(#1)<\empty>}%
+}%
+\def\@@dosuubunpu(#1)<#2>#3{%
+  \def\by@file{0}%
+  \edef\DB@xmin{0}%
+  \edef\DB@xmax{100}%
+  \edef\DB@xsup{\empty}%
+  \edef\DB@dx{10}%
+  \edef\DB@freq{Afreq}%
+  \edef\soutai@dosuu{0}%
+  \edef\EMst@siryoumei{\empty}%
+  \def\DB@showtable{0}%
+  \edef\DB@outcsv{\empty}%
+  \ifx\empty #1\else\setkeys{EMst}{#1}\fi
+  \edef\DB@siryoumei{\EMst@siryoumei}%
+  \edeffrontappend\DB@freq{\DB@siryoumei}%
+  \edef\DB@tmp{<kosuu,sorted}%
+  \ifnum\by@file>\z@\edefappend\DB@tmp{,byfile}\fi
+  \ifx\empty\DB@siryoumei\else\edefappend\DB@tmp{,siryoumei=\DB@siryoumei}\fi
+  \ifx\empty #2\else\edefappend\DB@tmp{,#2}\fi
+  \edefappend\DB@tmp{>}%
+  \expandafter\toukeiryou\DB@tmp{#3}%
+  \csvhairetu*{\csname\EMst@sorted\endcsname}{DB@sorted}%
+%\prhairetu{DB@sorted}\newpage
+  \Sub\DB@xmax\DB@xmin\DB@tmp
+  \Divself\DB@tmp\DB@dx
+  \Int\DB@tmp\DB@dmax
+  \ifx\empty\DB@xsup\Incr\DB@dmax\fi
+  \expandafter\edef\csname\DB@freq N\endcsname{\DB@dmax}%
+  \Ifor*\DB@i{1}\DB@dmax\Do{\edefhairetu{\DB@freq}{\DB@i}{0}}%
+%\prhairetu{\DB@freq}%
+  \edef\end@flg{0}%
+  \Cfor{\edef\DB@d{1}\edef\DB@i{1}\Add\DB@xmin\DB@dx\DB@xnext}%
+        {\end@flg=\z@}{}\do{%
+      \ifdim\hairetu{DB@sorted}{\DB@i}\p@<\DB@xnext\p@
+        \edef\DB@tmp{\hairetu{\DB@freq}\DB@d}%
+        \Incr\DB@tmp
+        \edefhairetu{\DB@freq}{\DB@d}{\DB@tmp}%
+        \Incr\DB@i
+        \ifnum\DB@i>\DB@sortedN
+          \ifnum\soutai@dosuu>\z@
+            \@Div{\hairetu{\DB@freq}{\DB@d}}{\csname\EMst@kosuu\endcsname}\DB@f
+            \edefhairetu{\DB@freq}{\DB@d}{\DB@f}%
+          \fi
+          \edef\end@flg{1}%
+        \fi
+      \else
+        \ifnum\soutai@dosuu>\z@
+          \@Div{\hairetu{\DB@freq}{\DB@d}}{\csname\EMst@kosuu\endcsname}\DB@f
+          \edefhairetu{\DB@freq}{\DB@d}{\DB@f}%
+        \fi
+        \Incr\DB@d
+%\typeout{d=\DB@d/\DB@dmax}%
+\ifnum\DB@d>\DB@dmax\edef\DB@d{\DB@dmax}\fi
+        \Addself\DB@xnext\DB@dx
+      \fi
+  }%
+  \ifx\empty\DB@outcsv\else
+    \hairetucsv\DB@freq\tmp@csv
+    \expandafter\edef\csname\DB@outcsv\endcsname{\tmp@csv}%
+  \fi
+  \edef\varmin{\DB@xmin}%
+  \edef\varmax{\DB@xmax}%
+  \edef\varsup{\DB@xsup}%
+  \edef\varwidth{\DB@dx}%
+  \ifnum\DB@showtable>\z@
+    \edef\DB@tmp{}%
+    \edef\DB@v{\DB@xmin}%
+    \begin{tabular}{|r|r|}\hline
+      階級&度数\\\hline
+      \edef\DB@tmp{}%
+      \Ifor\DB@i{1}{\csname\DB@freq N\endcsname}\Do{%
+        \EMedefappend\DB@tmp{\DB@v\ 〜&\hairetu{\DB@freq}{\DB@i}\noexpand\\
+          \noexpand\hline}%
+        \Addself\DB@v\DB@dx
+      }%
+      \ifx\empty\DB@xsup
+        \EMedefappend\DB@tmp{\DB@v\ 　&\hairetu{\DB@freq}{\DB@i}\noexpand\\
+          \noexpand\hline}%
+      \else
+        \EMedefappend\DB@tmp{\DB@v\ 〜&\hairetu{\DB@freq}{\DB@i}\noexpand\\
+          \noexpand\hline}%
+      \fi
+      \DB@tmp
+      計&\csname\EMst@kosuu\endcsname\\\hline
+    \end{tabular}
+  \fi
+}%
+%
+\endinput
+v 0.00 2011/05/22
+v 0.01 2011/05/26 \toukeiryou<median>
+v 0.02 2011/06/03 \dosuubunpu
+v 0.03 2011/06/24 byfile ファイル形式修正
+v 0.04 2011/12/17 四分位数
+v 0.05 2011/12/25 ヒンジ
+v 0.06 2012/01/14 \EMcorrel: csv ファイルからの取り込み
+v 0.07 2012/06/02 四分位数: 高校の教科書の方式に合わせる

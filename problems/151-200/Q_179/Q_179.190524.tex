@@ -1,0 +1,18 @@
+\begin{thm}{179}{\hosi 8}{自作 DMO3rd 1}
+ 平面上に相異なる3点A, B, Cがあり、$|\vvv{\mr{AB}}|$, $|\vvv{\mr{BC}}|$ の値は素数である。$\vvv{\mr{AB}}\cdot\vvv{\mr{AC}}$, $\vvv{\mr{BA}}\cdot\vvv{\mr{BC}}$, $\vvv{\mr{CA}}\cdot\vvv{\mr{CB}}$ がこの順に等比数列をなし、$|\vvv{\mr{AC}}|^3+6$, $|\vvv{\mr{AC}}|^3-6$ が素数になるとき、$|\vvv{\mr{AB}}|$, $|\vvv{\mr{BC}}|$, $|\vvv{\mr{CA}}|$ の値を求めよ。
+\end{thm}
+
+$\vvv{\mr{AC}}=\vvv{p}$, $\vvv{\mr{AB}}=\vvv{q}$, $\vvv{\mr{BC}}=\vvv{r}$とし、$|\vvv{p}|=p$, $|\vvv{q}|=q$, $|\vvv{r}|=r$とおく。
+\[ \left(-\vvv{r}\right)^2=\left(\vvv{p}+\vvv{q}\right)^2=|\vvv{p}|^2+2\vvv{p}\cdot\vvv{q}+|\vvv{q}|^2 \]
+なので、$\vvv{p}\cdot\vvv{q}=\dfrac{r^2-p^2-q^2}{2}$となる。同様に、$\vvv{q}\cdot\vvv{r}=\dfrac{p^2-q^2-r^2}{2}$, $\vvv{r}\cdot\vvv{p}=\dfrac{q^2-p^2-r^2}{2}$である。これらが等比数列をなすことから、
+\begin{align*}
+ & \left(\frac{r^2-p^2-q^2}{2}\right) \left(\frac{q^2-p^2-r^2}{2}\right)=\left(\frac{p^2-q^2-r^2}{2}\right)^2 \\
+ \dou \qquad &2p^2(q^2+r^2)=2(q^4+r^4)
+\end{align*}
+を得る。$q, r$は素数であるから$q^2+r^2\neq 0$であるので、$p^2=\dfrac{q^4+r^4}{q^2+r^2}$~($\cdots$ ＊)と書け、$p^2$は有理数である。
+
+$p^3\pm 6$が素数、すなわち整数であるから、$p$も有理数。よって互いに素な整数$m, n$を用いて$p=\dfrac{m}{n}$とする。$p^3=\dfrac{m^3}{n^3}$において、$m^3, n^3$も互いに素であるが、$n$が素因数をもつとすると、$m$はそれを自身に持たないので、$p^3$が整数であることに反し、不適。よって$n^3=1$、すなわち$n=1$で無ければならず、$p$は整数で$p^2$も整数。
+\[ p^2=\frac{q^4+r^4}{q^2+r^2}=q^2-r^2+\frac{2r^4}{q^2+r^2} \]
+により$\dfrac{2r^4}{q^2+r^2}$も整数。$q\neq r$の場合、$r^4$と$q^2+r^2$は互いに素なので、$\dfrac{2}{q^2+r^2}$が整数になるが、$q^2+r^2\ge 2^2+2^2=8>2$より不適。したがって$q=r$。さらに(＊)から$p^2=q^2$となるから、$p=q=r$である。つまり$p$も素数。
+
+$p \not\equiv 0 \pmod{7}$のとき、$p^3\equiv 1, -1 \pmod{7}$であるから、$p^3\pm 6$のいずれか片方は7で割り切れ、かつ$p^3\pm 6 >7$であるから、素数とならず不適。$p=7$の場合には、$7^3\pm6=337, 349$はともに素数であるから適する。以上より、$p=q=r=7$。

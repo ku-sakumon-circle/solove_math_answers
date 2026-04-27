@@ -1,0 +1,57 @@
+.vscode/*.json
+
+# LaTeX build artifacts
+*.aux
+*.log
+*.out
+*.idx
+*.dvi
+*.synctex.gz
+*.synctex(busy)
+*.ilg
+*.ind
+*.toc
+*.lof
+*.lot
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.nav
+*.snm
+*.vrb
+__pycache__/
+*.pyc
+
+# Generated PDFs
+main/00main.pdf
+main/00debug.pdf
+problems/collection/*.pdf
+problems/collection/*.aux
+problems/collection/*.log
+problems/collection/*.out
+problems/collection/*.toc
+problems/collection/*.idx
+problems/collection/*.ilg
+problems/collection/*.ind
+problems/collection/*.fls
+problems/collection/*.fdb_latexmk
+problems/collection/*.synctex.gz
+problems/collection/**/*.pdf
+problems/collection/**/*.aux
+problems/collection/**/*.log
+problems/collection/**/*.out
+problems/collection/**/*.toc
+problems/collection/**/*.idx
+problems/collection/**/*.ilg
+problems/collection/**/*.ind
+problems/collection/**/*.fls
+problems/collection/**/*.fdb_latexmk
+problems/collection/**/*.synctex.gz
+
+# Trash
+mailbox/trash/
+
+# Local Windows helpers
+main/00main.ps1
+main/00debug.ps1

@@ -1,0 +1,16 @@
+\begin{thm}{172}{\hosi 5}{早稲田 教育 (2018)}
+ $\left(1+\dfrac{i}{n}\right)^n$ の実部を$a_n$、虚部を$b_n$とする。$\disp \lim_{n\to\infty} a_n$ と $\disp \lim_{n\to\infty} b_n$ を求めよ。
+\end{thm}
+
+まず、
+\[ \left|1+\frac{i}{n}\right|^n=\left[\left(1+\frac{i}{n}\right)\left(1-\frac{i}{n}\right)\right]^n=\left(1+\frac{1}{n^2}\right)^n \]
+の極限を求める。対数を取ることで
+\[ \frac{n^2\log\left(1+\frac{1}{n^2}\right)}{n}=\frac{\log\left(1+\frac{1}{n^2}\right)^{n^2}}{n} \to 0 \]
+がわかるので、$\left|1+\dfrac{i}{n}\right|^n \to 1$である。
+
+$1+\dfrac{i}{n}$の偏角を$\theta_n$ (ただし$0<\theta<\dfrac{\pi}{2}$) とすると、$\left(1+\dfrac{i}{n}\right)^n$の偏角は$n\theta_n$である。また明らかに$\theta_n \to 0$である。$\tan\theta_n=\dfrac{1}{n}$より、
+\[ n\theta_n=\frac{\theta_n}{\tan\theta_n} \to 1 \qquad (\because \theta_n\to 0) \]
+よって、
+\[ a_n+b_ni=\left|1+\frac{i}{n}\right|^n(\cos n\theta_n+i\sin n\theta_n) \]
+は絶対値1、偏角1の複素数に限りなく近づくから、
+\[ \lim_{n\to\infty} a_n=\cos 1,\quad \lim_{n\to\infty} b_n=\sin 1 \]

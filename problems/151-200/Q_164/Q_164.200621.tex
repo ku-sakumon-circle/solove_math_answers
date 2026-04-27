@@ -1,0 +1,25 @@
+\begin{thm}{164}{\hosi 5}{大阪市立大}
+ 1枚の硬貨を何回も投げ、表が2回続けて出たら終了する試行を行う。ちょうど$n$回 $(n\ge 2)$ で終了する確率を$P_n$とする。
+ \begin{enumerate}
+  \item $P_{n+1}$を、$P_n$および$P_{n-1}$で表せ。ただし$n\ge 3$とする。
+  \item $P_n$ $(n\ge 2)$ を求めよ。
+ \end{enumerate}
+\end{thm}
+
+\syoumon{1}
+$n+1$回目で終了する場合は、(1): 1回目に裏が出たあと$n$回投げて終了する、(2): 1回目に表、2回目に裏が出たあと$n-1$回投げて終了する、のいずれかであるから、
+\[ P_{n+1}=\frac{1}{2}P_n+\frac{1}{4}P_{n-1} \]
+
+\syoumon{2}
+(1)で得た漸化式は、$\alpha=\dfrac{1+\sqrt{5}}{4}$, $\beta=\dfrac{1-\sqrt{5}}{4}$を用いて
+\begin{align*}
+ P_{n+1}-\alpha P_n&=\beta(P_n-\alpha P_{n-1}) \\
+ P_{n+1}-\beta P_n&=\alpha(P_n-\beta P_{n-1}) 
+\end{align*}
+と整理できる。それぞれ解いて、
+\begin{align*}
+ P_{n+1}-\alpha P_n&=\beta^{n-1}(P_2-\alpha P_1) \\
+ P_{n+1}-\beta P_n&=\alpha^{n-1}(P_2-\beta P_1)
+\end{align*}
+明らかに$P_1=0$, $P_2=\dfrac{1}{4}$であり、$P_{n+1}$を消去して、
+\[ P_n=\frac{\alpha^{n-1}-\beta^{n-1}}{4(\alpha-\beta)}=\frac{1}{2\sqrt{5}}\left[\left(\frac{1+\sqrt{5}}{4}\right)^{n-1}\!\!-\left(\frac{1-\sqrt{5}}{4}\right)^{n-1}\right] \]

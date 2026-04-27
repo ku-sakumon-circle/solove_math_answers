@@ -1,0 +1,84 @@
+\begin{thm}{201}{\hosi ?}{}
+ 次の定積分 $\disp I=\int_0^1\! \sqrt{1+x^2} \,dx$ を求める。
+ \begin{enumerate}
+  \item $\disp \frac{1}{2}\left(x\sqrt{1+x^2}+\log (x+\sqrt{1+x^2})\right)$ を$x$で微分して、\\ $\sqrt{1+x^2}$ になることを確認せよ。
+  \item $t=x+\sqrt{1+x^2}$ と置換して$I$を計算せよ。
+  \item $x=\dfrac{e^t-e^{-t}}{2}$と置換して$I$を計算せよ。
+  \item $x=\tan\theta$, $\sin\theta=t$と置換して$I$を計算せよ。
+ \end{enumerate}
+
+ 最後に、理系版開成模試。
+ \begin{enumerate}
+  \setcounter{enumi}{4}
+  \item $xyz$空間の2点F$(2,0,0)$, G$(-2,0,0)$ とし、点Pが$\mr{PF}\times\mr{PG}=4$を満たすとき、Pは曲面S上を動く。Sで囲まれる領域の体積を求めよ。
+ \end{enumerate}
+\end{thm}
+
+\syoumon{1}
+\begin{align*}
+ &\left[\frac{1}{2}\left(x\sqrt{1+x^2}+\log (x+\sqrt{1+x^2})\right)\right]' \\
+ =& \frac{1}{2}\left(\sqrt{1+x^2}+x\cdot\frac{1}{2}\frac{2x}{\sqrt{1+x^2}}+\frac{(x+\sqrt{1+x^2})'}{x+\sqrt{1+x^2}}\right) \\
+ =& \frac{1}{2}\left(\sqrt{1+x^2}+\frac{x^2}{\sqrt{1+x^2}}+\frac{1+\frac{x}{\sqrt{1+x^2}}}{x+\sqrt{1+x^2}}\right) \\
+ =& \frac{1}{2}\left(\sqrt{1+x^2}+\frac{x^2}{\sqrt{1+x^2}}+\frac{1}{\sqrt{1+x^2}}\right) = \sqrt{1+x^2}
+\end{align*}
+
+\syoumon{2}
+置換にあたって、$x$が$0\le x \le 1$を動くとき、$t$は$1\le t\le 1+\sqrt{2}$の全体を動く。続いて
+\[ (t-x)^2=1+x^2 \quad\dou\quad x=\frac{t^2-1}{2t} \]
+であり、また
+\[ dt=\left(1+\frac{x}{\sqrt{1+x^2}}\right)dx \quad\dou\quad \frac{\sqrt{1+x^2}}{t}dt=dx \]
+である。$a=1+\sqrt{2}$とおいて、
+\begin{align*}
+ I&=\int_1^a\! \frac{1+x^2}{t} \,dt = \int_1^a\!\frac{1+\frac{(t^2-1)^2}{4t^2}}{t} \,dt \\
+ &= \int_1^a\!\left( \frac{t}{4}+\frac{1}{2t}+\frac{1}{4t^3}\right) \,dt \\
+ &= \Bigl[ \frac{t^2}{8}+\frac{1}{2}\log t -\frac{1}{8t^2} \Bigr]_1^a = \frac{\sqrt{2}+\log (1+\sqrt{2})}{2}
+\end{align*}
+
+\syoumon{3}
+置換にあたって、$dx = \frac{e^t+e^{-t}}{2} dt$である。また、
+\[ x=\frac{e^t-e^{-t}}{2} \,\dou\, (e^t)^2-2xe^t-1=0 \,\dou\, t=\log (x+\sqrt{1+x^2}) \]
+であるから、$x$が$0\le x\le 1$を動くとき、$t$は$0\le t\le \log(1+\sqrt{2})$の全体を動く。$b=\log(1+\sqrt{2})$とおく。$e^b=1+\sqrt{2}$には注意して、
+\begin{align*}
+ I&=\int_0^b\! \sqrt{1+\left(\frac{e^t-e^{-t}}{2}\right)^2} \,\frac{e^t+e^{-t}}{2} \,dt \\
+ &=\int_0^b\! \sqrt{\left(\frac{e^t+e^{-t}}{2}\right)^2} \,\frac{e^t+e^{-t}}{2} \,dt =\int_0^b\!\left(\frac{e^t+e^{-t}}{2}\right)^2 \,dt \\
+ &=\int_0^b\!\left(\frac{e^{2t}+2+e^{-2t}}{4}\right) \,dt = \Bigl[\frac{e^{2t}-e^{-2t}}{8}+\frac{t}{2}\Bigr]_0^b \\
+ &=\frac{(1+\sqrt{2})^2-\frac{1}{(1+\sqrt{2})^2}}{8}+\frac{b}{2} = \frac{\sqrt{2}+\log(1+\sqrt{2})}{2}
+\end{align*}
+
+\syoumon{4}
+まず、$dx=\dfrac{1}{\cos^2\theta}d\theta$である。また、$x$が$0\le x\le 1$を動くとき、$\theta$は$0\le\theta\le\dfrac{\pi}{4}$の全体を動く。よって、
+\begin{align*}
+ I&=\int_0^{\frac{\pi}{4}}\! \sqrt{1+\tan^2\theta} \,\frac{1}{\cos^2\theta} \,d\theta = \int_0^{\frac{\pi}{4}}\! \frac{1}{\cos^3\theta}\, d\theta \\
+ &=\int_0^{\frac{\pi}{4}}\! \frac{1}{(1-\sin^2\theta)\cos\theta} \,d\theta
+\end{align*}
+を得る。続く置換において、
+\[ \cos\theta d\theta = dt \quad\dou\quad d\theta=\frac{1}{\cos\theta} dt \]
+であって、$\theta$が$0\le\theta\le\dfrac{\pi}{4}$を動くとき、$t$は$0\le t\le \dfrac{1}{\sqrt{2}}$の全体を動く。よって、
+\begin{align*}
+ I&= \int_0^{\frac{\pi}{4}}\! \frac{1}{(1-\sin^2\theta)\cos\theta} \,d\theta = \int_0^{\frac{1}{\sqrt{2}}}\! \frac{1}{(1-\sin^2\theta)\cos^2\theta} \,dt \\
+ &=\int_0^{\frac{1}{\sqrt{2}}}\! \frac{1}{(1-t^2)^2} \,dt = \int_0^{\frac{1}{\sqrt{2}}}\! \left[\frac{1}{2}\left(\frac{1}{1+t}+\frac{1}{1-t}\right)\right]^2 \,dt \\
+ &= \frac{1}{4}\int_0^{\frac{1}{\sqrt{2}}}\! \left[\frac{1}{(1+t)^2}+\frac{1}{(1-t)^2}+\frac{1}{1+t}+\frac{1}{1-t}\right] \,dt \\
+ &= \frac{1}{4}\Bigl[-\frac{1}{1+t}+\frac{1}{1-t}+\log|1+t|-\log|1-t|\Bigr]_0^{\frac{1}{\sqrt{2}}} \\
+ &= \frac{\sqrt{2}+\log(1+\sqrt{2})}{2}
+\end{align*}
+
+
+\syoumon{5}
+点$\mr{P}(x, y, z)$として、$\mr{PF}^2=(x-2)^2+y^2+z^2$, $\mr{PG}^2=(x+2)^2+y^2+z^2$より、
+\[ \mr{PF}\times\mr{PG}=4 \quad\dou\quad \bigl[(x-2)^2+y^2+z^2\bigr]\bigl[(x+2)^2+y^2+z^2\bigr] = 16 \]
+である。$y^2+z^2=r^2$とおけば、これは
+\begin{align*}
+ \bigl[(x-2)(x+2)\bigr]^2+r^2\bigl[(x-2)^2+(x+2)^2\bigr]+r^4-16&=0 \\
+ \dou\quad r^4+(2x^2+8)r^2+(x^4-8x^2) &= 0 
+\end{align*}
+これを$r^2$について解けば、$r^2=-(x^2+4)\pm4\sqrt{x^2*1}$を得るが、$r^2\ge 0$であることから、複合は明らかに正でなければならず、加えて$4\sqrt{x^2+1}\ge x^2+4$でなければならない。両辺正であるから、
+\[ 4\sqrt{x^2+1}\ge x^2+4 \quad\dou\quad 16x^2+16\ge x^4+8x^2+16 \]
+よりこれを解いて、$-2\sqrt{2}\le x\le 2\sqrt{2}$を得る。
+
+すなわち、曲面Sの平面 $x=k$~$(-2\sqrt{2}\le k\le 2\sqrt{2})$ での断面は、半径 $r=\sqrt{4\sqrt{x^2+1}-(x^2+4)}$の円周である。よって求める体積は$\disp \int_{-2\sqrt{2}}^{2\sqrt{2}}\! \pi r^2 \,dx$である。$r$は偶関数なので、
+\begin{align*}
+ & \int_{-2\sqrt{2}}^{2\sqrt{2}}\! \pi r^2 \,dx = 2\pi \int_0^{2\sqrt{2}}\! \left[4\sqrt{x^2+1}-(x^2+4)\right] \,dx \\
+ =& 8\pi\int_0^{2\sqrt{2}}\!\sqrt{x^2+1} \,dx - 2\pi\Bigl[\frac{x^3}{3}+4x\Bigr]_0^{2\sqrt{2}} \\
+ =& 8\pi\left[\log(1+\sqrt{2})-\frac{\sqrt{2}}{3}\right]
+\end{align*}
+と求まった\footnote{最後の積分の過程は省略させていただいた。これまでの小問の内容を参照して計算されたし。}

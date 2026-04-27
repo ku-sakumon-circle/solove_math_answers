@@ -1,0 +1,62 @@
+\begin{thm}{214}{\hosi 4}{慶応理工 (2015)}
+ $m>0$とし、$f(x)=\dfrac{m^2}{2}\cos 2x-m\cos x$ $(-\pi<x<\pi)$と定める。
+ \begin{enumerate}
+  \item $f(x)$の最小値を求めよ。
+  \item 曲線$y=f(x)$が$x$軸と接するとき、$m$の値を求めよ。
+  \item (2)のとき、曲線$y=f(x)$と$x$軸で囲まれた領域を$x$軸のまわりに1回転させて得られる立体の体積を求めよ。
+ \end{enumerate}
+\end{thm}
+
+\syoumon{1}
+\[ f'(x)=-m^2\sin 2x+m\sin x=m\sin x(1-2m\cos x) \]
+であるから、$m$の値によらず$x=0, \pm\pi$のときに$f'(x)=0$となる。
+
+(i)~$0<m\le \dfrac{1}{2}$のとき、$-\pi<x<0$, $0<x<\pi$では常に$1-2m\cos x>0$であるから、$f'(x)$の符号は$\pi<x<0$で負、$0<x<\pi$で正となるから、$f(x)$は$x=0$で極小値をとり、またこれが最小値となる。この値は$f(0)=\dfrac{m^2}{2}-m$。
+
+(ii)~$m>\dfrac{1}{2}$のとき、$1-2m\cos\alpha$を満たす実数$\alpha$~($0<\alpha<\dfrac{\pi}{2}$) が存在する。これを用いて増減表は、
+\begin{align*}
+ \begin{array}{c|c|c|c|c|c|c|c|c|c}
+  x& \pi & \cdots & -\alpha & \cdots & 0 & \cdots & \alpha & \cdots & \pi \\ \hline
+  f'(x) & 0 & - & 0 & + & 0 & - & 0 & + & 0 \\ \hline
+  f(x) & & \searrow & \text{極小} & \nearrow & \text{極大} & \searrow & \text{極小} & \nearrow & 
+ \end{array}
+\end{align*}
+ここで$f(\alpha)=f(-\alpha)$であるから、これが最小値となる。値は$\cos\alpha=\dfrac{1}{2m}$によって、
+\[ \frac{m^2}{2}\cos 2\alpha-m\cos\alpha=\frac{m^2}{2}(2\cos^2\alpha-1)-m\cos\alpha=-\frac{m^2}{2}-\frac{1}{4} \]
+
+\syoumon{2}
+曲線$y=f(x)$が$x$軸と接するとき、その接点の座標を$\bigl(t, f(t)\bigr)$とおく。このとき$t$が満たすべき条件は$f'(t)=0$かつ$f(t)=0$である。
+
+(i)~$0<m\le \dfrac{1}{2}$のとき、$f'(t)=0$となるのは$t=0, \pm\pi$である。このもとで、
+\[ f(0)=\frac{m^2}{2}-m,\quad f(\pm\pi)=\frac{m^2}{2}+m \]
+であるが、これらが0となるような$m$は$0<m\le\dfrac{1}{2}$の範囲に存在しない。
+
+(ii)~$m>\dfrac{1}{2}$のとき、$f'(t)=0$となるのは$t=0, \pm\pi, \pm\alpha$である (ただし$\alpha$は(1)と同様)。このもとで、
+\[ f(0)=\frac{m^2}{2}-m,\quad f(\pm\pi)=\frac{m^2}{2}+m,\quad f(\pm\alpha)=-\frac{m^2}{2}-\frac{1}{4} \]
+である。これらが0になるような$m$を考えると、$m>\dfrac{1}{2}$においては$f(\pm\pi)>0$でありまた$f(\pm\alpha)<0$であるから、$x=\pm\pi, \pm\alpha$の各極値では$m$によらず$x$軸に接することはない。一方で、$m=2$のとき、$f(0)=0$とできるから、すなわち$m=2$のとき、曲線$y=f(x)$は$x=0$において$x$軸に接することがわかる。
+
+以上より、求める$m$の値は$m=2$。
+
+\syoumon{3}
+$m=2$より、
+\begin{align*}
+ f(x)&=2\cos2x-2\cos x=2(2\cos^2x-1)-2\cos x \\
+ &=2(2\cos x+1)(\cos x-1)
+\end{align*}
+なので、$\cos x=0, -\dfrac{1}{2}$のとき、すなわち$x=0, \pm\dfrac{2}{3}\pi$のときに曲線$y=f(x)$は$x$軸と交わる。$f(x)$が偶関数であることに注意すると、求める体積は、
+\begin{align*}
+ &\pi\int_{-\frac{2}{3}\pi}^{\frac{2}{3}\pi}\!\!\Bigl(f(x)\Bigr)^2 \,dx \\
+ =& 2\pi\int_0^{\frac{2}{3}\pi}\!(4\cos^22x-8\cos x\cos 2x+4\cos^2 x) \,dx
+\end{align*}
+である。ここで、
+\begin{align*}
+ 4\cos^22x=2(1+\cos 4x),\quad 4\cos^2x=2(1+\cos 2x) \\
+ 8\cos x\cos 2x=4(\cos x+\cos 3x)
+\end{align*}
+を用いてさらに整理すると
+\begin{align*}
+ & 2\pi\int_0^{\frac{2}{3}\pi}(2\cos 4x -4\cos 3x+2\cos 2x -4\cos x+4) \,dx \\
+ =& 2\pi\Bigl[\frac{1}{2}\sin 4x-\frac{4}{3}\sin 3x+\sin 2x -4\sin x + 4x \Bigr]_0^{\frac{2}{3}\pi} \\
+ =& \pi\left(\frac{16}{3}\pi-\frac{9}{2}\sqrt{3}\right)
+\end{align*}
+と求められた。

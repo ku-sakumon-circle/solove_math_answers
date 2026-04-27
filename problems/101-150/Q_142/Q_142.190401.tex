@@ -1,0 +1,37 @@
+\begin{thm}{142}{}{}
+ \begin{enumerate}
+  \item 19で割って14余る平方数は存在するか。 \hosi 4
+  \item $\dfrac{2a^2-1}{b^2+2}$ が整数になる整数の組$(a,b)$は存在するか。 \hosi 9
+  \item $\dfrac{3^n-1}{2^n-1}$ が整数になる$n\in\mathbb{N}$ を全て求めよ。 \hosi 9
+  \item $p!+p$ が平方数になる素数$p$を全て求めよ。 \hosi 11
+ \end{enumerate}
+\end{thm}
+
+未完。
+
+\syoumon{1}
+ここに解答を記述。
+
+\syoumon{2}
+ここに解答を記述。
+
+\syoumon{3}
+{\bf 解答.}\\
+$n=1$は明らかに解。$n\geq 2$とするとき, $2^n-1$には奇素因数が存在するが,それを任意に一つ選んで$p$とする。$p|2^n-1$かつ, $p|3^n-1$でなければならない。$K=\dfrac{3^n-1}{2^n-1}$が整数のとき, $2^n-1$は3で割れない。よって$n$は奇数である。そのとき, 
+\[3^n-1\equiv 0　(\mbox{mod} p)\dou 3^{n+1}\equiv 3　(\mbox{mod} p)\]
+となり, $n+1$が偶数であるため$3$は法$p$における平方剰余でなければならない。つまり
+\[\left(\dfrac{3}{p}\right)=1\]
+である。一方, 相互法則　から
+\[\left(\dfrac{3}{p}\right)=(-1)^{\frac{p-1}{2}}\left(\dfrac{p}{3}\right)\]
+である。つまり,\\
+・$p|2^n-1$ が $p\equiv 1$ (mod 4)ならば, $p\equiv 1$ (mod 3)\\
+・$p|2^n-1$ が $p\equiv 3$ (mod 4)ならば, $p\equiv 2$ (mod 3)\\
+である。そこで, $2^n-1$を素因数分解したときに現れる$4k+1$型素因数のを$S$, $4k+3$型素因数の個数を$T$とすると,
+\[2^n-1\equiv 1^S\cdot 3^{T}　(\mbox{mod} 4)\]
+である。$n\geq 2$なので $2^n-1\equiv -1$ (mod 4)であり, $T$は奇数となる。\\
+前に述べたことより, $2^n-1$の$3k+1$型素因数の個数も$S$で, $3k+2$型素因数の個数は$T$になるから,
+\[2^n-1\equiv 1^S\cdot 2^T \equiv 2 (\mbox{mod} 3)　(\because T\mbox{は奇数})\]
+すると$2^n\equiv 0$ (mod 3)になり矛盾する。以上より  　$n=1$.
+
+\syoumon{4}
+ここに解答を記述。

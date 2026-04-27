@@ -1,0 +1,72 @@
+% EMceo.sty by tDB (emath@nifty.com)
+%
+\NeedsTeXFormat{LaTeX2e}%
+\ProvidesPackage{EMceo}[2018/02/04 v0.04]%
+%
+\RequirePackage{textcomp}%
+%
+\let\ltxsqrt\sqrt
+%
+\let\preceo@itemize\itemize
+\RequirePackage{ceo}%
+\let\itemize\preceo@itemize
+%
+\@ifundefined{var@ceo}{%
+  \DeclareMathSymbol{\varx}{\mathalpha}{letters}{"D1}
+  \DeclareMathSymbol{\vary}{\mathalpha}{letters}{"D2}
+}{%
+  \DeclareMathSymbol{x}{\mathalpha}{letters}{"D1}
+  \DeclareMathSymbol{y}{\mathalpha}{letters}{"D2}
+  \DeclareMathSymbol{\varx}{\mathalpha}{letters}{"78}
+  \DeclareMathSymbol{\vary}{\mathalpha}{letters}{"79}
+}%
+%
+\def\useceo@sub#1{%
+  \@ifundefined{ceo#1}{\errmessage{useceo error! command:ceo#1 not defined.}}{}%
+  \def\uc@tmp{\csname ceo#1\endcsname}%
+  \expandafter\let\csname #1\endcsname\uc@tmp
+}%
+\def\useceo#1{%
+  \expandafter\@for\expandafter\u@c\expandafter:\expandafter=#1\do{%
+    \expandafter\useceo@sub\expandafter{\u@c}%
+  }%
+}%
+%
+\def\bekutoru@sityuu{\vphantom{PQ}}%
+%
+\let\ceoenko\enko
+\let\ceoheikou\heikou
+\let\ceokaku\kaku
+\let\ceokotae\kotae
+\let\ceosankaku\sankaku
+\let\ceosyutten\syutten
+\let\ceosyuttenC\syuttenC
+\let\ceovabs\vabs
+\let\ceonearrow\nearrow
+\let\ceosearrow\searrow
+%
+%
+%
+\let\geqq\geq
+\let\leqq\leq
+\let\therefore\yueni
+\let\because\nazenara
+\let\kinzi\yaku
+%
+%
+\edef\em@ceo{1}%
+%
+\AtBeginDocument{%
+  \RequirePackage{ceoMaru}%
+  \RequirePackage{ceoNagamaru}%
+}
+\renewcommand{\ttdefault}{pcr}
+\endinput
+
+エンコード JIS
+v 0.00 2010/03/22
+v 0.01 2011/03/14 \kinzi: \yaku に切り替え (BBS #9721)
+v 0.02 2012/12/09 [varceo]
+v 0.03 2014/04/20 \varx, \vary
+v 0.04 2018/02/04 \itemize: textcomp.sty を読み込む
+		 (https://oku.edu.mie-u.ac.jp/tex/mod/forum/discuss.php?d=2359

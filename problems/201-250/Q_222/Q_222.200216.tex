@@ -1,0 +1,13 @@
+\begin{thm}{222}{\hosi ?}{日本医科大 (2017)}
+ 次の極限を求めよ。 \\
+ \[ \lim_{x\to\sqrt{\pi}} \int_{\sqrt{\pi}}^x\! \frac{(x^2+\sqrt{\pi}t)e^{t^2}}{(x^3-\sqrt{\pi}x^2+\pi x-\pi\sqrt{\pi})t^2\log t} \,dt \]
+\end{thm}
+
+$f(t)=\dfrac{(x^2+\sqrt{\pi} t)e^{t^2}}{t^2\log t}$ とおく。$x\neq\sqrt{\pi}$ のとき、平均値の定理により$x$と$\sqrt{\pi}$の間に\footnote{$x$と$\sqrt{\pi}$のどちらが大きくとも}次を見たす$c$が存在する。
+\begin{align*}
+ &\int_{\sqrt{\pi}}^x\! \frac{(x^2+\sqrt{\pi}t)e^{t^2}}{(x^3-\sqrt{\pi}x^2+\pi x-\pi\sqrt{\pi})t^2\log t} \,dt \\
+ =& \frac{1}{x^2+\sqrt{\pi}}\cdot\frac{1}{x-\sqrt{\pi}}\int_{\sqrt{\pi}}^x\!f(t)\,dt \\
+ =& \frac{1}{x^2+\sqrt{\pi}}\cdot f(c)
+\end{align*}
+$x\to\sqrt{\pi}$ のとき、$c\to\sqrt{\pi}$であるから、求める極限値は
+\[ \frac{1}{2\pi}\cdot\frac{2\pi e^\pi}{\pi\log\sqrt{\pi}} = \frac{2e^\pi}{\pi\log\pi} \]

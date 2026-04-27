@@ -1,0 +1,29 @@
+%%% emwncy.sty by tDB(emath@nifty.com)
+%
+\ProvidesPackage{emwncy}[2012/11/17 v0.00]%
+%
+\DeclareFontEncoding{OT2}{}{}
+\DeclareFontSubstitution{OT2}{cmr}{m}{n}
+%
+\DeclareFontFamily{OT2}{cmr}{\hyphenchar\font45 }
+\DeclareFontShape{OT2}{cmr}{m}{n}{%
+        <-6>    wncyr5
+        <6-7>   wncyr6
+        <7-8>   wncyr7
+        <8-9>   wncyr8
+        <9-10>  wncyr9
+        <10->   wncyr10
+    }{}
+\DeclareFontShape{OT2}{cmr}{b}{n}{%
+        <-6>    wncyb5
+        <6-7>   wncyb6
+        <7-8>   wncyb7
+        <8-9>   wncyb8
+        <9-10>  wncyb9
+        <10->   wncyb10
+    }{}
+\DeclareMathAlphabet{\mathcyr}{OT2}{cmr}{m}{n}
+\DeclareMathAlphabet{\mathcyb}{OT2}{cmr}{b}{n}
+\SetMathAlphabet{\mathcyr}{bold}{OT2}{cmr}{b}{n}
+%
+\endinput

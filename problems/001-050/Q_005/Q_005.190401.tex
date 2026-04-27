@@ -1,0 +1,17 @@
+\begin{thm}{005}{}{AMGM}
+ \begin{enumerate}
+  \item $x>0$のとき、$\left(x+\dfrac{1}{x}\right)\left(x+\dfrac{4}{x}\right)$ の最小値を求めよ。 (千葉工大 1997)
+  \item $x>0$のとき、$x^2+\dfrac{1}{x^3}$ の最小値を求めよ。
+  \item 実数$a,b$が$a+b=17$を満たすとき、$2^a+4^b$の最小値を求めよ。 (JMO予選 2005)
+ \end{enumerate}
+\end{thm}
+
+\syoumon{1}
+$\left(x+\dfrac{1}{x}\right)\left(x+\dfrac{4}{x}\right)=x^2+\dfrac{4}{x^2}+5$ で, $x^2,\dfrac{4}{x^2}>0$より相加相乗平均不等式が使えて $x^2+\dfrac{4}{x^2}\geq 2\sqrt{x^2\cdot \dfrac{4}{x^2}}=4$ となる。（等号は$x=\sqrt{2}$のときに起こる）よって最小値は $4+5=9$
+
+\syoumon{2}
+$x^2>0, x^3>0$なので$x^2+\dfrac{1}{x^3}=\dfrac{x^2}{3}+\dfrac{x^2}{3}+\dfrac{x^2}{3}+\dfrac{1}{2x^3}+\dfrac{1}{2x^3}\geq 5\sqrt[5]{\left(\dfrac{x^2}{3}\right)^3\left(\dfrac{1}{2x^3}\right)^2}=\sqrt[5]{\dfrac{1}{108}}$ 　（等号成立は$x=\sqrt[5]{\dfrac{3}{2}}$のときに起こる）より最小値は$\dfrac{1}{\sqrt[5]{108}}$
+
+\syoumon{3}
+$2^{a-1}+2^{a-1}+4^b\geq 3\sqrt[3]{2^{a-1}\cdot 2^{a-1}\cdot 4^b}=\sqrt[3]{2^{2a-2+2b}}=\sqrt[3]{2^{32}}$ (等号成立は$a=\dfrac{35}{3}, b=\dfrac{16}{3}$)より最小値は$3072\sqrt[3]{4}$
+

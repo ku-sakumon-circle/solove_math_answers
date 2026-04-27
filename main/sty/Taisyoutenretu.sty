@@ -1,0 +1,110 @@
+%%% Taisyoutenretu.sty by tDB(emath@nifty.com)
+% 日本語
+\ProvidesPackage{Taisyoutenretu}[2013/09/29 v0.00]%
+%
+%
+% Suisenretu
+%
+\def\Suisenretu{%
+% -------------------------------------------------------------------
+  \def\Suisen@sub{\let\Suisen@prnm\undefined
+    \@ifnextchar[{\Suisen@@sub@}{\Suisen@sub@}}%
+  \def\Suisen@@sub@[##1]{\EMedef\Suisen@prnm{##1}\@Suisen@sub}%
+  \def\Suisen@sub@{\@ifnextchar({\Suisen@sub@@}{\@Suisen@sub}}%
+  \def\Suisen@sub@@(##1){\@Suisen@sub{(##1)}}%
+  \def\@Suisen@sub##1##2##3##4##5\@nil{%
+    \strip@cmd{##4}\Suisen@name
+    \Suisen{##1}{##2}{##3}##4\relax
+    \@ifundefined{Suisen@prnm}{%
+      \EMedefappend[;]\Suisen@str{\Suisen@name##4##5}%
+    }{%
+      \EMedefappend[;]\Suisen@str{[\Suisen@prnm]\Suisen@name##4##5}%
+    }%
+  }%
+% -------------------------------------------------------------------
+  \def\show@label{1}%
+  \@ifstar{\def\show@label{0}\@Suisenretu}{\@Suisenretu}}%
+\def\@Suisenretu{\@ifnextchar<{\@@@Suisenretu}{\@@@Suisenretu<\empty>}}%
+\def\@@@Suisenretu<#1>#2{%
+  \edef\Suisen@str{\empty}%
+  \exfor[;]\Suisen@c:=#2\do{%
+    \expandafter\Suisen@sub\Suisen@c\@nil
+  }%
+  \ifnum\show@label>\z@
+    \EMedef\Suisen@retu{<#1>{\Suisen@str}}%
+    \expandafter\tenretu\Suisen@retu
+  \else
+    \EMedef\Suisen@retu{*<#1>{\Suisen@str}}%
+    \expandafter\tenretu\Suisen@retu
+  \fi
+}%
+%
+% \Taisoutenretu
+%
+\def\Tt@sub{\let\Tt@prnm\undefined
+  \@ifnextchar[{\Tt@@sub@}{\Tt@sub@}}%
+\def\Tt@@sub@[#1]{\EMedef\Tt@prnm{#1}\@Tt@sub}%
+\def\Tt@sub@{\@ifnextchar({\Tt@sub@@}{\@Tt@sub}}%
+\def\Tt@sub@@(#1){\@Tt@sub{(#1)}}%
+\def\@Tt@sub#1#2#3{%
+  \@ifnextchar[{\@@Tt@sub{#1}{#2}{#3}}{%
+    \@@Tt@sub{#1}{#2}{#3}[\empty]}}%
+\def\@@Tt@sub#1#2#3[#4]#5#6\@nil{%
+% ----------------------------------------------
+\def\Tt@asi{\let\Tt@asi@prnm\undefined
+  \@ifnextchar[{\Tt@asi@}{\@Tt@asi}}%
+\def\Tt@asi@[##1]{\def\Tt@asi@prnm{##1}\@Tt@asi}%
+\def\@Tt@asi##1##2\@@nil{%
+  \strip@cmd{##1}\Tt@asi@name
+  \Taisyouten{#1}{#2}{#3}[##1]{#5}\relax
+  \@ifundefined{Tt@asi@prnm}{%
+    \EMedefappend[;]\Tt@str{\Tt@asi@name##1##2}%
+  }{%
+    \EMedefappend[;]\Tt@str{[\Tt@asi@prnm]\Tt@asi@name##1##2}%
+  }%
+}%
+% ----------------------------------------------
+  \strip@cmd{#5}\Tt@name
+  \ifx\empty #4
+    \Taisyouten{#1}{#2}{#3}{#5}\relax
+  \else
+    \Tt@asi#4\@@nil
+  \fi
+  \@ifundefined{Tt@prnm}{%
+    \EMedefappend[;]\Tt@str{\Tt@name#5#6}%
+  }{%
+    \EMedefappend[;]\Tt@str{[\Tt@prnm]\Tt@name#5#6}%
+  }%
+}%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\Taisyoutenretu{%
+  \def\show@label{1}%
+  \@ifstar{\def\show@label{0}\@Taisyoutenretu}{\@Taisyoutenretu}}%
+\def\@Taisyoutenretu{\@ifnextchar<{\@@Taisyoutenretu}{\@@Taisyoutenretu<\empty>}}%
+\def\@@Taisyoutenretu<#1>#2{%
+  \edef\Tt@str{\empty}%
+  \exfor[;]\Tt@c:=#2\do{%
+    \expandafter\Tt@sub\Tt@c\@nil
+  }%
+  \ifnum\show@label>\z@
+    \ifx\empty #1
+      \EMedef\Tt@retu{{\Tt@str}}%
+    \else
+      \EMedef\Tt@retu{<#1>{\Tt@str}}%
+    \fi
+    \expandafter\tenretu\Tt@retu
+  \else
+    \ifx\empty #1
+       \EMedef\Tt@retu{*{\Tt@str}}%
+    \else
+       \EMedef\Tt@retu{*<#1>{\Tt@str}}%
+    \fi
+    \expandafter\tenretu\Tt@retu
+  \fi
+}%
+%
+\endinput
+%
+\define@key{emP}{nextopt}{\EMedef\next@opt{#1}}%
+%
+v 0.00 2013/09/29

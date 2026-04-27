@@ -1,0 +1,157 @@
+%%% template.sty by tDB(emath@nifty.com)
+% 日本語
+\ProvidesPackage{HenMozi}[2014/11/10 v0.03]%
+%
+%\RequirePackage{emath}%
+\@ifpackageloaded{emath}{}{\RequirePackage{emath}}%
+%
+\define@key{emP}{tatebou}[5pt]{%
+  \ifx\empty\tatebou@pos\edef\tatebou@pos{0,1}\fi
+  \edef\tatebou@T{#1}\edef\tatebou@B{#1}}%
+\define@key{emP}{tateboupos}{\edef\tatebou@pos{#1}}%
+\define@key{emP}{drawline}[1]{\edef\dl@sw{#1}}%
+\define@key{emP}{drawlineoption}{\edef\dl@sw{1}\EMedef\dl@opt{#1}}%
+%
+\def\HenMozi{\@ifnextchar[{\@HenMozi}{\@HenMozi[.5]}}%
+\def\@HenMozi[#1]{%
+  \@ifnextchar<{\@@HenMozi[#1]}{\@@HenMozi[#1]<\empty>}}%
+\def\@@HenMozi[#1]<#2>#3#4{%
+  \gsave
+%  \Drawline<#2>{#3#4}%
+%
+  \def\henko@mozikaiten{0}%
+  \edef\tatebou@pos{\empty}%
+  \edef\tatebou@T{0pt}%
+  \edef\tatebou@B{0pt}%
+  \edef\dl@sw{0}%
+  \edef\dl@opt{\empty}%
+  \Strchr{#1}{=}\zahyou@tmp
+  \ifnum\zahyou@tmp>\z@
+    \def\put@pos{.5}%
+    \setkeys{emP}{#1}%
+  \else
+    \edef\put@pos{#1}%
+  \fi
+%  \ifx\empty #2\else\setkeys{emP}{#2}\fi
+  \ifx\empty #2\else
+    \edef\dl@sw{1}%
+    \edef\dl@opt{#2}%
+  \fi
+  \ifnum\dl@sw>\z@
+    \EMedef\tmp@opt{<\dl@opt>{{#3}{#4}}}%
+    \expandafter\Drawline\tmp@opt
+  \fi
+  \Subvec{#4}{#3}\henko@v
+  \ifnum\henko@mozikaiten=\z@
+    \edef\henko@mozikaitenkaku{0}%
+  \else
+    \Argvec\henko@v\henko@mozikaitenkaku
+  \fi
+    \ifdim \henko@mozikaitenkaku pt>90pt\relax
+      \Sub\henko@mozikaitenkaku{180}\henko@mozikaitenkaku\else
+    \ifdim \henko@mozikaitenkaku pt<-90pt\relax
+      \Add\henko@mozikaitenkaku{180}\henko@mozikaitenkaku\fi\fi
+    \ifnum\henko@mozikaiten<\z@\relax
+      \ifdim \henko@mozikaitenkaku pt>\z@
+        \Sub\henko@mozikaitenkaku{180}\henko@mozikaitenkaku
+      \else
+        \Add\henko@mozikaitenkaku{180}\henko@mozikaitenkaku
+      \fi
+    \fi
+    \Bunten{#3}{#4}\put@pos{*}\Sb@P
+    \ifx\empty\tatebou@pos\else
+      \ifdim\tatebou@T=\z@
+        \edef\P@T{\O@@}%
+      \else
+        \Kaiten[\tatebou@T]\O@@\henko@v{-90}\P@T
+      \fi
+      \ifdim\tatebou@B=\z@
+        \edef\P@B{\O@@}%
+      \else
+        \Kaiten[\tatebou@T]\O@@\henko@v{90}\P@B
+      \fi
+\expandafter\@for\expandafter\hm@t\expandafter:\expandafter=\tatebou@pos\do{%
+      \Bunten{#3}{#4}\hm@t{*}\Sb@P@
+      \Put\Sb@P@{\Drawline{\P@T\P@B}}%
+}%
+  \fi
+\grestore
+  \ifthenelse{\equal\henko@mozikaiten\z@}{%
+    \emathPut\Sb@P
+  }{%
+    \emathPut[kaiten=\henko@mozikaitenkaku]\Sb@P
+  }%
+}%
+%
+\def\iiiHenMozi{\@ifnextchar[{\@iiiHenMozi}{\@iiiHenMozi[.5]}}%
+\def\@iiiHenMozi[#1]{%
+  \@ifnextchar<{\@@iiiHenMozi[#1]}{\@@iiiHenMozi[#1]<\empty>}}%
+\def\@@iiiHenMozi[#1]<#2>#3#4{%
+    \Piiitoii{#3}\iiiDs@a\Piiitoii{#4}\iiiDs@b
+    \HenMozi[#1]<#2>\iiiDs@a\iiiDs@b
+}%
+%
+\def\tyoutenhosei#1#2#3{%
+  \Hamidasiten{#1}{#2}{-1pt}\th@A
+  \Hamidasiten{#3}{#2}{-1pt}\th@C
+  \Drawline{\th@A#2\th@C}%
+}%
+%
+\def\iiityoutenhosei#1#2#3{%
+  \Piiitoii{#1}\iiith@a
+  \Piiitoii{#2}\iiith@b
+  \Piiitoii{#3}\iiith@c
+  \tyoutenhosei\iiith@a\iiith@b\iiith@c
+}%
+%
+\def\@@hen@put[#1]<#2>(#3,#4)(#5,#6)#7\@nil{%
+  \ifthenelse{\equal{#7}{\empty}}{%
+    \HenMozi[#1]<#2>{(#3,#4)}{(#5,#6)}{}%
+  }{%
+    \topchar{#7}\tmp@h
+    \if [\tmp@h
+      \HenMozi[#1]<#2>{(#3,#4)}{(#5,#6)}#7
+    \else\if (\tmp@h
+      \HenMozi[#1]<#2>{(#3,#4)}{(#5,#6)}#7
+    \else
+      \EMedef\arg@vii{[#1]<#2>{(#3,#4)}{(#5,#6)}[c]{#7}}%
+%     \HenMozi[#1]<#2>{(#3,#4)}{(#5,#6)}#7
+      \expandafter\HenMozi\arg@vii
+    \fi\fi
+  }%
+}%
+\def\HenMozis{\@ifnextchar[{\@HenMozis}{\@HenMozis[.5]}}%
+\def\@HenMozis[#1]{%
+  \@ifnextchar<{\@@HenMozis[#1]}{\@@HenMozis[#1]<\empty>}}%
+\def\@@HenMozis[#1]<#2>#3{%
+  \exfor[;]\hp@c:=#3\do{%
+    \trim\hp@c\to\hp@c
+    \ifthenelse{\equal\hp@c\empty}{}{%
+      \EMedef\hp@arg{[#1]<#2>\hp@c}%
+      \expandafter\@@hen@put\hp@arg\@nil
+    }%
+  }%
+}%
+%
+\def\@@iiihen@put[#1]<#2>(#3,#4,#5)(#6,#7,#8)#9\@nil{%
+  \iiiHenMozi[#1]<#2>{(#3,#4,#5)}{(#6,#7,#8)}#9}%
+\def\iiiHenMozis{\@ifnextchar[{\@iiiHenMozis}{\@iiiHenMozis[.5]}}%
+\def\@iiiHenMozis[#1]{%
+  \@ifnextchar<{\@@iiiHenMozis[#1]}{\@@iiiHenMozis[#1]<\empty>}}%
+\def\@@iiiHenMozis[#1]<#2>#3{%
+  \exfor[;]\hp@c:=#3\do{%
+    \trim\hp@c\to\hp@c
+    \ifthenelse{\equal\hp@c\empty}{}{%
+      \EMedef\hp@arg{[#1]<#2>\hp@c}%
+      \expandafter\@@iiihen@put\hp@arg\@nil
+    }%
+  }%
+}%
+%
+\endinput
+
+v 0.00 2013/11/16 
+v 0.01 2014/02/21 [tatebou=..] オプション
+v 0.02 2014/02/24 デフォルトでは，線分を描画しない。<drawline> オプション
+v 0.03 2014/11/10 配置文字列に配置オプションが付加されていない場合は
+                  [c] とみなす。

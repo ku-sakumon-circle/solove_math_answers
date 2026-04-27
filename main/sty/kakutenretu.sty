@@ -1,0 +1,44 @@
+%%% kakutenretu.sty by tDB(emath@nifty.com)
+% 日本語
+\ProvidesPackage{kakutenretu}[2014/06/29 v0.00]%
+%
+% kakutenretu
+%
+\def\kakutenretu{\@ifstar{\kakutenretu@}{\@kakutenretu}}%
+\def\kakutenretu@{\@ifstar{\kakutenretu@@}{\@kakutenretu@}}%
+\def\@kakutenretu{\errmessage{Usage: kakutenretu**}}%
+\def\@kakutenretu@{\errmessage{Usage: kakutenretu**}}%
+\def\kakutenretu@@{%
+  \@ifnextchar<{\@kakutenretu@@}{\@kakutenretu@@<Hankei=.7em>}}%
+\def\@kakutenretu@@<#1>#2{%
+% ---------------------------------------------------------------
+      \def\kakutenretu@sub{%
+        \@ifnextchar[{\kakutenretu@@sub}{\kakutenretu@@sub[\empty]}}%
+      \def\kakutenretu@@sub[##1]##2\@nil{%
+        \strlen{##2}\kt@l
+        \ifnum\kt@l=3\relax
+          \kakutenretu@@sub@a[##1]##2\@nil
+        \else
+          \kakutenretu@@sub@b[##1]##2\@nil
+        \fi
+      }%
+      \def\kakutenretu@@sub@a[##1]##2##3##4\@nil{%
+        \ifx\empty ##1\edef\kt@vname{##3}\else\edef\kt@vname{##1}\fi
+        \Kakukigou<0>{\csname ##2\endcsname}%
+          {\csname ##3\endcsname}{\csname ##4\endcsname}<#1>[c]{\kt@vname}%
+      }%
+      \def\kakutenretu@@sub@b[##1]##2,##3,##4\@nil{%
+        \ifx\empty ##1\edef\kt@vname{##3}\else\edef\kt@vname{##1}\fi
+        \Kakukigou<0>{\csname ##2\endcsname}%
+          {\csname ##3\endcsname}{\csname ##4\endcsname}<#1>[c]{\kt@vname}%
+      }%
+% ---------------------------------------------------------------
+  \Cfor{\edef\kt@a{#2}}{\not\equal\kt@a\empty}{\edef\kt@a{\kt@b}}\do{%
+    \strsep\kt@a{;}\kt@a\kt@b%
+    \expandafter\kakutenretu@sub\kt@a\@nil
+  }%
+}%
+%
+\endinput
+%
+v 0.00 2014/06/29

@@ -1,0 +1,299 @@
+% bekutorukata.sty by tDB(emath@nifty.com)
+%
+\ProvidesPackage{bekutorukata}[2011/11/22 v0.07]%
+%
+%\RequirePackage{emath}%
+\@ifpackageloaded{emath}{}{\RequirePackage{emath}}%
+%
+\edef\vec@type@i{cm}%         0
+\edef\vec@type@ii{eu}%        1
+\edef\vec@type@iii{tx}%       2
+\edef\vec@type@iv{xy}%        3
+\edef\vec@type@v{px}%         4
+\edef\vec@type@vi{abx}%       5
+\edef\vec@type@vii{fill}%     6
+\edef\vec@type@viii{ceo}%     7
+\edef\vec@type@ix{esvect}%    8
+\edef\vec@type@x{latex}%      9
+\edef\vec@type@N{10}%
+%
+%
+\newcommand{\bekutoru@overrightarrow}{%
+  \mathpalette{\overarrow@\bekutoru@rightarrowfill@}}
+\def\bekutoru@rightarrowfill@{%
+  \arrowfill@\bekutoru@relbar\bekutoru@relbar\bekutoru@rightarrow}
+\def\bekutoru@t#1{\ensuremath{\displaystyle
+  \bekutoru@overrightarrow{\text{#1}\bekutoru@sityuu}}}%
+\def\bekutoru@m#1{\ensuremath{\displaystyle%\,%
+  \bekutoru@overrightarrow{#1\,\bekutoru@sityuu}}}%
+\let\cmbekutoru\bekutoru
+%
+\def\ArrowHeadPit{0}%
+\let\mybekutoru\relax
+\def\bekutorukata{\@ifnextchar<{\@bekutorukata}{\@bekutorukata<\ArrowHeadPit>}}%%
+%
+\def\ltxoverrightarrow#1{\vbox{\m@th\ialign{##\crcr
+      \rightarrowfill\crcr\noalign{\kern-\p@\nointerlineskip}
+      $\hfil\displaystyle{#1}\hfil$\crcr}}}
+\DeclareRobustCommand\ltxbekutoru{\@ifstar{\ltxbekutoru@m}{\ltxbekutoru@t}}%
+\def\ltxbekutoru@t#1{{%
+  \@ifundefined{bm@style}{%
+    \ensuremath{\displaystyle
+      \ltxoverrightarrow{\text{#1}\bekutoru@sityuu}}%
+  }{%
+    \ensuremath{\displaystyle
+      \ltxoverrightarrow{\text{\textbf{#1}}\bekutoru@sityuu}}%
+  }%
+}}%
+\def\ltxbekutoru@m{\@ifnextchar[{\ltxbekutoru@@m}{\ltxbekutoru@@m[\empty]}}
+\def\ltxbekutoru@@m[#1]#2{{%
+  \ifx\empty #1\relax\else\setkeys{emath}{#1}\fi
+  \@ifundefined{bm@style}{%
+    \ensuremath{\displaystyle\ltxoverrightarrow{#2\bekutoru@sityuu}}%
+  }{%
+    \ensuremath{\displaystyle\ltxoverrightarrow{\boldsymbol{#2}\bekutoru@sityuu}}%
+  }%
+}}%
+%
+\def\@bekutorukata<#1>{\edef\bekutoru@kubomi{#1}\@@bekutorukata}%
+\def\@@bekutorukata#1{%
+  \srchhairetu{vec@type@}{#1}\vec@type
+  \ifnum\vec@type=\z@
+    \errmessage{bekutorukata:#1 は未定義です}%
+  \fi
+  \Decr\vec@type
+  \ifcase\vec@type% vec@type=0 (cm)
+    \bekutorusityuu{\vrule height .9zh width \z@}%
+    \let\bekutoru@relbar\relbar\let\bekutoru@rightarrow\rightarrow
+    \let\bekutoru\cmbekutoru
+  \or% vec@type=1 (eu)
+    \bekutorusityuu{\vrule height .85zh width \z@}%
+    \let\bekutoru@relbar\relbar\let\bekutoru@rightarrow\eurightarrow
+    \let\bekutoru\cmbekutoru%
+  \or% vec@type=2 (tx)
+    \bekutorusityuu{\vrule height .75zh width \z@}%
+    \let\bekutoru@relbar\txrelbar\let\bekutoru@rightarrow\txrightarrow
+    \let\bekutoru\cmbekutoru
+  \or% vec@type=3 (xy)
+    \@ifundefined{xybekutoru}{}{%
+%    \let\bekutoru@relbar\relbar\let\bekutoru@rightarrow\xyrightarrow
+      \bekutorusityuu{\vrule height .9zh width \z@}%
+      \let\bekutoru\xybekutoru
+    }%
+  \or% vec@type=4 (px)
+    \bekutorusityuu{\vrule height .75zh width \z@}%
+    \let\bekutoru@relbar\pxrelbar\let\bekutoru@rightarrow\pxrightarrow
+    \let\bekutoru\cmbekutoru
+  \or% vec@type=5 (abx)
+    \bekutorusityuu{\vrule height .75zh width \z@}%
+    \let\bekutoru@relbar\abxrelbar
+    \let\bekutoru@rightarrow\abxrightarrow
+    \let\bekutoru\cmbekutoru
+  \or% vec@type=6 (fill)
+    \bekutorusityuu{\vrule height .9zh width \z@}%
+    \def\bekutoru@t##1{{%
+      \@ifundefined{EMps@filename}{%
+                  \@tempdima=1zh\relax
+                  \edef\BK@hi{\strip@pt\@tempdima}%
+                  \@Div\BK@hi{9.16443}\BK@hi
+                  \Mul{0.5}\BK@hi\BK@thickness
+                  \changeArrowHeadSize\BK@hi
+                  \setbox0=\hbox{\EMvphantom*[.5pt][0pt]{##1}\bekutoru@sityuu}%
+                  \ukansan{\the\ht0}\bekutoru@h
+%                 \setbox0=\hbox{##1}%
+                  \ukansan{\the\wd0}\bekutoru@w
+                  \begin{picture}(0,0)\relax
+  \@ifundefined{xunitlength}{}{\xunitlength=\unitlength\def\@xscale{1}}%
+  \@ifundefined{yunitlength}{}{\yunitlength=\unitlength\def\@yscale{1}}%
+                    \edef\O@@{(0,0)}%
+                    \edef\ArrowHeadPit{\bekutoru@kubomi}%
+                    \DegSin\ArrowHeadAngle\bekutoru@s
+                    \Mul\Arr@wHeadSize\bekutoru@s\bekutoru@s
+                    \Addself\bekutoru@h\bekutoru@s
+                    \allinethickness{\BK@thickness pt}%
+\mybekutoru
+                    \put(0,\bekutoru@h){\ArrowLine{(0,0)}{(\bekutoru@w,0)}}%
+                    \Addself\bekutoru@h\bekutoru@s
+                    \xdef\bekutoru@H{\bekutoru@h}%
+                  \end{picture}%
+                  \vrule width \z@ height \bekutoru@H \p@\box0
+      }{{%
+        \gsave
+                  \@ifundefined{houi@opt}{\edef\houi@opt{lb}}{}%
+                  \@tempdima=1zh\relax
+                  \edef\BK@hi{\strip@pt\@tempdima}%
+                  \@Div\BK@hi{9.16443}\BK@hi
+                  \Mul{0.5}\BK@hi\BK@thickness
+                  \changeArrowHeadSize\BK@hi
+                  \setbox0=\hbox{##1}%
+                  \uykansan{\the\ht0}\bekutoru@h
+                  \uykansan{\the\dp0}\bekutoru@d
+                  \Add\bekutoru@h\bekutoru@d\bekutoru@hd
+                  \ukansan{\the\wd0}\bekutoru@w
+                    \@Div\bekutoru@w{2}\bekutoru@wh
+                    \edef\bekutoru@xl{-\bekutoru@wh}%
+                    \edef\bekutoru@xr{\bekutoru@wh}%
+                    \@Div\bekutoru@hd{2}\bekutoru@y
+                    \ifdim\bekutoru@y\p@<.6zw\ukansan{.6zw}\bekutoru@y\fi
+                  \Strchr{\houi@opt}{l}\bk@tmp
+                  \ifnum\bk@tmp>\z@
+                    \edef\bekutoru@xl{0}%
+                    \edef\bekutoru@xr{\bekutoru@w}%
+                  \fi
+                  \Strchr{\houi@opt}{r}\bk@tmp
+                  \ifnum\bk@tmp>\z@
+                    \edef\bekutoru@xl{-\bekutoru@w}%
+                    \edef\bekutoru@xr{0}%
+                  \fi
+                  \Strchr{\houi@opt}{b}\bk@tmp
+                  \ifnum\bk@tmp>\z@
+                    \edef\bekutoru@y{\bekutoru@hd}%
+                    \ifdim\bekutoru@y\p@<1zw\ukansan{1zw}\bekutoru@y\fi
+                  \fi
+                  \Strchr{\houi@opt}{t}\bk@tmp
+                  \ifnum\bk@tmp>\z@
+                    \ifdim\bekutoru@hd\yunitlength<1zw\relax
+                      \setlength{\@tempdima}{1zw-\bekutoru@hd\unitlength}%
+                      \uykansan{\the\@tempdima}\bekutoru@y
+                    \fi
+                  \fi
+                  \makebox(\bekutoru@w,0){##1}\relax
+                  \ifsironuki
+                    \@tempdima\bekutoru@y\yunitlength
+                    \advance\@tempdima2\p@
+                    \uykansan\@tempdima\bekutoru@y@
+                    \Nuritubusi[0]{(\bekutoru@xl,-\bekutoru@y)(\bekutoru@xr,-\bekutoru@y)(\bekutoru@xr,\bekutoru@y@)(0,\bekutoru@y@)}%
+                  \fi
+                  \ArrowLine<linethickness=\BK@thickness\p@>%
+                  {(\bekutoru@xl,\bekutoru@y)}{(\bekutoru@xr,\bekutoru@y)}%
+        \grestore
+      }}%
+    }}%
+    \def\bekutoru@m##1{{%
+      \@ifundefined{EMps@filename}{%
+                  \@tempdima=1zh\relax
+                  \edef\BK@hi{\strip@pt\@tempdima}%
+                  \@Div\BK@hi{9.16443}\BK@hi
+                  \Mul{0.5}\BK@hi\BK@thickness
+                  \changeArrowHeadSize\BK@hi
+%                  \setbox0=\hbox{\bekutoru@sityuu}%
+                  \setbox0=\hbox{\EMvphantom*[.5pt][0pt]{\ensuremath{\displaystyle ##1}}\bekutoru@sityuu}%
+                  \ukansan{\the\ht0}\bekutoru@h
+                  \ukansan{\the\dp0}\bekutoru@d
+%                  \setbox0=\hbox{\ensuremath{\displaystyle ##1}}%
+                  \ukansan{\the\wd0}\bekutoru@w
+                  \begin{picture}(0,0)\relax
+  \@ifundefined{xunitlength}{}{\xunitlength=\unitlength\def\@xscale{1}}%
+  \@ifundefined{yunitlength}{}{\yunitlength=\unitlength\def\@yscale{1}}%
+                    \edef\ArrowHeadPit{\bekutoru@kubomi}%
+                    \DegSin\ArrowHeadAngle\bekutoru@s
+                    \Mul\Arr@wHeadSize\bekutoru@s\bekutoru@s
+                    \Addself\bekutoru@h\bekutoru@s
+                    \allinethickness{\BK@thickness pt}%
+\mybekutoru
+                    \put(0,\bekutoru@h){\ArrowLine{(0,0)}{(\bekutoru@w,0)}}%
+                    \Addself\bekutoru@h\bekutoru@s
+                    \xdef\bekutoru@H{\bekutoru@h}%
+                  \end{picture}%
+                  \vrule width \z@ height \bekutoru@H \p@\box0
+      }{{%
+        \gsave
+                  \@ifundefined{houi@opt}{\edef\houi@opt{lb}}{}%
+                  \@tempdima=1zh\relax
+                  \edef\BK@hi{\strip@pt\@tempdima}%
+                  \@Div\BK@hi{9.16443}\BK@hi
+                  \Mul{0.5}\BK@hi\BK@thickness
+                  \changeArrowHeadSize\BK@hi
+                  \setbox0=\hbox{\ensuremath{\displaystyle ##1}}%
+                  \uykansan{\the\ht0}\bekutoru@h
+                  \uykansan{\the\dp0}\bekutoru@d
+                  \Add\bekutoru@h\bekutoru@d\bekutoru@hd
+                  \ukansan{\the\wd0}\bekutoru@w
+                    \@Div\bekutoru@w{2}\bekutoru@wh
+                    \edef\bekutoru@xl{-\bekutoru@wh}%
+                    \edef\bekutoru@xr{\bekutoru@wh}%
+                    \@Div\bekutoru@hd{2}\bekutoru@y
+                    \ifdim\bekutoru@y\p@<.6zw\ukansan{.6zw}\bekutoru@y\fi
+                  \Strchr{\houi@opt}{l}\bk@tmp
+                  \ifnum\bk@tmp>\z@
+                    \edef\bekutoru@xl{0}%
+                    \edef\bekutoru@xr{\bekutoru@w}%
+                  \fi
+                  \Strchr{\houi@opt}{r}\bk@tmp
+                  \ifnum\bk@tmp>\z@
+                    \edef\bekutoru@xl{-\bekutoru@w}%
+                    \edef\bekutoru@xr{0}%
+                  \fi
+                  \Strchr{\houi@opt}{b}\bk@tmp
+                  \ifnum\bk@tmp>\z@
+                    \edef\bekutoru@y{\bekutoru@hd}%
+                    \ifdim\bekutoru@y\p@<1zw\ukansan{1zw}\bekutoru@y\fi
+                  \fi
+                  \Strchr{\houi@opt}{t}\bk@tmp
+                  \ifnum\bk@tmp>\z@
+                    \ifdim\bekutoru@hd\yunitlength<1zw\relax
+                      \setlength{\@tempdima}{1zw-\bekutoru@hd\unitlength}%
+                      \uykansan{\the\@tempdima}\bekutoru@y
+                    \fi
+                  \fi
+                  \makebox(\bekutoru@w,0){\colorbox{white}{\ensuremath{\displaystyle ##1}}}\relax
+                  \ifsironuki
+                    \@tempdima\bekutoru@y\yunitlength
+                    \advance\@tempdima2\p@
+                    \uykansan\@tempdima\bekutoru@y@
+                    \Nuritubusi[0]{(\bekutoru@xl,0)(\bekutoru@xr,0)(\bekutoru@xr,\bekutoru@y@)(0,\bekutoru@y@)}%
+                  \fi
+                  \ArrowLine<linethickness=\BK@thickness\p@>%
+                  {(\bekutoru@xl,\bekutoru@y)}{(\bekutoru@xr,\bekutoru@y)}%
+        \grestore
+      }}%
+    }}%
+  \or% vec@type=7 (ceo)
+    \bekutorusityuu{\vphantom{h}}%
+    \def\ceobekutoru{\@ifstar\ceobekutoru@m\ceobekutoru@t}%
+    \def\ceobekutoru@t##1{\ensuremath{%
+        \ceooverrightarrow{\vphantom{h}\mathrm{##1}}}}%
+    \def\ceobekutoru@m##1{\ensuremath{%
+        \ceooverrightarrow{\vphantom{h}{##1}}}}%
+    \let\bekutoru\ceobekutoru
+    \let\vec\ceovec
+  \or% vec@type=8 (esvect)
+    \bekutorusityuu{\vphantom{P}}%
+    \DeclareSymbolFont{esvector}     {U}{esvect}{m}{n}
+    \@ifundefined{fldr}{%
+      \DeclareMathSymbol{\fldr}{\mathrel}{esvector}{'024}%default
+    }{}%
+    \DeclareMathSymbol{\montraita}{\mathrel}{esvector}{'040}
+    \DeclareMathSymbol{\montraitd}{\mathrel}{esvector}{'043}
+    \def\relbareda{\mathrel{\mathpalette\mathsm@sh\montraita}}
+    \def\relbaredd{\mathrel{\mathpalette\mathsm@sh\montraitd}}
+    \def\vv{\@ifstar{\vvstar}{\vecteur}}%
+    \def\vvstar##1##2{\vecteur{##1}_{\mkern-1mu\relax##2}}%
+    \def\vecteur{\mathpalette{\overvect@\vectfill@}}%
+    \def\vectfill@{\traitfill@\relbaredd\relbareda\fldr}%
+    \def\traitfill@##1##2##3##4{%
+      $\m@th\mkern2mu\relax##4##1\mkern-1.5mu%
+      \cleaders\hbox{$##4\mkern0mu##2\mkern0mu$}\hfill
+      \mkern-1.5mu##3$%
+    }%
+    \def\overvect@##1##2##3{\vbox{\ialign{####\crcr%
+      \noalign{\kern-.7pt\nointerlineskip}##1##2\crcr%
+      \noalign{\kern-.3pt\nointerlineskip}$\m@th\hfil##2##3\hfil$\crcr}}}%
+    \let\bekutoru@relbar\relbaredd
+    \let\bekutoru@rightarrow\fldr
+    \let\overrightarrow\vv
+  \or% vec@type=9 (latex)
+    \bekutorusityuu{\vrule height .9zh width \z@}%
+    \let\bekutoru@relbar\relbar\let\bekutoru@rightarrow\rightarrow
+    \let\bekutoru\ltxbekutoru
+  \fi
+}%
+\bekutorukata{cm}%
+\endinput
+%
+v 0.01 2006/10/22 \bekutorukata{esvect}
+v 0.02 2007/06/28 \bekutorukata{fill}の場合の支柱調整
+v 0.04 2008/09/09 emath.sty を読み込んでおく。
+v 0.05 2010/11/14 bekutorukata{fill}とした場合，pszahyou(*)環境内での使用
+v 0.06 2011/08/13 \bekutorukata{latex}: LaTeX の \overrightarrow
+v 0.07 2011/11/22 bekutorukata{fill}とした場合，pszahyou(*)環境内での使用

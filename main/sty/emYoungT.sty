@@ -1,0 +1,97 @@
+%%% emYoungT.sty by tDB(emath@nifty.com)
+%
+\ProvidesPackage{emYoungT}[2010/06/01 v0.00]%
+%
+\RequirePackage{emathT}%
+\RequirePackage{emathPl}%
+%
+\def\YoungDcellsize#1{\edef\Young@Dcellsize{#1}}%
+\edef\Young@Dcellsize{1em}%
+\def\Young@D@haiti{c}%
+\def\YoungDhaiti#1{\edef\Young@D@haiti{#1}}%
+\def\YoungDiagram{\@ifnextchar[{\@YoungDiagram}{\@YoungDiagram[\empty]}}%
+\def\@YoungDiagram[#1]#2{{%
+  \csvhairetu*{#2}{YD@hairetu}%
+  \edef\YD@xmax{\hairetu{YD@hairetu}{1}}%
+  \Ifor*\YD@i{2}{\YD@hairetuN}\Do{%
+    \edef\YD@tmp{\hairetu{YD@hairetu}{\YD@i}}%
+    \ifnum\YD@tmp>\YD@xmax\edef\YD@xmax{\YD@tmp}\fi
+  }%
+  \edef\YD@ymax{\YD@hairetuN}%
+  \edef\YD@y{\YD@ymax}%
+  \edef\YD@tbl{}%
+  \Ifor*\YD@i{1}{\YD@hairetuN}\Do{%
+    \edef\YD@jmax{\hairetu{YD@hairetu}{\YD@i}}%
+    \Ifor*\YD@j{2}\YD@jmax\Do{%
+     \EMedefappend\YD@tbl{&}%
+    }%
+    \ifnum\YD@i<\YD@hairetuN
+      \IAdd\YD@i{1}\YD@ii
+      \edef\YD@jjmax{\hairetu{YD@hairetu}{\YD@ii}}%
+      \ifnum\YD@jjmax>\YD@jmax\edef\YD@jmax{\YD@jjmax}\fi
+    \fi
+    \EMedefappend\YD@tbl{\noexpand\\ \noexpand\cline{1-\YD@jmax}}%
+  }%
+  \edef\YD@tmp{\hairetu{YD@hairetu}{1}}%
+  \begin{tabular}'cellsize=\Young@Dcellsize'[\Young@D@haiti]%
+        {|*\YD@xmax{C{-}|}}\cline{1-\YD@tmp}%
+    \YD@tbl
+  \end{tabular}
+%  \drawaxisfalse
+%  \ifx\empyt #1
+%    \zahyou(0,\YD@xmax)(0,\YD@ymax)\relax
+%  \else
+%    \zahyou[#1](0,\YD@xmax)(0,\YD@ymax)\relax
+%  \fi
+%    \Ifor*\YD@i{1}{\YD@hairetuN}\Do{%
+%      \Decr\YD@y
+%      \Put{(0,\YD@y)}{\kousi{\hairetu{YD@hairetu}{\YD@i}}{1}}%
+%    }%
+%  \endzahyou
+}}%
+%
+\def\YoungTableau{\@ifnextchar[{\@YoungTableau}{\@YoungTableau[\empty]}}%
+\def\@YoungTableau[#1]#2{{%
+  \csvhairetu*[;]{#2}{YT@row}%
+  \edef\YT@tmp{\hairetu{YT@row}{1}}%
+  \csvhairetu*{\YT@tmp}{YT@top}%
+  \edef\YT@xmax{\YT@topN}%
+  \edef\YT@ymax{\YT@rowN}%
+  \edef\YT@y{\YT@ymax}%
+  \edef\YT@tbl{}%
+  \Ifor*\YT@i{1}{\YT@rowN}\Do{%
+    \edef\YT@tmp{\hairetu{YT@row}{\YT@i}}%
+    \csvhairetu*{\YT@tmp}{YT@iln}%
+    \EMedefappend\YT@tbl{\hairetu{YT@iln}{1}}%
+    \Ifor*\YT@j{2}\YT@ilnN\Do{%
+     \edefappend\YT@tbl{&\hairetu{YT@iln}{\YT@j}}%
+    }%
+    \EMedefappend\YT@tbl{\noexpand\\ \noexpand\cline{1-\YT@ilnN}}%
+  }%
+  \begin{tabular}'cellsize=\Young@Dcellsize'{|*\YT@xmax{C{-}|}}\hline
+    \YT@tbl
+  \end{tabular}
+%  \drawaxisfalse
+%  \ifx\empyt #1
+%    \zahyou(0,\YT@xmax)(0,\YT@ymax)\relax
+%  \else
+%    \zahyou[#1](0,\YT@xmax)(0,\YT@ymax)\relax
+%  \fi
+%    \Ifor*\YT@i{1}{\YT@rowN}\Do{%
+%      \edef\YT@tmp{\hairetu{YT@row}{\YT@i}}%
+%      \csvhairetu*{\YT@tmp}{YT@iln}%
+%      \Decr\YT@y
+%      \Put{(0,\YT@y)}{%
+%        \kousi{\YT@ilnN}{1}%
+%        \Ifor*\YT@j{1}{\YT@ilnN}\Do{%
+%          \Put{(\YT@j,0)}(-.5,.5)[c]{\hairetu{YT@iln}{\YT@j}}%
+%        }%
+%      }%
+%    }%
+%  \endzahyou
+}}%
+\endinput
+%
+http://www2.yukawa.kyoto-u.ac.jp/~kugo/macro/young.sty
+http://www.ctan.org/tex-archive/macros/latex/contrib/youngtab
+%

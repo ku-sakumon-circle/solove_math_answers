@@ -1,0 +1,20 @@
+\ProvidesFile{EMthbn.sty}[\FMithmInfo]
+
+\begingroup \makeatletter
+\@ifundefined{theorem@style}{\input{theorem.sty}}{}
+%
+\gdef\th@breaknum{\normalfont\slshape
+  \def\@begintheorem##1##2{%\typeout{\meaning\ttlcmd@name}%
+    \item[\theorem@headerfont\hskip\labelsep \ttlcmd@name{##1}{##2}]}%
+  \def\@opargbegintheorem##1##2##3{%
+    \item[\theorem@headerfont\hskip\labelsep{\ttlcmd@name<##3>{##1}{##2}}]}%
+}%
+\endgroup
+\endinput
+%
+%\gdef\EMthwlncmd#1#2{%
+%  \smash{\EMfbox<apnzahyou={\Buntenretu*(8:7){\LT\LB\LL;\RT\RB\RR}%
+%     \emPaint<nuriiro=lightgray>{\LT\LL\RR\RT}\Drawline{\LL\RR}}>%
+%                {\EMparbox[t]{#1\\[-2pt]\hfill #2\hfill\null}}}}%
+%%
+%% End of file `thc.sty'.

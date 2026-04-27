@@ -1,0 +1,39 @@
+いろんな典型を寄せ集めたつもりである. 他にも面白いものがあったら教えてほしい. 
+
+\syoumon{1} [学校のテストとかでありそうなやつ. 変換さえ分かっていれば三角関数の極限で分かる]  $180^{\circ} = \pi$の比率から考えて$\theta^{\circ} = \dfrac{\pi}{180}\theta$. よって$\theta = \dfrac{180}{\pi}\theta^{\circ}$なので
+\[\dfrac{\theta}{\tan{\theta^{\circ}}} = \dfrac{180}{\pi} \dfrac{\theta^{\circ}}{\tan{\theta^{\circ}}} \to \dfrac{180}{\pi}\]
+
+\syoumon{2} [$e$の定義を用いる典型]  $x/2 = t$とおくと
+\[\left(\dfrac{x}{x+2}\right)^x = (1+\dfrac{1}{t})^{2t} \to e^2\]
+
+\syoumon{3} [区分求積法]
+\[\int_{0}^{1} \sin{\pi x}\, dx = \dfrac{1}{\pi}\left\{ (-\cos{\pi}) - (-\cos{0})  \right\} = \dfrac{2}{\pi}\]
+
+\syoumon{4} [部分分数分解] \\$\dfrac{1}{4n^2 - 1} = \dfrac{1}{2}\left\{ \dfrac{1}{2n-1} - \dfrac{1}{2n+1}\right\}$より和がバタバタと消える. その結果
+\[\sum_{k=1}^{n} \dfrac{1}{4k^2-1} = \dfrac{1}{2} \left\{ \dfrac{1}{2\cdot 1-1} - \dfrac{1}{2n + 1}\right\} \to \dfrac{1}{2}\]
+
+\syoumon{5}
+
+\syoumon{6} [調和級数] これが無限に発散するのは有名な話. 次のように積分評価すれば分かる:
+\[
+\sum_{k=1}^{n} \dfrac{1}{k} \geq \sum_{k=1}^{n} \int_{k}^{k+1} \dfrac{dx}{x} = \int_{1}^{n+1} \dfrac{dx}{x} = \log{(n+1)} \to \infty
+\] 
+
+\syoumon{7} 
+
+\syoumon{8} [微分係数] $f(x) = x^{\sin{x}}$とおくと$f(\pi) = \pi^{0} = 1$なのでこれは$f'(\pi)$に等しく, $f'(x) = (e^{\log{x} \sin{x}})' = (\log{x}\sin{x})' e^{(\log{x})\sin{x}} = (\dfrac{\sin{x}}{x} + (\log{x})\cos{x})x^{\sin{x}}$だから
+\[f'(\pi) = -\log{\pi} \] 
+
+\syoumon{18} [メルカトル級数] 東工大で確か出てた. $n$が偶数の場合を考える; $n=2m$. 次の変形はとても有名. 
+\begin{align*}
+\sum_{k=1}^{2m} \dfrac{(-1)^{k-1}}{k} &= \sum_{k=1}^{2m} \dfrac{1}{k} - 2\sum_{k=1}^{m} \dfrac{1}{2k} \\
+&= \sum_{k=1}^{2m}\dfrac{1}{k} - \sum_{k=1}^{m} \dfrac{1}{k} \\
+&= \sum_{k=m+1}^{2m} \dfrac{1}{k} \\
+&= \sum_{k=1}^{m} \dfrac{1}{k+m} \\
+&= \dfrac{1}{m} \sum_{k=1}^{m} \dfrac{m}{k+m} \\
+&= \dfrac{1}{m} \sum_{k=1}^{m} \dfrac{1}{(k/m) + 1}\\
+&\to \int_{0}^{1} \dfrac{dx}{x+1} = \log{2}
+\end{align*}
+奇数の場合は一番最後の項だけ仲間外れにして偶数の場合と同じ計算すれば同じ値に収束する. 
+
+

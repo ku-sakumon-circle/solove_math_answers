@@ -1,0 +1,45 @@
+%% 索引を出力するための環境を調整
+\makeatletter
+\renewenvironment{theindex}{
+    % \if@twocolumn
+    %   \onecolumn\@restonecolfalse
+    % \else
+    %   \clearpage\@restonecoltrue
+    % \fi
+     \columnseprule.4pt \columnsep 2zw
+    % \ifx\multicols\@undefined
+    %   \def\presectionname{}\def\postsectionname{}%
+    %   \twocolumn[\section*{\indexname}]%
+    % \else
+    %   \ifdim\textwidth<\fullwidth
+    %     \setlength{\evensidemargin}{\oddsidemargin}
+    %     \setlength{\textwidth}{\fullwidth}
+    %     \setlength{\linewidth}{\fullwidth}
+    %     \def\presectionname{}\def\postsectionname{}%
+    %     \begin{multicols}{3}[\section*{\indexname}]%
+    %   \else
+    %     \def\presectionname{}\def\postsectionname{}%
+    %     \begin{multicols}{2}[\section*{\indexname}]%
+    %   \fi
+    % \fi
+    \@mkboth{\indexname}{\indexname}%
+    \plainifnotempty % \thispagestyle{plain}
+    \parindent\z@
+    \parskip\z@ \@plus .3\jsc@mpt\relax
+    \let\item\@idxitem
+    \raggedright
+    \footnotesize\narrowbaselines
+   }{
+  %   \ifx\multicols\@undefined
+  %     \if@restonecol\onecolumn\fi
+  %   \else
+  %     \end{multicols}
+  %   \fi
+     \clearpage
+   }
+\makeatother
+
+\renewcommand{\plainifnotempty}{\relax}
+
+% 問題索引の作成を宣言
+\makeindex

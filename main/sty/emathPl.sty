@@ -1,0 +1,1534 @@
+% emathPl.sty by tDB(CQB00260@nifty.ne.jp)
+%
+  \NeedsTeXFormat{LaTeX2e}%
+  \ProvidesPackage{emathPl}[2014/11/13 v 0.46]%
+  \DeclareOption{notcheckperl}{\def\not@perl@check{}}%
+  \ProcessOptions\relax
+%
+  \RequirePackage{keyval}%
+%  \RequirePackage{emath}%
+\@ifpackageloaded{emath}{}{\RequirePackage{emath}}%
+%  \RequirePackage{EMhairetu}%
+%
+%
+%\newwrite\pl@out
+\@ifundefined{em@whndl}{\newwrite\em@whndl}{}%
+\newread\pl@in%
+\xdef\save@perldata{0}%
+\def\skipCallPerl{\relax}%
+\def\emathpl{emath.pl}%
+%\edef\EMworkfilename{\jobname}%
+%
+\IfFileExists{checkperl.sty}{\input{checkperl.sty}}{}%
+%
+\def\check@perlp@ss{%
+  \@ifundefined{Pl@fixflnum}{\xIncr\perlflnum}{}%
+  \if /\kugirisi\gdef\perlp@ss{0}\else
+    \IfFileExists{\perl@datafilename}{%
+      \gdef\perlp@ss{2}}{\gdef\perlp@ss{1}}%
+  \fi
+}%
+%
+%
+\def\useperllib#1{%
+  \@for\@@c:=#1\do{%
+  \edef\@flnm{\@@c.pl}%
+  \myPerlLib{\@flnm}}}%
+\def\useperlpm#1{\@ifundefined{myPerlPM}{\edef\myPerlPM{#1}}{%
+    \edefappend\myPerlPM{,#1}}}%
+\def\myPerlLib#1{%
+  \Strchr{#1}{.}\myPerllib@tmp
+  \ifnum\myPerllib@tmp>\z@\edef\myPerlLib@l{#1}\else
+    \edef\myPerlLib@l{#1.pl}\fi
+  \@ifundefined{my@PerlLib}{\edef\my@PerlLib{\myPerlLib@l}}{%
+    \edef\my@PerlLib{\my@PerlLib;\myPerlLib@l}}}%
+\def\@requirePerlLib{%
+      \immediate\write\em@whndl{require '\emathpl';}%
+      \@ifundefined{my@PerlLib}{}{%
+      \Strchr\my@PerlLib{,}\RPL@tmp
+      \ifnum\RPL@tmp>\z@\edef\RPL@t{,}\else\edef\RPL@t{;}\fi
+      \Cfor{\edef\RPL@a{\my@PerlLib}}{\not\equal\RPL@a\empty}{%
+        \edef\RPL@a{\RPL@b}}\do{%
+        \strsep\RPL@a\RPL@t\RPL@a\RPL@b
+        \immediate\write\em@whndl{require '\RPL@a';}}}%
+      \@ifundefined{myPerlPM}{}{%
+%       \immediate\write\em@whndl{use \myPerlPM;}%
+        \Strchr\myPerlPM{,}\RPL@tmp
+        \ifnum\RPL@tmp>\z@\edef\RPL@t{,}\else\edef\RPL@t{;}\fi
+        \Cfor{\edef\RPL@a{\myPerlPM}}{\not\equal\RPL@a\empty}{%
+          \edef\RPL@a{\RPL@b}}\do{%
+            \strsep\RPL@a\RPL@t\RPL@a\RPL@b
+            \immediate\write\em@whndl{use \RPL@a;}}%
+      }%
+}%
+%
+% callperl
+%
+\define@key{EMperl}{scriptfile}{\edef\perl@script@flnm{#1}}%
+\define@key{EMperl}{outputfile}{\edef\perl@output@flnm{#1}}%
+\edef\perl@script@flnm{\EMworkfilename.pl}%
+\edef\perl@output@flnm{\EMworkfilename.txt}%
+\def\EMcallperl{\bgroup
+  \@ifnextchar[{\EMcallperl@}{\@EMcallperl}}%
+\def\EMcallperl@[#1]{\setkeys{EMperl}{#1}\@EMcallperl}%
+\def\@EMcallperl{%
+    \immediate\openout\em@whndl=\perl@script@flnm%
+    \immediate\write\em@whndl{open(FHNDL,">\perl@output@flnm");}%
+    \catcode`\%12\relax
+    \@bsphack\let\do\@makeother\dospecials
+    \catcode`\^^M\active
+    \def\verbatim@processline{%
+        \immediate\write\em@whndl{\the\verbatim@line}}%
+    \verbatim@start}%
+\def\endEMcallperl{%
+  \@esphack
+  \immediate\write\em@whndl{close(FHNDL);}%
+  \immediate\closeout\em@whndl
+%  \immediate\EM@system{copy /Y NUL \perl@output@flnm}%
+%  \immediate\EM@system{\Perl@Name@ii\space \perl@script@flnm\space >\perl@output@flnm}%
+  \immediate\EM@system{\Perl@Name\space \perl@script@flnm}%
+  \egroup
+}%
+\def\edefperl#1{%
+    \openin\pl@in=\perl@output@flnm\relax
+    \read\pl@in to\calcval@tmp
+    \trim\calcval@tmp\to\kekka\relax
+    \immediate\closein\pl@in
+}%
+%
+\def\t@perl#1#2{%
+  \edef\t@perl@str{#1}\edef#2{}%
+  \ifx\empty#1\else
+    \expandafter\@tfor\expandafter\@c\expandafter:\expandafter=\t@perl@str\do{%
+      \if X\@c\edefappend#2{($x)}\else
+      \if Y\@c\edefappend#2{($x)}\else
+      \if T\@c\edefappend#2{($x)}\else
+      \edefappend#2{\@c}\fi\fi\fi
+    }%
+  \fi}%
+%
+% 計算値を戻す
+%   \calcval[#1]#2#3
+%     #1 : printf の書式 (%はつけない。デフォルトは `f')
+%     #2 : 計算式
+%     #3 : 結果を受け取る制御綴
+%
+\def\calcval{%
+  \@ifundefined{not@perl@check}{%
+    \IfFileExists{checkperl.sty}{%
+      \let\calcval\calcval@
+      \calcval@
+    }{%
+      \errmessage{emathPl Error : Add --shell-escape option for latex}%
+    }%
+  }{\calcval@}%
+}%
+\def\calcval@{\@ifnextchar[{\@calcval}{\@calcval[f]}}%
+\def\@calcval[#1]#2#3{%\begingroup
+%\typeout{calcval:arg=#2}%
+%  \edef\by@perl{0}%
+  \check@perlp@ss
+  \ifcase\perlp@ss
+    \@perljob@sub
+    \ifnum\skip@perl=\z@
+      \immediate\write\em@whndl{open(FHNDL,">\perl@datafilename");}%
+\@requirePerlLib
+      \Strchr{#1}{s}\calcval@tmp
+      \ifnum\calcval@tmp=\z@
+        \immediate\write\em@whndl{%
+          $y=#2;
+          printf FHNDL"\@percent #1\string\n",$y;
+        }%
+      \else
+        \immediate\write\em@whndl{%
+          $y=#2;
+          if ($y!=0 && abs($y)<0.0001) {$y=sprintf("\@percent f",$y);}
+          printf FHNDL "\@percent #1\string\n",$y;
+        }%
+      \fi
+      \immediate\write\em@whndl{close(FHNDL);}%
+      \immediate\closeout\em@whndl
+      \immediate\EM@system{\Perl@Name\space \perl@scriptfilename}%
+      \IfFileExists{\perl@datafilename}{%
+        \openin\pl@in=\perl@datafilename}{\@warning{do perl}}%
+    \fi
+    \IfFileExists{\perl@datafilename}{%
+      \read\pl@in to\calcval@tmp%
+      \trim\calcval@tmp\to\calcval@ans\relax
+      \immediate\closein\pl@in
+    }{%\edef\calcval@ans{1}\@warning{do perl}%
+      \@warning{Perl が正しく実行されていません。}%
+    }%
+  \or
+    \open@perlfile
+    \immediate\write\em@whndl{open(FHNDL,"> \perl@datafilename");}%
+      \immediate\write\em@whndl{%
+        (abs(#2)<\emLlim)? printf FHNDL "\@percent f\string\n",#2: printf FHNDL"\@percent #1\string\n",#2;}%
+    \immediate\write\em@whndl{close(FHNDL);}%
+    \errmessage{\perl@sharp calcval ---> \perl@datafilename}%
+  \or
+    \IfFileExists{\perl@datafilename}{%
+      \openin\pl@in=\perl@datafilename
+      \read\pl@in to\calcval@tmp
+      \trim\calcval@tmp\to\calcval@ans\relax
+      \immediate\closein\pl@in
+    }{\edef\calcval@ans{1}\@warning{do perl}}%
+  \fi
+  \edef#3{\calcval@ans}%
+}%
+%
+\def\prcalcval{\@ifnextchar[{\@prcalcval}{\@prcalcval[f]}}%
+\def\@prcalcval[#1]#2{%
+  \@calcval[#1]{#2}\prcalcval@val
+  \prcalcval@val
+}%
+%
+%\calcvals#1#2
+% #1: perl計算式の csv列
+% #2: 結果を受け取る配列基幹名
+\def\calcvals#1#2{%
+  \hairetusyokika{#2}%
+  \CalcVals{%
+    my @val=(#1);
+    my @tmp=0;
+    foreach (@val){
+      $tmp=$_;
+      if (abs($tmp)<.000001){$tmp=0};
+      print FHNDL $tmp, "\string\n";
+    }
+  }{#2}%
+}%
+%
+\def\Calcval#1#2{\EMedef#2{\protect\input "|perl -e 'print (#1)'"}}{}%
+%
+%
+% 計算値を戻す
+%   \CalcVal[#1]#2#3
+%     #1 : 未定義
+%     #2 : 計算式群（出力は print 文）
+%     #3 : 結果を受け取る制御綴
+%
+\def\CalcVal{\@ifstar{\def\CV@trim{0}\@CalcVal}{\def\CV@trim{1}\@CalcVal}}%
+\def\@CalcVal{\@ifnextchar[{\@@CalcVal}{\@@CalcVal[f]}}%
+\def\@@CalcVal[#1]#2#3{%
+  \check@perlp@ss
+  \ifcase\perlp@ss
+    \@perljob@sub
+    \ifnum\skip@perl=\z@
+      \immediate\write\em@whndl{open(FHNDL,">\perl@datafilename");}%
+\@requirePerlLib
+      \immediate\write\em@whndl{#2}%
+      \immediate\write\em@whndl{close(FHNDL);}%
+      \immediate\closeout\em@whndl
+      \immediate\EM@system{\Perl@Name\space \perl@scriptfilename}%
+      \IfFileExists{\perl@datafilename}{%
+        \openin\pl@in=\perl@datafilename}{\@warning{do perl}}%
+    \fi
+    \IfFileExists{\perl@datafilename}{%
+      \read\pl@in to\CalcVal@tmp%
+      \ifnum\CV@trim>\z@
+        \trim\CalcVal@tmp\to#3\relax
+      \else
+        \EMedef#3{\CalcVal@tmp}%
+      \fi
+      \immediate\closein\pl@in
+    }{\edef#3{0}\@warning{do perl}}%
+  \or
+    \open@perlfile
+    \immediate\write\em@whndl{open(FHNDL,"> \perl@datafilename");}%
+    \immediate\write\em@whndl{#2}%
+    \immediate\write\em@whndl{close(FHNDL);}%
+    \errmessage{\perl@sharp CalcVal ---> \perl@datafilename}%
+  \or
+    \IfFileExists{\perl@datafilename}{%
+      \openin\pl@in=\perl@datafilename
+      \read\pl@in to\CalcVal@tmp
+      \ifnum\CV@trim>\z@
+        \trim\CalcVal@tmp\to#3\relax
+      \else
+        \def#3{\CalcVal@tmp}%
+      \fi
+%      \trim\CalcVal@tmp\to#3\relax
+      \immediate\closein\pl@in
+    }{\edef#3{0}\@warning{do perl}}%
+  \fi
+}%
+%
+\def\CalcVals{\@ifstar{\def\CV@trim{0}\@CalcVals}{\def\CV@trim{1}\@CalcVals}}%
+\def\@CalcVals{\@ifnextchar[{\@@CalcVals}{\@@CalcVals[f]}}%
+\def\@@CalcVals[#1]#2#3{%
+%
+  \def\read@sub{%
+      \read\pl@in to\CalcVals@tmp%
+      \ifeof\pl@in\relax\else
+        \ifnum\CV@trim>\z@
+          \trim\CalcVals@tmp\to\rs@tmp\relax
+        \else
+          \EMedef\rs@tmp{\CalcVals@tmp}%
+        \fi
+        \hairetutuika{#3}{\rs@tmp}%
+        \read@sub
+      \fi
+  }%
+%
+  \check@perlp@ss
+  \ifcase\perlp@ss
+    \@perljob@sub
+    \ifnum\skip@perl=\z@
+      \immediate\write\em@whndl{open(FHNDL,">\perl@datafilename");}%
+\@requirePerlLib
+      \immediate\write\em@whndl{#2}%
+%     \immediate\write\em@whndl{print FHNDL "eol";}%
+      \immediate\write\em@whndl{close(FHNDL);}%
+      \immediate\closeout\em@whndl
+      \immediate\EM@system{\Perl@Name\space \perl@scriptfilename}%
+      \IfFileExists{\perl@datafilename}{%
+        \openin\pl@in=\perl@datafilename}{\@warning{do perl}}%
+    \fi
+    \IfFileExists{\perl@datafilename}{%
+      \hairetusyokika{#3}%
+      \openin\pl@in=\perl@datafilename
+      \read@sub
+      \immediate\closein\pl@in
+    }{\hairetusyokika{#3}\@warning{do perl}}%
+  \or
+    \open@perlfile
+    \immediate\write\em@whndl{open(FHNDL,"> \perl@datafilename");}%
+    \immediate\write\em@whndl{#2}%
+%    \immediate\write\em@whndl{print FHNDL "eol";}%
+    \immediate\write\em@whndl{close(FHNDL);}%
+    \errmessage{\perl@sharp CalcVals ---> \perl@datafilename}%
+  \or
+    \IfFileExists{\perl@datafilename}{%
+      \hairetusyokika{#3}%
+      \openin\pl@in=\perl@datafilename
+      \read@sub
+      \immediate\closein\pl@in
+    }{\hairetusyokika{#3}\@warning{do perl}}%
+  \fi
+}%
+%
+\def\perlukansan#1#2{%
+  \@ifundefined{unit@length}{\errmessage{perl を用いて単位換算を行う場合は，
+    setunitlength コマンドをお使いください}}{}%
+  \ukansan{#1}#2\relax
+  \CalcVal{%
+    $str="\unit@length";
+    if ($str =\EMtildechar /([a-z]+)/) {% mm
+      $uc=$1;
+    }
+    if ($str =\EMtildechar /([^a-z]+)/) {% 12.3
+      $ud=$1;
+    }
+    $str="#1";
+    if ($str =\EMtildechar /([a-z]+)/) {% mm
+      $c=$1;
+    }
+    if ($str =\EMtildechar /([^a-z]+)/) {% 12.3
+      $d=$1;
+    }
+    if ($c eq 'mm'){
+      if ($uc eq 'mm') {
+        printf FHNDL "\EMpercentchar f\string\n", $d/$ud;
+      }elsif ($uc eq 'cm'){
+        printf FHNDL "\EMpercentchar f\string\n", $d/(10*$ud);
+      }elsif($uc eq 'pt') {
+        printf FHNDL "\EMpercentchar f\string\n", $d/(0.3514598*$ud);
+      }else{
+        printf FHNDL "???";
+      }
+    }elsif ($c eq 'cm'){
+      if ($uc eq 'mm') {
+        printf FHNDL "\EMpercentchar f\string\n", 10*$d/$ud;
+      }elsif ($uc eq 'cm'){
+        printf FHNDL "\EMpercentchar f\string\n", $d/$ud;
+      }elsif($uc eq 'pt') {
+        printf FHNDL "\EMpercentchar f\string\n", 10*$d/(0.3514598*$ud);
+      }else{
+        printf FHNDL "???\string\n";
+      }
+    }elsif ($c eq 'pt'){
+      if ($uc eq 'mm') {
+        printf FHNDL "\EMpercentchar f\string\n", 0.3514598*$d/$ud;
+      }elsif ($uc eq 'cm'){
+        printf FHNDL "\EMpercentchar f\string\n", 0.03514598*$d/$ud;
+      }elsif($uc eq 'pt') {
+        printf FHNDL "\EMpercentchar f\string\n", $d/$ud;
+      }else{
+        printf FHNDL "???\string\n";
+      }
+    }else{
+%      printf FHNDL "???\string\n";
+      printf FHNDL "\EMpercentchar f\string\n", #2;
+    }
+  }#2}
+%
+\edef\perlflnum{0}%
+%
+\@ifundefined{not@perl@check}{%
+\def\@checkPerl{%
+ \@ifundefined{EM@begindocument}{\AtBeginDocument{\@@checkPerl}}{%
+                                \@@checkPerl}%
+}%
+\def\@@checkPerl{%
+    \@ifundefined{em@whndl}{\newwrite\em@whndl}{}%
+    \immediate\openout\em@whndl=hoge--------.pl
+    \immediate\write\em@whndl{open(FHNDL,">hoge--------.tmp");}%
+    \immediate\write\em@whndl{require 'emath.pl';}%
+    \immediate\write\em@whndl{%
+          $y=Degsin(90);
+          printf FHNDL"\@percent s\noexpand\n",$y;
+        }%
+    \immediate\closeout\em@whndl
+    \immediate\EM@system{\Perl@Name\space hoge--------.pl}%
+    \IfFileExists{hoge--------.tmp}{%
+      \openin\pl@in=hoge--------.tmp
+      \read\pl@in to\calcval@tmp
+      \trim\calcval@tmp\to\calcval@ans\relax
+      \immediate\closein\pl@in
+      \ifthenelse{\equal{\calcval@ans}{1}}{}{\errmessage{cannot use perl(e)}}%
+      \unlink{hoge--------.pl}%
+      \unlink{hoge--------.tmp}%
+%\typeout{check perl...ok}%
+      \immediate\openout\em@whndl=checkperl.sty
+      \immediate\write\em@whndl{\string\def\string\not@perl@check{}}%
+      \immediate\closeout\em@whndl
+    }{%
+      \@latex@warning{emathPp : you cannot use perl}%
+    }%
+}%
+%
+\def\checkPerl{\@ifstar{\checkPerl@}{\@checkPerl}}%
+\def\checkPerl@{%
+\ifeof18
+\errmessage{emathPp Error : Please enable shell escape by --shell-escape option}%
+%\else
+%\immediate\EM@system{SomeCommand}%
+\fi
+\@checkPerl
+}%
+}{\def\checkPerl{\relax}}%
+%
+%\def\@checkPerl{\@ifnextchar[{\@checkPerl@}{\@@checkPerl}}%
+%\def\@checkPerl@[#1]{\edef\EMworkfilename{#1}\@@checkPerl}%
+%\def\@@checkPerl{%
+%%  \edef\checkperl@tmp{checkperl}%
+%  \edef\checkperl@tmp{256}%
+%  \edef\perlflnum{-1}%
+%  \calcval[s]{"\checkperl@tmp"}\tmp
+%\@ifundefined{tmp}{\errmessage{Perl との連携ができていません}}{}%
+%  \Strlen\tmp\ltmp
+%  \Strlen\checkperl@tmp\lcheckperl@tmp
+%  \ifnum\ltmp=\lcheckperl@tmp\else
+%        \errmessage{emathPp Error : B Perl との連携ができていません}%
+%  \fi
+%  \Cfor{\headchar\tmp\tmpi\tmpii\headchar\checkperl@tmp\ci\cii}{%
+%    \not\equal\tmpi\empty}{\headchar\tmpii\tmpi\tmpii\headchar\cii\ci\cii}\do{%%
+%      \if\ci\tmpi\else
+%        \errmessage{emathPp Error : C Perl との連携ができていません。}%
+%      \fi
+%  }%
+%}%
+%
+\def\perl@datafiledir{\@currdir}%
+\def\perldatafiledir#1{\relax}%
+\def\EMperlFileDir#1{\edef\perl@datafiledir{#1\kugirisi}}%
+%\def\EMworkfiledir#1{%
+% \edef\EM@workfiledir{#1\kugirisi}%
+% \edef\EMps@filedir{#1\kugirisi}%
+% \edef\perl@datafiledir{#1\kugirisi}%
+%}%
+%\def\perldatafiledir#1{%
+%  \if /\kugirisi
+%    \IfFileExists{#1/perl.d0}{}{%
+%      \immediate\EM@system{md #1}%
+%      \immediate\openout \em@whndl #1/perl.d0\relax
+%      \immediate\closeout\em@whndl
+%    }%
+%    \def\perl@datafiledir{#1\kugirisi}%
+%  \fi}%
+\def\@perljob@sub{%
+    \def\skip@perl{0}%
+    \def\perl@datafilename{\perl@datafiledir\EMworkfilename_d\perlflnum.dta}%
+    \def\perl@scriptfilename{\perl@datafiledir\EMworkfilename_d\perlflnum.pl}%
+%      \def\perl@scriptfilename{%
+%        "\perl@datafiledir\EMworkfilename_d\perlflnum.pl"}% for Windows
+%\typeout{flnm=\perl@scriptfilename}%\ffff%
+%\ifnum\perlflnum=\@ne
+%  \immediate\openout \pl@bat \EMworkfilename.cmd\relax
+%\fi
+%\immediate\write\pl@bat{echo\space off}%
+%\immediate\write\pl@bat{perl\space\perl@scriptfilename}%
+    \ifnum\save@perldata>\z@
+        \IfFileExists{\perl@datafilename}{%
+          \openin\pl@in=\perl@datafilename\def\skip@perl{1}}{%
+            \immediate\openout \em@whndl \perl@scriptfilename\relax
+          }%
+    \else
+        \immediate\openout \em@whndl \perl@scriptfilename\relax
+    \fi
+}%
+%
+% 等比数列
+%
+\def\Gseq#1#2#3#4{%
+% #1: 初項
+% #2: 公比
+% #3: 項数
+% #4: 結果を受け取る配列基幹名
+  \hairetusyokika{#4}%
+  \CalcVals{%
+    my $syokou=#1;
+    my $kouhi=#2;
+    my $kousuu=#3;
+    my $ans=$syokou;
+    print FHNDL $ans, "\string\n";
+    my $ival=1;
+    while ($ival++<$kousuu) {
+      $ans*=$kouhi;
+      if (abs($ans)<0.0001) {
+        printf FHNDL "\@percent .8f\string\n",$ans;
+      } else {
+        print FHNDL $ans, "\string\n";
+      }
+    }
+  }{#4}%
+}%
+%
+% 関数値
+%
+\def\funcval{\@ifnextchar[{\@funcval}{\@funcval[f]}}%
+\def\@funcval[#1]#2#3#4{%
+  \t@perl{#2}\funcval@siki
+  \edef\x@funcval{#3}%
+  \check@perlp@ss
+  \ifcase\perlp@ss
+    \@perljob@sub
+    \ifnum\skip@perl=\z@
+      \immediate\write\em@whndl{open(FHNDL,">\perl@datafilename");}%
+\@requirePerlLib
+      \immediate\write\em@whndl{%my $fmtc='#1';
+        $x=\x@funcval;
+        $y=\funcval@siki;
+        if ($y!=0 && abs($y)<0.0001) {$y=sprintf("\@percent f",$y);}
+        printf FHNDL "\@percent #1\string\n",$y;
+      }%
+      \immediate\write\em@whndl{close(FHNDL);}%
+      \immediate\closeout\em@whndl
+      \immediate\EM@system{\Perl@Name\space \perl@scriptfilename}%
+      \IfFileExists{\perl@datafilename}{%
+        \openin\pl@in=\perl@datafilename}{\@warning{do perl}}%
+    \fi
+    \IfFileExists{\perl@datafilename}{%
+      \read\pl@in to\funcval@tmp
+      \trim\funcval@tmp\to#4\relax
+      \immediate\closein\pl@in
+    }{\edef#4{0}\@warning{do perl}}%
+   \or
+%    \ifnum\perlflnum=\@ne
+%      \immediate\openout \em@whndl \perl@scriptfilename\relax
+% \@requirePerlLib
+%    \fi
+    \open@perlfile
+    \immediate\write\em@whndl{open(FHNDL,"> \perl@datafilename");}%
+    \immediate\write\em@whndl{$x=\x@funcval;%
+      printf FHNDL"\@percent #1\string\n",\funcval@siki;}%
+    \immediate\write\em@whndl{close(FHNDL);}%
+    \errmessage{\perl@sharp calcval ---> \perl@datafilename}%
+   \or
+     \IfFileExists{\perl@datafilename}{%
+      \openin\pl@in=\perl@datafilename
+      \read\pl@in to\funcval@tmp
+      \trim\funcval@tmp\to#4\relax
+      \immediate\closein\pl@in
+    }{\edef#4{0}\@warning{do perl}}%
+   \fi
+}%
+%
+\def\funcvals{\@ifnextchar[{\@funcvals}{\@funcvals[s]}}%
+\def\@funcvals[#1]#2#3#4{%
+% #2: 関数式
+% #3: x の csv列
+% #4: 結果を受領する制御綴
+%
+  \csvhairetu*{#3}{fvs@x}%
+  \t@perl{#2}\func@
+  \check@perlp@ss
+  \ifcase\perlp@ss
+    \@perljob@sub
+  \fi
+  \immediate\write\em@whndl{open(FHNDL,">\perl@datafilename");}%
+\@requirePerlLib
+  \immediate\write\em@whndl{%
+      my $x=\hairetu{fvs@x}{1};
+      my $y=\func@;
+      if (abs($y)<\emLlim){$y=0;}
+      printf FHNDL "\@percent #1\string",$y;
+  }%
+  \Ifor*\i@val{2}\fvs@xN\Do{%
+    \immediate\write\em@whndl{%
+      my $x=\hairetu{fvs@x}{\i@val};
+      my $y=\func@;
+      if (abs($y)<\emLlim){$y=0;}
+      printf FHNDL ",\@percent #1\string",$y;
+    }%
+  }%
+  \immediate\write\em@whndl{print FHNDL "\string\n";}%
+  \immediate\write\em@whndl{close(FHNDL);}%
+  \immediate\closeout\em@whndl
+      \immediate\EM@system{\Perl@Name\space \perl@scriptfilename}%
+      \IfFileExists{\perl@datafilename}{%
+        \openin\pl@in=\perl@datafilename}{\@warning{do perl}}%
+      \IfFileExists{\perl@datafilename}{%
+        \read\pl@in to\funcval@tmp
+        \trim\funcval@tmp\to#4\relax
+        \immediate\closein\pl@in
+      }{\edef#4{0}\@warning{do perl}}%
+}%
+%
+\def\invfuncval{\@ifnextchar<{\@invfuncval}{\@invfuncval<\empty>}}%
+\def\@invfuncval<#1>#2#3#4{%
+  \Eqf<#1>{(#2)-(#3)}#4\relax
+}
+%
+\def\csvfuncval#1#2#3{%
+% #1: csv
+% #2: x
+% #3: 結果を受け取る制御綴
+  \CalcVal{%
+    my $xval=#2;
+    my @csv=(#1);
+    my $ans=0;
+    foreach (@csv){
+      $ans=$ans*$xval+$_;
+    }
+    print FHNDL $ans,"\string\n";
+  }{#3}%
+}%
+%
+% 二変数関数値の計算
+%
+\def\ii@t@perl#1#2{%
+  \edef\t@perl@str{#1}\edef#2{}%
+  \ifx\empty#1\else
+    \expandafter\@tfor\expandafter\@c\expandafter:\expandafter=\t@perl@str\do{%
+      \if X\@c\edefappend#2{($x)}\else
+      \if Y\@c\edefappend#2{($y)}\else
+      \edefappend#2{\@c}\fi\fi
+    }%
+  \fi
+}%
+\def\iifuncval{\@ifnextchar[{\@iifuncval}{\@iifuncval[f]}}%
+\def\@iifuncval[#1]#2#3#4#5{%
+% #2: 二変数関数
+% #3: x
+% #4: y
+% #5: 関数値を受領する制御綴
+%
+  \ii@t@perl{#2}\ii@func
+  \check@perlp@ss
+  \ifcase\perlp@ss
+    \@perljob@sub
+  \fi
+  \immediate\write\em@whndl{open(FHNDL,">\perl@datafilename");}%
+\@requirePerlLib
+  \immediate\write\em@whndl{%
+    my $x=#3;
+    my $y=#4;
+    my $retval=\ii@func;
+    if ($retval!=0 && abs($retval)<0.0001){$y=sprintf("\@percent f",$y);}
+        printf FHNDL "\@percent #1\string\n",$retval;
+    }%
+      \immediate\write\em@whndl{close(FHNDL);}%
+      \immediate\closeout\em@whndl
+      \immediate\EM@system{\Perl@Name\space \perl@scriptfilename}%
+      \IfFileExists{\perl@datafilename}{%
+        \openin\pl@in=\perl@datafilename}{\@warning{do perl}}%
+      \IfFileExists{\perl@datafilename}{%
+        \read\pl@in to\funcval@tmp
+        \trim\funcval@tmp\to#5\relax
+        \immediate\closein\pl@in
+      }{\edef#5{0}\@warning{do perl}}%
+}%
+%
+\def\iifuncvals{\@ifnextchar[{\@iifuncvals}{\@iifuncvals[s]}}%
+\def\@iifuncvals[#1]#2#3#4{%
+% #2: 関数式
+% #3: (x,y) の csv列
+% #4: 結果を受領する制御綴
+%
+  \csvhairetu*{#3}{fvs@x}%
+  \ii@t@perl{#2}\func@
+  \check@perlp@ss
+  \ifcase\perlp@ss
+    \@perljob@sub
+  \fi
+  \immediate\write\em@whndl{open(FHNDL,">\perl@datafilename");}%
+\@requirePerlLib
+  \edef\i@val{0}%
+  \exfor[;]\fv@c:=#3\do{%
+    \stripkakko\fv@c\fv@c@
+    \Strsep\fv@c@{,}\fv@a\fv@b
+    \ifnum\i@val=0\relax
+      \immediate\write\em@whndl{%
+        my $x=\fv@a;
+        my $y=\fv@b;
+        my $f=\func@;
+        if (abs($f)<\emLlim){$f=0;}
+        printf FHNDL "\@percent #1\string",$f;
+      }%
+    \else
+      \immediate\write\em@whndl{%
+        my $x=\fv@a;
+        my $y=\fv@b;
+        my $f=\func@;
+        if (abs($f)<\emLlim){$f=0;}
+        printf FHNDL ",\@percent #1\string",$f;
+      }%
+    \fi
+    \Incr\i@val
+  }%
+  \immediate\write\em@whndl{print FHNDL "\string\n";}%
+  \immediate\write\em@whndl{close(FHNDL);}%
+  \immediate\closeout\em@whndl
+      \immediate\EM@system{\Perl@Name\space \perl@scriptfilename}%
+      \IfFileExists{\perl@datafilename}{%
+        \openin\pl@in=\perl@datafilename}{\@warning{do perl}}%
+      \IfFileExists{\perl@datafilename}{%
+        \read\pl@in to\funcval@tmp
+        \trim\funcval@tmp\to#4\relax
+        \immediate\closein\pl@in
+      }{\edef#4{0}\@warning{do perl}}%
+}%
+%
+\def\Eqf{\begingroup
+  \edef\YG@xl{\truexmin}%
+  \edef\YG@xr{\truexmax}%
+  \edef\YG@xo{\empty}%
+  \edef\x@format{\empty}%
+  \edef\emLlim{.000001}%
+  \@ifstar{\Eqf@}{\@Eqf}}%
+%
+\def\Eqf@{\@ifnextchar<{\Eqf@@}{\Eqf@@<\empty>}}%
+\def\Eqf@@<#1>#2#3#4{%
+  \edef\Eqf@@tmp{(#2)-(#3)}%
+  \@@Eqf<#1>\Eqf@@tmp{#4}%
+}%
+%
+\def\@Eqf{\@ifnextchar<{\@@Eqf}{\@@Eqf<\empty>}}%
+\def\@@Eqf<#1>#2#3{%
+  \ifx\empty #1\else\setkeys{emGurafu}{#1}\fi
+  \ifx\empty\YG@xo
+    \ifx\empty\x@format\edef\x@format{f}\fi
+    \B@Eqf{#2}{\YG@xl}{\YG@xr}#3\relax
+  \else
+    \ifx\empty\x@format\edef\x@format{s}\fi
+    \N@Eqf{#2}\YG@xo#3\relax
+  \fi
+  \edef\temp@x{\def\noexpand#3{#3}}%
+  \expandafter\endgroup\temp@x
+}%
+\def\N@Eqf#1#2#3{% ニュートン法
+% #1: F(x)
+% #2: xo
+% #3: 結果
+%
+%  \edef\emLlim{\dx@default}%
+  \Seikei@siki{#1}\YG@siki@
+  \t@perl{\YG@siki@}\perl@siki
+\check@perlp@ss
+    \@perljob@sub
+    \ifnum\skip@perl=\z@
+      \immediate\write\em@whndl{open(FHNDL,">\perl@datafilename");}%
+      \@requirePerlLib
+        \immediate\write\em@whndl{%
+          $x=(#2);
+          do{
+            $xo=$x;
+            $y=\perl@siki;$yo=$y;%
+            $x=$xo+(\emLlim);$yi=\perl@siki;$xi=$x;%
+            $x=$xo-(\emLlim);$yii=\perl@siki;$xii=$x;%
+            $dydx=(($yi-$yo)/($xi-$xo)+($yii-$yo)/($xii-$xo))/2;
+            $x=$xo-$yo/$dydx;
+          } until abs($x-$xo)<\emLlim;
+          printf FHNDL"\@percent\x@format\string\n",$x;
+        }%
+      \immediate\write\em@whndl{close(FHNDL);}%
+      \immediate\closeout\em@whndl
+      \immediate\EM@system{\Perl@Name\space \perl@scriptfilename}%
+    \fi
+    \IfFileExists{\perl@datafilename}{%
+      \openin\pl@in=\perl@datafilename
+      \read\pl@in to\YPoint@tmp
+      \trim\YPoint@tmp\to#3\relax
+      \immediate\closein\pl@in
+    }{\edef#3{0}\@warning{do perl}}%
+}%
+%
+%
+\def\B@Eqf#1#2#3#4{% 二分法
+% #1: F(X)
+% #2: xl
+% #3: xr
+% #4: 結果
+  \edef\YG@xl{#2}%
+  \edef\YG@xr{#3}%
+%  \def\YG@xval{\dmy}%
+  \Seikei@siki{#1}\YG@siki
+  \t@perl{\YG@siki}\perl@siki
+  \check@perlp@ss
+    \@perljob@sub
+    \ifnum\skip@perl=\z@
+      \immediate\write\em@whndl{open(FHNDL,">\perl@datafilename");}%
+\@requirePerlLib
+      \immediate\write\em@whndl{$xl=(\YG@xl);$xr=(\YG@xr);%
+        $x=$xl;$yl=\perl@siki;
+        $x=$xr;$yr=\perl@siki;
+        for($x=($xr+$xl)/2;$xr-$xl>\emLlim;$x=($xr+$xl)/2){%
+          $y=\perl@siki;%
+          if ($y<\emLlim && $y>-\emLlim){$xr=$x;$xl=$x;}%
+          else {$yy=$y*$yl;%
+            if ($yy>0){$xl=$x;$yl=$y;}%
+            else {$xr=$x;$yr=$y;}}}%
+        printf FHNDL"\@percent\x@format\string\n",$x;}%
+      \immediate\write\em@whndl{close(FHNDL);}%
+      \immediate\closeout\em@whndl
+      \immediate\EM@system{\Perl@Name\space \perl@scriptfilename}%
+    \fi
+    \IfFileExists{\perl@datafilename}{%
+      \openin\pl@in=\perl@datafilename
+      \read\pl@in to\YTen@tmp
+      \trim\YTen@tmp\to#4\relax
+      \immediate\closein\pl@in
+    }{\edef\YG@x{0}\@warning{do perl}}%
+}%
+%
+%\def\Eqf{\@ifnextchar<{\@Eqf}{\@Eqf<\empty>}}%
+%\def\@Eqf<#1>#2#3#4{\begingroup
+%%  \edef\YG@unit{\dx@default}%
+%  \edef\YG@unit{.000001}%
+%  \def\YG@point{Setten}%
+%  \ifx\empty #1\else\setkeys{emGurafu}{#1}\fi
+%  \Seikei@siki{#2}\YG@siki@
+%  \t@perl{\YG@siki@}\perl@siki
+%\check@perlp@ss
+%    \@perljob@sub
+%    \ifnum\skip@perl=\z@
+%      \immediate\write\em@whndl{open(FHNDL,">\perl@datafilename");}%
+%      \@requirePerlLib
+%        \immediate\write\em@whndl{%
+%          $x=(#3);
+%          do{
+%            $xo=$x;
+%            $y=\perl@siki;$yo=$y;%
+%            $x=$xo+(\YG@unit);$yi=\perl@siki;$xi=$x;%
+%            $x=$xo-(\YG@unit);$yii=\perl@siki;$xii=$x;%
+%            $dydx=(($yi-$yo)/($xi-$xo)+($yii-$yo)/($xii-$xo))/2;
+%            $x=$xo-$yo/$dydx;
+%          } until abs($x-$xo)<\YG@unit;
+%          printf FHNDL"\@percent s\string\n",$x;
+%        }%
+%      \immediate\write\em@whndl{close(FHNDL);}%
+%      \immediate\closeout\em@whndl
+%      \immediate\EM@system{\Perl@Name\space \perl@scriptfilename}%
+%    \fi
+%    \IfFileExists{\perl@datafilename}{%
+%      \openin\pl@in=\perl@datafilename
+%      \read\pl@in to\YPoint@tmp
+%      \trim\YPoint@tmp\to#4\relax
+%      \immediate\closein\pl@in
+%    }{\edef#4{0}\@warning{do perl}}%
+%  \edef\temp@x{\def\noexpand#4{#4}}%
+%  \expandafter\endgroup\temp@x
+%}%
+%
+%
+%\def\invfuncval{\@ifnextchar<{\@invfuncval}{\@invfuncval<\empty>}}%
+%\def\@invfuncval<#1>#2#3#4{\begingroup
+%  \edef\YG@xl{\truexmin}%
+%  \edef\YG@xr{\truexmax}%
+%  \def\YG@xval{\dmy}%
+%  \ifx\empty #1\else\setkeys{emGurafu}{#1}\fi
+%  \Seikei@siki{#2}\YG@siki
+%  \t@perl{\YG@siki}\perl@siki
+%  \Seikei@siki{#3}\YG@siki
+%  \t@perl{\YG@siki}\perl@sikii
+%  \edef\perl@siki{(\perl@siki)-(\perl@sikii)}%
+%  \check@perlp@ss
+%  \ifcase\perlp@ss
+%    \@perljob@sub
+%    \ifnum\skip@perl=\z@
+%      \immediate\write\em@whndl{open(FHNDL,">\perl@datafilename");}%
+%\@requirePerlLib
+%      \immediate\write\em@whndl{$xl=(\YG@xl);$xr=(\YG@xr);%
+%        $x=$xl;$yl=\perl@siki;
+%        $x=$xr;$yr=\perl@siki;
+%        for($x=($xr+$xl)/2;$xr-$xl>\emLlim;$x=($xr+$xl)/2){%
+%          $y=\perl@siki;%
+%          if ($y<\emLlim && $y>-\emLlim){$xr=$x;$xl=$x;}%
+%          else {$yy=$y*$yl;%
+%            if ($yy>0){$xl=$x;$yl=$y;}%
+%            else {$xr=$x;$yr=$y;}}}%
+%        printf FHNDL"\@percent f",$x;}%
+%      \immediate\write\em@whndl{close(FHNDL);}%
+%      \immediate\closeout\em@whndl
+%      \immediate\EM@system{\Perl@Name\space \perl@scriptfilename}%
+%      \IfFileExists{\perl@datafilename}{%
+%        \openin\pl@in=\perl@datafilename}{\@warning{do perl}}%
+%    \fi
+%    \IfFileExists{\perl@datafilename}{%
+%      \read\pl@in to\YTen@tmp
+%      \trim\YTen@tmp\to\YG@x\relax
+%      \immediate\closein\pl@in
+%    }{\edef\YG@x{0}\@warning{do perl}}%
+%  \or
+%    \open@perlfile
+%    \immediate\write\em@whndl{open(FHNDL,"> \EMworkfilename.d\perlflnum");}%
+%      \immediate\write\em@whndl{$xl=(\YG@xl);$xr=(\YG@xr);%
+%        $x=$xl;$yl=\perl@siki;
+%        $x=$xr;$yr=\perl@siki;
+%        for($x=($xr+$xl)/2;$xr-$xl>\emLlim;$x=($xr+$xl)/2){%
+%          $y=\perl@siki;%
+%          if ($y<\emLlim && $y>-\emLlim){$xr=$x;$xl=$x;}%
+%          else {$yy=$y*$yl;%
+%            if ($yy>0){$xl=$x;$yl=$y;}%
+%            else {$xr=$x;$yr=$y;}}}%
+%        printf FHNDL"\@percent f",$x;}%
+%    \immediate\write\em@whndl{close(FHNDL);}%
+%    \errmessage{\perl@sharp YKouten ---> \EMworkfilename.d\perlflnum}%
+%  \or
+%    \IfFileExists{\perl@datafilename}{%
+%      \openin\pl@in=\perl@datafiledir\EMworkfilename.d\perlflnum\relax
+%      \read\pl@in to\YTen@tmp
+%      \trim\YTen@tmp\to\YG@x\relax
+%      \immediate\closein\pl@in
+%    }{\edef\YG@x{0}\@warning{do perl}}%
+%  \fi
+%  \edef\temp@x{\def\noexpand#4{\YG@x}}%
+%  \expandafter\endgroup\temp@x
+%}%
+%
+\def\stripkakko#1#2{%
+    \EMedef#2{#1}%
+    \def\@stripkakko(##1)\@nil{\EMedef#2{##1}}%
+    \ifx\empty #1\else
+      \headchar{#1}\head@c\remain@
+      \if (\head@c
+        \expandafter\@stripkakko#1\@nil
+      \fi
+    \fi
+}%
+\let\stripparen\stripkakko
+%
+\def\perltotex#1{%
+  \Strsep#1{/}\bunsi\bunbo
+  \stripkakko\bunsi\bunsi
+  \stripkakko\bunbo\bunbo
+  \Strsep\bunsi{sqrt}\perltotex@tmp@a\perltotex@tmp@b
+  \Strsep\perltotex@tmp@a{*}\perltotex@tmp@aa\perltotex@tmp@ab
+  \EMedef\perltotex@tmp@a{\perltotex@tmp@aa\perltotex@tmp@ab}%
+  \ifx\empty\perltotex@tmp@b
+  \else
+    \stripkakko\perltotex@tmp@b\perltotex@tmp@b
+    \EMedef\bunsi{\perltotex@tmp@a\sqrt{\perltotex@tmp@b}}%
+  \fi
+}%
+%
+% 二次方程式の解
+%
+\def\perlcsvEqii{\@ifstar{\perlcsvEqii@}{\@perlcsvEqii}}%
+\def\@perlcsvEqii#1#2#3{%
+% #1: a,b,c
+% #2,#3: 解 #2≦#3
+  \vecXYZ{(#1)}\Eqii@a\Eqii@b\Eqii@c
+  \perlEqii\Eqii@a\Eqii@b\Eqii@c#2#3\relax
+}%
+\def\perlcsvEqii@#1#2#3#4{%
+% #1: a,b,c
+% #2: a',b',c'
+% #3,#4: 解 #3≦#4
+  \vecXYZ{(#1)}\Eqii@a\Eqii@b\Eqii@c
+  \vecXYZ{(#2)}\Eqii@aa\Eqii@bb\Eqii@cc
+  \perlEqii{(\Eqii@a)-(\Eqii@aa)}{(\Eqii@b)-(\Eqii@bb)}{(\Eqii@c)-(\Eqii@cc)}#3#4\relax
+}%
+\let\csvEqii\perlcsvEqii
+%
+\def\perlEqii#1#2#3#4#5{%
+% ax^2+bx+c=0
+% #1 : a
+% #2 : b
+% #3 : c
+% #4,#5 : x1, x2 (x1≦x2)
+  \CalcVal{%
+    my $a=#1;
+    my $b=#2;
+    my $c=#3;
+    if($a<0){
+      $a=-$a;$b=-$b;$c=-$c
+    }
+    $D=$b*$b-4*$a*$c;
+    if(abs($D)<\emLlim){$D=0;}
+    if ($a<\emLlim){
+      printf FHNDL "\EMpercentchar s,\string\n",(-$c)/($b);
+    }elsif ($D<0){
+      printf FHNDL ",\string\n";
+    }elsif ($D==0) {
+      printf FHNDL "\EMpercentchar s,\string\n",(-$b)/(2*$a);
+    }else{
+      $ansi=(-$b-sqrt($D))/(2*$a);if (abs($ansi)<\emLlim){$ansi=0;}
+      $ansii=(-$b+sqrt($D))/(2*$a);if (abs($ansii)<\emLlim){$ansii=0;}
+      printf FHNDL "\EMpercentchar s,\EMpercentchar s\string\n",$ansi,$ansii;
+    }
+  }\perlEqii@ans
+  \Strsep\perlEqii@ans{,}{#4}{#5}\relax
+}%
+%
+\def\Lfunctocsv#1#2{%
+  \t@perl{#1}\funcval@siki
+  \CalcVal{%
+    my $x=0;
+    my $b=\funcval@siki;
+       $x=1;
+    my $ai=\funcval@siki;
+    printf FHNDL "\EMpercentchar s,\EMpercentchar s\string\n",$ai-$b,$b;
+  }#2
+}%
+%
+\def\Qfunctocsv#1#2{%
+  \t@perl{#1}\funcval@siki
+  \CalcVal{%
+    my $x=0;
+    my $c=\funcval@siki;
+       $x=1;
+    my $ai=\funcval@siki;
+       $x=-1;
+    my $ami=\funcval@siki;
+    printf FHNDL "\EMpercentchar s,\EMpercentchar s,\EMpercentchar s\string\n",($ai+$ami)/2-$c,($ai-$ami)/2,$c;
+  }#2
+}%
+%
+\def\QandLfunc#1#2{%
+  \Qfunctocsv{#1}\QLf@q
+  \Lfunctocsv{#2}\QLf@l
+  \csvQandL\QLf@q\QLf@l
+}%
+\def\QandQ#1#2{%
+  \Qfunctocsv{#1}\QLf@qi
+  \Qfunctocsv{#2}\QLf@qii
+  \csvQandQ\QLf@qi\QLf@qii%
+}%
+\def\QandL#1#2#3{%
+  \Lfunc{#2}{#3}\QL@L
+  \QandLfunc{#1}\QL@L
+}%
+\def\QandlL#1#2#3{%
+  \lLfunc{#2}{#3}\QL@lL
+  \QandLfunc{#1}\QL@lL
+}%
+\let\Qandl\QandlL
+\def\QandgL#1#2#3{%
+  \gLfunc{#2}{#3}\QL@gL
+  \QandLfunc{#1}\QL@gL
+}%
+\let\Qandg\QandgL
+\def\QandngL#1#2#3{%
+  \ngLfunc{#2}{#3}\QL@ngL
+  \QandLfunc{#1}\QL@ngL
+}%
+\let\Qandng\QandngL
+\def\QandkL#1#2#3{%
+  \kLfunc{#2}{#3}\QL@gL
+  \QandLfunc{#1}\QL@gL
+}%
+\let\Qandk\QandkL
+%
+\def\csvQandL#1#2{\@ifnextchar[{\@csvQandL{#1}{#2}}%
+    {\@csvQandL{#1}{#2}[\empty]}}%
+\def\@csvQandL#1#2[#3]#4{%
+    \@ifnextchar[{\@@csvQandL{#1}{#2}[#3]{#4}}%
+    {\@@csvQandL{#1}{#2}[#3]{#4}[\empty]}}%
+\def\@@csvQandL#1#2[#3]#4[#5]#6{%
+  \csvhairetu*{#1}{Qi@}%
+  \csvhairetu*{#2}{Qj@}%
+  \perlEqii{\Qi@i}{(\Qi@ii)-(\Qj@i)}{(\Qi@iii)-(\Qj@ii)}\x@i\x@ii
+  \perlteisuuretu{y@i=(\Qj@i)*\x@i+(\Qj@ii);y@ii=(\Qj@i)*\x@ii+(\Qj@ii)}%
+%  \edef#4{(\x@i,\y@i)}%
+%  \edef#6{(\x@ii,\y@ii)}%
+  \edef\csvQL@Pi{(\x@i,\y@i)}%
+  \edef\csvQL@Pii{(\x@ii,\y@ii)}%
+  \ifx\empty #4\else\Put@nil\csvQL@Pi #4\@nil\fi
+  \ifx\empty #6\else\Put@nil\csvQL@Pii #6\@nil\fi
+  \ifx\empty #3\else\edef#3{\x@i}\fi
+  \ifx\empty #5\else\edef#5{\x@ii}\fi
+}%
+%
+\def\csvQandQ#1#2{\@ifnextchar[{\@csvQandQ{#1}{#2}}%
+    {\@csvQandQ{#1}{#2}[\empty]}}%
+\def\@csvQandQ#1#2[#3]#4{%
+    \@ifnextchar[{\@@csvQandQ{#1}{#2}[#3]{#4}}%
+    {\@@csvQandQ{#1}{#2}[#3]{#4}[\empty]}}%
+\def\@@csvQandQ#1#2[#3]#4[#5]#6{%
+  \csvhairetu*{#1}{Qi@}%
+  \csvhairetu*{#2}{Qj@}%
+  \perlEqii{(\Qi@i)-(\Qj@i)}{(\Qi@ii)-(\Qj@ii)}{(\Qi@iii)-(\Qj@iii)}\x@i\x@ii
+  \ifx\empty\x@ii
+    \perlteisuuretu{y@i=((\Qj@i)*(\x@i)+(\Qj@ii))*(\x@i)+(\Qj@iii)}%
+%    \edef#4{(\x@i,\y@i)}%
+    \edef#6{\empty}%
+    \edef\QQ@A{(\x@i,\y@i)}%
+    \Put@nil\QQ@A #4\@nil
+    \ifx\empty #3\else\edef#3{\x@i}\fi
+    \ifx\empty #5\else\edef#5{\x@ii}\fi
+  \else
+    \perlteisuuretu{%
+      y@i=((\Qj@i)*(\x@i)+(\Qj@ii))*(\x@i)+(\Qj@iii);%
+      y@ii=((\Qj@i)*(\x@ii)+(\Qj@ii))*(\x@ii)+(\Qj@iii)}%
+%    \edef#4{(\x@i,\y@i)}%
+%    \edef#6{(\x@ii,\y@ii)}%
+    \edef\QQ@A{(\x@i,\y@i)}%
+    \edef\QQ@B{(\x@ii,\y@ii)}%
+    \Put@nil\QQ@A #4\@nil
+    \Put@nil\QQ@B #6\@nil
+    \ifx\empty #3\else\edef#3{\x@i}\fi
+    \ifx\empty #5\else\edef#5{\x@ii}\fi
+  \fi
+}%
+%
+\def\LandLfunc#1#2{%
+  \Lfunctocsv{#1}\LLf@i
+  \Lfunctocsv{#2}\LLf@ii
+  \csvLandL\LLf@i\LLf@ii
+}%
+%
+\def\csvLandL#1#2{\@ifnextchar[{\@csvLandL{#1}{#2}}%
+    {\@csvLandL{#1}{#2}[\empty]}}%
+\def\@csvLandL#1#2[#3]#4{%
+  \csvhairetu*{#1}{Qi@}%
+  \csvhairetu*{#2}{Qj@}%
+  \calcval{((\Qj@ii)-(\Qi@ii))/((\Qi@i)-(\Qj@i))}\x@i
+  \calcval{(\Qj@i)*\x@i+(\Qj@ii)}\y@i
+  \edef\tmp@P{(\x@i,\y@i)}%
+  \Put@nil\tmp@P #4\@nil
+  \ifx\empty #3\else\edef#3{\x@i}\fi
+}%
+%
+\def\csvQeq#1#2#3{%
+% #1: 係数列1
+% #2: 係数列2
+% #3: 交点の x座標を格納する配列基幹名
+  \csvhairetu*{#1}{Qi@}%
+  \csvhairetu*{#2}{Qj@}%
+  \ifnum\Qi@N=\@ne
+    \ifnum\Qj@N=\tw@% a=a'x+b'
+      \calcval[s]{((\Qi@i)-(\Qj@ii))/(\Qj@i)}\QQ@ans\relax
+      \edefhairetu{#3}{1}{\QQ@ans}%
+      \expandafter\edef\csname #3N\endcsname{1}%
+    \else\ifnum\Qj@N=\thr@@% a=a'x^2+b'x+c'
+      \perlEqii{\Qj@i}{\Qj@ii}{(\Qj@iii)-(\Qi@i)}\QQ@ans\QQ@ansi
+      \edefhairetu{#3}{1}{\QQ@ans}%
+      \edefhairetu{#3}{2}{\QQ@ansi}%
+      \expandafter\edef\csname #3N\endcsname{2}%
+    \else
+      \errmessage{Qeq: illegal arg}%
+    \fi\fi
+  \else\ifnum\Qi@N=\tw@
+    \ifnum\Qj@N=\@ne% ax+b=a'
+      \calcval[s]{((\Qj@i)-(\Qi@ii))/(\Qi@i)}\QQ@ans
+      \edefhairetu{#3}{1}{\QQ@ans}%
+      \expandafter\edef\csname #3N\endcsname{1}%
+    \else\ifnum\Qj@N=\tw@% ax+b=a'x+b'
+      \calcval[s]{((\Qj@ii)-(\Qi@ii))/((\Qi@i)-(\Qj@i))}\QQ@ans
+      \edefhairetu{#3}{1}{\QQ@ans}%
+      \expandafter\edef\csname #3N\endcsname{1}%
+    \else\ifnum\Qj@N=\thr@@
+      \perlEqii{\Qj@i}{(\Qj@ii)-(\Qi@i)}{(\Qj@iii)-(\Qi@ii)}\QQ@ans\QQ@ansi
+      \edefhairetu{#3}{1}{\QQ@ans}%
+      \edefhairetu{#3}{2}{\QQ@ansi}%
+      \expandafter\edef\csname #3N\endcsname{2}%
+    \else
+      \errmessage{Qeq: illegal arg}%
+    \fi\fi\fi
+  \else\ifnum\Qi@N=\thr@@
+    \ifnum\Qj@N=\@ne% ax^2+bx+c=a'
+      \perlEqii{\Qi@i}{\Qi@ii}{(\Qi@iii)-(\Qj@i)}\QQ@ans\QQ@ansi
+      \edefhairetu{#3}{1}{\QQ@ans}%
+      \edefhairetu{#3}{2}{\QQ@ansi}%
+      \expandafter\edef\csname #3N\endcsname{2}%
+    \else\ifnum\Qj@N=\tw@
+      \perlEqii{\Qi@i}{(\Qi@ii)-(\Qj@i)}{(\Qi@iii)-(\Qj@ii)}\QQ@ans\QQ@ansi
+      \edefhairetu{#3}{1}{\QQ@ans}%
+      \edefhairetu{#3}{2}{\QQ@ansi}%
+      \expandafter\edef\csname #3N\endcsname{2}%
+    \else\ifnum\Qj@N=\thr@@
+      \Sub\Qi@i\Qj@i\QQtmp
+      \ifdim\QQtmp\p@=\z@
+        \calcval[s]{((\Qi@iii)-(\Qj@iii))/((\Qj@ii)-(\Qi@ii))}\QQ@ans
+        \edefhairetu{#3}{1}{\QQ@ans}%
+        \expandafter\edef\csname #3N\endcsname{1}%
+      \else
+        \perlEqii{(\Qi@i)-(\Qj@i)}{(\Qi@ii)-(\Qj@ii)}{(\Qi@iii)-(\Qj@iii)}%
+          \QQ@ans\QQ@ansi
+        \edefhairetu{#3}{1}{\QQ@ans}%
+        \edefhairetu{#3}{2}{\QQ@ansi}%
+        \expandafter\edef\csname #3N\endcsname{2}%
+      \fi
+    \else
+      \errmessage{Qeq: illegal arg}%
+    \fi\fi\fi
+  \else
+    \errmessage{Qeq: illegal arg}%
+  \fi\fi\fi
+}%
+\let\Qeq\csvQeq
+%
+%
+\def\QnoSessen#1#2#3#4{%
+% #1: 二次関数
+% #2: 接点のx座標
+% #3: 接点を受け取る制御綴
+% #4: 接線の傾きを受け取る制御綴
+%
+  \Qfunctocsv{#1}\QniS@q
+  \vecXYZ{(\QniS@q)}\Q@a\Q@b\Q@c
+  \perlteisuuretu{Q@m=2*(\Q@a)*(#2)+(\Q@b);%
+      Q@y=(#2)*((\Q@a)*(#2)+(\Q@b))+(\Q@c);Q@x=#2}
+%  \edef#3{(\Q@x,\Q@y)}%
+  \edef\tmp@P{(\Q@x,\Q@y)}%
+  \Put@nil\tmp@P #3\@nil
+  \edef#4{\Q@m}%
+}%
+%
+\def\QniSessen#1#2{\@ifnextchar[{\@QniSessen{#1}{#2}}{%
+    \@QniSessen{#1}{#2}[\empty]}}%
+\def\@QniSessen#1#2[#3]#4{\@ifnextchar[{%
+    \@@QniSessen{#1}{#2}[#3]{#4}}{\@@QniSessen{#1}{#2}[#3]{#4}[\empty]}}%
+\def\@@QniSessen#1#2[#3]#4[#5]#6{%
+  \Qfunctocsv{#1}\QniS@q
+  \vecXYZ{(\QniS@q)}\Q@a\Q@b\Q@c
+  \vecXY{#2}\Q@xi\Q@yi
+  \perlEqii{\Q@a}{-2*(\Q@a)*(\Q@xi)}{\Q@yi-(\Q@c)-(\Q@b)*(\Q@xi)}\Q@ti\Q@tii
+  \ifx\empty #3\else\edef#3{\Q@ti}\fi
+  \ifx\empty #5\else\edef#5{\Q@tii}\fi
+\ifx\empty\Q@ti
+  \edef#4{\empty}%
+\else
+  \funcval[s]{#1}{\Q@ti}\Q@ui
+%  \edef#4{(\Q@ti,\Q@ui)}%
+  \edef\tmp@P{(\Q@ti,\Q@ui)}%
+  \Put@nil\tmp@P #4\@nil
+\fi
+\ifx\empty\Q@ti
+  \errmessage{QniSessen: illegap point #2 for #1}%
+\else
+  \ifx\empty\Q@tii
+    \errmessage{QniSessen: illegap point #2 for #1}%
+  \else
+    \funcval[s]{#1}{\Q@ti}\Q@ui
+%    \edef#4{(\Q@ti,\Q@ui)}%
+    \edef\tmp@P{(\Q@ti,\Q@ui)}%
+    \Put@nil\tmp@P #4\@nil
+    \funcval[s]{#1}{\Q@tii}\Q@uii
+%   \edef#6{(\Q@tii,\Q@uii)}%
+    \edef\tmp@P{(\Q@tii,\Q@uii)}%
+    \Put@nil\tmp@P #6\@nil
+  \fi
+\fi
+}%
+%
+\def\QgSessen#1#2{\@ifnextchar[{\@QgSessen{#1}{#2}}{%
+    \@QgSessen{#1}{#2}[\empty]}}%
+\def\@QgSessen#1#2[#3]#4{%
+  \Qfunctocsv{#1}\QniS@q
+  \vecXYZ{(\QniS@q)}\Q@a\Q@b\Q@c
+  \perlteisuuretu{x@val=(#2-(\Q@b))/(2*(\Q@a))}%
+  \funcval[s]{#1}{\x@val}\y@val%
+  \edef#4{(\x@val,\y@val)}%
+  \ifx\empty #3\else\edef#3{\x@val}\fi
+}%
+%
+%\def\iiperlRenritu#1#2#3#4#5#6#7#8{%
+%  \CalcVal{%
+%    $a=#1;$b=#2;$c=#3;
+%    $aa=#4;$bb=#5;$cc=#6;
+%    $delta=$a*$bb-$aa*$b;
+%    if (abs($delta)<\emLlim){
+%      printf FHNDL ",";
+%    }else{
+%      $x=($c*$bb-$cc*$b)/$delta;
+%      $y=($a*$cc-$aa*$c)/$delta;
+%      printf FHNDL "\EMpercentchar s,\EMpercentchar s",$x,$y;
+%    } 
+%  }\pR@xy
+%  \Strsep\pR@xy{,}#7#8\relax
+%}%
+%
+%
+% Simpson の公式による定積分の近似値
+%
+  % Simpson 公式による定積分の近似値を求める
+  % #1 : 関数式
+  % #2 : 下端
+  % #3 : 上端
+  % #4 : 分割数（偶数）
+  % #5 : 結果
+  \def\Simpson#1#2#3#4#5{%
+    \t@perl{#1}\funcval@siki
+    \CalcVal{%
+      $x=#2;
+      $y=sprintf("\EMpercentchar s",\funcval@siki);
+      $x=#3;
+      $y+=sprintf("\EMpercentchar s",\funcval@siki);
+      for($ye=0,$n=2;$n<#4;$n+=2) {%
+        $x=(#2)+$n*((#3)-(#2))/(#4);
+        $ye+=sprintf("\EMpercentchar s",\funcval@siki);
+      }%
+      for($yo=0,$n=1;$n<#4;$n+=2) {%
+        $x=(#2)+$n*((#3)-(#2))/(#4);
+        $yo+=sprintf("\EMpercentchar s",\funcval@siki);
+      }%
+      printf FHNDL "\EMpercentchar s\string\n",((#3)-(#2))/(#4)*($y+2*$ye+4*$yo)/3;
+    }#5\relax
+  }%
+%
+% 楕円の弧長
+%
+\def\DaenKotyou{\@ifnextchar[{\@DaenKotyou}{\@DaenKotyou[4096]}}%
+\def\@DaenKotyou[#1]#2#3#4#5#6{%
+%  #1: 刻み値（デフォルト = 4096）
+%  #2: 横半径
+%  #3: 縦半径
+%  #4: θ（初期値）
+%  #5: θ（終り値）
+%  #6: 結果
+%
+    \t@perl{sqrt((#2*sin(X))**2+(#3*cos(X))**2)}\funcval@siki
+    \CalcVal{%
+      $nn=#1;
+      $ts=DegRad(#4);
+      $te=DegRad(#5);
+      $y=sprintf("\EMpercentchar s",\funcval@siki);
+      $y+=sprintf("\EMpercentchar s",\funcval@siki);
+      for($ye=0,$n=2;$n<$nn;$n+=2) {%
+        $x=($ts)+$n*(($te)-($ts))/($nn);
+        $ye+=sprintf("\EMpercentchar s",\funcval@siki);
+      }%
+      for($yo=0,$n=1;$n<$nn;$n+=2) {%
+        $x=($ts)+$n*(($te)-($ts))/($nn);
+        $yo+=sprintf("\EMpercentchar s",\funcval@siki);
+      }%
+      printf FHNDL "\EMpercentchar s\string\n",(($te)-($ts))/($nn)*($y+2*$ye+4*$yo)/3;
+    }#6\relax
+}%
+%
+% \okikae#1#2#3#4
+%   元文字列 #1 の
+%     #2 を #3 で置き換えた文字列
+%   を #4 の制御綴に返す。
+%
+\def\perl@okikae#1#2#3#4{%
+  \CalcVal{%
+    my $str='#1';
+    $str=\EMtildechar s/#2/#3/g;
+    printf FHNDL "\EMpercentchar s\string\n",$str;
+  }#4
+}%
+%
+% 合成関数
+%   \Gouseikansuu{X+1}{X*X} は (X+1)*(X+1) を返す。
+%
+\def\Gouseikansuu#1#2#3{\perl@okikae{#2}{X}{(#1)}#3}%
+%
+% 平行移動
+%   関数 #1 のグラフを
+%       x軸方向に #2, y軸方向に #3
+%   平行移動したグラフを表す関数式を #4 に返す
+%
+\def\heikouidouF#1#2#3#4{%
+  \Gouseikansuu{(X-(#2))}{#1}\hi@F
+  \EMedef#4{\hi@F+(#3)}}%
+%
+\def\perlyogen#1#2#3#4{%
+  \calcval[s]{sqrt(#1*#1+#2*#2-2*#1*#2*Degcos(#3))}#4\relax
+}%
+\def\perlYogen{\@ifnextchar[{\@perlYogen}{\@perlYogen[\empty]}}
+\def\@perlYogen[#1]#2#3#4#5{%
+  \ifx a#1\relax
+    \calcval[s]{RadDeg(acos((#3*#3+#4*#4-#2*#2)/(2*#3*#4)))}#5\relax
+  \else
+    \calcval[s]{(#3*#3+#4*#4-#2*#2)/(2*#3*#4)}#5\relax
+  \fi
+}%
+%
+\def\perlAseq{\@ifnextchar<{\@perlAseq}{\@perlAseq<\empty>}}%
+\def\@perlAseq<#1>#2#3#4{%
+  \edef\kousuu@{1000}%
+  \@ifundefined{XMAX}{%
+    \edef\YG@xl{-100}\edef\YG@xr{100}%
+  }{%
+    \edef\YG@xl{\truexmin}\edef\YG@xr{\truexmax}%
+  }%
+  \ifx\empty #1\else\setkeys{emC}{#1}\fi
+  \hairetusyokika{#4}%
+  \CalcVal{%
+    my $syokou=#2;
+    my $kousa=#3;
+    my $kousuu=\kousuu@;
+    my @x=();
+    for($i=0;$i<$kousuu;++$i){
+      $xval=$syokou+$i*$kousa;
+      if($xval>\YG@xr||$xval<\YG@xl){
+        $i=$kousuu;
+      }else{
+        $x[$i]=$xval;
+      }
+    }%
+    $" = ',';
+    print FHNDL "@x";
+    printf FHNDL "\string\n";
+  }\Aseq@csv
+  \csvhairetu*\Aseq@csv{#4}%
+}%
+%
+\def\perlMulvec#1#2#3{%
+  \vecXY{#2}\pmv@x\pmv@y
+  \perlteisuuretu{ans@x=(#1)*\pmv@x;ans@y=(#1)*\pmv@y}%
+  \edef#3{(\ans@x,\ans@y)}%
+}%
+%
+\def\mtime#1#2{%
+  \CalcVal{%
+    my $file="#1";
+    my $mtime=0;
+    ($mtime) = (stat($file))[9];
+    if ($mtime=="")
+      {$mtime=0;}
+    printf FHNDL "\EMpercentchar s\string\n",$mtime;}#2}%
+%
+\def\unlink#1{%
+  \CalcVal{%
+    my $file="#1";
+    unlink($file);
+    printf FHNDL "\EMpercentchar s\string\n",$file;
+  }\unlink@r
+}%
+%
+% OS が Windows であるかの判定
+%
+\def\checkOStype{{%
+  \def\Windows{Windows}%
+  \CalcVal*{%
+    $tmp=$ENV{'WINDIR'};
+    print FHNDL $tmp, "\string\n";
+  }\tmp
+  \Strsep\tmp\par\tmpa\tmpb
+  \emstrstr\tmpa{Windows}%
+  \ifnum\retval>\z@\xdef\OStype{Windows}\else\xdef\OStype{other}\fi
+}}%
+%
+\AtBeginDocument{%
+  \@ifundefined{Eqii}{%
+    \let\Eqii\perlEqii
+  }{}%
+  \@ifundefined{not@perl@check}{\checkPerl}{}%
+}%
+\endinput
+v 0.00 2007/04/04
+v 0.01 2007/04/07
+         \funcval などを emathP.sty から移管
+v 0.02 2007/05/08
+         \perltotex
+v 0.03 2007/12/08
+         \calcval : perl の作業結果ファイルが存在しない場合
+         　　警告を出していたが，エラー終了とする。 (BBS #6813)
+v 0.04 2008/01/03
+         \Simpson : シンプソン公式による定積分の近似計算
+v 0.05 2008/03/18
+         \CalcVal: *付きで，\trim をせず
+v 0.06 2008/05/29
+         作業用ファイルをサブディレクトリに
+v 0.07 2008/10/01
+         \perl@okikae
+v 0.08 2008/11/19
+         emath.sty のロード中止
+v 0.09 2008/12/14
+         \calcval: 戻り値が指数形式となることへの対応
+v 0.10 2008/12/14
+         \checkPerl (BBS #7763)
+         \calcval: 数値計算専用
+v 0.11 2009/01/24
+         \perlYogen
+v 0.12 2009/02/18
+         \DaenKotyou: 楕円の弧長を Simpson公式で求める。
+v 0.13 2009/03/25
+         \invfuncval
+v 0.14 2009/05/18
+         \calcval: 終端に perl の \n を付加。
+v 0.15 \noexpand --> \string
+v 0.16 2009/06/18 
+          \perlukansan: \unit@length が未定義の場合 (BBS #8214)
+v 0.17 2009/06/23
+          \perlukansan: cm, mm, pt 以外は \ukansan
+v 0.18 2009/10/04
+          \calcval: 戻り値が 0 の場合，[d] で 0.0000 と返るバグ修正 (BBS #8360)
+v 0.19 2009/10/06
+          \calcval: [.2f] 等に対応 (BBS #8368)
+v 0.20 2009/11/03
+          \perlEqii: a<0 の場合 (BBS #8414)
+v 0.21 2010/01/28
+          \Eqf: 整備
+v 0.22 2010/04/28
+          \mtime
+v 0.23 2010/04/29
+    perl data file name 変更
+v 0.24 2010/07/10
+    EMcallperl環境：shell_escape_restricted からの呼び出しに対応
+v 0.25 2010/09/21
+    \checkPerl 変更
+v 0.26 2010/10/28
+    \prcalcval
+v 0.27 2011/03/22
+    \Eqf: \YG@xl, \YG@xr の初期設定
+v 0.28 2011/04/17
+    \checkPerl を実行する
+    （回避するには，emathMy.sty に
+    　　　\def\checkPerl{\relax}%
+    　を付加）
+v 0.29 2011/04/25
+    [notcheckperl] オプション (saloon #909)
+v 0.30 2011/04/28
+    checkperl.tex が存在する場合は，\checkPerl を実行しない
+v 0.31 2011/05/01
+    \perl@okikae: 引数を文字列と明示
+v 0.32 2011/05/26
+    \CalcVals: 複数行を取得（配列形式）
+v 0.33 2011/06/07
+    \CalcVals: \trim を有効に
+v 0.34 2011/09/12
+    \calcvals
+v 0.35 2011/10/02
+    \Gseq 等比数列の項を計算
+v 0.35a 2011/10/26
+    \calcval: [d]指定の場合 (BBS #10273)
+v 0.36 2011/11/12
+    \csvEqii, \csvQandL など
+v 0.37 2012/03/28
+    \Qfunctocsv
+v 0.38 2012/06/08
+    \Eqf: <emLlim>
+v 0.39 2012/06/19
+    checkperl の拡張子を sty に変更
+v 0.40 2012/08/20
+    \QniSessen, \QnoSessen
+v 0.41 2012/09/25
+    perl との連携：.pl ファイルを "..." で括る。(BBS #11088) --> emathMy.sty
+v 0.42 2012/10/11
+    \funcvals
+    \iifuncval, \iifuncvals: 二変数関数値の計算
+v 0.43 2013/12/19
+    \QniSessen: 接線が存在しない場合は，エラー終了
+v 0.44 2014/03/03
+    \QandQ: 整備
+v 0.45 2014/08/04
+    \perlAseq: zahyou環境内かどうかの判定を修正 (BBS #12427)
+v 0.46 2014/11/13
+    \perlEqii: |解|<\emLlim の場合
