@@ -10,7 +10,10 @@ get_qgroup() {
     printf "%03d-%03d" ${s} ${e}
 }
 
-qnum=286
+qnum=`sed -n 's/^\\providecommand{\\SMMaxProblemNumber}{\([0-9][0-9]*\)}$/\1/p' ../config/config.tex | tail -n 1`
+if [ -z "${qnum}" ] ; then
+    echo "ERROR: failed to read SMMaxProblemNumber from config/config.tex" ; exit
+fi
 echo "total number of problems is "${qnum}
 
 # set preamble

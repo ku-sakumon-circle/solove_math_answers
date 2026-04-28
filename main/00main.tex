@@ -4,6 +4,8 @@
 \def\input@path{{./sty/}}
 \makeatother
 
+\input{../config/config.tex}
+\input{../config/macros/problem-routing.tex}
 \input{../preamble/preamble.tex}
 
 \begin{document}
@@ -112,21 +114,8 @@ botの解答集です. 解答は最速とは限らないし, まれに間違え�
 
 \stepcounter{q}
 
-\ifnum\value{q}<51
-\def\qgroup{001-050}
-\else\ifnum\value{q}<101
-\def\qgroup{051-100}
-\else\ifnum\value{q}<151
-\def\qgroup{101-150}
-\else\ifnum\value{q}<201
-\def\qgroup{151-200}
-\else\ifnum\value{q}<251
-\def\qgroup{201-250}
-\else\ifnum\value{q}<301
-\def\qgroup{251-300}
-\else
-\def\qgroup{301-350}
-\fi\fi\fi\fi\fi\fi
+\edef\qgroup{\SMQuestionGroupFromNumber{\value{q}}}
+\edef\qnumber{\SMQuestionNumberThreeDigits{\value{q}}}
 
 \ifnum\value{q}=1
 \section{問題 001-050}
@@ -150,17 +139,8 @@ botの解答集です. 解答は最速とは限らないし, まれに間違え�
 \section{問題 301-350}
 \fi\fi\fi\fi\fi\fi\fi
 
-\ifnum\value{q}<10
-\index{Q.00\the\value{q}}
-\input{../problems/\qgroup/Q_00\the\value{q}/Q_00\the\value{q}.tex}
-\else
-\ifnum\value{q}<100
-\index{Q.0\the\value{q}}
-\input{../problems/\qgroup/Q_0\the\value{q}/Q_0\the\value{q}.tex}
-\else
-\index{Q.\the\value{q}}
-\input{../problems/\qgroup/Q_\the\value{q}/Q_\the\value{q}.tex}
-\fi \fi
+\index{Q.\qnumber}
+\input{../problems/\qgroup/Q_\qnumber/Q_\qnumber.tex}
 
 \repeat
 

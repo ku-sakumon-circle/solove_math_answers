@@ -10,14 +10,25 @@ get_qgroup() {
     printf "%03d-%03d" ${s} ${e}
 }
 
-qgroup=`get_qgroup ${1}`
+default_q=`sed -n 's/^\\providecommand{\\SMDefaultDebugProblemNumber}{\([0-9][0-9]*\)}$/\1/p' ../config/config.tex | tail -n 1`
+if [ -z "${default_q}" ] ; then
+    echo "ERROR: failed to read SMDefaultDebugProblemNumber from config/config.tex" ; exit
+fi
 
-if [ $# -ne 1 ] ; then
-    echo "ERROR: only 1 argument needed" ; exit
-elif [ ! -d ../problems/${qgroup}/Q_${1} ] ; then
+if [ $# -eq 0 ] ; then
+    q=${default_q}
+elif [ $# -eq 1 ] ; then
+    q=${1}
+else
+    echo "ERROR: at most 1 argument needed" ; exit
+fi
+
+qgroup=`get_qgroup ${q}`
+
+if [ ! -d ../problems/${qgroup}/Q_${q} ] ; then
     echo "ERROR: not exist problems number" ; exit
 else
-    echo "debug mode : problem number is "${1}
+    echo "debug mode : problem number is "${q}
 fi
 
 # set preamble
@@ -28,10 +39,10 @@ echo "preamble ver. is "${verp}
 rm -f ${fname}~
 
 # set problems
-cd ${home}/../problems/${qgroup}/Q_${1}
-fname=`ls -1 Q_${1}.*.tex | tail -n 1`
+cd ${home}/../problems/${qgroup}/Q_${q}
+fname=`ls -1 Q_${q}.*.tex | tail -n 1`
 tmp=${fname%.*} ; verq=${tmp#*.}
-echo "Q_${1} ver. is "${verq}
+echo "Q_${q} ver. is "${verq}
 
 cd ${home}
 
@@ -45,7 +56,7 @@ cat <<EOF > 00debug.tex
 \lengthparam
 \setlength{\columnseprule}{0.5pt}
 
-\input{../problems/${qgroup}/Q_${1}/Q_${1}.${verq}.tex}
+\input{../problems/${qgroup}/Q_${q}/Q_${q}.${verq}.tex}
 
 \end{document}
 

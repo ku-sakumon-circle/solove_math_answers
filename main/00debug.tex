@@ -1,12 +1,16 @@
 \documentclass[twocolumn]{jsarticle}
 
-\input{../preamble/preamble.250216.tex}
+\input{../config/config.tex}
+\input{../config/macros/problem-routing.tex}
+\input{../preamble/preamble.tex}
 
 \begin{document}
 \fontsize{9pt}{7pt}\selectfont
 \lengthparam
 \setlength{\columnseprule}{0.5pt}
 
-\input{../problems/251-300/Q_288/Q_288}
+\edef\debugqgroup{\SMQuestionGroupFromNumber{\SMDefaultDebugProblemNumber}}
+\edef\debugqnumber{\SMQuestionNumberThreeDigits{\SMDefaultDebugProblemNumber}}
+\input{../problems/\debugqgroup/Q_\debugqnumber/Q_\debugqnumber.tex}
 
 \end{document}

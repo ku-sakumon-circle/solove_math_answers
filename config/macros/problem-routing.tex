@@ -1,0 +1,19 @@
+% Helper macros for compile-time problem routing.
+
+\newcommand{\SMQuestionGroupFromNumber}[1]{%
+\ifnum#1<51 001-050%
+\else\ifnum#1<101 051-100%
+\else\ifnum#1<151 101-150%
+\else\ifnum#1<201 151-200%
+\else\ifnum#1<251 201-250%
+\else\ifnum#1<301 251-300%
+\else 301-350%
+\fi\fi\fi\fi\fi\fi
+}
+
+\newcommand{\SMQuestionNumberThreeDigits}[1]{%
+\ifnum#1<10 00#1%
+\else\ifnum#1<100 0#1%
+\else #1%
+\fi\fi
+}

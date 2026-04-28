@@ -1,3 +1,6 @@
-% 問題の総数---------------------------------------------------
-\newcounter{qnum}
-\setcounter{qnum}{316} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%ここ！
+% Problem count shared from config/config.tex ---------------------------------
+\providecommand{\SMMaxProblemNumber}{350}
+\makeatletter
+\@ifundefined{c@qnum}{\newcounter{qnum}}{}
+\makeatother
+\setcounter{qnum}{\SMMaxProblemNumber}
