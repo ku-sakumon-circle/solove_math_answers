@@ -114,8 +114,8 @@ botの解答集です. 解答は最速とは限らないし, まれに間違え�
 
 \stepcounter{q}
 
-\edef\qgroup{\SMQuestionGroupFromNumber{\value{q}}}
-\edef\qnumber{\SMQuestionNumberThreeDigits{\value{q}}}
+\edef\qgroup{\SMQuestionGroupFromNumber{\number\value{q}}}
+\edef\qnumber{\SMQuestionNumberThreeDigits{\number\value{q}}}
 
 \ifnum\value{q}=1
 \section{問題 001-050}
