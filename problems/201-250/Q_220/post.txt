@@ -1,0 +1,10 @@
+Q.220 ☆9 [自作(4.5th)]
+
+n は2以上の整数とする. 関数
+
+f_n(θ) = (tan θ)^{1/n} / θ   (0 ＜ θ ＜ π/2)
+
+の最小値をm_nとするとき, lim[n→∞] m_n を求めよ.
+(必要ならば, lim[n→∞] n^{1/n} = 1 を用いても良い.)
+
+https://twitter.com/solove_math/status/1570267127537602560?t=8vJ664bAoaqk8NFgcXMF1g&s=19
