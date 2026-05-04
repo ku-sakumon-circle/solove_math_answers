@@ -1,92 +1,71 @@
-\begin{prob}{002}{\hosi 1}{Daisu gakukon テンプレート問題}
-四面体OABCは, $\mr{OA}=1, \mr{OB}=\mr{OC}=2$を満たし, 面$\mr{ABC}$が正三角形であるとする。
-\ben
-\item 正三角形$\mr{ABC}$の一辺の長さ$x$の取りうる値の範囲を求めよ。
-\item 四面体OABCの体積の最大値を求めよ。
-\een
+\begin{prob}{002}{}{2019年6月号 学コン5番}
+ $n$を正の整数, $e$を自然対数の底とする。
+ \begin{enumerate}
+  \item 関数$\disp f_n(x)=1+x+\frac{x^2}{2!}+\frac{x^3}{3!}+\dots +\frac{x^n}{n!}$ とするとき、$x>0$において、$0<e^x-f_n(x)<\dfrac{x^{n+1}e^x}{(n+1)!}$であることを示せ。
+  \item $\disp \lim_{n\to\infty} \cos\frac{2\pi e n!}{3}=-\frac{1}{2}$ を示せ。
+ \end{enumerate}
 \end{prob}
 
-\subsection*{(1)}
-簡単のため$x=2d$とおく。まず, 面$\mr{OAB}$の三辺は$1,2,2d$であり, この三辺について三角不等式が成り立つので
-\beqn
-\bcas
-1<2+2d\\
-2<1+2d\\
-2d<1+2
-\ecas
-\quad \dou\quad \dfrac{1}{2} < d < \dfrac{3}{2}\quad \dou\quad 1<x<3　・・・\mbox{\maru{1}}
-\eeqn
-が必要。また, この範囲であれば面$\mr{OAC}, \mr{OBC}$に関しても三角不等式が成り立つ。\\
-　次に, $\mr{BC}$の中点を$\mr{M}$とすると, $\mr{BM}=d, \mr{OM}=\sqrt{4-d^{2}}, \mr{AM}=\sqrt{3}d$である。点$\mr{A}$, 点$\mr{O}$はともに, $\mr{M}$を通る$\mr{BC}$に垂直な平面$p$上にある。一辺が$x=2d$のときにこの四面体が成り立つとするなら, $p$上で三角形$\mr{OAB}$が成り立つので, 三角不等式により
-\beqn
-\dfrac{1}{2}<d<\dfrac{3}{2}　かつ　
-\bcas
-\sqrt{3}d < 1+\sqrt{4-d^{2}}\\
-1<\sqrt{3}d+\sqrt{4-d^{2}}\\
-\sqrt{4-d^{2}} < \sqrt{3}d + 1
-\ecas
-\eeqn
-を満たすことが必要。逆にこれを満たせば, 先に1辺$2d$の正三角形$\mr{ABC}$を与えて, $p$上の点$\mr{O}$であって, $\mr{OM}=\sqrt{4-d^{2}}$かつ$\mr{AM}=\sqrt{3}d$, したがって $\mr{OA}=1, \mr{OB}=\mr{OC}=2$を満たすようなものを取ることができる。 \\
-　そこでこの不等式を解く。1式目と2式目は$(1-\sqrt{3}d)^{2} < 4-d^{2}$を考えることに同値。これを整理すると
-\beqn
-&& 4d^{2}- 2\sqrt{3}d -3 = x^2 - \sqrt{3}x - 3 <0\\
-&\iff& \quad \dfrac{\sqrt{3}-\sqrt{15}}{2} < x < \dfrac{\sqrt{3}+\sqrt{15}}{2}　・・・\mbox{\maru{2}}
-\eeqn
-となる。3式目は, $\dfrac{1}{2}< d < \dfrac{3}{2}$のもとで両辺が正であるから, 二乗しても同値であり
-\beqn
-&& 4-d^{2} < (\sqrt{3}d + 1)^{2} \\
-&\iff& 0<x^2 + \sqrt{3}x - 3\\
-&\iff& x<\dfrac{-\sqrt{3} - \sqrt{15}}{2}\quad \mbox{or}\quad \dfrac{-\sqrt{3}+\sqrt{15}}{2}<x　・・・\mbox{\maru{3}}
-\eeqn
-である。以上\maru{1},\maru{2},\maru{3}を満たせば良いので, 求める範囲は
-\begin{center}
-\bolm{\dfrac{\sqrt{15}-\sqrt{3}}{2} < x  < \dfrac{\sqrt{15}+\sqrt{3}}{2}　　}
-\end{center}
-\subsection*{(2)}
-$\angle{\mr{OAM}}=\theta$とおく。余弦定理により,
-\[\cos{\theta} = \dfrac{1^{2}+(\sqrt{3}d)^{2} - (\sqrt{4-d^{2}})^{2}}{2\sqrt{3}d} = \dfrac{4d^{2} - 3}{2\sqrt{3}d}\]
-なので,
-\beqn
-\sin^{2}{\theta} = 1- \left(\dfrac{4d^{2} - 3}{2\sqrt{3}d}\right)^{2} =\dfrac{1}{12d^{2}}\cdot (-16d^{4} + 36d^{2} - 9)
-\eeqn
-であり, $0<\theta<\pi$なので$\sin{\theta}>0$であるから,
-\[\sin{\theta} = \dfrac{1}{2\sqrt{3}d}\sqrt{-16d^{4} + 36d^{2} - 9}\]
-となる。$\mr{OA}=1$であるから, $\triangle{}\mr{OAM}$の$\mr{AM}$を底辺としたときの高さが$\sin{\theta}$である。$p$は$\mr{O}$を通り, 平面$\mr{ABC}$に垂直であるから, この高さは四面体の$\mr{ABC}$を底面とみたときの高さでもある。面$\mr{ABC}$の面積は$\sqrt{3}d^{2}$であるから, $\mr{AB}=x$のときの四面体の体積を$V(x)$とおくと
-\beqn
-V(x) &=& (\sqrt{3}d^{2})\times \dfrac{1}{2\sqrt{3}d}\sqrt{-16d^{4} + 36d^{2} - 9}  \times \dfrac{1}{3} \\
-&=& \dfrac{1}{6} \sqrt{d^{2}(-16d^{4} + 36d^{2} - 9)}\\
-&=& \dfrac{1}{12} \sqrt{x^{2}(-x^{4} + 9x^{2} - 9)}
-\eeqn
-$x^{2} = X$とおいて, $V(x) = \dfrac{1}{12}\sqrt{-X^{3} + 9X^{2} - 9X} $となる。\par
-$W(X)=-X^{3} + 9X^{2} - 9X $とおくと,
-\[W'(X) =-3(X^{2} - 6X +3) = -3\left( X-(3-\sqrt{6}) \right)\left(X- (3+\sqrt{6})\right)\]
-となる。問(1)により, $X$の取る範囲は$\dfrac{9-3\sqrt{5}}{2} < X < \dfrac{9+3\sqrt{5}}{2}$であって, 数直線上で
-\begin{center}
-\begin{tikzpicture}
-\draw[->] (0,0)--(8.6,0);
-\fill (0.51,0) circle [radius=2pt] node [below=0pt] {$3-\sqrt{6}$};
+\syoumon{1}
 
-\fill (1.6,0) circle [radius=2pt] node [below=0pt] {$\frac{9-3\sqrt{5}}{2}$};
-\fill (5.45,0) circle [radius=2pt] node [below=0pt] {$3+\sqrt{6}$};
+$g_n(x)=1-e^{-x}f_n(x)$とする。
+\[ g'_n(x)=-e^{-x}\bigl(f'_n(x)-f_n(x)\bigr)=\frac{e^{-x}x^n}{n!}>0 \]
+より$g_n(x)$は増加するから、$g_n(x)>g_n(0)=0$となる。$e^x>0$をかけることで$e^x-f_n(x)>0$を得る。
 
-\fill (7.855,0) circle [radius=2pt] node [below=0pt] {$\frac{9+3\sqrt{5}}{2}$};
-\end{tikzpicture}
-\end{center}
-と並ぶことに注意すると, 次の増減表を得る:
-\begin{center}
-$
-\begin{array}{|c|*5{c|}}\hline
-  X & \dfrac{9-3\sqrt{5}}{2} & \cdots  & 3+\sqrt{6} & \cdots  & \dfrac{9+3\sqrt{5}}{2} \\ \hline
-  W'(x)&       &  + &   0    & - &      \\ \hline
-  W(x) &    & \nea &  \mbox{極大}   &\sea &   \\ \hline
-\end{array}
-$
-\end{center}
-よって$V(x)=\dfrac{1}{12}\sqrt{W(X)}$も$X=3+\sqrt{6}$で最大となるので,
-\beqn
-&&(V(x)\mbox{の最大値}) \\
-&=& \dfrac{1}{12}\sqrt{W(3+\sqrt{6})}\\
-&=& \dfrac{1}{12}\sqrt{ -(3+\sqrt{6})\left\{ -(3+\sqrt{6})^{2} + 9(3+\sqrt{6}) - 9 \right\} }\\
-&=& \dfrac{1}{12}\sqrt{-(3+\sqrt{6})\left\{3+3\sqrt{6} \right\}}\\
-&=& \mbox{   \bolm{     \dfrac{\sqrt{3}}{12}\sqrt{9+4\sqrt{6}}  } }
-\eeqn
+$h_n(x)=\dfrac{x^{n+1}}{(n+1)!}-g_n(x)$とする。
+\[ h'_n(x)=\frac{x^n}{n!}-\frac{e^{-x}x^n}{n!}=\frac{x^n}{n!}(1-e^{-x})>0 \]
+より$h_n(x)$は増加するから、$h_n(x)>h_n(0)=0$となる。$e^x$をかけることで
+\[ 0<e^xh_n(x) \quad\dou\quad e^x-f_n(x)<\frac{x^{n+1}e^x}{(n+1)!} \]
+を得る。以上より題意は示された。
+
+\syoumon{2}
+
+(1)のから$x=1$とし$n!$をかけると、
+\[ 0<en!-\left(n!+\frac{n!}{1!}+\frac{n!}{2!}+\dots +\frac{n!}{(n-1)!}+1\right) < \frac{e}{n+1} \]
+となる。ここで、
+\[ m_n=n!+\frac{n!}{1!}+\frac{n!}{2!}+\dots +\frac{n!}{(n-1)!}+1 \]
+とおく。$m_n$は整数である。さらに$n\ge 3$のとき ($n\to\infty$を考えるので3以上としてよい)、
+\begin{align*}
+ m_n&= 1+\permu{n}{1}+\permu{n}{2}+\sum_{k=3}^n\permu{n}{k} \\
+ &= (n^2+1)+\sum_{k=3}^nk!\combi{n}{k} \\
+ \dou\qquad \frac{m_n}{3}&= \frac{n^2+1}{3}+\sum_{k=3}^n\frac{k!}{3}\combi{n}{k}
+\end{align*}
+であり、$\disp \sum_{k=3}^n\frac{k!}{3}\combi{n}{k}$は整数である。これを$S_n$とおく。したがって以下を得る。
+\[ \frac{n^2+1}{3}\cdot 2\pi < \frac{2\pi e n!}{3}-2S_n\pi < \frac{n^2+1}{3}\cdot 2\pi+\frac{2e\pi}{3(n+1)} \]
+
+次に$\cos\left(\dfrac{n^2+1}{3}\cdot 2\pi\right)$の値について考える。$n\equiv 1, 2 \pmod{3}$のとき、$n^2+1\equiv 2$であるため、$n^2+1=3N+2$となる整数$N$が存在し、
+\[ \cos\left(\frac{n^2+1}{3}\cdot 2\pi\right)=\cos\left(2N\pi+\frac{4}{3}\pi\right)=\cos\frac{4}{3}\pi=-\frac{1}{2} \]
+である。また$n\equiv 0 \pmod{3}$のとき、$n^2+1=3N+1$となる整数$N$が存在し、
+\[ \cos\left(\frac{n^2+1}{3}\cdot 2\pi\right)=\cos\left(2N\pi+\frac{2}{3}\pi\right)=\cos\frac{2}{3}\pi=-\frac{1}{2} \]
+である。つまり任意の整数$n$に対して$\cos\left(\dfrac{n^2+1}{3}\cdot 2\pi\right)=-\dfrac{1}{2}$である ($\cdots$ ＊)。
+
+さてこれらのことは、
+\[ \frac{n^2+1}{3}\cdot 2\pi \equiv \frac{2}{3}\pi \,,\,\, \frac{4}{3}\pi \pmod{2\pi} \]
+を意味しているから、$n$を$0<\dfrac{2e\pi}{3(n+1)}<\dfrac{\pi}{3}$を満たすように大きくとれば、$\dfrac{n^2+1}{3}\cdot 2\pi<x<\dfrac{n^2+1}{3}+\dfrac{2e\pi}{3(n+1)}$の範囲で$\cos x$は単調に増加または減少する。したがって、
+\[ \cos\left(\frac{n^2+1}{3}\cdot 2\pi\right) \,,\,\, \cos\left(\frac{n^2+1}{3}\cdot 2\pi+\frac{2e\pi}{3(n+1)}\right) \]
+のうち、小さいほうを$L_n$、大きいほうを$H_n$とおけば、
+\[ L_n \le \cos\left(\frac{2\pi e n!}{3}-2S_n\pi\right)=\cos\frac{2\pi e n!}{3} \le H_n \quad\cdots\text{(＃)} \]
+である。ただし中央の等号において$S_n$が整数であることを用いた。
+
+$L_n$, $H_n$が$-\dfrac{1}{2}$に近づくことを論じる。
+
+$n\equiv 1, 2 \pmod{3}$のとき、
+\begin{align*}
+ \cos\left(\frac{n^2+1}{3}\cdot 2\pi+\frac{2e\pi}{3(n+1)}\right)&=\cos\left(\frac{4}{3}\pi+\frac{2e\pi}{3(n+1)}\right) \\
+ &=\cos\left(\frac{2}{3}\pi-\frac{2e\pi}{3(n+1)}\right)
+\end{align*}
+$n\equiv 0 \pmod{3}$のとき、
+\begin{align*}
+ \cos\left(\frac{n^2+1}{3}\cdot 2\pi+\frac{2e\pi}{3(n+1)}\right)=\cos\left(\frac{2}{3}\pi+\frac{2e\pi}{3(n+1)}\right)
+\end{align*}
+であり、$0<\dfrac{2e\pi}{3(n+1)}=\dfrac{\pi}{3}$を満たすようにとっているので、
+\[ \dfrac{2}{3}\pi-\dfrac{2e\pi}{3(n+1)}\le x\le \dfrac{2}{3}\pi+\dfrac{2e\pi}{3(n+1)} \]
+の範囲で$\cos x$は単調減少する。したがって
+\begin{align*}
+ \cos\left(\frac{2}{3}\pi+\frac{2e\pi}{3(n+1)}\right)&\le \cos\left(\frac{n^2+1}{3}\cdot 2\pi+\frac{2e\pi}{3(n+1)}\right) \\
+ &\le \cos\left(\frac{2}{3}\pi-\frac{2e\pi}{3(n+1)}\right)
+\end{align*}
+となり、この式から挟み撃ちの原理により
+\[ \lim_{n\to\infty}\cos\left(\frac{n^2+1}{3}\cdot 2\pi+\frac{2e\pi}{3(n+1)}\right)=\cos\frac{2}{3}\pi=-\frac{1}{2} \]
+である。よって(＊)とあわせれば$\disp \lim_{n\to\infty}L_n=\lim_{n\to\infty}H_n=-\frac{1}{2}$となるから、式(＃)においてはさみうちの原理により
+\[ \lim_{n\to\infty} \cos\frac{2\pi e n!}{3}=-\frac{1}{2} \]

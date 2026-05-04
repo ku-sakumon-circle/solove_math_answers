@@ -14,8 +14,10 @@
 \else 041-060%
 \fi\fi
 }
-
-\setcounter{qnum}{50}
+\newcounter{qnumg}
+\newcounter{qnums}
+\setcounter{qnumg}{12}
+\setcounter{qnums}{5}
 
 \begin{document}
 \fontsize{9pt}{7pt}\selectfont
@@ -23,8 +25,8 @@
 \onecolumn
 
 \begin{titlepage}
-\title{Daisu 解答編}
-\author{@solove\_math, ＠math\_Hurdia}
+\title{Daisu 問題・解答編}
+\author{@solove\_math}
 \maketitle
 \onecolumn
 \thispagestyle{empty}
@@ -33,13 +35,13 @@
 \tableofcontents
 \clearpage
 
-\chapter{解答集}
+\chapter{問題集}
 
 \section{学コン}
 
 \newcounter{q}
 \setcounter{q}{0}
-\loop \ifnum\value{q}<\value{qnum}
+\loop \ifnum\value{q}<\value{qnumg}
 
 \stepcounter{q}
 
@@ -57,7 +59,7 @@
 \fi\fi\fi
 
 \index{学コン!Q.\qnumber}
-\input{problems/gakukon/\qgroup/Q_\qnumber/Q_\qnumber.tex}
+\input{problems/gakukon/\qgroup/Q_\qnumber/Q_\qnumber.problem.tex}
 
 \repeat
 
@@ -65,7 +67,7 @@
 \section{宿題}
 
 \setcounter{q}{0}
-\loop \ifnum\value{q}<\value{qnum}
+\loop \ifnum\value{q}<\value{qnums}
 
 \stepcounter{q}
 
@@ -83,7 +85,59 @@
 \fi\fi\fi
 
 \index{宿題!Q.\qnumber}
-\input{problems/shukudai/\qgroup/Q_\qnumber/Q_\qnumber.tex}
+\input{problems/shukudai/\qgroup/Q_\qnumber/Q_\qnumber.problem.tex}
+
+\repeat
+
+\clearpage
+\chapter{解答集}
+
+\section{学コン}
+
+\setcounter{q}{0}
+\loop \ifnum\value{q}<\value{qnumg}
+
+\stepcounter{q}
+
+\edef\qgroup{\DSQuestionGroupFromNumber{\number\value{q}}}
+\edef\qnumber{\SMQuestionNumberThreeDigits{\number\value{q}}}
+
+\ifnum\value{q}=1
+\subsection{問題 001-020}
+\else\ifnum\value{q}=21
+\newpage
+\subsection{問題 021-040}
+\else\ifnum\value{q}=41
+\newpage
+\subsection{問題 041-060}
+\fi\fi\fi
+
+\input{problems/gakukon/\qgroup/Q_\qnumber/Q_\qnumber.answer.tex}
+
+\repeat
+
+\newpage
+\section{宿題}
+
+\setcounter{q}{0}
+\loop \ifnum\value{q}<\value{qnums}
+
+\stepcounter{q}
+
+\edef\qgroup{\DSQuestionGroupFromNumber{\number\value{q}}}
+\edef\qnumber{\SMQuestionNumberThreeDigits{\number\value{q}}}
+
+\ifnum\value{q}=1
+\subsection{問題 001-020}
+\else\ifnum\value{q}=21
+\newpage
+\subsection{問題 021-040}
+\else\ifnum\value{q}=41
+\newpage
+\subsection{問題 041-060}
+\fi\fi\fi
+
+\input{problems/shukudai/\qgroup/Q_\qnumber/Q_\qnumber.answer.tex}
 
 \repeat
 
