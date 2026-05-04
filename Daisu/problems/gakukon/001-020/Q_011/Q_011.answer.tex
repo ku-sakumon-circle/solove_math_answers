@@ -1,1 +1,51 @@
-ここに解答を記述。
+(1) $z_k = x_k + iy_k$とおく($k=1,2$). 条件より$\dfrac{z_1z_2}{a} = \dfrac{z_1z_2(1-i)}{2} \in A$であり,
+\bealn{
+&\dfrac{z_1z_2(1-i)}{2} \\
+&= \dfrac{(x_1x_2 - y_1y_2 + (x_1y_2 + x_2y_1)i)}{2}(1-i) \\
+&= \dfrac{x_1x_2-y_1y_2 + x_1y_2 + x_2y_1}{2} \\
+& \quad + \dfrac{x_1y_2 + x_2y_1 - x_1x_2 + y_1y_2}{2}i \\
+&= \dfrac{x_1x_2-y_1y_2 + x_1y_2 + x_2y_1}{2}(1+i) + (y_1y_2-x_1x_2)
+}
+の実部と虚部は整数である. $y_1y_2-x_1x_2\in \Z$なので
+\begin{equation} \label{Lim:eq1:Descent-in-Zi}
+x_1x_2 - y_1y_2 + x_1y_2 + x_2y_1 \equiv 1\pmod{2}
+\end{equation}
+が条件である.
+背理法により$\dfrac{z_k}{a} \notin A$を仮定して矛盾を導く.
+\bealn{
+\dfrac{z_k}{a} &= \dfrac{z_k(1-i)}{2} \\
+&= \dfrac{(x_k+y_k) + (y_k - x_k)i}{2} \\
+&= \dfrac{y_k-x_k}{2}(1+i) + x_k
+}
+であり, $x_k\in \Z$なので仮定より$y_k - x_k \equiv 1\pmod{2}$である. これを(\ref{Lim:eq1:Descent-in-Zi}) に代入すると, $\bmod{2}$で
+\bealn{
+&x_1x_2 - (x_1+1)(x_2+1) + x_1(x_2+1)  \\
+&\equiv x_1x_2 + x_2(x_1+1) + (x_1 - (x_1+1))(x_2+1) \\
+&= x_2(2x_1 + 1) - (x_2+1) \\
+&\equiv x_2 \cdot 1 - (x_2 + 1) \equiv 1
+}
+となるので矛盾である. よって$k=1,2$のいずれかに対し$\dfrac{z_k}{a} \in A$となる. \\
+(2): 等式を満たす$(\alpha,\beta,\gamma)$を取る. 条件式から
+\[
+\dfrac{\alpha^3}{a} = -\parena{\beta^3 + a\gamma^3 - \alpha\beta\gamma} \in A
+\]
+である. もし$\dfrac{\alpha}{a}\notin A$なら, (1)の対偶から$\dfrac{\alpha^2}{a}\notin A$, さらに(1)を用いて$\dfrac{\alpha^3}{a}\notin A$も得られるので矛盾. よって$\alpha = a\alpha_1$ ($\alpha_1\in A$)と表せる. これを等式に代入して$a^2$で割ると
+\[
+\dfrac{\beta^3}{a} = -\parena{a\alpha_1^3 + \gamma^3 + \alpha_1\beta\gamma} \in A
+\]
+となるので同様に(1)を用いると$\beta = a\beta_1$ ($\beta_1\in A$) と置ける. これを等式に代入すると
+\[
+\dfrac{\gamma^3}{a} = -\parena{\alpha_1^3 + a\beta_1^3 + \alpha_1\beta_1\gamma} \in A
+\]
+が得られるので同様に$\gamma = a\gamma_1$ ($\gamma_1\in A$)と書ける. そして$\alpha_1,\beta_1,\gamma_1$は元の方程式の解になっているため, 任意の解$(\alpha,\beta,\gamma)$に対して, $\parena{\dfrac{\alpha}{a}, \dfrac{\beta}{a}, \dfrac{\gamma}{a}}$もまた解であることが示された. これを繰り返すと任意の正の整数$n$に対して
+\[
+\parena{\dfrac{\alpha}{a^n}, \dfrac{\beta}{a^n}, \dfrac{\gamma}{a^n}}
+\]
+もまた解となるが, $|a| = \sqrt{2} > 1$より, $n$が十分大きいとき, これらの解に現れる複素数の絶対値はすべて1未満になる. $A$の元で絶対値が1未満のものは0のみであるから,
+\[
+\dfrac{\alpha}{a^n} = \dfrac{\beta}{a^n} = \dfrac{\gamma}{a^n} = 0
+\]
+とならねばならない. よって, $\alpha = \beta = \gamma = 0$が得られ, これは実際に方程式を満たす. 以上より, 求める解は
+\[
+(\alpha,\beta,\gamma) = \bolm{(0,0,0)}
+\]
