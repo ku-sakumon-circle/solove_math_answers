@@ -155,18 +155,17 @@ botの解答集です. 解答は最速とは限らないし, まれに間違え�
 \newpage
 \chapter{大学数学編}
 
-\index{Q.2.1}
-\input{../problems/part_2/Q_2_1/Q_2_1.tex}
-\index{Q.2.2}
-\input{../problems/part_2/Q_2_2/Q_2_2.tex}
-\index{Q.2.3}
-\input{../problems/part_2/Q_2_3/Q_2_3.tex}
-\index{Q.2.4}
-\input{../problems/part_2/Q_2_4/Q_2_4.tex}
-\index{Q.2.5}
-\input{../problems/part_2/Q_2_5/Q_2_5.tex}
-\index{Q.2.6}
-\input{../problems/part_2/Q_2_6/Q_2_6.tex}
+\newcounter{qii}
+\setcounter{qii}{0}
+\loop \ifnum\value{qii}<\SMMaxUniversityProblemNumber
+\stepcounter{qii}
+
+\edef\qiinumber{\number\value{qii}}
+\edef\qiigroup{\SMUniversityQuestionGroupFromNumber{\qiinumber}}
+\index{Q.2.\qiinumber}
+\input{../problems/part_2/\qiigroup/Q_2_\qiinumber/Q_2_\qiinumber.tex}
+
+\repeat
 
 \onecolumn
 \thispagestyle{empty}
