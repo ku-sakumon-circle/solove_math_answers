@@ -73,17 +73,19 @@ do
     cd ${home}/${qdir}
 
     rm -f *~
+    if [ -e ${qbase}.tex ] ; then
+    fname=${qbase}.tex
+    echo "${qbase} ver. is current"
+    else
     fname=`ls -1 ${qbase}.*.tex 2>/dev/null | tail -n 1`
     if [ -n "${fname}" ] ; then
 	tmp=${fname%.*} ; ver=${tmp#*.}
-    cp ${qbase}.${ver}.tex ${qbase}.tex
-    echo "${qbase} ver. is "${ver}
+	cp ${qbase}.${ver}.tex ${qbase}.tex
+	fname=${qbase}.tex
+	echo "${qbase} ver. is "${ver}
     else
-    if [ ! -e ${qbase}.tex ] ; then
         echo "ERROR: missing both ${qbase}.*.tex and ${qbase}.tex" ; exit
-	fi
-    fname=${qbase}.tex
-    echo "${qbase} ver. is current"
+    fi
     fi
 
     grep けつばん ${fname} > /dev/null
