@@ -1,20 +1,6 @@
 \begin{prob}{008}{\hosi 5}{JMO予選 2014-3番 改題}
  $15!$の正の約数$d$の全てについて、$\dfrac{1}{d+\sqrt{15!}}$を全て足し合わせたものを求めよ。
 \end{prob}
-\textbf{(解答:2021/11/27更新)} 
-$S_n = \sum_{0<d, d|n}\dfrac{1}{d+\sqrt{n}}$とおく. ここでシグマの$d$は$n$の正の約数を走るというものである. さて, $d$が$n$の正の約数を走るとき, $n/d$もそう走るので, 
-\[S_n = \sum_{0<d, d|n} \dfrac{1}{\dfrac{n}{d} + \sqrt{n}} = \sum_{0<d, d|n} \dfrac{d}{\sqrt{n}(\sqrt{n}+d)} \]
-が成り立つ. よって, 
-\begin{align*}
-S_n &= \dfrac{1}{2}S_n + \dfrac{1}{2} S_n \\
-&= \dfrac{1}{2}\sum_{0<d, d|n} \left\{ \dfrac{1}{d+\sqrt{n}} + \dfrac{d}{\sqrt{n}(\sqrt{n} + d)} \right\} \\
-&= \dfrac{1}{2}\sum_{0<d, d|n} \dfrac{\sqrt{n} + d}{\sqrt{n}(\sqrt{n} + d)}\\
-&= \dfrac{1}{2}\sum_{0<d, d|n} \dfrac{1}{\sqrt{n}} \\
-&= \dfrac{(nの正の約数の個数)}{2\sqrt{n}}
-\end{align*}
-ここで$n=15! = 2^11\times 3^6\times 5^3 \times 7^2\times 11\times 13$ のときは正の約数の個数が4032であるから, 
-\[S_{15!} = \dfrac{2016}{\sqrt{15!}} = \dfrac{1}{15\sqrt{1430}}\]
-\textbf{(旧解答)}
 $n=15!$とする。求めるものは、$\disp \sum_{d|n}\frac{1}{d+\sqrt{n}}$ である。ここで、
 \[ \frac{1}{d+\sqrt{n}} = \frac{d-\sqrt{n}}{d^2-n} = \frac{1}{d-\frac{n}{d}}-\frac{1}{\sqrt{n}}\frac{\frac{n}{d}}{d-\frac{n}{d}} \]
 と整理できる。\\

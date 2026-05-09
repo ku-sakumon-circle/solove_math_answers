@@ -140,7 +140,21 @@ botの解答集です. 解答は最速とは限らないし, まれに間違え�
 \fi\fi\fi\fi\fi\fi\fi
 
 \index{Q.\qnumber}
+\ifnum\value{q}=250
+\input{../problems/part_2/Q_2_6/Q_2_6.tex}
+\else\ifnum\value{q}=256
+\input{../problems/part_2/Q_2_4/Q_2_4.tex}
+\else\ifnum\value{q}=259
+\input{../problems/part_2/Q_2_5/Q_2_5.tex}
+\else\ifnum\value{q}=266
+\input{../problems/part_2/Q_2_3/Q_2_3.tex}
+\else\ifnum\value{q}=267
+\input{../problems/part_2/Q_2_2/Q_2_2.tex}
+\else\ifnum\value{q}=268
+\input{../problems/part_2/Q_2_1/Q_2_1.tex}
+\else
 \input{../problems/part_1/\qgroup/Q_\qnumber/Q_\qnumber.tex}
+\fi\fi\fi\fi\fi\fi
 
 \repeat
 

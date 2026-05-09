@@ -10,6 +10,35 @@ get_qgroup() {
     printf "%03d-%03d" ${s} ${e}
 }
 
+get_problem_dir() {
+    q=$((10#$1))
+    case ${q} in
+        250) echo "../problems/part_2/Q_2_6" ;;
+        256) echo "../problems/part_2/Q_2_4" ;;
+        259) echo "../problems/part_2/Q_2_5" ;;
+        266) echo "../problems/part_2/Q_2_3" ;;
+        267) echo "../problems/part_2/Q_2_2" ;;
+        268) echo "../problems/part_2/Q_2_1" ;;
+        *)
+            qgroup=`get_qgroup $1`
+            echo "../problems/part_1/${qgroup}/Q_$1"
+            ;;
+    esac
+}
+
+get_problem_base() {
+    q=$((10#$1))
+    case ${q} in
+        250) echo "Q_2_6" ;;
+        256) echo "Q_2_4" ;;
+        259) echo "Q_2_5" ;;
+        266) echo "Q_2_3" ;;
+        267) echo "Q_2_2" ;;
+        268) echo "Q_2_1" ;;
+        *) echo "Q_$1" ;;
+    esac
+}
+
 qnum=$(sed -n 's/^\\providecommand{\\SMMaxProblemNumber}{\([0-9][0-9]*\)}$/\1/p' ../config/config.tex | tr -d '\r' | tail -n 1)
 if [ -z "${qnum}" ] ; then
     echo "ERROR: failed to read SMMaxProblemNumber from config/config.tex" ; exit
@@ -39,24 +68,22 @@ echo "******欠番****** " > piyo.txt
 for q in `seq -w 1 ${qnum}`
 do
 #    break
-    qgroup=`get_qgroup ${q}`
-    cd ${home}/../problems/part_1/${qgroup}/Q_${q}
-    if [ -e Q_${q}.tex ] ; then
-	rm -f Q_${q}.tex
-    fi
+    qdir=`get_problem_dir ${q}`
+    qbase=`get_problem_base ${q}`
+    cd ${home}/${qdir}
 
     rm -f *~
-    fname=`ls -1 Q_${q}.*.tex 2>/dev/null | tail -n 1`
+    fname=`ls -1 ${qbase}.*.tex 2>/dev/null | tail -n 1`
     if [ -n "${fname}" ] ; then
 	tmp=${fname%.*} ; ver=${tmp#*.}
-	cp Q_${q}.${ver}.tex Q_${q}.tex
-	echo "Q_${q} ver. is "${ver}
+    cp ${qbase}.${ver}.tex ${qbase}.tex
+    echo "${qbase} ver. is "${ver}
     else
-	if [ ! -e Q_${q}.tex ] ; then
-	    echo "ERROR: missing both Q_${q}.*.tex and Q_${q}.tex" ; exit
+    if [ ! -e ${qbase}.tex ] ; then
+        echo "ERROR: missing both ${qbase}.*.tex and ${qbase}.tex" ; exit
 	fi
-	fname=Q_${q}.tex
-	echo "Q_${q} ver. is current"
+    fname=${qbase}.tex
+    echo "${qbase} ver. is current"
     fi
 
     grep けつばん ${fname} > /dev/null
@@ -79,13 +106,18 @@ cat hoge.txt fuga.txt piyo.txt > 00NotSolved.txt
 rm hoge.txt ; rm fuga.txt ; rm piyo.txt
 
 rm 00main.idx
+rm -f 00main.aux 00main.out 00main.toc 00main.ind 00main.ilg
 
 platex 00main.tex
 if [ $? -ne 0 ] ; then
     echo "platex 1st ERROR" ; exit
 fi
 
-mendex -s 00main.ist 00main.idx
+if [ -e 00main.ist ] ; then
+    mendex -s 00main.ist 00main.idx
+else
+    mendex 00main.idx
+fi
 if [ $? -ne 0 ] ; then
     echo "mendex ERROR" ; exit
 fi
