@@ -139,8 +139,31 @@ botの解答集です. 解答は最速とは限らないし, まれに間違え�
 \section{問題 301-350}
 \fi\fi\fi\fi\fi\fi\fi
 
+\ifnum\value{q}=250
+\else\ifnum\value{q}=256
+\else\ifnum\value{q}=259
+\else\ifnum\value{q}=266
+\else\ifnum\value{q}=267
+\else\ifnum\value{q}=268
+\else
 \index{Q.\qnumber}
-\input{../problems/\qgroup/Q_\qnumber/Q_\qnumber.tex}
+\input{../problems/part_1/\qgroup/Q_\qnumber/Q_\qnumber.tex}
+\fi\fi\fi\fi\fi\fi
+
+\repeat
+
+\newpage
+\chapter{大学数学編}
+
+\newcounter{qii}
+\setcounter{qii}{0}
+\loop \ifnum\value{qii}<\SMMaxUniversityProblemNumber
+\stepcounter{qii}
+
+\edef\qiinumber{\number\value{qii}}
+\edef\qiigroup{\SMUniversityQuestionGroupFromNumber{\qiinumber}}
+\index{Q.2.\qiinumber}
+\input{../problems/part_2/\qiigroup/Q_2_\qiinumber/Q_2_\qiinumber.tex}
 
 \repeat
 

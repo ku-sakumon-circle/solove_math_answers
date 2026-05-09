@@ -1,0 +1,7 @@
+Q.200 ☆9◎ [自作(4th 理4)]
+正の整数nに対して, 実数aの関数I_n(a)を画像の式で定める.
+nに対して, m_nはI_n(a)の最小値とする. m_nの最大値を求めよ.
+
+
+
+https://twitter.com/solove_math/status/1683258845676843008?t=Q_0t7rcwf5e0qJwuTz2DWw&s=19

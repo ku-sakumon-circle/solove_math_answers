@@ -1,0 +1,13 @@
+problems/part_1/001-050/Q_004/Q_004.tex
+problems/part_1/001-050/Q_017/Q_017.tex
+problems/part_1/001-050/Q_027/Q_027.tex
+problems/part_1/001-050/Q_038/Q_038.tex
+problems/part_1/001-050/Q_049/Q_049.tex
+problems/part_1/051-100/Q_080/Q_080.tex
+problems/part_1/051-100/Q_087/Q_087.tex
+problems/part_1/101-150/Q_118/Q_118.tex
+problems/part_1/101-150/Q_134/Q_134.tex
+problems/part_1/101-150/Q_143/Q_143.tex
+problems/part_1/151-200/Q_176/Q_176.tex
+problems/part_1/201-250/Q_236/Q_236.tex
+problems/part_1/251-300/Q_257/Q_257.tex

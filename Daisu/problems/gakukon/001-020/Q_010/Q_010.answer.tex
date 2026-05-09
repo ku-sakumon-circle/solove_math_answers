@@ -1,0 +1,34 @@
+$s=a+b$, $t=ab$とおくと$\mr{P}(s+t, st)$である. まず, $X^2 - sX + t = 0$の2つの実数解が$a,b$であるから$s,t$は$s^2 - 4t\geq 0$を満たす. 逆に$s,t$がこれを満たすならば, $X^2 - sX + t = 0$は二つの実数解を持ち, その解の和が$s$, 積が$t$となる. よって,  $a,b$が実数全体を動くときに$xy$平面上の点$(s,t)$は$D := \set{(s,t)\mid s^2 - 4t \geq 0}$を動く. よって, $(s,t)$が$D$の点を走るときの$\mr{P}(s+t,st)$の軌跡$E$を求めればよい. \par
+$k$を実数の定数とする. $E$のうち$x=k$を満たす部分$E_k$について考える. $E_k$は, $(s,t) \in D$を$s+t = k$のもとで動かしたときの点$(k,st)$の軌跡である. $s^2 - 4t = s^2 - 4(k-s) \geq 0 $を解いて
+\bealn{
+&k\geq -1 なら s\leq 2 - 2\sqrt{1+k},\quad  2 + 2\sqrt{1+k} \leq s \\
+&k<-1なら sは任意
+}
+を得ることから, 次のようになる.
+\[
+E_k =
+\bcas
+\set{(k, s(k-s))\mid s\leq 2 - 2\sqrt{1+k},\quad  2 + 2\sqrt{1+k} \leq s } & (k\geq -1)\\
+\set{(k,s(k-s)) \mid sは任意の実数}&(k<-1)
+\ecas
+\]
+それぞれの場合について$s(k-s)$の取りうる値の範囲を求めたい. まず最小化についてであるが, $s(k-s)$は$s$に関する(二次の係数$<0$の)二次関数であって, $k$が何であれ$s$はいくらでも大きくできる. よって  $s(k-s)$はいくらでも小さくなりうるから, $s(k-s)$の最大値を$M(k)$と置いたとき$E_k = \set{(k,t) \mid t\leq M(k)}$である. これを統合し $E = \set{(x,y) \mid y\leq M(x)}$となるので, あとは関数$M(x)$を決定すればよい. \par
+$k<-1$の場合は$s$が任意の実数を動くので, $s(k-s) = -(s - \frac{k}{2})^2 + \frac{k^2}{4}$により$M(k) = \frac{k^2}{4}$である. $k\geq -1$を調べる. 区間$I_k$を$I_k = \set{x\in \mb{R} \mid x\leq 2 - 2\sqrt{1+k},\quad 2 + 2\sqrt{1+k} \leq x}$と定める. \\
+\fbox{\textbf{Case 1.} ($\frac{k}{2} \in I_k$の場合)} $M(k) = \frac{k^2}{4}$である. $k$の範囲を求めよう. $1+k = h$とおくと$h\geq 0$である. $k\geq -1$のもとで $\frac{k}{2} \in I_k$は
+\[h-5 + 4\sqrt{h} \leq 0\quad または \quad 0 \leq  h - 5 - 4\sqrt{h} \]
+と同値であって, $h \pm 4\sqrt{h} - 5 = (\sqrt{h} \pm 5)(\sqrt{h} \mp 1)$ (複合同順)であるから, 上の条件は$0\leq h\leq 1\quad または\quad 25\leq h$となる. よって$-1\leq k\leq 0$または$24\leq k$のとき$M(k) = k^2/4$である. \\
+\fbox{\textbf{Case 2.} ($\frac{k}{2}\notin I_k$の場合)} $0<k<24$の場合である. この場合$2-2\sqrt{1+k} < \frac{k}{2} < 2 + 2+\sqrt{1+k}$である. $2- 2\sqrt{1+k} = \alpha_k$, $2+2\sqrt{1+k} = \beta_k$とおく.  $s(k-s)$を最大にするためには$|s-\frac{k}{2}|$を最小にすればよい. $s=\alpha_k, \beta_k$のどちらかで最小であるから, $\beta_k - \frac{k}{2}$と$\frac{k}{2} - \alpha_k$の大小を調べる.
+\[(\beta_k - \frac{k}{2}) - (\frac{k}{2} - \alpha_k) = (\beta_k + \alpha_k) - k = 4 - k \]
+であるから, $0< k\leq 4$の場合は$s=\alpha_k$で, $4\leq k<24$の場合は$s=\beta_k$で最大となる.
+\[\alpha_k(k-\alpha_k) = -\alpha_k^2 + k\alpha_k = -(4 - 8\sqrt{1+k} + 4+ 4k) + k(2-2\sqrt{1+k}) = (8-2k)\sqrt{1+k}-2k -8\]
+\[\beta_k(k-\beta_k)=-\beta_k^2 + k\beta_k = -(4+ 8\sqrt{1+k} + 4+ 4k) + k(2+2\sqrt{1+k}) = (2k-8)\sqrt{1+k}-2k -8\]
+である. 以上より, 求める範囲は
+\[
+\bolm{y\leq M(x),\qquad \text{ただし} M(x) =
+\begin{dcases}
+\frac{x^2}{4} & (x\leq 0,\quad 24\leq x) \\
+(8-2x)\sqrt{1+x} - 2x - 8& (0< x\leq 4) \\
+(2x-8)\sqrt{1+x} - 2x - 8& (4\leq x < 24)
+\end{dcases}
+}
+\] 

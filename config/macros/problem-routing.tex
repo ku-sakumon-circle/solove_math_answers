@@ -17,3 +17,13 @@
 \else #1%
 \fi\fi
 }
+
+\newcommand{\SMUniversityQuestionGroupFromNumber}[1]{%
+\expandafter\SMUniversityQuestionGroupFromNumberAux\expandafter
+{\number\numexpr ((#1-1)/20)*20+1\relax}%
+{\number\numexpr ((#1-1)/20)*20+20\relax}%
+}
+
+\newcommand{\SMUniversityQuestionGroupFromNumberAux}[2]{%
+\SMQuestionNumberThreeDigits{#1}-\SMQuestionNumberThreeDigits{#2}%
+}

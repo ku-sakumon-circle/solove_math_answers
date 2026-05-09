@@ -1,0 +1,71 @@
+2行1列のマス目が$n$個あると考える. このようなマス目について,
+\begin{itemize}
+    \item 2マスとも白であるものをA
+    \item 2マスとも黒であるものをB
+    \item 上が黒で下が白のものをC
+    \item 上が黒で下が白のものをD
+\end{itemize}
+とよぶことにする. 条件を満たす塗り方をA,B,C,Dの4文字から(重複を許して)$n$個並べた文字列に翻訳すると,
+\begin{center}
+「AA」, 「BB」は部分列に含まれない
+\end{center}
+となるので, そのような文字列(以降\textbf{良い列}とよぶ)の個数$x_n$を求める.
+
+良い列のうち, 右端がA,B,C,Dであるものをそれぞれ$a_n,b_n,c_n,d_n$とおく. 明らかに$x_n = a_n + b_n + c_n + d_n$. 長さ$n+1$の良い列$S_{n+1}$を右端とそれ以外の部分$S_n$に分割したとき, $S$は長さ$n$の良い列であって, 条件より
+\begin{itemize}
+\item $S_{n+1}$の右端がA なら $S_n$の右端はA以外
+\item $S_{n+1}$の右端がB なら $S_n$の右端はB以外
+\item $S_{n+1}$の右端がC,D なら $S_n$の右端はなんでもよい
+\end{itemize}
+これにより以下の関係式を得る:
+\[
+\begin{cases}
+a_{n+1} &= b_n + c_n + d_n = x_n - a_n\\
+b_{n+1} &= a_n + c_n + d_n = x_n - b_n\\
+c_{n+1} &= x_n \\
+d_{n+1} &= x_n
+\end{cases}
+\]
+この4式の和を取り
+\[
+x_{n+1} = 4x_{n} - a_n - b_n
+\]
+一方で$n\geq 2$で$x_{n} = a_n + b_n + 2x_{n-1}$なので,
+\[
+x_{n+1} = 4x_n - (x_n - 2x_{n-1}) = 3x_n + 2x_{n-1}
+\]
+を得る($n\geq 2$). 以下, この漸化式を解く.
+
+まず明らかに
+\bealn{
+x_1 &= 4 \\
+x_2 &= 14
+}
+である. 特性方程式は$T^2 - 3T - 2 = 0$より
+\[
+\alpha = \dfrac{3 + \sqrt{17}}{2},\quad \beta = \dfrac{3-\sqrt{17}}{2}
+\]
+を用いて
+\[
+x_n = A\alpha^n + B\beta^n
+\]
+となるような定数$A,B$が存在する. 漸化式より$x_2 = 3x_1 + 2x_0$とすれば$x_0 = 1$と自然に定められるので, $n=0,1$を考え,
+\[
+\begin{cases}
+A + B = x_0 = 1 \\
+A\alpha + B\beta = x_1 =  4
+\end{cases}
+\]
+より
+\[
+A = \dfrac{17 + 5\sqrt{17}}{34}, \quad B = \dfrac{17 - 5\sqrt{17}}{34}
+\]
+を得る.
+
+以上より
+{\scriptsize
+    \bealn{
+    &x_n = \\
+    &\bolm{\parena{\dfrac{17 + 5\sqrt{17}}{34}}\parena{\dfrac{3+\sqrt{17}}{2}}^{n} + \parena{\dfrac{17 - 5\sqrt{17}}{34}}\parena{\dfrac{3 - \sqrt{17}}{2}}^n}
+    }
+}

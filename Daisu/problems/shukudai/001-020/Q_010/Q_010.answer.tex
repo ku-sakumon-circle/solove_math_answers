@@ -1,0 +1,92 @@
+(1): $I_t = \int_{t}^{1} \log{\sin{\frac{\pi}{2}\theta}}$とおく. $x = \frac{\theta}{2}$と置換し, $s=\frac{t}{2}$とすると
+\bealn{
+2I_t &= \int_{t}^{2-t} \log\sin{\frac{\pi}{2}\theta} d\theta = 2\int_{s}^{1-s} \log{\sin{\pi x}}\, dx \\
+&= 2\int_{s}^{1-s} \parena{\log{2}+\log{\sin{\frac{\pi}{2}x}} + \log{\cos{\dfrac{\pi}{2}x}}}dx \\
+&= (2\log{2})(1-2s) +  4\parena{I_s - \int_{1-s}^{1} \log{\sin{\frac{\pi}{2}x}}\, dx}
+}
+である. 求める極限値(存在を仮定)を$L$とし, $t\to +0$とすると$2L = 2\log{2} + 4L$より$L=-\log{2}$を得る.
+
+次に$\alpha = \disp\lim_{t\to + 0}\int_{t}^{1} \dfrac{\theta\cos{\frac{\pi}{2}\theta}}{\sin{\frac{\pi}{2}\theta}} \, d\theta$は, 部分積分と $\disp\lim_{t\to +0} t\log{t} = 0$により
+{\small
+\bealn{
+\alpha &= \lim_{t\to +0}\int_{t}^{1} \dfrac{\theta\cos{\frac{\pi}{2}\theta}}{\sin{\frac{\pi}{2}\theta}}\, d\theta \\
+&= \lim_{t\to +0} \dfrac{2}{\pi}\int_{t}^{1} \theta\cdot \parena{\log{\sin{\frac{\pi}{2}\theta}}}'\, d\theta \\
+&= \lim_{t\to +0} \dfrac{2}{\pi}\parenb{\parenc{\theta\log{\sin{\dfrac{\pi}{2}\theta}}}_{t}^{1} - \int_{t}^{1} \log{\sin{\dfrac{\pi}{2}\theta}} d\theta }\\
+&= \lim_{t\to +0} \dfrac{2}{\pi}\parenb{-t\log{\sin{\frac{\pi}{2}t}} - \int_{t}^{1} \log{\sin{\frac{\pi}{2}\theta}}\, d\theta} \\
+&= \lim_{t\to +0} \dfrac{2}{\pi}\parenb{-t\log{\dfrac{\sin{\frac{\pi}{2}t}}{\frac{\pi}{2}t}} - t\log{\frac{\pi}{2}t} - \int_{t}^{1} \log{\sin{\frac{\pi}{2}\theta}}\, d\theta} \\
+&= \dfrac{2}{\pi}\parenb{-0\cdot \log{1} - 0 - (-\log{2})} \\
+&= \bolm{\dfrac{2}{\pi} \log{2}}
+}
+}
+
+
+(2): $x_n = \frac{1}{n}$とおく.
+{\small
+\bealn{
+&\int_{x_n}^{1} \sqrt[n]{\sin{\dfrac{\pi}{2}\theta}}\,  d\theta = \int_{x_n}^{1} (\theta)' \sqrt[n]{\sin{\dfrac{\pi}{2}\theta}}\, d\theta \\
+&=\parenc{\theta \sqrt[n]{\sin{\dfrac{\pi}{2}\theta}}}_{x_n}^{1} - \dfrac{\pi}{2n}\int_{x_n}^{1} \theta \cdot \dfrac{\cos{\frac{\pi}{2}\theta}}{\parena{\sin{\frac{\pi}{2}\theta}}^{\frac{n-1}{n}}}\, d\theta  \\
+&= \parena{1 - x_n\parena{\sin{\frac{\pi}{2}x_n}}^{\frac{1}{n}}} - \dfrac{\pi}{2n} \int_{x_n}^{1} \dfrac{\theta\cos{\frac{\pi}{2}\theta}}{\sin{\frac{\pi}{2}\theta}} \parena{\sin{\frac{\pi}{2}\theta}}^{\frac{1}{n}} \, d\theta
+}
+}
+そこで, $b_n$を次でおく.
+\[
+b_n = x_n \sqrt[n]{\sin{\frac{\pi}{2}x_n}} + \dfrac{\pi}{2n} \int_{x_n}^{1} \dfrac{\theta\cos{\frac{\pi}{2}\theta}}{\sin{\frac{\pi}{2}\theta}}\cdot \parena{\sin{\frac{\pi}{2}\theta}}^{\frac{1}{n}} \, d\theta
+\]
+\tbox{
+\begin{claim}
+$b_n > 0$であり, $\disp\lim_{n\to \infty} b_n = 0$である.
+\end{claim}
+}{}
+\begin{prf}
+$b_n > 0$については各項が正であることから明らか. 後半を示す.
+第一項については$x_n\to 0$と$|\sin{x_n}|\leq 1$から0に収束する. 第二項を$I_n$とおく. 被積分関数は$[0,1]$上非負なので$I_n \geq 0$である.
+\end{prf}
+$x \leq \tan{x}$より$\theta\cos{\frac{\pi}{2}\theta}\leq \frac{2}{\pi}\sin{\frac{\pi}{2}\theta}$なので,
+\[
+I_n \leq \dfrac{\pi}{2n} \int_{x_n}^{1} \frac{2}{\pi} \cdot 1^{\frac{1}{n}} d\theta = \dfrac{1 - x_n}{n} \to 0\quad (n\to \infty)
+\]
+より示せた. \qed \\
+さて,
+\[
+\parena{\disp\int_{x_n}^{1} \sqrt[n]{\sin{\frac{\pi}{2}\theta}}d\theta}^{n} =  (1 - b_n)^n
+\]
+は$1^{\infty}$の不定形の極限になる. 以降$n$は十分大きいとして$0 < b_n < 1$を仮定し,
+\[
+\log{a_n} = n\log{(1-b_n)} = -(nb_n) \dfrac{\log{(1-b_n)}}{-b_n}
+\]
+と変形する. $\disp\lim_{n\to \infty} nb_n$が実数値$\beta$に収束したと仮定すれば, 求める極限は$e^{-\beta}$となる($\lim_{t\to 0}\frac{\log{(1-t)}}{-t} = 1$  を利用した). そこで, このような$\beta$を求めよう.
+\tbox{
+\begin{claim}
+$\beta$は存在し, $\alpha = \disp\lim_{n\to\infty} \int_{x_n}^{1} \dfrac{\theta\cos{\frac{\pi}{2}\theta}}{\sin{\frac{\pi}{2}\theta}}\, d\theta$によって, $\beta = 1 + \frac{\pi}{2}\alpha$で与えられる. したがって$\beta = 1 + \log{2}$.
+\end{claim}
+}{}
+\begin{prf}
+$\alpha_n = \disp\int_{x_n}^{1} \dfrac{\theta\cos{\frac{\pi}{2}\theta}}{\sin{\frac{\pi}{2}\theta}}\, d\theta$とおき,
+$1 + \frac{\pi}{2}\alpha_n - nb_n \to 0$を示せば$nb_n \to 1 + \frac{\pi}{2}\alpha$も従う.
+\bealn{
+&1 + \frac{\pi}{2}\alpha_n - nb_n \\
+&= \parena{1 - nx_n \sqrt[n]{\sin{\frac{\pi}{2}x_n}}}
+%&\quad + \dfrac{\pi}{2}\int_{0}^{x_n} \dfrac{\theta\cos{\frac{\pi}{2}\theta}}{\sin{\frac{\pi}{2}\theta}} \, d\theta
++ \dfrac{\pi}{2}\int_{x_n}^{1} \dfrac{\theta\cos{\frac{\pi}{2}\theta}}{\sin{\frac{\pi}{2}\theta}}\parenb{1-(\sin{\theta})^{\frac{1}{n}}} \, d\theta
+}
+のそれぞれの項が0に収束することを示す. \par
+第一項は, $\frac{\pi}{2}x_n = y_n$とおくと
+\[
+nx_n\sqrt[n]{\sin{y_n}} = \sqrt[n]{\sin{y_n}} =  e^{\parena{\frac{1}{n} \log{\frac{\sin{y_n}}{y_n}} - \frac{1}{n}\log{\frac{2 n}{\pi}}}} \to e^{0\cdot \log{1} - 0} = 1
+\]
+
+より0に収束する.
+%第二項は$x_n\to 0$から$\dfrac{\pi}{2}\disp\int_{0}^{0}\dfrac{\theta\cos{\theta}}{\sin{\theta}} \, d\theta = 0$に収束する.
+第二項については,
+\bealn{
+0&\leq \int_{x_n}^{1} \dfrac{\theta\cos{\frac{\pi}{2}\theta}}{\sin{\frac{\pi}{2}\theta}}\parenb{1-\parena{\sin{\frac{\pi}{2}\theta}}^{\frac{1}{n}}} \, d\theta \\
+&\leq \int_{x_n}^{1} \dfrac{2}{\pi} \parenb{1-\parena{\sin{y_n}}^{\frac{1}{n}}}\, d\theta \\
+&= \dfrac{2}{\pi}\parena{1- \parena{\sin{y_n}}^{\frac{1}{n}}}\parena{1 - x_n}
+}
+が成り立ち, すでにみたように$\disp\lim_{n\to \infty} (\sin{y_n})^{\frac{1}{n}} = 1$なので第三項も0に収束することが従う. \qed \\
+以上より, $\beta = 1 + \log{2} = \log{2e}$なので
+
+\[
+\lim_{n\to \infty} \parena{\int_{x_n}^{1} \sqrt[n]{\sin{\frac{\pi}{2}\theta}} \, d\theta }^n = e^{-\beta} =\bolm{\dfrac{1}{2e}}.
+\]
+\end{prf}
