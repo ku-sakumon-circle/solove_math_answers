@@ -10,7 +10,7 @@ get_qgroup() {
     printf "%03d-%03d" ${s} ${e}
 }
 
-default_q=`sed -n 's/^\\providecommand{\\SMDefaultDebugProblemNumber}{\([0-9][0-9]*\)}$/\1/p' ../config/config.tex | tail -n 1`
+default_q=$(sed -n 's/^\\providecommand{\\SMDefaultDebugProblemNumber}{\([0-9][0-9]*\)}$/\1/p' ../config/config.tex | tr -d '\r' | tail -n 1)
 if [ -z "${default_q}" ] ; then
     echo "ERROR: failed to read SMDefaultDebugProblemNumber from config/config.tex" ; exit
 fi
@@ -25,7 +25,7 @@ fi
 
 qgroup=`get_qgroup ${q}`
 
-if [ ! -d ../problems/${qgroup}/Q_${q} ] ; then
+if [ ! -d ../problems/part_1/${qgroup}/Q_${q} ] ; then
     echo "ERROR: not exist problems number" ; exit
 else
     echo "debug mode : problem number is "${q}
@@ -39,10 +39,19 @@ echo "preamble ver. is "${verp}
 rm -f ${fname}~
 
 # set problems
-cd ${home}/../problems/${qgroup}/Q_${q}
-fname=`ls -1 Q_${q}.*.tex | tail -n 1`
-tmp=${fname%.*} ; verq=${tmp#*.}
-echo "Q_${q} ver. is "${verq}
+cd ${home}/../problems/part_1/${qgroup}/Q_${q}
+fname=`ls -1 Q_${q}.*.tex 2>/dev/null | tail -n 1`
+if [ -n "${fname}" ] ; then
+    tmp=${fname%.*} ; verq=${tmp#*.}
+    target_tex=Q_${q}.${verq}.tex
+    echo "Q_${q} ver. is "${verq}
+else
+    if [ ! -e Q_${q}.tex ] ; then
+        echo "ERROR: missing both Q_${q}.*.tex and Q_${q}.tex" ; exit
+    fi
+    target_tex=Q_${q}.tex
+    echo "Q_${q} ver. is current"
+fi
 
 cd ${home}
 
@@ -56,7 +65,7 @@ cat <<EOF > 00debug.tex
 \lengthparam
 \setlength{\columnseprule}{0.5pt}
 
-\input{../problems/${qgroup}/Q_${q}/Q_${q}.${verq}.tex}
+\input{../problems/part_1/${qgroup}/Q_${q}/${target_tex}}
 
 \end{document}
 

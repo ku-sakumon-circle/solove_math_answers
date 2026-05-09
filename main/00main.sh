@@ -10,7 +10,7 @@ get_qgroup() {
     printf "%03d-%03d" ${s} ${e}
 }
 
-qnum=`sed -n 's/^\\providecommand{\\SMMaxProblemNumber}{\([0-9][0-9]*\)}$/\1/p' ../config/config.tex | tail -n 1`
+qnum=$(sed -n 's/^\\providecommand{\\SMMaxProblemNumber}{\([0-9][0-9]*\)}$/\1/p' ../config/config.tex | tr -d '\r' | tail -n 1)
 if [ -z "${qnum}" ] ; then
     echo "ERROR: failed to read SMMaxProblemNumber from config/config.tex" ; exit
 fi
@@ -40,17 +40,24 @@ for q in `seq -w 1 ${qnum}`
 do
 #    break
     qgroup=`get_qgroup ${q}`
-    cd ${home}/../problems/${qgroup}/Q_${q}
+    cd ${home}/../problems/part_1/${qgroup}/Q_${q}
     if [ -e Q_${q}.tex ] ; then
 	rm -f Q_${q}.tex
     fi
 
     rm -f *~
-    fname=`ls -1 Q_${q}.*.tex | tail -n 1`
-    tmp=${fname%.*} ; ver=${tmp#*.}
-
-    cp Q_${q}.${ver}.tex Q_${q}.tex
-    echo "Q_${q} ver. is "${ver}
+    fname=`ls -1 Q_${q}.*.tex 2>/dev/null | tail -n 1`
+    if [ -n "${fname}" ] ; then
+	tmp=${fname%.*} ; ver=${tmp#*.}
+	cp Q_${q}.${ver}.tex Q_${q}.tex
+	echo "Q_${q} ver. is "${ver}
+    else
+	if [ ! -e Q_${q}.tex ] ; then
+	    echo "ERROR: missing both Q_${q}.*.tex and Q_${q}.tex" ; exit
+	fi
+	fname=Q_${q}.tex
+	echo "Q_${q} ver. is current"
+    fi
 
     grep けつばん ${fname} > /dev/null
     if [ "$?" -eq 0 ] ; then
